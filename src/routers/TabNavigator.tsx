@@ -14,6 +14,7 @@ import GroceryNavigator from './GroceryNavigator';
 import HomeNavigator from './HomeNavigator';
 import ProfileNavigator from './ProfileNavigator';
 import {Text} from 'react-native';
+import {fontFamilies} from '../constants/fontFamilies';
 
 const TabNavigator = () => {
   const Tabs = createBottomTabNavigator();
@@ -28,15 +29,18 @@ const TabNavigator = () => {
             borderTopRightRadius: 12,
             elevation: 6,
             borderTopWidth: 0,
+            paddingTop: 8,
+            height: 64,
             backgroundColor: appColors.white,
           },
-          tabBarLabel({focused, color}) {
+
+          tabBarLabel({focused}) {
             return (
               <Text
                 style={{
                   fontSize: 12,
-                  fontWeight: '500',
-                  marginBottom: 4,
+                  fontFamily: fontFamilies.medium,
+                  marginBottom: 8,
                   color: focused ? appColors.primary : appColors.gray,
                 }}>
                 {route.name}
