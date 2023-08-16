@@ -19,6 +19,8 @@ import {fontFamilys} from '../../constants/fontFamily';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {appSize} from '../../constants/appSize';
+import VideoPlayer from './components/VideoPlayer';
+import CategoriesList from './components/CategoriesList';
 
 const HomeScreen = () => {
   return (
@@ -96,77 +98,9 @@ const HomeScreen = () => {
 
         <SpaceComponent height={16} />
         <TabbarComponent title="How it works" seemore onPress={() => {}} />
-        <View>
-          <Image
-            source={require('../../assets/images/video-thumbnail-1.png')}
-            style={{
-              width: '100%',
-              height: 162,
-              borderRadius: 10,
-              resizeMode: 'cover',
-            }}
-          />
-          <ButtonIcon
-            icon={<Ionicons name="play" size={20} color={appColors.primary} />}
-            size={50}
-            color={appColors.white}
-            onPress={() => {}}
-            styles={{
-              position: 'absolute',
-              top: '40%',
-              left: (appSize.width - 82) / 2,
-            }}
-          />
-        </View>
-        <SpaceComponent height={32} />
-        <TabbarComponent title="How it works" seemore onPress={() => {}} />
-        <View>
-          <Image
-            source={require('../../assets/images/video-thumbnail-1.png')}
-            style={{
-              width: '100%',
-              height: 162,
-              borderRadius: 10,
-              resizeMode: 'cover',
-            }}
-          />
-          <ButtonIcon
-            icon={<Ionicons name="play" size={20} color={appColors.primary} />}
-            size={50}
-            color={appColors.white}
-            onPress={() => {}}
-            styles={{
-              position: 'absolute',
-              top: '40%',
-              left: (appSize.width - 82) / 2,
-            }}
-          />
-        </View>
-        <SpaceComponent height={32} />
-        <TabbarComponent title="How it works" seemore onPress={() => {}} />
-        <View>
-          <Image
-            source={require('../../assets/images/video-thumbnail-1.png')}
-            style={{
-              width: '100%',
-              height: 162,
-              borderRadius: 10,
-              resizeMode: 'cover',
-            }}
-          />
-          <ButtonIcon
-            icon={<Ionicons name="play" size={20} color={appColors.primary} />}
-            size={50}
-            color={appColors.white}
-            onPress={() => {}}
-            styles={{
-              position: 'absolute',
-              top: '40%',
-              left: (appSize.width - 82) / 2,
-            }}
-          />
-        </View>
-        <SpaceComponent height={32} />
+        <VideoPlayer />
+        <CategoriesList title="Tips for you" />
+        <CategoriesList title="Healthier Planning" />
         <TabbarComponent title="Need Extra Support?" />
         <ButtonComponent
           text="Contact a Dietitian"

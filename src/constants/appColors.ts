@@ -9,3 +9,7 @@ export const appColors = {
   success2: '#32645B',
   error: '#F15D59'
 };
+
+export const listColors = [
+  '#97CDDB', '#ABC43F', '#B59473', '#00927C'
+]

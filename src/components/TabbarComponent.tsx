@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
 import RowComponent from './RowComponent';
 import TextComponent from './TextComponent';
 import TitleComponent from './TitleComponent';
@@ -10,17 +10,21 @@ interface Props {
   title: string;
   seemore?: boolean;
   onPress?: () => void;
+  styles?: StyleProp<ViewStyle>;
 }
 
 const TabbarComponent = (props: Props) => {
-  const {title, seemore, onPress} = props;
+  const {title, seemore, onPress, styles} = props;
 
   return (
     <RowComponent
       justify="space-between"
-      styles={{
-        marginBottom: 12,
-      }}>
+      styles={[
+        {
+          marginBottom: 12,
+        },
+        styles,
+      ]}>
       <TitleComponent text={title} flex={1} size={20} />
       {seemore && onPress && (
         <TouchableOpacity onPress={onPress}>
