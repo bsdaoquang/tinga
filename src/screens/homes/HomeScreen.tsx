@@ -10,7 +10,7 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {StatusBar, View} from 'react-native';
+import {StatusBar, Text, View} from 'react-native';
 import {TingaLogo} from '../../assets/svg';
 import {Gift} from 'iconsax-react-native';
 import {fontFamilys} from '../../constants/fontFamily';
@@ -52,6 +52,8 @@ const HomeScreen = () => {
           borderTopRightRadius: 20,
           marginTop: 12,
         }}>
+        <TextComponent text="fafsaf!@#" />
+        <Text style={{}}> fasjklf!@#$%$</Text>
         <CardContent>
           <TitleComponent
             text={`Start your Gluten/-free /!@#$%^&* shopping experience`}

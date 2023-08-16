@@ -14,24 +14,13 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-tinga-tingaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-tinga-tingaTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		87D3F9DB5AB84EB2A957D8E4 /* Fontspring-DEMO-greycliffcf-bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9659D773CC7043B898991032 /* Fontspring-DEMO-greycliffcf-bold.otf */; };
-		F1FF57B5598342999B517451 /* Fontspring-DEMO-greycliffcf-boldoblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9AFF002EBCE54723AB04984B /* Fontspring-DEMO-greycliffcf-boldoblique.otf */; };
-		F112791392F548F29344F755 /* Fontspring-DEMO-greycliffcf-demibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 055AAB1453654BA88DC181F0 /* Fontspring-DEMO-greycliffcf-demibold.otf */; };
-		6DA6C18CEE164E60BA168647 /* Fontspring-DEMO-greycliffcf-demiboldoblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3890F92815BE47AD9794105F /* Fontspring-DEMO-greycliffcf-demiboldoblique.otf */; };
-		A5099A5C01C644AD93520D85 /* Fontspring-DEMO-greycliffcf-extrabold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CC5802C28866453AB790A8A6 /* Fontspring-DEMO-greycliffcf-extrabold.otf */; };
-		5D006AC339E64957B587BAB7 /* Fontspring-DEMO-greycliffcf-extraboldoblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = CCA1D420E57E4F3C89C6AC8F /* Fontspring-DEMO-greycliffcf-extraboldoblique.otf */; };
-		17E25F39257346A2AB40CDD8 /* Fontspring-DEMO-greycliffcf-extralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7B2FD3CDBFD34007993B5C8D /* Fontspring-DEMO-greycliffcf-extralight.otf */; };
-		5FD6753245DE4E7B977504B5 /* Fontspring-DEMO-greycliffcf-extralightoblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = EFDC223C028F432FB1B1F3B1 /* Fontspring-DEMO-greycliffcf-extralightoblique.otf */; };
-		6E2EB98A81A2474986A2E7DD /* Fontspring-DEMO-greycliffcf-heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C920BEAE594FC388B85DD3 /* Fontspring-DEMO-greycliffcf-heavy.otf */; };
-		0E455EBC50254B4AB5C15E98 /* Fontspring-DEMO-greycliffcf-heavyoblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5F390DBBF58C445397AC18DA /* Fontspring-DEMO-greycliffcf-heavyoblique.otf */; };
-		F5939F90AF1448C884423599 /* Fontspring-DEMO-greycliffcf-light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B1865CE6B7FA4BA8A0755915 /* Fontspring-DEMO-greycliffcf-light.otf */; };
-		7D194C644EF84169B94CE52D /* Fontspring-DEMO-greycliffcf-lightoblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 16F0A5F3316447D09916015F /* Fontspring-DEMO-greycliffcf-lightoblique.otf */; };
-		4ED7E5F226614389BB5FACFE /* Fontspring-DEMO-greycliffcf-medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4D1A5B039F004C888F277A08 /* Fontspring-DEMO-greycliffcf-medium.otf */; };
-		5FEDB71CD38749BAB08E741B /* Fontspring-DEMO-greycliffcf-mediumoblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 060BDE8729B04962975C290F /* Fontspring-DEMO-greycliffcf-mediumoblique.otf */; };
-		5A1F37D0F1AD4E779D93B808 /* Fontspring-DEMO-greycliffcf-regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = A97AE1C56BAF48E1BE83ED5B /* Fontspring-DEMO-greycliffcf-regular.otf */; };
-		A0DA68F0BF624DE39DCB4DD2 /* Fontspring-DEMO-greycliffcf-regularoblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3948FF1AC80B42DFA5B9AEE9 /* Fontspring-DEMO-greycliffcf-regularoblique.otf */; };
-		F90C5C07A9CF44D7B65A5A31 /* Fontspring-DEMO-greycliffcf-thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 15029DED1A264314B04F03F5 /* Fontspring-DEMO-greycliffcf-thin.otf */; };
-		A30BA0424D2C4A22804D8751 /* Fontspring-DEMO-greycliffcf-thinoblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1AAEEAB57FC44FC0B8670BBD /* Fontspring-DEMO-greycliffcf-thinoblique.otf */; };
+		BAA67AEB07F84569A5B8A53D /* GreycliffCF-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDAD29D18AAD4432A3144F36 /* GreycliffCF-Bold.ttf */; };
+		A8B2C2D82D7A4A7BA48567E6 /* GreycliffCF-DemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5798B44B231D4950ADE39DEB /* GreycliffCF-DemiBold.ttf */; };
+		6228F2A78CD54AE9AB4A184A /* GreycliffCF-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 837C504EBF2049DBBE8ED4E8 /* GreycliffCF-ExtraBold.ttf */; };
+		50AC1293516A438496878FFA /* GreycliffCF-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E7619B4F1F04626A40C9F77 /* GreycliffCF-Heavy.ttf */; };
+		88F22C318C6B4EC0B18DFCB8 /* GreycliffCF-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60F2369621014FB0B01F9687 /* GreycliffCF-Light.ttf */; };
+		51E4E73C2DCC4B4E900B438B /* GreycliffCF-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B7B6CAF44645BFF81B97 /* GreycliffCF-Medium.ttf */; };
+		4B0F53F2CFB34E65A1EB8443 /* GreycliffCF-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0EE041A3ECA84E4093C2D084 /* GreycliffCF-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,24 +51,13 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = tinga/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-tinga-tingaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinga-tingaTests.release.xcconfig"; path = "Target Support Files/Pods-tinga-tingaTests/Pods-tinga-tingaTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		9659D773CC7043B898991032 /* Fontspring-DEMO-greycliffcf-bold.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-bold.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9AFF002EBCE54723AB04984B /* Fontspring-DEMO-greycliffcf-boldoblique.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-boldoblique.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-boldoblique.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		055AAB1453654BA88DC181F0 /* Fontspring-DEMO-greycliffcf-demibold.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-demibold.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-demibold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3890F92815BE47AD9794105F /* Fontspring-DEMO-greycliffcf-demiboldoblique.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-demiboldoblique.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-demiboldoblique.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		CC5802C28866453AB790A8A6 /* Fontspring-DEMO-greycliffcf-extrabold.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-extrabold.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-extrabold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		CCA1D420E57E4F3C89C6AC8F /* Fontspring-DEMO-greycliffcf-extraboldoblique.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-extraboldoblique.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-extraboldoblique.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		7B2FD3CDBFD34007993B5C8D /* Fontspring-DEMO-greycliffcf-extralight.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-extralight.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-extralight.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		EFDC223C028F432FB1B1F3B1 /* Fontspring-DEMO-greycliffcf-extralightoblique.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-extralightoblique.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-extralightoblique.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		23C920BEAE594FC388B85DD3 /* Fontspring-DEMO-greycliffcf-heavy.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-heavy.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-heavy.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		5F390DBBF58C445397AC18DA /* Fontspring-DEMO-greycliffcf-heavyoblique.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-heavyoblique.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-heavyoblique.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		B1865CE6B7FA4BA8A0755915 /* Fontspring-DEMO-greycliffcf-light.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-light.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		16F0A5F3316447D09916015F /* Fontspring-DEMO-greycliffcf-lightoblique.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-lightoblique.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-lightoblique.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4D1A5B039F004C888F277A08 /* Fontspring-DEMO-greycliffcf-medium.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-medium.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		060BDE8729B04962975C290F /* Fontspring-DEMO-greycliffcf-mediumoblique.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-mediumoblique.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-mediumoblique.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		A97AE1C56BAF48E1BE83ED5B /* Fontspring-DEMO-greycliffcf-regular.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-regular.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3948FF1AC80B42DFA5B9AEE9 /* Fontspring-DEMO-greycliffcf-regularoblique.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-regularoblique.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-regularoblique.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		15029DED1A264314B04F03F5 /* Fontspring-DEMO-greycliffcf-thin.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-thin.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-thin.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		1AAEEAB57FC44FC0B8670BBD /* Fontspring-DEMO-greycliffcf-thinoblique.otf */ = {isa = PBXFileReference; name = "Fontspring-DEMO-greycliffcf-thinoblique.otf"; path = "../assets/fonts/Fontspring-DEMO-greycliffcf-thinoblique.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DDAD29D18AAD4432A3144F36 /* GreycliffCF-Bold.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-Bold.ttf"; path = "../assets/fonts/GreycliffCF-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5798B44B231D4950ADE39DEB /* GreycliffCF-DemiBold.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-DemiBold.ttf"; path = "../assets/fonts/GreycliffCF-DemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		837C504EBF2049DBBE8ED4E8 /* GreycliffCF-ExtraBold.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-ExtraBold.ttf"; path = "../assets/fonts/GreycliffCF-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5E7619B4F1F04626A40C9F77 /* GreycliffCF-Heavy.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-Heavy.ttf"; path = "../assets/fonts/GreycliffCF-Heavy.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		60F2369621014FB0B01F9687 /* GreycliffCF-Light.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-Light.ttf"; path = "../assets/fonts/GreycliffCF-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1F68B7B6CAF44645BFF81B97 /* GreycliffCF-Medium.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-Medium.ttf"; path = "../assets/fonts/GreycliffCF-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0EE041A3ECA84E4093C2D084 /* GreycliffCF-Regular.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-Regular.ttf"; path = "../assets/fonts/GreycliffCF-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,24 +166,13 @@
 		F469E7D456804772A7F2646F /* Resources */ = {
 			isa = "PBXGroup";
 			children = (
-				9659D773CC7043B898991032 /* Fontspring-DEMO-greycliffcf-bold.otf */,
-				9AFF002EBCE54723AB04984B /* Fontspring-DEMO-greycliffcf-boldoblique.otf */,
-				055AAB1453654BA88DC181F0 /* Fontspring-DEMO-greycliffcf-demibold.otf */,
-				3890F92815BE47AD9794105F /* Fontspring-DEMO-greycliffcf-demiboldoblique.otf */,
-				CC5802C28866453AB790A8A6 /* Fontspring-DEMO-greycliffcf-extrabold.otf */,
-				CCA1D420E57E4F3C89C6AC8F /* Fontspring-DEMO-greycliffcf-extraboldoblique.otf */,
-				7B2FD3CDBFD34007993B5C8D /* Fontspring-DEMO-greycliffcf-extralight.otf */,
-				EFDC223C028F432FB1B1F3B1 /* Fontspring-DEMO-greycliffcf-extralightoblique.otf */,
-				23C920BEAE594FC388B85DD3 /* Fontspring-DEMO-greycliffcf-heavy.otf */,
-				5F390DBBF58C445397AC18DA /* Fontspring-DEMO-greycliffcf-heavyoblique.otf */,
-				B1865CE6B7FA4BA8A0755915 /* Fontspring-DEMO-greycliffcf-light.otf */,
-				16F0A5F3316447D09916015F /* Fontspring-DEMO-greycliffcf-lightoblique.otf */,
-				4D1A5B039F004C888F277A08 /* Fontspring-DEMO-greycliffcf-medium.otf */,
-				060BDE8729B04962975C290F /* Fontspring-DEMO-greycliffcf-mediumoblique.otf */,
-				A97AE1C56BAF48E1BE83ED5B /* Fontspring-DEMO-greycliffcf-regular.otf */,
-				3948FF1AC80B42DFA5B9AEE9 /* Fontspring-DEMO-greycliffcf-regularoblique.otf */,
-				15029DED1A264314B04F03F5 /* Fontspring-DEMO-greycliffcf-thin.otf */,
-				1AAEEAB57FC44FC0B8670BBD /* Fontspring-DEMO-greycliffcf-thinoblique.otf */,
+				DDAD29D18AAD4432A3144F36 /* GreycliffCF-Bold.ttf */,
+				5798B44B231D4950ADE39DEB /* GreycliffCF-DemiBold.ttf */,
+				837C504EBF2049DBBE8ED4E8 /* GreycliffCF-ExtraBold.ttf */,
+				5E7619B4F1F04626A40C9F77 /* GreycliffCF-Heavy.ttf */,
+				60F2369621014FB0B01F9687 /* GreycliffCF-Light.ttf */,
+				1F68B7B6CAF44645BFF81B97 /* GreycliffCF-Medium.ttf */,
+				0EE041A3ECA84E4093C2D084 /* GreycliffCF-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -307,24 +274,13 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				87D3F9DB5AB84EB2A957D8E4 /* Fontspring-DEMO-greycliffcf-bold.otf in Resources */,
-				F1FF57B5598342999B517451 /* Fontspring-DEMO-greycliffcf-boldoblique.otf in Resources */,
-				F112791392F548F29344F755 /* Fontspring-DEMO-greycliffcf-demibold.otf in Resources */,
-				6DA6C18CEE164E60BA168647 /* Fontspring-DEMO-greycliffcf-demiboldoblique.otf in Resources */,
-				A5099A5C01C644AD93520D85 /* Fontspring-DEMO-greycliffcf-extrabold.otf in Resources */,
-				5D006AC339E64957B587BAB7 /* Fontspring-DEMO-greycliffcf-extraboldoblique.otf in Resources */,
-				17E25F39257346A2AB40CDD8 /* Fontspring-DEMO-greycliffcf-extralight.otf in Resources */,
-				5FD6753245DE4E7B977504B5 /* Fontspring-DEMO-greycliffcf-extralightoblique.otf in Resources */,
-				6E2EB98A81A2474986A2E7DD /* Fontspring-DEMO-greycliffcf-heavy.otf in Resources */,
-				0E455EBC50254B4AB5C15E98 /* Fontspring-DEMO-greycliffcf-heavyoblique.otf in Resources */,
-				F5939F90AF1448C884423599 /* Fontspring-DEMO-greycliffcf-light.otf in Resources */,
-				7D194C644EF84169B94CE52D /* Fontspring-DEMO-greycliffcf-lightoblique.otf in Resources */,
-				4ED7E5F226614389BB5FACFE /* Fontspring-DEMO-greycliffcf-medium.otf in Resources */,
-				5FEDB71CD38749BAB08E741B /* Fontspring-DEMO-greycliffcf-mediumoblique.otf in Resources */,
-				5A1F37D0F1AD4E779D93B808 /* Fontspring-DEMO-greycliffcf-regular.otf in Resources */,
-				A0DA68F0BF624DE39DCB4DD2 /* Fontspring-DEMO-greycliffcf-regularoblique.otf in Resources */,
-				F90C5C07A9CF44D7B65A5A31 /* Fontspring-DEMO-greycliffcf-thin.otf in Resources */,
-				A30BA0424D2C4A22804D8751 /* Fontspring-DEMO-greycliffcf-thinoblique.otf in Resources */,
+				BAA67AEB07F84569A5B8A53D /* GreycliffCF-Bold.ttf in Resources */,
+				A8B2C2D82D7A4A7BA48567E6 /* GreycliffCF-DemiBold.ttf in Resources */,
+				6228F2A78CD54AE9AB4A184A /* GreycliffCF-ExtraBold.ttf in Resources */,
+				50AC1293516A438496878FFA /* GreycliffCF-Heavy.ttf in Resources */,
+				88F22C318C6B4EC0B18DFCB8 /* GreycliffCF-Light.ttf in Resources */,
+				51E4E73C2DCC4B4E900B438B /* GreycliffCF-Medium.ttf in Resources */,
+				4B0F53F2CFB34E65A1EB8443 /* GreycliffCF-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
