@@ -49,6 +49,7 @@ const HomeScreen = () => {
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
           marginTop: 12,
+          paddingBottom: 12,
         }}>
         <CardContent>
           <TitleComponent
@@ -166,6 +167,17 @@ const HomeScreen = () => {
           />
         </View>
         <SpaceComponent height={32} />
+        <TabbarComponent title="Need Extra Support?" />
+        <ButtonComponent
+          text="Contact a Dietitian"
+          color={appColors.success1}
+          styles={{paddingVertical: 16}}
+          onPress={() => {}}
+          fontStyles={{
+            color: appColors.text,
+            fontSize: 16,
+          }}
+        />
       </SectionComponent>
     </Container>
   );

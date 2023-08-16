@@ -1,5 +1,11 @@
 import React from 'react';
-import {Dimensions, StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
+import {
+  Dimensions,
+  StyleProp,
+  TextStyle,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
 import {appColors} from '../constants/appColors';
 import {SpaceComponent, TextComponent} from '.';
 import {fontFamilys} from '../constants/fontFamily';
@@ -18,6 +24,7 @@ interface Props {
   height?: number;
   font?: any;
   styles?: StyleProp<ViewStyle>;
+  fontStyles?: StyleProp<TextStyle>;
 }
 
 export const ButtonComponent = (props: Props) => {
@@ -31,7 +38,7 @@ export const ButtonComponent = (props: Props) => {
     icon,
     flex,
     disable,
-
+    fontStyles,
     font,
     styles,
   } = props;
@@ -69,14 +76,17 @@ export const ButtonComponent = (props: Props) => {
         size={14}
         text={text}
         font={font ?? fontFamilys.bold}
-        styles={{
-          marginLeft: icon ? 4 : 0,
-          color: outline
-            ? appColors.text
-            : textColor
-            ? textColor
-            : appColors.white,
-        }}
+        styles={[
+          {
+            marginLeft: icon ? 4 : 0,
+            color: outline
+              ? appColors.text
+              : textColor
+              ? textColor
+              : appColors.white,
+          },
+          fontStyles,
+        ]}
       />
     </TouchableOpacity>
   );
