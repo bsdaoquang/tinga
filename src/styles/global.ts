@@ -44,14 +44,14 @@ export const global = StyleSheet.create({
 
 
   shadow: {
-    shadowColor: 'rgba(0, 0, 0, 0.55)',
+    shadowColor: '#fff',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 8,
     },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.25,
     shadowRadius: 12.16,
-    elevation: 5,
+    elevation: 8,
   },
 
   buttonIcon: {

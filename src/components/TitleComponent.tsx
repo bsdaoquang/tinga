@@ -21,7 +21,7 @@ const TitleComponent = (props: Props) => {
     <TextComponent
       styles={styles}
       text={text}
-      size={size ?? 16}
+      size={size ?? 14}
       font={font ?? fontFamilys.bold}
       color={color}
       line={line}

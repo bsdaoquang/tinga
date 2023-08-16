@@ -3,6 +3,7 @@ import {Dimensions, StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
 import {appColors} from '../constants/appColors';
 import {SpaceComponent, TextComponent} from '.';
 import {fontFamilys} from '../constants/fontFamily';
+import {global} from '../styles/global';
 
 interface Props {
   text: string;
@@ -19,8 +20,6 @@ interface Props {
   styles?: StyleProp<ViewStyle>;
 }
 
-const WIDTH = Dimensions.get('window').width;
-
 export const ButtonComponent = (props: Props) => {
   const {
     text,
@@ -32,23 +31,24 @@ export const ButtonComponent = (props: Props) => {
     icon,
     flex,
     disable,
-    height,
+
     font,
     styles,
   } = props;
+
   return (
     <TouchableOpacity
       disabled={disable}
       onPress={onPress}
       style={[
+        global.row,
         {
           width: width,
           flex: flex,
           borderWidth: outline ? 1 : 0,
           borderColor: color ? color : appColors.gray,
           borderRadius: 12,
-          minHeight: height ?? 48,
-          paddingVertical: 8,
+          paddingVertical: 10,
           paddingHorizontal: 16,
           backgroundColor: outline
             ? appColors.white
@@ -66,10 +66,11 @@ export const ButtonComponent = (props: Props) => {
       <SpaceComponent width={4} />
       <TextComponent
         flex={0}
-        size={16}
+        size={14}
         text={text}
-        font={font ?? fontFamilys.medium}
+        font={font ?? fontFamilys.bold}
         styles={{
+          marginLeft: icon ? 4 : 0,
           color: outline
             ? appColors.text
             : textColor
