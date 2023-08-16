@@ -104,9 +104,9 @@ const Container = ({
   return (
     <View
       style={{
-        paddingTop: top ?? 0,
+        paddingTop: top ?? 44,
         flex: 1,
-        backgroundColor: backgroundColor ? backgroundColor : appColors.white,
+        backgroundColor: backgroundColor ? backgroundColor : appColors.bgColor,
       }}>
       <StatusBar
         barStyle={barStyle ? barStyle : 'dark-content'}
