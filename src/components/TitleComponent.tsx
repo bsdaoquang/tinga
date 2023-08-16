@@ -22,7 +22,7 @@ const TitleComponent = (props: Props) => {
       styles={styles}
       text={text}
       size={size ?? 16}
-      font={font ?? fontFamilys.medium}
+      font={font ?? fontFamilys.bold}
       color={color}
       line={line}
       height={height ? height : size ? size + 6 : 22}

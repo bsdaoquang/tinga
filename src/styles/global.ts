@@ -18,6 +18,13 @@ export const global = StyleSheet.create({
     padding: 15,
   },
 
+  card: {
+    padding: 16,
+    backgroundColor: '#BFBFBF36',
+    borderRadius: 10,
+    marginBottom: 12
+  },
+
   row: {
     flexDirection: 'row',
     //alignItems: 'center',
