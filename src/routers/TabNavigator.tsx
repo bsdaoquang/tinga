@@ -14,7 +14,7 @@ import GroceryNavigator from './GroceryNavigator';
 import HomeNavigator from './HomeNavigator';
 import ProfileNavigator from './ProfileNavigator';
 import {Text} from 'react-native';
-import {fontFamilies} from '../constants/fontFamilies';
+import {fontFamilys} from '../constants/fontFamily';
 
 const TabNavigator = () => {
   const Tabs = createBottomTabNavigator();
@@ -39,7 +39,7 @@ const TabNavigator = () => {
               <Text
                 style={{
                   fontSize: 12,
-                  fontFamily: fontFamilies.medium,
+                  fontFamily: fontFamilys.medium,
                   marginBottom: 8,
                   color: focused ? appColors.primary : appColors.gray,
                 }}>

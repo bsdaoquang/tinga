@@ -5,5 +5,6 @@ export const appColors = {
   gray: '#AEACAE',
   text: '#263238',
   success: '#13917B',
-  success1: '#ABC43F'
+  success1: '#ABC43F',
+  error: '#F15D59'
 };
