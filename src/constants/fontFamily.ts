@@ -1,6 +1,6 @@
 export const fontFamilys = {
-  regular: 'Greycliffcf-Regular',
-  medium: 'Greycliffcf-Medium',
-  semiBold: 'Greycliffcf-Semibold',
-  bold: 'Greycliffcf-Bold'
+  regular: 'Fontspring-DEMO-greycliffcf-regular',
+  medium: 'Fontspring-DEMO-greycliffcf-medium',
+  semiBold: 'Fontspring-DEMO-greycliffcf-demobold',
+  bold: 'Fontspring-DEMO-greycliffcf-bold'
 };

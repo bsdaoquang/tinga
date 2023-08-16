@@ -53,10 +53,24 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Greycliffcf-Bold.otf</string>
-		<string>Greycliffcf-Medium.otf</string>
-		<string>Greycliffcf-Regular.otf</string>
-		<string>Greycliffcf-Semibold.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-bold.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-boldoblique.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-demibold.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-demiboldoblique.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-extrabold.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-extraboldoblique.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-extralight.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-extralightoblique.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-heavy.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-heavyoblique.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-light.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-lightoblique.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-medium.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-mediumoblique.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-regular.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-regularoblique.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-thin.otf</string>
+		<string>Fontspring-DEMO-greycliffcf-thinoblique.otf</string>
 	</array>
 </dict>
 </plist>
