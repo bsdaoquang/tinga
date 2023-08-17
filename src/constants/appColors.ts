@@ -1,6 +1,7 @@
 export const appColors = {
   white: '#fff',
   white6: '#FFFFFF99',
+  white4: 'rgba(255, 255, 255, 0.4)',
   bgColor: '#f8f8f8',
   primary: '#32645B',
   gray: '#AEACAE',
