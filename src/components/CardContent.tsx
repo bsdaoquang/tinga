@@ -18,7 +18,7 @@ const CardContent = ({children, onPress, styles, color}: Props) => {
         global.card,
         styles,
         {
-          backgroundColor: color ?? appColors.white,
+          backgroundColor: color ?? appColors.gray1,
         },
       ]}>
       {children}
@@ -29,7 +29,7 @@ const CardContent = ({children, onPress, styles, color}: Props) => {
         global.card,
         styles,
         {
-          backgroundColor: color ?? appColors.white,
+          backgroundColor: color ?? appColors.gray1,
         },
       ]}>
       {children}

@@ -3,6 +3,7 @@ export const appColors = {
   bgColor: '#f8f8f8',
   primary: '#32645B',
   gray: '#AEACAE',
+  gray1: '#BFBFBF36',
   text: '#263238',
   success: '#13917B',
   success1: '#ABC43F',
@@ -12,4 +13,4 @@ export const appColors = {
 
 export const listColors = [
   '#97CDDB', '#ABC43F', '#B59473', '#00927C'
-]
+];

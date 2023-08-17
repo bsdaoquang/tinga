@@ -66,9 +66,9 @@ const CategoriesList = ({title}: Props) => {
 
   const renderCardItem = (item: {id: string; title: string}) => (
     <CardContent
+      color={appColors.white}
       styles={{
         ...global.shadow,
-        backgroundColor: appColors.white,
         margin: 12,
         width: 186,
         height: 114,
