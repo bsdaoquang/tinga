@@ -1,3 +1,4 @@
+import Button from "./Button";
 import { ButtonComponent } from "./ButtonComponent";
 import ButtonIcon from "./ButtonIcon";
 import CardContent from "./CardContent";
@@ -25,5 +26,6 @@ export {
   TitleComponent,
   ButtonComponent,
   CustomIcon,
-  TabbarComponent
+  TabbarComponent,
+  Button
 };

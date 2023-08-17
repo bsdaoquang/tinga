@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {
   Dimensions,
   StyleProp,
@@ -18,12 +18,13 @@ interface Props {
   color?: string;
   textColor?: string;
   width?: number;
-  icon?: any;
+  icon?: ReactNode;
   flex?: number;
   disable?: boolean;
   height?: number;
   font?: any;
   styles?: StyleProp<ViewStyle>;
+  iconRight?: boolean;
   fontStyles?: StyleProp<TextStyle>;
 }
 
@@ -40,6 +41,8 @@ export const ButtonComponent = (props: Props) => {
     disable,
     fontStyles,
     font,
+    height,
+    iconRight,
     styles,
   } = props;
 
@@ -55,7 +58,7 @@ export const ButtonComponent = (props: Props) => {
           borderWidth: outline ? 1 : 0,
           borderColor: color ? color : appColors.gray,
           borderRadius: 12,
-          paddingVertical: 10,
+          paddingVertical: 12,
           paddingHorizontal: 16,
           backgroundColor: outline
             ? appColors.white
@@ -69,16 +72,17 @@ export const ButtonComponent = (props: Props) => {
         },
         styles,
       ]}>
-      {icon && icon}
+      {icon && !iconRight && icon}
       <SpaceComponent width={4} />
       <TextComponent
-        flex={0}
+        flex={iconRight ? 1 : 0}
         size={14}
         text={text}
         font={font ?? fontFamilys.bold}
         styles={[
           {
             marginLeft: icon ? 4 : 0,
+            marginRight: iconRight ? -20 : 0,
             color: outline
               ? appColors.text
               : textColor
@@ -88,6 +92,7 @@ export const ButtonComponent = (props: Props) => {
           fontStyles,
         ]}
       />
+      {iconRight && icon}
     </TouchableOpacity>
   );
 };
