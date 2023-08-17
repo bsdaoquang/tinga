@@ -1,6 +1,10 @@
-import {AddCircle, Gift} from 'iconsax-react-native';
-import React from 'react';
-import {Image, StatusBar, View} from 'react-native';
+import {Gift} from 'iconsax-react-native';
+import React, {useState} from 'react';
+import {StatusBar} from 'react-native';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {TingaLogo} from '../../assets/svg';
 import {
   ButtonComponent,
@@ -16,13 +20,15 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {appSize} from '../../constants/appSize';
-import VideoPlayer from './components/VideoPlayer';
 import CategoriesList from './components/CategoriesList';
+import VideoPlayer from './components/VideoPlayer';
+import {TouchableOpacity} from 'react-native';
+import {global} from '../../styles/global';
+import Promotions from './components/Promotions';
 
 const HomeScreen = () => {
+  const [isLogin, setIsLogin] = useState(false);
+
   return (
     <Container isScroll backgroundColor={appColors.primary}>
       <StatusBar barStyle={'light-content'} />
@@ -72,8 +78,27 @@ const HomeScreen = () => {
               color={appColors.success}
               font={fontFamilys.bold}
               text="NEW LIST"
-              onPress={() => {}}
+              onPress={() => setIsLogin(!isLogin)}
             />
+            {isLogin && (
+              <TouchableOpacity
+                style={[
+                  global.row,
+                  {flex: 1, justifyContent: 'center', alignItems: 'center'},
+                ]}>
+                <MaterialIcons
+                  name="history"
+                  size={22}
+                  color={appColors.success}
+                />
+                <SpaceComponent width={4} />
+                <TitleComponent
+                  text="VIEW HISTORY"
+                  color={appColors.success}
+                  flex={0}
+                />
+              </TouchableOpacity>
+            )}
           </RowComponent>
         </CardContent>
         <RowComponent>
@@ -90,7 +115,8 @@ const HomeScreen = () => {
             onPress={() => {}}
             styles={{flex: 1, paddingHorizontal: 10}}>
             <RowComponent>
-              <EvilIcons name="search" color={appColors.success} size={24} />
+              <FontAwesome6 name="users" color={appColors.success} size={16} />
+              <SpaceComponent width={4} />
               <TitleComponent text="Tinga Community" />
             </RowComponent>
           </CardContent>
@@ -101,6 +127,10 @@ const HomeScreen = () => {
         <VideoPlayer />
         <CategoriesList title="Tips for you" />
         <CategoriesList title="Healthier Planning" />
+
+        <Promotions />
+        <SpaceComponent height={24} />
+
         <TabbarComponent title="Need Extra Support?" />
         <ButtonComponent
           text="Contact a Dietitian"

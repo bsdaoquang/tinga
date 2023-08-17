@@ -88,7 +88,7 @@ const CategoriesList = ({title}: Props) => {
   );
 
   return (
-    <View style={{marginBottom: 32}}>
+    <View style={{marginBottom: 24}}>
       <TabbarComponent
         styles={{marginBottom: 0}}
         title={title}
