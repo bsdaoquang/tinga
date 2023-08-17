@@ -1,7 +1,6 @@
-import {View, Text} from 'react-native';
-import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Welcome} from '../screens';
+import React from 'react';
+import {LoginScreen, Welcome} from '../screens';
 
 const WelcomeNavigator = () => {
   const WelcomeStack = createNativeStackNavigator();
@@ -11,6 +10,7 @@ const WelcomeNavigator = () => {
         headerShown: false,
       }}>
       <WelcomeStack.Screen name="WelcomeScreen" component={Welcome} />
+      <WelcomeStack.Screen name="LoginScreen" component={LoginScreen} />
     </WelcomeStack.Navigator>
   );
 };

@@ -1,23 +1,21 @@
-import {ArrowRight} from 'iconsax-react-native';
 import React, {useState} from 'react';
+import {View} from 'react-native';
+import Swiper from 'react-native-swiper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   Button,
   ButtonComponent,
   Container,
   RowComponent,
   SectionComponent,
-  TextComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Swiper from 'react-native-swiper';
 import Welcome1 from './components/Welcome1';
 import Welcome2 from './components/Welcome2';
 import Welcome3 from './components/Welcome3';
 import Welcome4 from './components/Welcome4';
-import {View} from 'react-native';
 
-const Welcome = () => {
+const Welcome = ({navigation}: any) => {
   const [indexScreen, setIndexScreen] = useState(0);
 
   return (
@@ -39,6 +37,7 @@ const Welcome = () => {
             width: 32,
             marginBottom: -32,
           }}
+          // scrollEnabled={false}
           dotStyle={{marginBottom: -32}}
           dotColor={appColors.white4}>
           <Welcome1 />
@@ -49,10 +48,10 @@ const Welcome = () => {
       </View>
       <SectionComponent styles={{marginBottom: 30}}>
         <ButtonComponent
-          text="Next"
+          text={indexScreen >= 3 ? 'Let’s get started' : 'Next'}
           onPress={() =>
             indexScreen === 4
-              ? console.log('enf')
+              ? navigation.navigate('LoginScreen')
               : setIndexScreen(indexScreen + 1)
           }
           fontStyles={{fontSize: 16, textAlign: 'center'}}

@@ -1,4 +1,5 @@
 import SplashScreen from "./SplashScreen";
+import LoginScreen from "./auth/LoginScreen";
 import ExploreScreen from "./explores/ExploreScreen";
 import GroceryScreen from "./grocyries/GroceryScreen";
 import HomeScreen from "./homes/HomeScreen";
@@ -11,5 +12,6 @@ export {
   ProfileScreen,
   GroceryScreen,
   SplashScreen,
-  Welcome
+  Welcome,
+  LoginScreen
 };

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
 import {
+  RowComponent,
   SectionComponent,
   TextComponent,
   TitleComponent,
@@ -80,12 +81,21 @@ const Welcome1 = () => {
     <>
       <ScrollView style={{flex: 1}}>
         <SectionComponent flex={1}>
-          <TitleComponent
-            text="1. Tell Tinga how you & your household eats"
-            size={26}
-            color={appColors.white}
-            flex={0}
-          />
+          <RowComponent styles={{alignItems: 'flex-start'}}>
+            <TitleComponent
+              text="1. "
+              size={26}
+              color={appColors.white}
+              flex={0}
+            />
+            <TitleComponent
+              text="Tell Tinga how you & your household eats"
+              size={26}
+              color={appColors.white}
+              flex={1}
+            />
+          </RowComponent>
+
           <View
             style={[
               global.row,
