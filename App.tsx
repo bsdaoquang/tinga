@@ -1,30 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import TabNavigator from './src/routers/TabNavigator';
-import {SplashScreen} from './src/screens';
 import {NavigationContainer} from '@react-navigation/native';
-import WelcomeNavigator from './src/routers/WelcomeNavigator';
+import React from 'react';
+import {Provider} from 'react-redux';
+import store from './src/redux/store';
+import Router from './src/routers/router';
 
 const App = () => {
-  const [isWelcome, setIsWelcome] = useState(true);
-  const [isLogin, setIsLogin] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLogin(false);
-      setIsWelcome(false);
-    }, 1500);
-  }, []);
-
   return (
-    <NavigationContainer>
-      {isWelcome ? (
-        <SplashScreen />
-      ) : isLogin ? (
-        <TabNavigator />
-      ) : (
-        <WelcomeNavigator />
-      )}
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Router />
+      </NavigationContainer>
+    </Provider>
   );
 };
 

@@ -1,17 +1,9 @@
-import {
-  View,
-  Text,
-  StatusBar,
-  ImageBackground,
-  Touchable,
-  TouchableOpacity,
-} from 'react-native';
 import React from 'react';
-import {appSize} from '../../constants/appSize';
+import {ImageBackground, StatusBar, TouchableOpacity} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   Button,
   ButtonComponent,
-  Container,
   RowComponent,
   SectionComponent,
   SpaceComponent,
@@ -19,8 +11,8 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
+import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import TermsText from './components/termsText';
 
 const LoginScreen = ({navigation}: any) => {
