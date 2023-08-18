@@ -14,9 +14,11 @@ import {
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
 import {global} from '../../styles/global';
+import {Subscription} from '../../modals';
 
 const ChooseStore = ({navigation}: any) => {
   const [selected, setSelected] = useState<string[]>([]);
+  const [isVisibleModalSubcribe, setIsVisibleModalSubcribe] = useState(false);
 
   const values = [
     'Metro',
@@ -88,13 +90,17 @@ const ChooseStore = ({navigation}: any) => {
           color={appColors.success1}
           fontStyles={{textAlign: 'center'}}
           text="Continue"
-          onPress={() => navigation.navigate('Subscription')}
+          onPress={() => setIsVisibleModalSubcribe(true)}
           iconRight
           icon={
             <AntDesign name="arrowright" size={20} color={appColors.text} />
           }
         />
       </SectionComponent>
+      <Subscription
+        isVisible={isVisibleModalSubcribe}
+        onClose={() => setIsVisibleModalSubcribe(false)}
+      />
     </Container>
   );
 };

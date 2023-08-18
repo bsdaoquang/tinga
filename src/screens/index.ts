@@ -1,5 +1,4 @@
 import SplashScreen from "./SplashScreen";
-import Subscription from "./Subscription";
 import LoginScreen from "./auth/LoginScreen";
 import SignUpScreen from "./auth/SignUpScreen";
 import VerifyEmail from "./auth/VerifyEmail";
@@ -25,5 +24,4 @@ export {
   ChooseAllergy,
   ChooseDiet,
   ChooseStore,
-  Subscription
 };

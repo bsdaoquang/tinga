@@ -6,6 +6,7 @@ export const appColors = {
   primary: '#32645B',
   gray: '#AEACAE',
   gray1: '#BFBFBF36',
+  gray2: '#979797',
   text: '#263238',
   text2: "#505050",
   success: '#13917B',
