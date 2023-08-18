@@ -12,7 +12,7 @@ import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
 import useAuth from '../../hooks/useAuth';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import TermsText from './components/termsText';
+import TermsText from './components/TermsText';
 
 const SignUpScreen = ({navigation}: any) => {
   const [isShowPass, setIsShowPass] = useState(false);

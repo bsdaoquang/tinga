@@ -13,7 +13,7 @@ import {
 import {appColors} from '../../constants/appColors';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
-import TermsText from './components/termsText';
+import TermsText from './components/TermsText';
 
 const LoginScreen = ({navigation}: any) => {
   return (

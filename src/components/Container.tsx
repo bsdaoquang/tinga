@@ -100,7 +100,7 @@ const Container = ({
   return (
     <View
       style={{
-        // paddingTop: top ?? 44,
+        paddingTop: top ?? 0,
         flex: 1,
         backgroundColor: backgroundColor ? backgroundColor : appColors.bgColor,
       }}>

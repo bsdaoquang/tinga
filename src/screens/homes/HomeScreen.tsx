@@ -30,7 +30,7 @@ const HomeScreen = () => {
   const [isLogin, setIsLogin] = useState(false);
 
   return (
-    <Container isScroll backgroundColor={appColors.primary}>
+    <Container isScroll backgroundColor={appColors.primary} top={44}>
       <StatusBar barStyle={'light-content'} />
       <SectionComponent>
         <RowComponent>

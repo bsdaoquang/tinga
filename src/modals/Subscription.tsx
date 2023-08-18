@@ -23,6 +23,8 @@ import {appColors} from '../constants/appColors';
 import {fontFamilys} from '../constants/fontFamily';
 import {global} from '../styles/global';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useDispatch} from 'react-redux';
+import {addAuth} from '../redux/reducers/authReducer';
 
 interface Props {
   isVisible: boolean;
@@ -39,6 +41,15 @@ const Subscription = (props: Props) => {
     'Simplified nutritional information ',
     'Access to a resource library to help you reach your goals',
   ];
+
+  const dispatch = useDispatch();
+  const handleSaveDemodata = () => {
+    dispatch(
+      addAuth({
+        uid: 'admin',
+      }),
+    );
+  };
 
   return (
     <Modal
@@ -130,7 +141,7 @@ const Subscription = (props: Props) => {
               </RowComponent>
               <SpaceComponent height={8} />
               <RowComponent
-                onPress={() => {}}
+                onPress={handleSaveDemodata}
                 justify="flex-start"
                 styles={{alignItems: 'flex-end'}}>
                 <TitleComponent
@@ -188,7 +199,7 @@ const Subscription = (props: Props) => {
             </RowComponent>
             <SpaceComponent height={8} />
             <RowComponent
-              onPress={() => {}}
+              onPress={handleSaveDemodata}
               justify="flex-start"
               styles={{alignItems: 'flex-end'}}>
               <TitleComponent
@@ -219,7 +230,7 @@ const Subscription = (props: Props) => {
         <SectionComponent>
           <ButtonComponent
             text="Try free and subscribe"
-            onPress={() => {}}
+            onPress={handleSaveDemodata}
             color={appColors.success1}
             textColor={appColors.text}
           />
@@ -233,7 +244,7 @@ const Subscription = (props: Props) => {
                 color: appColors.primary,
               }}
               textSize={12}
-              onPress={() => {}}
+              onPress={handleSaveDemodata}
             />
             <TextComponent text=" • " flex={0} />
             <Button
@@ -243,7 +254,7 @@ const Subscription = (props: Props) => {
                 color: appColors.primary,
               }}
               textSize={12}
-              onPress={() => {}}
+              onPress={handleSaveDemodata}
             />
           </RowComponent>
         </SectionComponent>
