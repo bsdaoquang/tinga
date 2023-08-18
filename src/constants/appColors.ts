@@ -7,6 +7,7 @@ export const appColors = {
   gray: '#AEACAE',
   gray1: '#BFBFBF36',
   text: '#263238',
+  text2: "#505050",
   success: '#13917B',
   success1: '#ABC43F',
   success2: '#32645B',

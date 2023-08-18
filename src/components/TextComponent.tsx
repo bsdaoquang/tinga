@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react';
-import {StyleProp, Text} from 'react-native';
+import {StyleProp, Text, TextStyle} from 'react-native';
 import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
 import {global} from '../styles/global';
@@ -27,7 +27,7 @@ const TextComponent = ({
   label?: string;
   line?: number;
   height?: number;
-  styles?: StyleProp<any>;
+  styles?: StyleProp<TextStyle>;
   transform?: 'none' | 'capitalize' | 'uppercase' | 'lowercase' | undefined;
 }) => {
   return (
@@ -40,7 +40,7 @@ const TextComponent = ({
           color: color ?? appColors.text,
           lineHeight: height ? height : size ? size + 4 : 20,
           textTransform: transform ?? 'none',
-          fontFamily: font ?? fontFamilys.regular,
+          fontFamily: font ?? fontFamilys.medium,
         },
 
         styles,

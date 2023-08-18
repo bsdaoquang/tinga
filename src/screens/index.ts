@@ -1,8 +1,14 @@
 import SplashScreen from "./SplashScreen";
+import Subscription from "./Subscription";
 import LoginScreen from "./auth/LoginScreen";
+import SignUpScreen from "./auth/SignUpScreen";
+import VerifyEmail from "./auth/VerifyEmail";
 import ExploreScreen from "./explores/ExploreScreen";
 import GroceryScreen from "./grocyries/GroceryScreen";
 import HomeScreen from "./homes/HomeScreen";
+import ChooseAllergy from "./onboards/ChooseAllergy";
+import ChooseDiet from "./onboards/ChooseDiet";
+import ChooseStore from "./onboards/ChooseStore";
 import Welcome from "./onboards/Welcome";
 import ProfileScreen from "./profiles/ProfileScreen";
 
@@ -13,5 +19,11 @@ export {
   GroceryScreen,
   SplashScreen,
   Welcome,
-  LoginScreen
+  LoginScreen,
+  SignUpScreen,
+  VerifyEmail,
+  ChooseAllergy,
+  ChooseDiet,
+  ChooseStore,
+  Subscription
 };

@@ -58,14 +58,14 @@ export const ButtonComponent = (props: Props) => {
           borderWidth: outline ? 1 : 0,
           borderColor: color ? color : appColors.gray,
           borderRadius: 12,
-          paddingVertical: 12,
+          paddingVertical: 18,
           paddingHorizontal: 16,
           backgroundColor: outline
             ? appColors.white
-            : color
-            ? color
             : disable
             ? appColors.gray
+            : color
+            ? color
             : appColors.primary,
           alignItems: 'center',
           justifyContent: 'center',
@@ -76,7 +76,7 @@ export const ButtonComponent = (props: Props) => {
       <SpaceComponent width={4} />
       <TextComponent
         flex={iconRight ? 1 : 0}
-        size={14}
+        size={16}
         text={text}
         font={font ?? fontFamilys.bold}
         styles={[

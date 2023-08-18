@@ -44,7 +44,7 @@ export const global = StyleSheet.create({
 
 
   shadow: {
-    shadowColor: '#000',
+    shadowColor: 'rgba(0, 0, 0, 0.04)',
     shadowOffset: {
       width: 0,
       height: 8,
@@ -140,4 +140,15 @@ export const global = StyleSheet.create({
     alignItems: 'center',
     marginTop: 2,
   },
+
+  tag:{
+    backgroundColor: appColors.white,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+    marginBottom: 12
+  }
 });

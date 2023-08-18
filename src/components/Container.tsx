@@ -1,5 +1,4 @@
 import {useNavigation} from '@react-navigation/native';
-import {ArrowLeft2, ArrowUp2} from 'iconsax-react-native';
 import React, {
   ReactNode,
   useCallback,
@@ -12,21 +11,18 @@ import {
   NativeSyntheticEvent,
   Platform,
   RefreshControl,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StatusBarStyle,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {appColors} from '../constants/appColors';
+import {appSize} from '../constants/appSize';
 import {global} from '../styles/global';
 import RowComponent from './RowComponent';
-import TitleComponent from './TitleComponent';
 import TextComponent from './TextComponent';
-import {fontFamilys} from '../constants/fontFamily';
-import {appSize} from '../constants/appSize';
 
 const wait = (timeout: number) => {
   return new Promise((resolve: any) => setTimeout(resolve, timeout));
@@ -104,7 +100,7 @@ const Container = ({
   return (
     <View
       style={{
-        paddingTop: top ?? 44,
+        // paddingTop: top ?? 44,
         flex: 1,
         backgroundColor: backgroundColor ? backgroundColor : appColors.bgColor,
       }}>
@@ -139,7 +135,11 @@ const Container = ({
                         ? navigation.goBack()
                         : navigation.navigate('HomeScreen')
                     }>
-                    <ArrowLeft2 size={24} color={appColors.text} />
+                    <AntDesign
+                      name="arrowleft"
+                      size={22}
+                      color={appColors.text}
+                    />
                   </TouchableOpacity>
                 )}
               </RowComponent>

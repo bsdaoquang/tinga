@@ -1,9 +1,17 @@
-import {View, Text, StatusBar, ImageBackground} from 'react-native';
+import {
+  View,
+  Text,
+  StatusBar,
+  ImageBackground,
+  Touchable,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import {appSize} from '../../constants/appSize';
 import {
   Button,
   ButtonComponent,
+  Container,
   RowComponent,
   SectionComponent,
   SpaceComponent,
@@ -12,8 +20,10 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import TermsText from './components/termsText';
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}: any) => {
   return (
     <>
       <StatusBar translucent barStyle={'dark-content'} />
@@ -24,6 +34,14 @@ const LoginScreen = () => {
           width: appSize.width,
         }}
         imageStyle={{resizeMode: 'cover'}}>
+        <SectionComponent styles={{paddingTop: 32}}>
+          <TouchableOpacity
+            style={{padding: 12}}
+            onPress={() => navigation.navigate('WelcomeScreen')}>
+            <AntDesign name="arrowleft" size={22} color={appColors.text} />
+          </TouchableOpacity>
+        </SectionComponent>
+
         <SectionComponent
           styles={{
             flex: 1,
@@ -41,7 +59,7 @@ const LoginScreen = () => {
 
           <ButtonComponent
             text="Continue to Sign Up"
-            onPress={() => {}}
+            onPress={() => navigation.navigate('SignUpScreen')}
             color={appColors.white}
             styles={{
               marginVertical: 16,
@@ -56,32 +74,13 @@ const LoginScreen = () => {
             <TextComponent text="Already have an account? " flex={0} />
             <Button
               text="Login"
-              onPress={() => {}}
+              onPress={() => navigation.navigate('SignUpScreen')}
               textColor={appColors.primary}
               fontStyles={{fontFamily: fontFamilys.bold}}
             />
           </RowComponent>
           <SpaceComponent height={16} />
-          <RowComponent>
-            <TextComponent
-              text="By continuing you agree with our "
-              flex={0}
-              size={12}
-            />
-            <Button
-              text="Terms"
-              onPress={() => {}}
-              textColor={appColors.primary}
-              textSize={12}
-            />
-            <TextComponent text=" and " flex={0} size={12} />
-            <Button
-              text="Privacy Policy."
-              onPress={() => {}}
-              textColor={appColors.primary}
-              textSize={12}
-            />
-          </RowComponent>
+          <TermsText text="By continuing you agree with our " />
         </SectionComponent>
       </ImageBackground>
     </>

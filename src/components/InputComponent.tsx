@@ -5,6 +5,7 @@ import {
   Platform,
   StyleProp,
   TextInput,
+  TextStyle,
   TouchableOpacity,
   View,
   ViewStyle,
@@ -38,6 +39,7 @@ interface Props {
   autoFocus?: boolean;
   styles?: StyleProp<ViewStyle>;
   disable?: boolean;
+  inputStyles?: StyleProp<TextStyle>;
   autoComplete?:
     | 'birthdate-day'
     | 'birthdate-full'
@@ -107,13 +109,8 @@ export const InputComponent = (props: Props) => {
     styles,
     autoComplete,
     disable,
+    inputStyles,
   } = props;
-
-  // const [newVal, setNewVal] = useState(value);
-
-  // useEffect(() => {
-  //   onChange(newVal);
-  // }, [newVal]);
 
   return (
     <View style={[{marginBottom: 16, flex: flex ?? 0}, styles]}>
@@ -123,11 +120,15 @@ export const InputComponent = (props: Props) => {
           {
             flexDirection: 'row',
             alignItems: 'center',
-            borderRadius: 8,
-            paddingHorizontal: 10,
-            paddingVertical: Platform.OS === 'ios' ? 12 : 8,
+            borderRadius: 14,
+            paddingHorizontal: 16,
+            borderWidth: 2,
+            borderColor: isFocus ? '#ABC43F' : '#EEF3DC',
+            paddingVertical: Platform.OS === 'ios' ? 14 : 10,
             minHeight: height ?? 40,
-            backgroundColor: disable ? appColors.gray : color ?? appColors.gray,
+            backgroundColor: disable
+              ? appColors.gray
+              : color ?? appColors.white,
           },
         ]}>
         {prefix && prefix}
@@ -140,15 +141,18 @@ export const InputComponent = (props: Props) => {
           secureTextEntry={isSecure ? !show : false}
           placeholderTextColor={appColors.gray}
           keyboardType={type ? type : 'default'}
-          style={{
-            flex: 1,
-            margin: 0,
-            padding: 0,
-            color: appColors.text,
-            fontFamily: fontFamilys.regular,
-            marginLeft: prefix ? 10 : 0,
-            fontSize: appSize.textSize,
-          }}
+          style={[
+            {
+              flex: 1,
+              margin: 0,
+              padding: 0,
+              color: appColors.text,
+              fontFamily: fontFamilys.medium,
+              marginLeft: prefix ? 10 : 0,
+              fontSize: appSize.textSize,
+            },
+            inputStyles,
+          ]}
           autoCapitalize={isCapitalize}
           onEndEditing={onEnd}
           autoFocus={autoFocus}

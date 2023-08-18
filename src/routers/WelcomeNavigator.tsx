@@ -1,6 +1,15 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {LoginScreen, Welcome} from '../screens';
+import {
+  ChooseAllergy,
+  ChooseDiet,
+  ChooseStore,
+  LoginScreen,
+  SignUpScreen,
+  Subscription,
+  VerifyEmail,
+  Welcome,
+} from '../screens';
 
 const WelcomeNavigator = () => {
   const WelcomeStack = createNativeStackNavigator();
@@ -11,6 +20,12 @@ const WelcomeNavigator = () => {
       }}>
       <WelcomeStack.Screen name="WelcomeScreen" component={Welcome} />
       <WelcomeStack.Screen name="LoginScreen" component={LoginScreen} />
+      <WelcomeStack.Screen name="SignUpScreen" component={SignUpScreen} />
+      <WelcomeStack.Screen name="VerifyEmail" component={VerifyEmail} />
+      <WelcomeStack.Screen name="ChooseAllergy" component={ChooseAllergy} />
+      <WelcomeStack.Screen name="ChooseDiet" component={ChooseDiet} />
+      <WelcomeStack.Screen name="ChooseStore" component={ChooseStore} />
+      <WelcomeStack.Screen name="Subscription" component={Subscription} />
     </WelcomeStack.Navigator>
   );
 };
