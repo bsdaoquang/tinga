@@ -19,7 +19,10 @@ const Welcome = ({navigation}: any) => {
   const [indexScreen, setIndexScreen] = useState(0);
 
   return (
-    <Container backgroundColor={appColors.text} barStyle="light-content">
+    <Container
+      top={48}
+      backgroundColor={appColors.text}
+      barStyle="light-content">
       <RowComponent justify="flex-end" styles={{paddingHorizontal: 16}}>
         <Button
           text="Skip"
