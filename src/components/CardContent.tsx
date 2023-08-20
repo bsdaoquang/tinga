@@ -11,28 +11,32 @@ interface Props {
 }
 
 const CardContent = ({children, onPress, styles, color}: Props) => {
-  return onPress ? (
-    <TouchableOpacity
-      onPress={onPress}
-      style={[
-        global.card,
-        styles,
-        {
-          backgroundColor: color ?? appColors.gray1,
-        },
-      ]}>
-      {children}
-    </TouchableOpacity>
-  ) : (
-    <View
-      style={[
-        global.card,
-        styles,
-        {
-          backgroundColor: color ?? appColors.gray1,
-        },
-      ]}>
-      {children}
+  return (
+    <View style={{...global.shadow, flex: 1}}>
+      {onPress ? (
+        <TouchableOpacity
+          onPress={onPress}
+          style={[
+            global.card,
+            styles,
+            {
+              backgroundColor: color ?? appColors.gray1,
+            },
+          ]}>
+          {children}
+        </TouchableOpacity>
+      ) : (
+        <View
+          style={[
+            global.card,
+            styles,
+            {
+              backgroundColor: color ?? appColors.gray1,
+            },
+          ]}>
+          {children}
+        </View>
+      )}
     </View>
   );
 };

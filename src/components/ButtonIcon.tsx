@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
+import {StyleProp, TouchableOpacity, View, ViewStyle} from 'react-native';
 import {appColors} from '../constants/appColors';
 import {global} from '../styles/global';
 
@@ -23,24 +23,25 @@ const ButtonIcon = ({
   radius,
 }: Props) => {
   return (
-    <TouchableOpacity
-      disabled={disable}
-      style={[
-        {
-          width: size ?? 30,
-          height: size ?? 30,
-          paddingHorizontal: 8,
-          borderRadius: radius ?? 100,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: color ?? appColors.white,
-        },
-        styles,
-        global.shadow,
-      ]}
-      onPress={onPress}>
-      {icon}
-    </TouchableOpacity>
+    <View style={global.shadow}>
+      <TouchableOpacity
+        disabled={disable}
+        style={[
+          {
+            width: size ?? 30,
+            height: size ?? 30,
+            paddingHorizontal: 8,
+            borderRadius: radius ?? 100,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: color ?? appColors.white,
+          },
+          styles,
+        ]}
+        onPress={onPress}>
+        {icon}
+      </TouchableOpacity>
+    </View>
   );
 };
 

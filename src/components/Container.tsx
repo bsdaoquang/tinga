@@ -30,7 +30,6 @@ const wait = (timeout: number) => {
 
 const Container = ({
   children,
-  float,
   top,
   onRefesh,
   backgroundColor,
@@ -39,8 +38,6 @@ const Container = ({
   left,
   back,
   isScroll,
-  isShowFooter,
-  isTitleCenter,
   isFlex,
   search,
   onScrollToTop,
@@ -49,7 +46,6 @@ const Container = ({
   barStyle,
 }: {
   children: any;
-  float?: boolean;
   top?: number;
   backgroundColor?: string;
   onRefesh?: () => void;
@@ -58,8 +54,6 @@ const Container = ({
   right?: any;
   left?: any;
   isScroll?: boolean;
-  isShowFooter?: boolean;
-  isTitleCenter?: boolean;
   isFlex?: boolean;
   search?: ReactNode;
   onScrollToTop?: boolean;
@@ -105,7 +99,7 @@ const Container = ({
         backgroundColor: backgroundColor ? backgroundColor : appColors.bgColor,
       }}>
       <StatusBar
-        barStyle={barStyle ? barStyle : 'dark-content'}
+        barStyle={barStyle ? barStyle : 'light-content'}
         translucent
         backgroundColor="transparent"
       />

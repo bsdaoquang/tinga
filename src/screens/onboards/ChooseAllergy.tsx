@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   Button,
@@ -48,25 +48,27 @@ const ChooseAllergy = ({navigation}: any) => {
   };
 
   const renderValue = (val: string) => (
-    <TouchableOpacity
-      onPress={() => handleSelect(val)}
-      key={`item${val}`}
-      style={[
-        global.tag,
-        global.shadow,
-        {
-          shadowColor: 'rgba(0, 0, 0, 0.04)',
-          borderWidth: selected.includes(val) ? 2 : 0,
-          borderColor: appColors.success1,
-        },
-      ]}>
-      <TextComponent
-        text={val}
-        flex={0}
-        color={appColors.text2}
-        font={selected.includes(val) ? fontFamilys.bold : fontFamilys.medium}
-      />
-    </TouchableOpacity>
+    <View style={global.shadow}>
+      <TouchableOpacity
+        onPress={() => handleSelect(val)}
+        key={`item${val}`}
+        style={[
+          global.tag,
+
+          {
+            shadowColor: 'rgba(0, 0, 0, 0.04)',
+            borderWidth: selected.includes(val) ? 2 : 0,
+            borderColor: appColors.success1,
+          },
+        ]}>
+        <TextComponent
+          text={val}
+          flex={0}
+          color={appColors.text2}
+          font={selected.includes(val) ? fontFamilys.bold : fontFamilys.medium}
+        />
+      </TouchableOpacity>
+    </View>
   );
   return (
     <Container

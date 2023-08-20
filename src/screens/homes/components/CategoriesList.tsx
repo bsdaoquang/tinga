@@ -65,26 +65,27 @@ const CategoriesList = ({title}: Props) => {
   );
 
   const renderCardItem = (item: {id: string; title: string}) => (
-    <CardContent
-      color={appColors.white}
-      styles={{
-        ...global.shadow,
-        margin: 12,
-        width: 186,
-        height: 114,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <TitleComponent
-        text={item.title}
-        flex={0}
-        size={20}
-        color={listColors[Math.floor(Math.random() * listColors.length)]}
+    <View style={[global.shadow]}>
+      <CardContent
+        color={appColors.white}
         styles={{
-          textAlign: 'center',
-        }}
-      />
-    </CardContent>
+          margin: 12,
+          width: 186,
+          height: 114,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <TitleComponent
+          text={item.title}
+          flex={0}
+          size={20}
+          color={listColors[Math.floor(Math.random() * listColors.length)]}
+          styles={{
+            textAlign: 'center',
+          }}
+        />
+      </CardContent>
+    </View>
   );
 
   return (
