@@ -25,10 +25,6 @@ const TabNavigator = () => {
           paddingTop: 6,
           borderTopLeftRadius: 12,
           borderTopRightRadius: 12,
-
-          // paddingTop: 8,
-          // height: 64,
-          // backgroundColor: appColors.white,
         },
 
         tabBarLabel({focused}) {
@@ -37,7 +33,6 @@ const TabNavigator = () => {
               style={{
                 fontSize: 12,
                 fontFamily: fontFamilys.medium,
-                // marginBottom: 8,
                 color: focused ? appColors.primary : appColors.gray,
               }}>
               {route.name}

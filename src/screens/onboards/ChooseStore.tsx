@@ -14,7 +14,7 @@ import {
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
 import {global} from '../../styles/global';
-import {Subscription} from '../../modals';
+import {SubscriptionModal} from '../../modals';
 
 const ChooseStore = ({navigation}: any) => {
   const [selected, setSelected] = useState<string[]>([]);
@@ -47,10 +47,9 @@ const ChooseStore = ({navigation}: any) => {
   };
 
   const renderValue = (val: string) => (
-    <View style={global.shadow}>
+    <View style={global.shadow} key={`item${val}`}>
       <TouchableOpacity
         onPress={() => handleSelect(val)}
-        key={`item${val}`}
         style={[
           global.tag,
 
@@ -70,14 +69,7 @@ const ChooseStore = ({navigation}: any) => {
     </View>
   );
   return (
-    <Container
-      back
-      right={
-        <Button
-          text="Skip"
-          onPress={() => navigation.navigate('Subscription')}
-        />
-      }>
+    <Container back right={<Button text="Skip" onPress={() => {}} />}>
       <SectionComponent flex={1}>
         <TextComponent text="Grocery Stores" size={12} flex={0} />
         <TitleComponent text="Where do you usually shop?" flex={0} size={26} />
@@ -99,7 +91,7 @@ const ChooseStore = ({navigation}: any) => {
           }
         />
       </SectionComponent>
-      <Subscription
+      <SubscriptionModal
         isVisible={isVisibleModalSubcribe}
         onClose={() => setIsVisibleModalSubcribe(false)}
       />

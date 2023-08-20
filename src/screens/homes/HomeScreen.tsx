@@ -1,10 +1,11 @@
 import {Gift} from 'iconsax-react-native';
 import React, {useState} from 'react';
-import {StatusBar} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch} from 'react-redux';
 import {TingaLogo} from '../../assets/svg';
 import {
   ButtonComponent,
@@ -20,13 +21,11 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
-import CategoriesList from './components/CategoriesList';
-import VideoPlayer from './components/VideoPlayer';
-import {TouchableOpacity} from 'react-native';
+import {addAuth} from '../../redux/reducers/authReducer';
 import {global} from '../../styles/global';
+import CategoriesList from './components/CategoriesList';
 import Promotions from './components/Promotions';
-import {useDispatch, useSelector} from 'react-redux';
-import {addAuth, authSelector} from '../../redux/reducers/authReducer';
+import VideoPlayer from './components/VideoPlayer';
 
 const HomeScreen = () => {
   const [isLogin, setIsLogin] = useState(false);

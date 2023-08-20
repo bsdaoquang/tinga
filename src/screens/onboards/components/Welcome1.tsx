@@ -9,6 +9,7 @@ import {
 import {appColors} from '../../../constants/appColors';
 import {global} from '../../../styles/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {SubscriptionModal} from '../../../modals';
 
 const space = Math.floor(Math.random() * 30);
 
@@ -122,6 +123,12 @@ const Welcome1 = () => {
           bottom: 0,
           right: -54,
           zIndex: -1,
+        }}
+      />
+      <SubscriptionModal
+        isVisible={true}
+        onClose={function (): void {
+          throw new Error('Function not implemented.');
         }}
       />
     </>

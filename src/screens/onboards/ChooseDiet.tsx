@@ -50,10 +50,9 @@ const ChooseDiet = ({navigation}: any) => {
   };
 
   const renderValue = (val: string) => (
-    <View style={global.shadow}>
+    <View style={global.shadow} key={`item${val}`}>
       <TouchableOpacity
         onPress={() => handleSelect(val)}
-        key={`item${val}`}
         style={[
           global.tag,
 
@@ -73,14 +72,7 @@ const ChooseDiet = ({navigation}: any) => {
     </View>
   );
   return (
-    <Container
-      back
-      right={
-        <Button
-          text="Skip"
-          onPress={() => navigation.navigate('Subscription')}
-        />
-      }>
+    <Container back right={<Button text="Skip" onPress={() => {}} />}>
       <SectionComponent flex={1}>
         <TextComponent text="Lifestyle Choices" size={12} flex={0} />
         <TitleComponent

@@ -1,5 +1,5 @@
-import Subscription from "./Subscription";
+import SubscriptionModal from "./SubscriptionModal";
 
 export {
-  Subscription
+  SubscriptionModal
 }
