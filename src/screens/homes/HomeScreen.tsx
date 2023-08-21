@@ -1,11 +1,10 @@
 import {Gift} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {Alert, TouchableOpacity} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useDispatch} from 'react-redux';
 import {TingaLogo} from '../../assets/svg';
 import {
   ButtonComponent,
@@ -21,16 +20,23 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
-import {addAuth} from '../../redux/reducers/authReducer';
+import {
+  ModalOffer,
+  SubscriptionModal,
+  ModalRating,
+  ModalFeedback,
+} from '../../modals';
 import {global} from '../../styles/global';
 import CategoriesList from './components/CategoriesList';
 import Promotions from './components/Promotions';
 import VideoPlayer from './components/VideoPlayer';
-import {ModalOffer} from '../../modals';
 
 const HomeScreen = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
+  const [isVisibleModalSubcriber, setIsVisibleModalSubcriber] = useState(false);
+  const [isVisibleModalRating, setIsVisibleModalRating] = useState(false);
+  const [isVisibleModalFeedback, setIsVisibleModalFeedback] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -59,7 +65,7 @@ const HomeScreen = () => {
             />
             <ButtonIcon
               icon={<Gift color={appColors.error} size={18} variant="Bold" />}
-              onPress={() => {}}
+              onPress={() => setIsVisibleModalRating(true)}
             />
           </RowComponent>
         </SectionComponent>
@@ -80,6 +86,7 @@ const HomeScreen = () => {
             <RowComponent justify="space-between">
               <ButtonComponent
                 flex={1}
+                textColor={appColors.white}
                 icon={
                   <CustomIcon
                     icon={
@@ -165,7 +172,30 @@ const HomeScreen = () => {
 
       <ModalOffer
         isVisible={isvisibleModalOffer}
-        onClose={() => setIsvisibleModalOffer(false)}
+        onClose={() => {
+          setIsvisibleModalOffer(false);
+          setIsVisibleModalSubcriber(true);
+        }}
+      />
+
+      <SubscriptionModal
+        isVisible={isVisibleModalSubcriber}
+        onClose={() => setIsVisibleModalSubcriber(false)}
+      />
+
+      <ModalRating
+        onRating={() => Alert.alert('Rating', 'Will be show rating library!')}
+        onFeedback={() => {
+          setIsVisibleModalRating(false);
+          setIsVisibleModalFeedback(true);
+        }}
+        isVisible={isVisibleModalRating}
+        onClose={() => setIsVisibleModalRating(false)}
+      />
+
+      <ModalFeedback
+        isVisible={isVisibleModalFeedback}
+        onClose={() => setIsVisibleModalFeedback(false)}
       />
     </>
   );

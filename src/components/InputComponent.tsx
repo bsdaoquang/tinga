@@ -20,7 +20,6 @@ interface Props {
   label?: string;
   placeholder?: string;
   value?: string;
-  max?: number;
   onChange: (val: string) => void;
   flex?: number;
   clear?: boolean;
@@ -40,6 +39,8 @@ interface Props {
   styles?: StyleProp<ViewStyle>;
   disable?: boolean;
   inputStyles?: StyleProp<TextStyle>;
+  isMultible?: boolean;
+  rows?: number;
   autoComplete?:
     | 'birthdate-day'
     | 'birthdate-full'
@@ -83,19 +84,16 @@ interface Props {
 
 export const InputComponent = (props: Props) => {
   const [isFocus, setIsFocus] = useState(false);
-  const [email, setEmail] = useState('');
 
   const {
     label,
     placeholder,
     value,
-    max,
     onChange,
     flex,
     clear,
     show,
     type,
-    required,
     isSecure,
     onEnd,
     helpText,
@@ -110,6 +108,8 @@ export const InputComponent = (props: Props) => {
     autoComplete,
     disable,
     inputStyles,
+    isMultible,
+    rows,
   } = props;
 
   return (
@@ -151,6 +151,10 @@ export const InputComponent = (props: Props) => {
               marginLeft: prefix ? 10 : 0,
               fontSize: appSize.textSize,
             },
+            {
+              textAlignVertical: 'top',
+              height: '100%',
+            },
             inputStyles,
           ]}
           autoCapitalize={isCapitalize}
@@ -158,6 +162,8 @@ export const InputComponent = (props: Props) => {
           autoFocus={autoFocus}
           autoComplete={autoComplete ?? 'off'}
           editable={disable ? false : true}
+          multiline={isMultible}
+          numberOfLines={rows && isMultible ? rows : 1}
         />
 
         {affix && affix}
@@ -177,7 +183,7 @@ export const InputComponent = (props: Props) => {
             onPress={() => {
               onChange('');
             }}>
-            <AntDesign name="close" size={18} color={appColors.text} />
+            <AntDesign name="close" size={18} color={appColors.gray} />
           </TouchableOpacity>
         ) : null}
       </View>

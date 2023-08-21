@@ -13,6 +13,11 @@ export const global = StyleSheet.create({
     paddingTop: 16,
   },
 
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   inner: {
     paddingHorizontal: 16,
     padding: 15,

@@ -55,10 +55,10 @@ export const ButtonComponent = (props: Props) => {
         {
           width: width,
           flex: flex,
-          borderWidth: outline ? 1 : 0,
-          borderColor: color ? color : appColors.gray,
+          borderWidth: outline ? 2 : 0,
+          borderColor: color ? color : appColors.success1,
           borderRadius: 12,
-          paddingVertical: 14,
+          paddingVertical: outline ? 10 : 14,
           paddingHorizontal: 16,
           backgroundColor: outline
             ? appColors.white
