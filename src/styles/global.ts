@@ -84,8 +84,8 @@ export const global = StyleSheet.create({
   },
 
   modalContent: {
-    padding: 16,
-    borderRadius: 12,
+    padding: 27,
+    borderRadius: 10,
     width: Dimensions.get('window').width - 32,
     backgroundColor: appColors.white,
   },
@@ -151,5 +151,11 @@ export const global = StyleSheet.create({
     alignItems: 'center',
     marginRight: 12,
     marginBottom: 12
+  },
+  modalContainer: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });

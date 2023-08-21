@@ -1,5 +1,5 @@
 import {Gift} from 'iconsax-react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -26,17 +26,17 @@ import {global} from '../../styles/global';
 import CategoriesList from './components/CategoriesList';
 import Promotions from './components/Promotions';
 import VideoPlayer from './components/VideoPlayer';
+import {ModalOffer} from '../../modals';
 
 const HomeScreen = () => {
   const [isLogin, setIsLogin] = useState(false);
+  const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
 
-  const dispatch = useDispatch();
-
-  dispatch(
-    addAuth({
-      uid: 'admin',
-    }),
-  );
+  useEffect(() => {
+    setTimeout(() => {
+      setIsvisibleModalOffer(true);
+    }, 1500);
+  }, []);
 
   return (
     <>
@@ -162,6 +162,11 @@ const HomeScreen = () => {
           />
         </SectionComponent>
       </Container>
+
+      <ModalOffer
+        isVisible={isvisibleModalOffer}
+        onClose={() => setIsvisibleModalOffer(false)}
+      />
     </>
   );
 };

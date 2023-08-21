@@ -172,6 +172,8 @@ const SubscriptionModal = (props: Props) => {
               width: '100%',
               padding: 12,
               marginBottom: 0,
+              borderWidth: 2,
+              borderColor: '#EEF3DC',
             }}
             color={appColors.white}>
             <RowComponent>

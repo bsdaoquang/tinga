@@ -58,7 +58,7 @@ export const ButtonComponent = (props: Props) => {
           borderWidth: outline ? 1 : 0,
           borderColor: color ? color : appColors.gray,
           borderRadius: 12,
-          paddingVertical: 18,
+          paddingVertical: 14,
           paddingHorizontal: 16,
           backgroundColor: outline
             ? appColors.white
@@ -66,7 +66,7 @@ export const ButtonComponent = (props: Props) => {
             ? appColors.gray
             : color
             ? color
-            : appColors.primary,
+            : appColors.success1,
           alignItems: 'center',
           justifyContent: 'center',
         },
@@ -87,7 +87,7 @@ export const ButtonComponent = (props: Props) => {
               ? appColors.text
               : textColor
               ? textColor
-              : appColors.white,
+              : appColors.text,
           },
           fontStyles,
         ]}
