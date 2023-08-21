@@ -1,56 +1,21 @@
-import {View, Text} from 'react-native';
 import React from 'react';
-import {Container} from '../../components';
-import {global} from '../../styles/global';
+import {Container, TextComponent} from '../../components';
+import PieChart from 'react-native-pie-chart';
 
 const ProfileScreen = () => {
-  return (
-    <Container>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <View
-          style={{
-            ...global.shadow,
-            margin: 10,
-            backgroundColor: 'white',
-          }}>
-          <View
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 8,
+  const widthAndHeight = 250;
+  const series = [15, 15, 70];
+  const sliceColor = ['#F15D59', '#FFD432', '#AAC54E'];
 
-              backgroundColor: 'coral',
-            }}
-          />
-        </View>
-        <View
-          style={{
-            backgroundColor: 'white',
-            borderRadius: 12,
-            shadowColor: 'rgba(0,0,0,0.5)',
-            shadowOffset: {
-              width: 0,
-              height: 5,
-            },
-            shadowOpacity: 0.15,
-            shadowRadius: 6.27,
-            elevation: 6,
-          }}>
-          <View
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 8,
-            }}
-          />
-        </View>
-      </View>
+  return (
+    <Container barStyle="dark-content">
+      <TextComponent text="Profile" flex={0} />
+      <PieChart
+        widthAndHeight={100}
+        series={series}
+        sliceColor={sliceColor}
+        coverRadius={0.85}
+      />
     </Container>
   );
 };
