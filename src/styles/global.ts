@@ -27,7 +27,7 @@ export const global = StyleSheet.create({
     padding: 16,
     backgroundColor: '#BFBFBF36',
     borderRadius: 10,
-
+    
   },
 
   row: {

@@ -71,11 +71,12 @@ const CategoriesList = ({title}: Props) => {
       color={appColors.white}
       styles={{
         marginLeft: 16,
-        marginTop: 12,
+        marginVertical: 12,
         width: 186,
         height: 114,
         justifyContent: 'center',
         alignItems: 'center',
+        shadowColor: 'rgba(0,0,0,0.5)',
       }}>
       <TitleComponent
         text={item.title}

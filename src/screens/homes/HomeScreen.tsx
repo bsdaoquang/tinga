@@ -78,7 +78,7 @@ const HomeScreen = () => {
             marginTop: 12,
             paddingBottom: 12,
           }}>
-          <CardContent isShadow={false}>
+          <CardContent isShadow={false} styles={{marginVertical: 16}}>
             <TitleComponent
               text={`Start your Gluten-free shopping experience`}
               size={20}
