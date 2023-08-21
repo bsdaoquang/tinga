@@ -2,6 +2,7 @@ import {View, Text, ScrollView, FlatList, Animated} from 'react-native';
 import React, {useState} from 'react';
 import {
   CardContent,
+  SectionComponent,
   TabbarComponent,
   TitleComponent,
 } from '../../../components';
@@ -66,9 +67,11 @@ const CategoriesList = ({title}: Props) => {
 
   const renderCardItem = (item: {id: string; title: string}) => (
     <CardContent
+      isShadow
       color={appColors.white}
       styles={{
-        margin: 12,
+        marginLeft: 16,
+        marginTop: 12,
         width: 186,
         height: 114,
         justifyContent: 'center',
@@ -88,12 +91,15 @@ const CategoriesList = ({title}: Props) => {
 
   return (
     <View style={{marginBottom: 24}}>
-      <TabbarComponent
-        styles={{marginBottom: 0}}
-        title={title}
-        seemore
-        onPress={() => {}}
-      />
+      <View style={{paddingHorizontal: 16}}>
+        <TabbarComponent
+          styles={{marginBottom: 0}}
+          title={title}
+          seemore
+          onPress={() => {}}
+        />
+      </View>
+
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={categories}

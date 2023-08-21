@@ -11,32 +11,22 @@ interface Props {
   isShadow?: boolean;
 }
 
-const CardContent = ({children, onPress, styles, color}: Props) => {
+const CardContent = ({children, onPress, styles, color, isShadow}: Props) => {
+  const style = [
+    !isShadow ? null : global.shadow,
+    global.card,
+    styles,
+    {
+      backgroundColor: color ?? appColors.gray1,
+    },
+  ];
+
   return onPress ? (
-    <TouchableOpacity
-      onPress={onPress}
-      style={[
-        global.shadow,
-        global.card,
-        styles,
-        {
-          backgroundColor: color ?? appColors.gray1,
-        },
-      ]}>
+    <TouchableOpacity onPress={onPress} style={style}>
       {children}
     </TouchableOpacity>
   ) : (
-    <View
-      style={[
-        global.shadow,
-        global.card,
-        styles,
-        {
-          backgroundColor: color ?? appColors.gray1,
-        },
-      ]}>
-      {children}
-    </View>
+    <View style={style}>{children}</View>
   );
 };
 

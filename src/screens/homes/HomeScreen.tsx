@@ -1,6 +1,6 @@
 import {Gift} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {Alert, TouchableOpacity} from 'react-native';
+import {Alert, TouchableOpacity, View} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -40,7 +40,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      setIsvisibleModalOffer(true);
+      // setIsvisibleModalOffer(true);
     }, 1500);
   }, []);
 
@@ -78,7 +78,7 @@ const HomeScreen = () => {
             marginTop: 12,
             paddingBottom: 12,
           }}>
-          <CardContent>
+          <CardContent isShadow={false}>
             <TitleComponent
               text={`Start your Gluten-free shopping experience`}
               size={20}
@@ -133,7 +133,10 @@ const HomeScreen = () => {
             <SpaceComponent width={10} />
             <CardContent
               onPress={() => {}}
-              styles={{flex: 1, paddingHorizontal: 10}}>
+              styles={{
+                flex: 1,
+                paddingHorizontal: 10,
+              }}>
               <RowComponent>
                 <FontAwesome6
                   name="users"
@@ -149,10 +152,18 @@ const HomeScreen = () => {
           <SpaceComponent height={16} />
           <TabbarComponent title="How it works" seemore onPress={() => {}} />
           <VideoPlayer />
-
+        </SectionComponent>
+        <SectionComponent
+          styles={{
+            paddingHorizontal: 0,
+            backgroundColor: appColors.white,
+          }}>
           <CategoriesList title="Tips for you" />
           <CategoriesList title="Healthier Planning" />
+        </SectionComponent>
 
+        <SectionComponent
+          styles={{backgroundColor: appColors.white, paddingBottom: 20}}>
           <Promotions />
           <SpaceComponent height={24} />
 

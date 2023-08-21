@@ -50,14 +50,13 @@ export const global = StyleSheet.create({
 
   shadow: {
     shadowColor: 'rgba(0,0,0,0.5)',
-    borderBlockColor: appColors.white,
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 6,
     },
-    shadowOpacity: Platform.OS === 'android' ? 0.25 : 0.08,
-    shadowRadius: 12.16,
-    elevation: 6,
+    shadowOpacity: 0.25,
+    shadowRadius: 8.30,
+    elevation: 8,
   },
 
   buttonIcon: {
