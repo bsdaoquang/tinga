@@ -53,13 +53,6 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>GreycliffCF-Bold.ttf</string>
-		<string>GreycliffCF-DemiBold.ttf</string>
-		<string>GreycliffCF-ExtraBold.ttf</string>
-		<string>GreycliffCF-Heavy.ttf</string>
-		<string>GreycliffCF-Light.ttf</string>
-		<string>GreycliffCF-Medium.ttf</string>
-		<string>GreycliffCF-Regular.ttf</string>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
@@ -79,6 +72,13 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>GreycliffCF-Bold.ttf</string>
+		<string>GreycliffCF-DemiBold.ttf</string>
+		<string>GreycliffCF-ExtraBold.ttf</string>
+		<string>GreycliffCF-Heavy.ttf</string>
+		<string>GreycliffCF-Light.ttf</string>
+		<string>GreycliffCF-Medium.ttf</string>
+		<string>GreycliffCF-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

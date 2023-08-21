@@ -43,9 +43,9 @@ const HomeScreen = () => {
       <Container
         isScroll
         backgroundColor={appColors.primary}
-        top={44}
+        top={32}
         barStyle="light-content">
-        <SectionComponent>
+        <SectionComponent styles={{paddingTop: 26}}>
           <RowComponent>
             <TingaLogo width={28} height={28} />
 

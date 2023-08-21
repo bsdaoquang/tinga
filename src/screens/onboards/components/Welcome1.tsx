@@ -125,12 +125,6 @@ const Welcome1 = () => {
           zIndex: -1,
         }}
       />
-      <SubscriptionModal
-        isVisible={true}
-        onClose={function (): void {
-          throw new Error('Function not implemented.');
-        }}
-      />
     </>
   );
 };
