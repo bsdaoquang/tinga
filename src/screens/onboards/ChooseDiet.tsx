@@ -14,6 +14,7 @@ import {
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
 import {global} from '../../styles/global';
+import RenderChooseValue from './components/RenderChooseValue';
 
 const ChooseDiet = ({navigation}: any) => {
   const [selected, setSelected] = useState<string[]>([]);
@@ -49,30 +50,11 @@ const ChooseDiet = ({navigation}: any) => {
     setSelected(items);
   };
 
-  const renderValue = (val: string) => (
-    <View style={global.shadow} key={`item${val}`}>
-      <TouchableOpacity
-        onPress={() => handleSelect(val)}
-        style={[
-          global.tag,
-
-          {
-            shadowColor: 'rgba(0, 0, 0, 0.04)',
-            borderWidth: selected.includes(val) ? 2 : 0,
-            borderColor: appColors.success1,
-          },
-        ]}>
-        <TextComponent
-          text={val}
-          flex={0}
-          color={appColors.text2}
-          font={selected.includes(val) ? fontFamilys.bold : fontFamilys.medium}
-        />
-      </TouchableOpacity>
-    </View>
-  );
   return (
-    <Container back right={<Button text="Skip" onPress={() => {}} />}>
+    <Container
+      back
+      right={<Button text="Skip" onPress={() => {}} />}
+      barStyle="dark-content">
       <SectionComponent flex={1}>
         <TextComponent text="Lifestyle Choices" size={12} flex={0} />
         <TitleComponent
@@ -82,7 +64,13 @@ const ChooseDiet = ({navigation}: any) => {
         />
         <SpaceComponent height={20} />
         <RowComponent justify="flex-start">
-          {values.map(val => renderValue(val))}
+          {values.map(val => (
+            <RenderChooseValue
+              value={val}
+              onPress={() => handleSelect(val)}
+              selected={selected}
+            />
+          ))}
         </RowComponent>
       </SectionComponent>
       <SectionComponent styles={{marginVertical: 20}}>

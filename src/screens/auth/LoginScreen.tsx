@@ -39,7 +39,6 @@ const LoginScreen = ({navigation}: any) => {
             flex: 1,
             justifyContent: 'flex-end',
             alignItems: 'center',
-            paddingVertical: 20,
             width: '100%',
           }}>
           <TitleComponent text="Welcome to Tinga" size={32} flex={0} />
@@ -48,16 +47,17 @@ const LoginScreen = ({navigation}: any) => {
             styles={{textAlign: 'center'}}
             text="Create an account to change the way you shop with Tinga – your personalised nutrition assistant"
           />
-
+        </SectionComponent>
+        <SectionComponent styles={{marginBottom: 20}}>
           <ButtonComponent
             text="Continue to Sign Up"
             onPress={() => navigation.navigate('SignUpScreen')}
-            color={appColors.white}
+            outline
             styles={{
+              paddingVertical: 16,
+              borderColor: '#EEF3DC',
               marginVertical: 16,
-              width: '90%',
-              borderWidth: 1,
-              borderColor: 'rgba(238, 243, 220, 1)',
+              borderRadius: 14,
             }}
             textColor={appColors.text}
           />

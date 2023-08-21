@@ -23,7 +23,7 @@ const VerifyEmail = ({navigation, route}: any) => {
   const [disable, setDisable] = useState(false);
 
   return (
-    <Container back isScroll>
+    <Container back isScroll barStyle="dark-content">
       <SectionComponent>
         <TitleComponent text="Verify your email" size={26} />
         <TextComponent

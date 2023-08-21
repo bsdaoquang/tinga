@@ -41,7 +41,7 @@ const SignUpScreen = ({navigation}: any) => {
   } = useAuth(navigation);
 
   return (
-    <Container back isScroll>
+    <Container back isScroll barStyle="dark-content">
       <SectionComponent>
         <TitleComponent text="Welcome to Tinga" size={26} />
         <TextComponent
