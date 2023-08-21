@@ -10,7 +10,7 @@ export const global = StyleSheet.create({
 
   sections: {
     paddingHorizontal: 16,
-    paddingTop: 16,
+    paddingBottom: 16,
   },
 
   center: {
@@ -27,7 +27,7 @@ export const global = StyleSheet.create({
     padding: 16,
     backgroundColor: '#BFBFBF36',
     borderRadius: 10,
-    marginBottom: 12
+
   },
 
   row: {
@@ -49,7 +49,7 @@ export const global = StyleSheet.create({
 
 
   shadow: {
-    shadowColor: 'rgba(0,0,0,0.5)',
+    shadowColor: 'rgba(0,0,0, 0.15)',
     shadowOffset: {
       width: 0,
       height: 6,

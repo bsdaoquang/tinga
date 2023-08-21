@@ -62,7 +62,13 @@ const TabNavigator = () => {
           } else if (route.name === 'Grocery') {
             icon = <ShoppingCart size={size} color={color} />;
           } else {
-            icon = <User size={size} color={color} />;
+            icon = (
+              <User
+                size={size}
+                color={color}
+                variant={focused ? 'Bold' : 'Outline'}
+              />
+            );
           }
           return icon;
         },

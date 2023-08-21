@@ -2,9 +2,11 @@ import Button from "./Button";
 import { ButtonComponent } from "./ButtonComponent";
 import ButtonIcon from "./ButtonIcon";
 import CardContent from "./CardContent";
+import ChartPieItem from "./ChartPieItem";
 import Container from "./Container";
 import CustomIcon from "./CustomIcon";
 import { InputComponent } from "./InputComponent";
+import ListItemComponent from "./ListItemComponent";
 import { LoadingComponent } from "./LoadingComponent";
 import RowComponent from "./RowComponent";
 import { SectionComponent } from "./SectionComponent";
@@ -27,5 +29,7 @@ export {
   ButtonComponent,
   CustomIcon,
   TabbarComponent,
-  Button
+  Button,
+  ChartPieItem,
+  ListItemComponent
 };
