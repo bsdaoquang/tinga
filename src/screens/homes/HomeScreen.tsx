@@ -40,8 +40,8 @@ const HomeScreen = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      // setIsvisibleModalOffer(true);
-    }, 1500);
+      setIsvisibleModalOffer(true);
+    }, 3000);
   }, []);
 
   return (
