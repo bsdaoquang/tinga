@@ -6,13 +6,14 @@ import {
   User,
 } from 'iconsax-react-native';
 import React from 'react';
-import {Text} from 'react-native';
+import {Platform, Text} from 'react-native';
 import {appColors} from '../constants/appColors';
 import {fontFamilys} from '../constants/fontFamily';
 import ExploreNavigator from './ExploreNavigator';
 import GroceryNavigator from './GroceryNavigator';
 import HomeNavigator from './HomeNavigator';
 import ProfileNavigator from './ProfileNavigator';
+import {TextComponent} from '../components';
 
 const TabNavigator = () => {
   const Tabs = createBottomTabNavigator();
@@ -21,22 +22,27 @@ const TabNavigator = () => {
     <Tabs.Navigator
       screenOptions={({route}) => ({
         headerShown: false,
-        tabBarStyle: {
-          paddingTop: 6,
-          borderTopLeftRadius: 12,
-          borderTopRightRadius: 12,
-        },
+        tabBarStyle:
+          Platform.OS === 'android'
+            ? {
+                paddingTop: 6,
+                borderTopLeftRadius: 12,
+                borderTopRightRadius: 12,
+                height: 67,
+              }
+            : {
+                paddingTop: 6,
+                borderTopLeftRadius: 12,
+                borderTopRightRadius: 12,
+              },
 
         tabBarLabel({focused}) {
           return (
-            <Text
-              style={{
-                fontSize: 12,
-                fontFamily: fontFamilys.medium,
-                color: focused ? appColors.primary : appColors.gray,
-              }}>
-              {route.name}
-            </Text>
+            <TextComponent
+              text={route.name}
+              size={12}
+              color={focused ? appColors.primary : appColors.gray}
+            />
           );
         },
         tabBarIcon: ({focused, size, color}) => {
