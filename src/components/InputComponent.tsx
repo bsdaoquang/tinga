@@ -152,7 +152,7 @@ export const InputComponent = (props: Props) => {
               fontSize: appSize.textSize,
             },
             {
-              textAlignVertical: 'top',
+              textAlignVertical: isMultible ? 'top' : 'center',
               height: '100%',
             },
             inputStyles,
