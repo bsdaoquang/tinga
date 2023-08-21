@@ -44,12 +44,12 @@ export const global = StyleSheet.create({
 
 
   shadow: {
-    shadowColor: 'rgba(0,0,0)',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: Platform.OS === 'android' ? 0.15 : 0.08,
+    shadowOpacity: Platform.OS === 'android' ? 0.25 : 0.08,
     shadowRadius: 12.16,
     elevation: 6,
     marginBottom: 6,
@@ -142,7 +142,7 @@ export const global = StyleSheet.create({
     marginTop: 2,
   },
 
-  tag:{
+  tag: {
     backgroundColor: appColors.white,
     borderRadius: 8,
     paddingHorizontal: 16,

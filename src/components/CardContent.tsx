@@ -12,7 +12,7 @@ interface Props {
 
 const CardContent = ({children, onPress, styles, color}: Props) => {
   return (
-    <View style={{...global.shadow, flex: 1}}>
+    <View style={{...global.shadow, flex: 1, elevation: 12}}>
       {onPress ? (
         <TouchableOpacity
           onPress={onPress}

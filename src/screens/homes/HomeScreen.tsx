@@ -1,6 +1,6 @@
 import {Gift} from 'iconsax-react-native';
 import React, {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -142,6 +142,7 @@ const HomeScreen = () => {
           <SpaceComponent height={16} />
           <TabbarComponent title="How it works" seemore onPress={() => {}} />
           <VideoPlayer />
+
           <CategoriesList title="Tips for you" />
           <CategoriesList title="Healthier Planning" />
 
