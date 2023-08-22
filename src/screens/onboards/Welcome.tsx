@@ -22,54 +22,56 @@ const Welcome = ({navigation}: any) => {
       top={48}
       backgroundColor={appColors.text}
       barStyle="light-content">
-      <RowComponent justify="flex-end" styles={{paddingHorizontal: 16}}>
-        <Button
-          text="Skip"
-          onPress={() => navigation.navigate('LoginScreen')}
-          textColor={appColors.white6}
-          textSize={16}
-        />
-      </RowComponent>
-      <View style={{flex: 1}}>
-        <Swiper
-          index={indexScreen}
-          loop={false}
-          activeDotColor="white"
-          activeDotStyle={{
-            width: 32,
-            marginBottom: -32,
-          }}
-          // scrollEnabled={false}
-          dotStyle={{marginBottom: -32}}
-          dotColor={appColors.white4}>
-          <Welcome1 />
-          <Welcome2 />
-          <Welcome3 />
-          <Welcome4 />
-        </Swiper>
+      <View style={{paddingVertical: 20, flex: 1}}>
+        <RowComponent justify="flex-end" styles={{paddingHorizontal: 16}}>
+          <Button
+            text="Skip"
+            onPress={() => navigation.navigate('LoginScreen')}
+            textColor={appColors.white6}
+            textSize={16}
+          />
+        </RowComponent>
+        <View style={{flex: 1}}>
+          <Swiper
+            index={indexScreen}
+            loop={false}
+            activeDotColor="white"
+            activeDotStyle={{
+              width: 32,
+              marginBottom: -32,
+            }}
+            // scrollEnabled={false}
+            dotStyle={{marginBottom: -32}}
+            dotColor={appColors.white4}>
+            <Welcome1 />
+            <Welcome2 />
+            <Welcome3 />
+            <Welcome4 />
+          </Swiper>
+        </View>
+        <SectionComponent styles={{marginVertical: 20}}>
+          <ButtonComponent
+            text={indexScreen >= 3 ? 'Let’s get started' : 'Next'}
+            onPress={() =>
+              indexScreen === 3
+                ? navigation.navigate('LoginScreen')
+                : setIndexScreen(indexScreen + 1)
+            }
+            fontStyles={{fontSize: 16, textAlign: 'center'}}
+            color={appColors.success1}
+            textColor={appColors.text}
+            height={56}
+            icon={
+              <Ionicons
+                name="arrow-forward-outline"
+                color={appColors.text}
+                size={20}
+              />
+            }
+            iconRight
+          />
+        </SectionComponent>
       </View>
-      <SectionComponent styles={{marginBottom: 30}}>
-        <ButtonComponent
-          text={indexScreen >= 3 ? 'Let’s get started' : 'Next'}
-          onPress={() =>
-            indexScreen === 3
-              ? navigation.navigate('LoginScreen')
-              : setIndexScreen(indexScreen + 1)
-          }
-          fontStyles={{fontSize: 16, textAlign: 'center'}}
-          color={appColors.success1}
-          textColor={appColors.text}
-          height={56}
-          icon={
-            <Ionicons
-              name="arrow-forward-outline"
-              color={appColors.text}
-              size={20}
-            />
-          }
-          iconRight
-        />
-      </SectionComponent>
     </Container>
   );
 };

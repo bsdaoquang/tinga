@@ -6,14 +6,13 @@ import {
   User,
 } from 'iconsax-react-native';
 import React from 'react';
-import {Platform, Text} from 'react-native';
+import {Platform} from 'react-native';
+import {TextComponent} from '../components';
 import {appColors} from '../constants/appColors';
-import {fontFamilys} from '../constants/fontFamily';
 import ExploreNavigator from './ExploreNavigator';
 import GroceryNavigator from './GroceryNavigator';
 import HomeNavigator from './HomeNavigator';
 import ProfileNavigator from './ProfileNavigator';
-import {TextComponent} from '../components';
 
 const TabNavigator = () => {
   const Tabs = createBottomTabNavigator();

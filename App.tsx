@@ -7,13 +7,13 @@ import {Host} from 'react-native-portalize';
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <GestureHandlerRootView style={{flex: 1}}>
-        <Host>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <Host>
+        <Provider store={store}>
           <Router />
-        </Host>
-      </GestureHandlerRootView>
-    </Provider>
+        </Provider>
+      </Host>
+    </GestureHandlerRootView>
   );
 };
 
