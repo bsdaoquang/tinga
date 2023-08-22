@@ -50,7 +50,7 @@ const CategoriesList = ({title}: Props) => {
   const renderDotsView = (array: any[], position: any) => (
     <View style={{flexDirection: 'row'}}>
       {array.map((_item, i: any) => (
-        <Animated.View
+        <View
           key={i}
           style={{
             height: 6,
@@ -76,7 +76,7 @@ const CategoriesList = ({title}: Props) => {
         height: 114,
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: 'rgba(0,0,0,0.5)',
+        marginBottom: 16,
       }}>
       <TitleComponent
         text={item.title}

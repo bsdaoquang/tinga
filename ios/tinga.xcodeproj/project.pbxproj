@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* tingaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* tingaTests.m */; };
+		01E65667BA9242A9A34B0FCA /* GreycliffCF-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C04E7B95A8042EE97174A06 /* GreycliffCF-ExtraBold.ttf */; };
 		028AD80A0B6C4E2A99FE1767 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 588D3452C75848B898064C5A /* AntDesign.ttf */; };
 		0C80B921A6F3F58F76C31292 /* libPods-tinga.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-tinga.a */; };
+		0E8F69C5343647559126145F /* GreycliffCF-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF7D39C47B4846FB86EA0A30 /* GreycliffCF-Light.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -24,22 +26,20 @@
 		7699B88040F8A987B510C191 /* libPods-tinga-tingaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-tinga-tingaTests.a */; };
 		7C2022DA08ED4610AAB0C465 /* FontAwesome6_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F79E68E62A3741308BEDA8B9 /* FontAwesome6_Solid.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		824CC2022E854D7B8FECADD3 /* GreycliffCF-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB6445E88B3742249D92C600 /* GreycliffCF-Heavy.ttf */; };
 		8302AD58F58A4147A9251E3B /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 011BD3E07CE643F38AC6A06E /* Octicons.ttf */; };
+		944D3113439549B090547F49 /* GreycliffCF-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAC72CB1EBC74C7AA90F24B2 /* GreycliffCF-Medium.ttf */; };
+		990C6371A5AE4EF79A107A80 /* GreycliffCF-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 67CACC968ECC4699A51E9B7C /* GreycliffCF-Bold.ttf */; };
+		A57E65E23B33440A815EEDEA /* GreycliffCF-DemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEEBAE0B938A420C93D2908F /* GreycliffCF-DemiBold.ttf */; };
 		B2D6E9908C5B4CEB813CDBA9 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC1828CDBFF347E29B77A7B0 /* MaterialCommunityIcons.ttf */; };
 		C290371690C94603A8B7AD63 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8670FA91EBC498B96FC868A /* FontAwesome.ttf */; };
 		C7E3B837B5404408B16C4F3F /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E7BBDDFB04546579461B351 /* Feather.ttf */; };
 		CBD003466DC24713B7127029 /* FontAwesome6_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE023EA6543F41BFB1835098 /* FontAwesome6_Regular.ttf */; };
 		CBE5A5FB30114B57BDF228D1 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 055D9BF05E8D4573A0593750 /* FontAwesome5_Regular.ttf */; };
 		E4E117D1D1104DBA9695593D /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 639F72C27EED4F5C8D08ACFD /* SimpleLineIcons.ttf */; };
+		EAB6545FE97B4D66BCE7C28D /* GreycliffCF-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 70A588FD155E496287210442 /* GreycliffCF-Regular.ttf */; };
 		F559A95864054C4D80133821 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A819E4723E04D0B8558A1D7 /* Foundation.ttf */; };
 		FB7286F4CDD54F8B98765066 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C20BD8A75F0B4A80B54D8E43 /* MaterialIcons.ttf */; };
-		990C6371A5AE4EF79A107A80 /* GreycliffCF-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 67CACC968ECC4699A51E9B7C /* GreycliffCF-Bold.ttf */; };
-		A57E65E23B33440A815EEDEA /* GreycliffCF-DemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEEBAE0B938A420C93D2908F /* GreycliffCF-DemiBold.ttf */; };
-		01E65667BA9242A9A34B0FCA /* GreycliffCF-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C04E7B95A8042EE97174A06 /* GreycliffCF-ExtraBold.ttf */; };
-		824CC2022E854D7B8FECADD3 /* GreycliffCF-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB6445E88B3742249D92C600 /* GreycliffCF-Heavy.ttf */; };
-		0E8F69C5343647559126145F /* GreycliffCF-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF7D39C47B4846FB86EA0A30 /* GreycliffCF-Light.ttf */; };
-		944D3113439549B090547F49 /* GreycliffCF-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAC72CB1EBC74C7AA90F24B2 /* GreycliffCF-Medium.ttf */; };
-		EAB6545FE97B4D66BCE7C28D /* GreycliffCF-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 70A588FD155E496287210442 /* GreycliffCF-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,26 +76,26 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-tinga.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tinga.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		639F72C27EED4F5C8D08ACFD /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = ../assets/fonts/SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		66E3D5E299B740CEB62ABA85 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = ../assets/fonts/Entypo.ttf; sourceTree = "<group>"; };
+		67CACC968ECC4699A51E9B7C /* GreycliffCF-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GreycliffCF-Bold.ttf"; path = "../assets/fonts/GreycliffCF-Bold.ttf"; sourceTree = "<group>"; };
 		702299B785E44D52BAAB8F69 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = ../assets/fonts/FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
+		70A588FD155E496287210442 /* GreycliffCF-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GreycliffCF-Regular.ttf"; path = "../assets/fonts/GreycliffCF-Regular.ttf"; sourceTree = "<group>"; };
+		7C04E7B95A8042EE97174A06 /* GreycliffCF-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GreycliffCF-ExtraBold.ttf"; path = "../assets/fonts/GreycliffCF-ExtraBold.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = tinga/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-tinga-tingaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinga-tingaTests.release.xcconfig"; path = "Target Support Files/Pods-tinga-tingaTests/Pods-tinga-tingaTests.release.xcconfig"; sourceTree = "<group>"; };
 		8A819E4723E04D0B8558A1D7 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = ../assets/fonts/Foundation.ttf; sourceTree = "<group>"; };
 		A6366095ACDD49B097AEAD52 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = ../assets/fonts/Ionicons.ttf; sourceTree = "<group>"; };
 		A7D2C85F61574167A4E42ED4 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = ../assets/fonts/Fontisto.ttf; sourceTree = "<group>"; };
+		AEEBAE0B938A420C93D2908F /* GreycliffCF-DemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GreycliffCF-DemiBold.ttf"; path = "../assets/fonts/GreycliffCF-DemiBold.ttf"; sourceTree = "<group>"; };
 		B8670FA91EBC498B96FC868A /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = ../assets/fonts/FontAwesome.ttf; sourceTree = "<group>"; };
 		BE023EA6543F41BFB1835098 /* FontAwesome6_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Regular.ttf; path = ../assets/fonts/FontAwesome6_Regular.ttf; sourceTree = "<group>"; };
 		C20BD8A75F0B4A80B54D8E43 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = ../assets/fonts/MaterialIcons.ttf; sourceTree = "<group>"; };
 		C8643ED47CAE4E7F97AD01FA /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = ../assets/fonts/EvilIcons.ttf; sourceTree = "<group>"; };
+		DAC72CB1EBC74C7AA90F24B2 /* GreycliffCF-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GreycliffCF-Medium.ttf"; path = "../assets/fonts/GreycliffCF-Medium.ttf"; sourceTree = "<group>"; };
 		DC1828CDBFF347E29B77A7B0 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = ../assets/fonts/MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
+		EB6445E88B3742249D92C600 /* GreycliffCF-Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GreycliffCF-Heavy.ttf"; path = "../assets/fonts/GreycliffCF-Heavy.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		EF7D39C47B4846FB86EA0A30 /* GreycliffCF-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GreycliffCF-Light.ttf"; path = "../assets/fonts/GreycliffCF-Light.ttf"; sourceTree = "<group>"; };
 		F79E68E62A3741308BEDA8B9 /* FontAwesome6_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Solid.ttf; path = ../assets/fonts/FontAwesome6_Solid.ttf; sourceTree = "<group>"; };
-		67CACC968ECC4699A51E9B7C /* GreycliffCF-Bold.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-Bold.ttf"; path = "../assets/fonts/GreycliffCF-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		AEEBAE0B938A420C93D2908F /* GreycliffCF-DemiBold.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-DemiBold.ttf"; path = "../assets/fonts/GreycliffCF-DemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		7C04E7B95A8042EE97174A06 /* GreycliffCF-ExtraBold.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-ExtraBold.ttf"; path = "../assets/fonts/GreycliffCF-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		EB6445E88B3742249D92C600 /* GreycliffCF-Heavy.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-Heavy.ttf"; path = "../assets/fonts/GreycliffCF-Heavy.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		EF7D39C47B4846FB86EA0A30 /* GreycliffCF-Light.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-Light.ttf"; path = "../assets/fonts/GreycliffCF-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		DAC72CB1EBC74C7AA90F24B2 /* GreycliffCF-Medium.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-Medium.ttf"; path = "../assets/fonts/GreycliffCF-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		70A588FD155E496287210442 /* GreycliffCF-Regular.ttf */ = {isa = PBXFileReference; name = "GreycliffCF-Regular.ttf"; path = "../assets/fonts/GreycliffCF-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

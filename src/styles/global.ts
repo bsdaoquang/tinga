@@ -49,14 +49,14 @@ export const global = StyleSheet.create({
 
 
   shadow: {
-    shadowColor: 'rgba(0,0,0, 0.15)',
+    shadowColor: 'rgba(0,0,0, 0.5)',
     shadowOffset: {
       width: 0,
-      height: 6,
+      height: 4,
     },
-    shadowOpacity: 0.25,
+    shadowOpacity: Platform.OS === 'android' ? 0.25 : 0.15,
     shadowRadius: 8.30,
-    elevation: 8,
+    elevation: 6,
   },
 
   buttonIcon: {
