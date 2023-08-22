@@ -239,6 +239,7 @@ const ProfileScreen = () => {
         <RowComponent justify="space-between">
           {demodatachart.map((item, index) => (
             <CardContent
+              key={`dataChart${index}`}
               isShadow
               color={appColors.white}
               styles={{width: (appSize.width - (32 + 12 * 2)) / 3}}>
@@ -287,7 +288,7 @@ const ProfileScreen = () => {
           color={appColors.white}>
           {contactsMenu.map((item, index) => (
             <ListItemComponent
-              key={item.id}
+              key={`contact${index}`}
               isHideBorder={index === contactsMenu.length - 1}
               item={item}
               onPress={

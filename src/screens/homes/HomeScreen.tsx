@@ -1,6 +1,6 @@
-import {Gift} from 'iconsax-react-native';
+import {Gift, Status} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {Alert, TouchableOpacity, View} from 'react-native';
+import {Alert, StatusBar, TouchableOpacity, View} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -47,10 +47,10 @@ const HomeScreen = () => {
   return (
     <>
       <Container
+        barStyle="light-content"
         isScroll
         backgroundColor={appColors.primary}
-        top={32}
-        barStyle="light-content">
+        top={32}>
         <SectionComponent styles={{paddingTop: 26}}>
           <RowComponent>
             <TingaLogo width={28} height={28} />
@@ -75,7 +75,7 @@ const HomeScreen = () => {
             backgroundColor: appColors.white,
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
-            marginTop: 12,
+            // marginTop: 12,
             paddingBottom: 12,
           }}>
           <CardContent isShadow={false} styles={{marginVertical: 16}}>

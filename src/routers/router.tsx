@@ -17,11 +17,13 @@ const Router = () => {
 
   const auth = useSelector(authSelector);
 
+  console.log(auth);
+
   return isWelcome ? (
     <SplashScreen />
   ) : (
     <NavigationContainer>
-      {!auth.uid ? <TabNavigator /> : <WelcomeNavigator />}
+      {auth.uid ? <TabNavigator /> : <WelcomeNavigator />}
     </NavigationContainer>
   );
 };

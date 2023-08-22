@@ -17,7 +17,6 @@ import Welcome4 from './components/Welcome4';
 
 const Welcome = ({navigation}: any) => {
   const [indexScreen, setIndexScreen] = useState(0);
-
   return (
     <Container
       top={48}
