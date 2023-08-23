@@ -240,7 +240,7 @@ const ProfileScreen = ({navigation}: any) => {
       <SectionComponent>
         <TabbarComponent
           title="Recent List Scores"
-          onPress={() => {}}
+          onPress={() => navigation.navigate('ListScores')}
           seemore
         />
         <RowComponent justify="space-between">

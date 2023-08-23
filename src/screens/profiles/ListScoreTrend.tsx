@@ -64,7 +64,10 @@ const ListScoreTrend = ({navigation}: any) => {
         />
       </View>
       <SectionComponent>
-        <ButtonComponent text="View All List Scores" onPress={() => {}} />
+        <ButtonComponent
+          text="View All List Scores"
+          onPress={() => navigation.navigate('ListScores')}
+        />
       </SectionComponent>
     </Container>
   );

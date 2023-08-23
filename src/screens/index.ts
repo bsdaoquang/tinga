@@ -10,6 +10,7 @@ import ChooseDiet from "./onboards/ChooseDiet";
 import ChooseStore from "./onboards/ChooseStore";
 import Welcome from "./onboards/Welcome";
 import ListScoreTrend from "./profiles/ListScoreTrend";
+import ListScores from "./profiles/ListScores";
 import ProfileScreen from "./profiles/ProfileScreen";
 
 export {
@@ -25,5 +26,6 @@ export {
   ChooseAllergy,
   ChooseDiet,
   ChooseStore,
-  ListScoreTrend
+  ListScoreTrend,
+  ListScores
 };

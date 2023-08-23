@@ -94,12 +94,12 @@ const Container = ({
   return (
     <View
       style={{
-        paddingTop: top ?? 0,
+        paddingTop: top ?? Platform.OS === 'android' ? 32 : 48,
         flex: 1,
         backgroundColor: backgroundColor ? backgroundColor : appColors.bgColor,
       }}>
       <StatusBar
-        barStyle={barStyle ? barStyle : 'light-content'}
+        barStyle={barStyle ? barStyle : 'dark-content'}
         translucent
         backgroundColor="transparent"
       />
@@ -107,9 +107,8 @@ const Container = ({
         <View
           style={{
             ...global.rowCenter,
-            paddingTop: Platform.OS === 'ios' ? 58 : 42,
-            padding: 16,
-            paddingVertical: 10,
+            paddingHorizontal: 16,
+            paddingVertical: 12,
           }}>
           <RowComponent
             styles={{
