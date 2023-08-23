@@ -1,6 +1,12 @@
 import {Gift, Status} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {Alert, StatusBar, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  StatusBar,
+  Touchable,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -31,7 +37,7 @@ import CategoriesList from './components/CategoriesList';
 import Promotions from './components/Promotions';
 import VideoPlayer from './components/VideoPlayer';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}: any) => {
   const [isLogin, setIsLogin] = useState(false);
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
   const [isVisibleModalSubcriber, setIsVisibleModalSubcriber] = useState(false);
@@ -56,13 +62,16 @@ const HomeScreen = () => {
             <TingaLogo width={28} height={28} />
 
             <SpaceComponent width={8} />
-            <TitleComponent
-              text="Hi, Jenna"
-              flex={1}
-              size={28}
-              color={appColors.white}
-              height={28}
-            />
+            <TouchableOpacity
+              style={{flex: 1}}
+              onPress={() => navigation.navigate('Profile')}>
+              <TitleComponent
+                text="Hi, Jenna"
+                size={28}
+                color={appColors.white}
+                height={28}
+              />
+            </TouchableOpacity>
             <ButtonIcon
               icon={<Gift color={appColors.error} size={18} variant="Bold" />}
               onPress={() => setIsVisibleModalRating(true)}

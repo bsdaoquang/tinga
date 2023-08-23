@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, Text, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
@@ -24,8 +24,11 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {useDispatch} from 'react-redux';
 import {addAuth} from '../../redux/reducers/authReducer';
+import {ModalInfoScore} from '../../modals';
 
 const ProfileScreen = () => {
+  const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
+
   const dispatch = useDispatch();
 
   const demodatachart = [
@@ -187,7 +190,7 @@ const ProfileScreen = () => {
             icon={
               <AntDesign name="infocirlceo" size={20} color={appColors.gray} />
             }
-            onPress={() => {}}
+            onPress={() => setIsVisibleModalInfo(true)}
           />
         </RowComponent>
         <SpaceComponent height={12} />
@@ -327,6 +330,11 @@ const ProfileScreen = () => {
           <TextComponent text="Log Out" color={appColors.danger} />
         </CardContent>
       </SectionComponent>
+
+      <ModalInfoScore
+        visible={isVisibleModalInfo}
+        onClose={() => setIsVisibleModalInfo(false)}
+      />
     </Container>
   );
 };
