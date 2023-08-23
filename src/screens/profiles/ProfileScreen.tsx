@@ -25,6 +25,9 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {useDispatch} from 'react-redux';
 import {addAuth} from '../../redux/reducers/authReducer';
 import {ModalInfoScore} from '../../modals';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Coin1} from 'iconsax-react-native';
+import {Circle1, Circle2, Circle3} from '../../assets/svg';
 
 const ProfileScreen = () => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
@@ -92,22 +95,22 @@ const ProfileScreen = () => {
     {
       id: '2',
       title: 'My Allergies',
-      icon: <FontAwesome name="circle" color={appColors.success1} size={14} />,
+      icon: <Circle1 color={appColors.success1} />,
     },
     {
       id: '3',
       title: 'Prefered Diets',
-      icon: <FontAwesome name="circle" color={appColors.success1} size={14} />,
+      icon: <Ionicons name="square-sharp" color={'#B69475'} size={16} />,
     },
     {
       id: '4',
       title: 'List of Favourites',
-      icon: <FontAwesome name="circle" color={appColors.success1} size={14} />,
+      icon: <Circle2 />,
     },
     {
       id: '5',
       title: 'List of Stores',
-      icon: <FontAwesome name="circle" color={appColors.success1} size={14} />,
+      icon: <Circle3 />,
     },
     {
       id: '6',

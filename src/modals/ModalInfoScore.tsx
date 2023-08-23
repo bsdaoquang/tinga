@@ -1,6 +1,11 @@
 import React, {useEffect, useRef} from 'react';
 import {Modalize} from 'react-native-modalize';
-import {RowComponent, TextComponent, TitleComponent} from '../components';
+import {
+  RowComponent,
+  SpaceComponent,
+  TextComponent,
+  TitleComponent,
+} from '../components';
 import {Portal} from 'react-native-portalize';
 import {Image, ScrollView, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -47,11 +52,21 @@ const ModalInfoScore = (props: Props) => {
             />
             <Image
               source={require('../assets/images/demoscore.png')}
-              style={{}}
+              style={{
+                width: '100%',
+                resizeMode: 'contain',
+                height: 140,
+              }}
             />
             <TextComponent
               size={14}
-              text="Your grocery list score is a number between 0 and 100 that gives you insight into the food choices you make when shopping. ‘Green’ food items will boost you score the most, while red items won’t. At Tinga, we recommend aiming for a score between 70-100, the more green (great choices) the better!"
+              text="Changing habits takes time, so be sure to celebrate small wins (even a few points increase!) and lean into Tinga swaps to help improve your score."
+            />
+            <SpaceComponent height={16} />
+            <TitleComponent size={20} text="How is my average calculated?" />
+            <TextComponent
+              size={14}
+              text="Your list score average is calculated from the last 4 lists you created. Each time you create a grocery list using Tinga, your average will update to show your progress and trend over time. "
             />
           </ScrollView>
         </View>
