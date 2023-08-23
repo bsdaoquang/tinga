@@ -1,6 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {ProfileScreen} from '../screens';
+import {ListScoreTrend, ProfileScreen} from '../screens';
 
 const ProfileNavigator = () => {
   const ProfileStack = createNativeStackNavigator();
@@ -10,6 +10,7 @@ const ProfileNavigator = () => {
         headerShown: false,
       }}>
       <ProfileStack.Screen name="ProfileScreen" component={ProfileScreen} />
+      <ProfileStack.Screen name="ListScoreTrend" component={ListScoreTrend} />
     </ProfileStack.Navigator>
   );
 };

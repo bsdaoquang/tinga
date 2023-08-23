@@ -94,7 +94,7 @@ const Container = ({
   return (
     <View
       style={{
-        paddingTop: top ?? Platform.OS === 'android' ? 32 : 48,
+        paddingTop: top ?? 0,
         flex: 1,
         backgroundColor: backgroundColor ? backgroundColor : appColors.bgColor,
       }}>

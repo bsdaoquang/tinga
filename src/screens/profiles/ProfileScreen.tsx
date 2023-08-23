@@ -29,7 +29,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Coin1} from 'iconsax-react-native';
 import {Circle1, Circle2, Circle3} from '../../assets/svg';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
 
   const dispatch = useDispatch();
@@ -198,6 +198,7 @@ const ProfileScreen = () => {
         </RowComponent>
         <SpaceComponent height={12} />
         <CardContent
+          onPress={() => navigation.navigate('ListScoreTrend')}
           color={appColors.white}
           isShadow
           styles={{paddingHorizontal: 37}}>
