@@ -99,7 +99,7 @@ const SubscriptionModal = (props: Props) => {
         <SectionComponent styles={{marginTop: 80}}>
           <CardContent
             color={appColors.text}
-            styles={{padding: 0, alignItems: 'center'}}>
+            styles={{padding: 0, alignItems: 'center', marginBottom: 16}}>
             <TextComponent
               text="LIMITED-TIME OFFER"
               color={appColors.white}

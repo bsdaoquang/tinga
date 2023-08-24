@@ -40,7 +40,7 @@ const Welcome = ({navigation}: any) => {
               width: 32,
               marginBottom: -32,
             }}
-            // scrollEnabled={false}
+            onIndexChanged={i => console.log(i)}
             dotStyle={{marginBottom: -32}}
             dotColor={appColors.white4}>
             <Welcome1 />

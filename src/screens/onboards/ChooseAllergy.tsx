@@ -83,8 +83,9 @@ const ChooseAllergy = ({navigation}: any) => {
         />
         <SpaceComponent height={20} />
         <RowComponent justify="flex-start">
-          {values.map(val => (
+          {values.map((val, index) => (
             <RenderChooseValue
+              key={`allergen${index}`}
               value={val}
               onPress={() => handleSelect(val)}
               selected={selected}

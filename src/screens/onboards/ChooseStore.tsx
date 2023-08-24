@@ -57,8 +57,9 @@ const ChooseStore = ({navigation}: any) => {
         <TitleComponent text="Where do you usually shop?" flex={0} size={26} />
         <SpaceComponent height={20} />
         <RowComponent justify="flex-start">
-          {values.map(val => (
+          {values.map((val, index) => (
             <RenderChooseValue
+              key={`store${index}`}
               value={val}
               onPress={() => handleSelect(val)}
               selected={selected}
