@@ -162,5 +162,12 @@ export const global = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  avatarContainer: {
+    width: 40,
+    height: 40,
+    backgroundColor: appColors.gray1,
+    borderRadius: 20
   }
 });
