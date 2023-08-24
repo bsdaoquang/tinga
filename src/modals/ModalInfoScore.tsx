@@ -10,6 +10,7 @@ import {Portal} from 'react-native-portalize';
 import {Image, ScrollView, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {appColors} from '../constants/appColors';
+import {appSize} from '../constants/appSize';
 
 interface Props {
   visible: boolean;
@@ -53,9 +54,9 @@ const ModalInfoScore = (props: Props) => {
             <Image
               source={require('../assets/images/demoscore.png')}
               style={{
-                width: '100%',
+                width: appSize.width - 32,
                 resizeMode: 'contain',
-                height: 140,
+                height: 160,
               }}
             />
             <TextComponent

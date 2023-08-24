@@ -26,7 +26,7 @@ const ListScores = () => {
       data: [
         {
           id: 'score1',
-          total: 85,
+          total: 84,
           dataScore: {
             great: 70,
             good: 20,
@@ -40,11 +40,11 @@ const ListScores = () => {
       data: [
         {
           id: 'score1',
-          total: 85,
+          total: 67,
           dataScore: {
-            great: 70,
-            good: 20,
-            limit: 10,
+            great: 50,
+            good: 35,
+            limit: 15,
           },
         },
       ],
@@ -54,11 +54,11 @@ const ListScores = () => {
       data: [
         {
           id: 'score1',
-          total: 85,
+          total: 52,
           dataScore: {
-            great: 70,
-            good: 20,
-            limit: 10,
+            great: 50,
+            good: 35,
+            limit: 15,
           },
         },
       ],
@@ -86,7 +86,7 @@ const ListScores = () => {
       color={appColors.white}>
       <RowComponent>
         <ChartPieItem
-          total={80}
+          total={item.total}
           size={100}
           fontSize={40}
           data={{values: [70, 20, 10]}}
@@ -100,17 +100,19 @@ const ListScores = () => {
           <RowComponent>
             <View
               style={{
-                // width: 21,
-                // height: 21,
                 backgroundColor: '#E6EECC',
-                padding: 5,
+                padding: 4,
                 borderRadius: 100,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
               <TextComponent text="👍" size={12} flex={0} />
             </View>
-            <TitleComponent text=" 70%" size={12} flex={0} />
+            <TitleComponent
+              text={` ${item.dataScore.great}%`}
+              size={12}
+              flex={0}
+            />
             <TextComponent
               text={` (14) Great Choices`}
               size={12}
@@ -119,8 +121,21 @@ const ListScores = () => {
           </RowComponent>
           <SpaceComponent height={6} />
           <RowComponent>
-            <GoodIcon width={21} height={21} />
-            <TitleComponent text=" 35%" size={12} flex={0} />
+            <View
+              style={{
+                backgroundColor: '#FFECBF',
+                padding: 4,
+                borderRadius: 100,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <TextComponent text="👌" size={12} flex={0} />
+            </View>
+            <TitleComponent
+              text={` ${item.dataScore.good}%`}
+              size={12}
+              flex={0}
+            />
             <TextComponent
               text={` (12) Good`}
               size={12}
@@ -130,8 +145,22 @@ const ListScores = () => {
 
           <SpaceComponent height={6} />
           <RowComponent>
-            <LimitIcon width={21} height={21} />
-            <TitleComponent text=" 15%" size={12} flex={0} />
+            <View
+              style={{
+                backgroundColor: '#FFDBDB',
+                padding: 4,
+                borderRadius: 100,
+                justifyContent: 'center',
+                alignItems: 'center',
+                transform: 'rotate(180deg)',
+              }}>
+              <TextComponent text="👍" size={12} flex={0} styles={{}} />
+            </View>
+            <TitleComponent
+              text={` ${item.dataScore.limit}%`}
+              size={12}
+              flex={0}
+            />
             <TextComponent
               text={` (4) Limit`}
               size={12}
