@@ -1,5 +1,7 @@
-import {View, Text, SectionList} from 'react-native';
 import React, {useState} from 'react';
+import {SectionList, Text, View} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {GoodIcon, GreatIcon, LimitIcon} from '../../assets/svg';
 import {
   Button,
   CardContent,
@@ -11,12 +13,9 @@ import {
   TextComponent,
   TitleComponent,
 } from '../../components';
-import {ModalInfoScore} from '../../modals';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {appColors} from '../../constants/appColors';
-import {Score} from '../../Models/Score';
-import {GoodIcon, GreatIcon, LimitIcon} from '../../assets/svg';
 import {fontFamilys} from '../../constants/fontFamily';
+import {ModalInfoScore} from '../../modals';
 
 const ListScores = () => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
@@ -99,7 +98,18 @@ const ListScores = () => {
             paddingLeft: 12,
           }}>
           <RowComponent>
-            <GreatIcon />
+            <View
+              style={{
+                // width: 21,
+                // height: 21,
+                backgroundColor: '#E6EECC',
+                padding: 5,
+                borderRadius: 100,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <TextComponent text="👍" size={12} flex={0} />
+            </View>
             <TitleComponent text=" 70%" size={12} flex={0} />
             <TextComponent
               text={` (14) Great Choices`}
@@ -109,10 +119,10 @@ const ListScores = () => {
           </RowComponent>
           <SpaceComponent height={6} />
           <RowComponent>
-            <GoodIcon />
-            <TitleComponent text=" 70%" size={12} flex={0} />
+            <GoodIcon width={21} height={21} />
+            <TitleComponent text=" 35%" size={12} flex={0} />
             <TextComponent
-              text={` (14) Great Choices`}
+              text={` (12) Good`}
               size={12}
               font={fontFamilys.regular}
             />
@@ -120,10 +130,10 @@ const ListScores = () => {
 
           <SpaceComponent height={6} />
           <RowComponent>
-            <LimitIcon />
-            <TitleComponent text=" 70%" size={12} flex={0} />
+            <LimitIcon width={21} height={21} />
+            <TitleComponent text=" 15%" size={12} flex={0} />
             <TextComponent
-              text={` (14) Great Choices`}
+              text={` (4) Limit`}
               size={12}
               font={fontFamilys.regular}
             />
@@ -148,6 +158,7 @@ const ListScores = () => {
       </SectionComponent>
 
       <SectionList
+        showsVerticalScrollIndicator={false}
         sections={scores}
         keyExtractor={(item, index) => `notification${item.id + index}`}
         renderItem={({item}) => renderScoreItem(item)}
