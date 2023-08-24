@@ -13,6 +13,7 @@ import ExploreNavigator from './ExploreNavigator';
 import GroceryNavigator from './GroceryNavigator';
 import HomeNavigator from './HomeNavigator';
 import ProfileNavigator from './ProfileNavigator';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const TabNavigator = () => {
   const Tabs = createBottomTabNavigator();
@@ -58,8 +59,10 @@ const TabNavigator = () => {
             );
           } else if (route.name === 'Explore') {
             icon = <SearchNormal1 size={size} color={color} />;
-          } else if (route.name === 'Grocery') {
-            icon = <ShoppingCart size={size} color={color} />;
+          } else if (route.name === 'Grocery List') {
+            icon = (
+              <AntDesign name="shoppingcart" size={size + 2} color={color} />
+            );
           } else {
             icon = (
               <User
@@ -74,7 +77,7 @@ const TabNavigator = () => {
       })}>
       <Tabs.Screen name="Home" component={HomeNavigator} />
       <Tabs.Screen name="Explore" component={ExploreNavigator} />
-      <Tabs.Screen name="Grocery" component={GroceryNavigator} />
+      <Tabs.Screen name="Grocery List" component={GroceryNavigator} />
       <Tabs.Screen name="Profile" component={ProfileNavigator} />
     </Tabs.Navigator>
   );

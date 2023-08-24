@@ -44,6 +44,7 @@ const Container = ({
   onBack,
   flexRight,
   barStyle,
+  onScroll,
 }: {
   children: any;
   top?: number;
@@ -60,6 +61,7 @@ const Container = ({
   flexRight?: number;
   barStyle?: StatusBarStyle;
   onBack?: () => void;
+  onScroll?: () => void;
 }) => {
   const [contentY, setContentY] = useState<number>(0);
   const [refeshing, setRefeshing] = useState(false);
@@ -172,6 +174,7 @@ const Container = ({
 
       {isScroll ? (
         <ScrollView
+          onScrollBeginDrag={onScroll}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{flexGrow: isFlex ? 1 : 0}}
           automaticallyAdjustContentInsets={false}

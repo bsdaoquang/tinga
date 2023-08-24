@@ -22,7 +22,7 @@ const Router = () => {
     <SplashScreen />
   ) : (
     <NavigationContainer>
-      {auth.uid ? <TabNavigator /> : <WelcomeNavigator />}
+      {!auth.uid ? <TabNavigator /> : <WelcomeNavigator />}
     </NavigationContainer>
   );
 };

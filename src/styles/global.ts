@@ -27,7 +27,7 @@ export const global = StyleSheet.create({
     padding: 16,
     backgroundColor: '#BFBFBF36',
     borderRadius: 10,
-    
+
   },
 
   row: {
@@ -156,6 +156,7 @@ export const global = StyleSheet.create({
     marginRight: 12,
     marginBottom: 12
   },
+
   modalContainer: {
     backgroundColor: 'rgba(0,0,0,0.5)',
     flex: 1,
