@@ -5,6 +5,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {Product} from '../../Models/Product';
 import {
   Button,
+  ButtonComponent,
   CardContent,
   ChartPieItem,
   Container,
@@ -19,6 +20,7 @@ import {fontFamilys} from '../../constants/fontFamily';
 import {global} from '../../styles/global';
 import ProductItem from './component/ProductItem';
 import {handleCalcTotal} from '../../utils/handleCalcTotal';
+import {Add} from 'iconsax-react-native';
 
 let currentOffset = 0;
 
@@ -321,7 +323,7 @@ const GroceryScreen = ({navigation}: any) => {
           ListHeaderComponent={renderTabStore({
             id: 'all',
             title: 'All',
-            totalItem: productSelected.length,
+            totalItem: productSelected.reduce((a, b) => a + (b.count ?? 0), 0),
             totalPayment: handleCalcTotal(productSelected),
           })}
           renderItem={({item}) => renderTabStore(item)}
@@ -352,6 +354,32 @@ const GroceryScreen = ({navigation}: any) => {
           )}
         />
       </View>
+
+      <RowComponent
+        styles={{
+          paddingVertical: 5,
+          paddingHorizontal: 16,
+        }}>
+        <View style={{flex: 1}}>
+          <Button
+            icon={<Add size={22} color="#13917B" />}
+            text="ADD MORE ITEMS"
+            textColor="#13917B"
+            textSize={14}
+            fontStyles={{fontFamily: fontFamilys.bold}}
+            onPress={() => {}}
+          />
+        </View>
+        <View style={{flex: 1}}>
+          <ButtonComponent
+            color="#13917B"
+            fontStyles={{fontFamily: fontFamilys.bold, fontSize: 14}}
+            textColor={appColors.white}
+            text="COMPLETE MY LIST"
+            onPress={() => {}}
+          />
+        </View>
+      </RowComponent>
     </Container>
   );
 };
