@@ -26,6 +26,8 @@ interface Props {
   styles?: StyleProp<ViewStyle>;
   iconRight?: boolean;
   fontStyles?: StyleProp<TextStyle>;
+  disableColor?: string;
+  disableTextColor?: string;
 }
 
 export const ButtonComponent = (props: Props) => {
@@ -41,6 +43,8 @@ export const ButtonComponent = (props: Props) => {
     disable,
     fontStyles,
     font,
+    disableColor,
+    disableTextColor,
     height,
     iconRight,
     styles,
@@ -56,14 +60,16 @@ export const ButtonComponent = (props: Props) => {
           width: width,
           flex: flex,
           borderWidth: outline ? 2 : 0,
-          borderColor: color ? color : appColors.success1,
+          borderColor: color ? color : '#EEF3DC',
           borderRadius: 12,
           paddingVertical: outline ? 12 : 14,
           paddingHorizontal: 16,
           backgroundColor: outline
             ? appColors.white
             : disable
-            ? appColors.gray
+            ? disableColor
+              ? disableColor
+              : appColors.gray
             : color
             ? color
             : appColors.success1,
@@ -83,7 +89,9 @@ export const ButtonComponent = (props: Props) => {
           {
             marginLeft: icon ? 4 : 0,
             marginRight: iconRight ? -20 : 0,
-            color: outline
+            color: disableTextColor
+              ? disableTextColor
+              : outline
               ? appColors.text
               : textColor
               ? textColor

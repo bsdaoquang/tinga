@@ -1,5 +1,7 @@
-import {View, Text, FlatList} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
+import {FlatList} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   ButtonComponent,
   CardContent,
@@ -10,10 +12,10 @@ import {
 } from '../../../components';
 import {appColors} from '../../../constants/appColors';
 import {appSize} from '../../../constants/appSize';
-import {Gift} from 'iconsax-react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Promotions = () => {
+  const navigation: any = useNavigation();
+
   const promotions = [
     {
       id: '1',
@@ -28,6 +30,7 @@ const Promotions = () => {
 
   const renderPromotionItem = (item: any) => (
     <CardContent
+      // onPress={() => navigation.navigate('ReferralScreen')}
       color={appColors.primary}
       styles={{
         width: appSize.width - 32,

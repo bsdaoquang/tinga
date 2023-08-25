@@ -1,8 +1,8 @@
-import {View, Text, TouchableOpacity, StyleProp, TextStyle} from 'react-native';
 import React, {ReactNode} from 'react';
-import TextComponent from './TextComponent';
+import {StyleProp, TextStyle, TouchableOpacity, ViewStyle} from 'react-native';
+import {appColors} from '../constants/appColors';
 import {global} from '../styles/global';
-import {ViewStyle} from 'react-native';
+import TextComponent from './TextComponent';
 
 interface Props {
   text?: string;
@@ -37,8 +37,8 @@ const Button = (props: Props) => {
         <TextComponent
           text={text}
           flex={0}
-          color={textColor}
-          size={textSize}
+          color={textColor ?? appColors.primary}
+          size={textSize ?? 14}
           styles={fontStyles}
         />
       )}

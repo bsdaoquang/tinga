@@ -1,6 +1,11 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {ImproveScore, ProductDetail, ShopingHistory} from '../screens';
+import {
+  ImproveScore,
+  ProductDetail,
+  ReferralScreen,
+  ShopingHistory,
+} from '../screens';
 import TabNavigator from './TabNavigator';
 
 const MainNavigator = () => {
@@ -15,6 +20,7 @@ const MainNavigator = () => {
       <Stack.Screen name="ShopingHistory" component={ShopingHistory} />
       <Stack.Screen name="ProductDetail" component={ProductDetail} />
       <Stack.Screen name="ImproveScore" component={ImproveScore} />
+      <Stack.Screen name="ReferralScreen" component={ReferralScreen} />
     </Stack.Navigator>
   );
 };

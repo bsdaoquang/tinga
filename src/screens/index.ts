@@ -14,6 +14,7 @@ import Welcome from "./onboards/Welcome";
 import ListScoreTrend from "./profiles/ListScoreTrend";
 import ListScores from "./profiles/ListScores";
 import ProfileScreen from "./profiles/ProfileScreen";
+import ReferralScreen from "./profiles/ReferralScreen";
 import ShopingHistory from "./profiles/ShopingHistory";
 
 export {
@@ -33,5 +34,6 @@ export {
   ListScores,
   ImproveScore,
   ShopingHistory,
-  ProductDetail
+  ProductDetail,
+  ReferralScreen
 };

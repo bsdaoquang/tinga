@@ -116,6 +116,7 @@ const ProfileScreen = ({navigation}: any) => {
       title: 'Refer & Get Rewarded',
       icon: <FontAwesome6 name="gift" color={appColors.danger} size={14} />,
       isPrimary: true,
+      onPress: () => navigation.navigate('ReferralScreen'),
     },
     {
       id: '7',
