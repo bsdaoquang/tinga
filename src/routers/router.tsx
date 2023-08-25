@@ -5,6 +5,7 @@ import TabNavigator from './TabNavigator';
 import WelcomeNavigator from './WelcomeNavigator';
 import {useSelector} from 'react-redux';
 import {authSelector} from '../redux/reducers/authReducer';
+import MainNavigator from './MainNavigator';
 
 const Router = () => {
   const [isWelcome, setIsWelcome] = useState(true);
@@ -22,7 +23,7 @@ const Router = () => {
     <SplashScreen />
   ) : (
     <NavigationContainer>
-      {!auth.uid ? <TabNavigator /> : <WelcomeNavigator />}
+      {!auth.uid ? <MainNavigator /> : <WelcomeNavigator />}
     </NavigationContainer>
   );
 };

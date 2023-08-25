@@ -5,6 +5,7 @@ import CardContent from "./CardContent";
 import ChartPieItem from "./ChartPieItem";
 import Container from "./Container";
 import CustomIcon from "./CustomIcon";
+import ImageProduct from "./ImageProduct";
 import { InputComponent } from "./InputComponent";
 import ListItemComponent from "./ListItemComponent";
 import { LoadingComponent } from "./LoadingComponent";
@@ -31,5 +32,6 @@ export {
   TabbarComponent,
   Button,
   ChartPieItem,
-  ListItemComponent
+  ListItemComponent,
+  ImageProduct
 };

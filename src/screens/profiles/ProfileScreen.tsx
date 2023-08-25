@@ -1,6 +1,13 @@
 import React, {useState} from 'react';
 import {Image, Text, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useDispatch} from 'react-redux';
+import {ListMenuItem} from '../../Models/ListMenuItem';
+import {Circle1, Circle2, Circle3} from '../../assets/svg';
 import {
   Button,
   CardContent,
@@ -15,19 +22,11 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {fontFamilys} from '../../constants/fontFamily';
-import {global} from '../../styles/global';
 import {appSize} from '../../constants/appSize';
-import {ListMenuItem} from '../../Models/ListMenuItem';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import {useDispatch} from 'react-redux';
-import {addAuth} from '../../redux/reducers/authReducer';
+import {fontFamilys} from '../../constants/fontFamily';
 import {ModalInfoScore} from '../../modals';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Coin1} from 'iconsax-react-native';
-import {Circle1, Circle2, Circle3} from '../../assets/svg';
+import {addAuth} from '../../redux/reducers/authReducer';
+import {global} from '../../styles/global';
 
 const ProfileScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
@@ -129,6 +128,7 @@ const ProfileScreen = ({navigation}: any) => {
       id: '8',
       title: 'Shopping History',
       icon: <MaterialCommunityIcons name="water" color={'#99CDDC'} size={18} />,
+      onPress: () => navigation.navigate('ShopingHistory'),
     },
   ];
 

@@ -13,6 +13,7 @@ import Welcome from "./onboards/Welcome";
 import ListScoreTrend from "./profiles/ListScoreTrend";
 import ListScores from "./profiles/ListScores";
 import ProfileScreen from "./profiles/ProfileScreen";
+import ShopingHistory from "./profiles/ShopingHistory";
 
 export {
   HomeScreen,
@@ -29,5 +30,6 @@ export {
   ChooseStore,
   ListScoreTrend,
   ListScores,
-  ImproveScore
+  ImproveScore,
+  ShopingHistory
 };

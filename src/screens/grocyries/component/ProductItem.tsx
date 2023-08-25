@@ -1,7 +1,12 @@
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Product} from '../../../Models/Product';
-import {Button, RowComponent, TextComponent} from '../../../components';
+import {
+  Button,
+  ImageProduct,
+  RowComponent,
+  TextComponent,
+} from '../../../components';
 import CheckBox from '@react-native-community/checkbox';
 import {global} from '../../../styles/global';
 import {appColors} from '../../../constants/appColors';
@@ -38,14 +43,7 @@ const ProductItem = (props: Props) => {
         value={isSelected}
         onChange={() => setIsSelected(!isSelected)}
       />
-      {item.imageUrl ? (
-        <Image
-          source={{uri: item.imageUrl}}
-          style={[global.avatarContainer, {resizeMode: 'cover'}]}
-        />
-      ) : (
-        <View style={[global.avatarContainer]} />
-      )}
+      <ImageProduct imageUrl={item.imageUrl} />
       <TouchableOpacity
         onPress={() => setIsSelected(!isSelected)}
         style={{flex: 1, paddingHorizontal: 12}}>

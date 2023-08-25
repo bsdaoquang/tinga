@@ -1,6 +1,11 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {ListScoreTrend, ListScores, ProfileScreen} from '../screens';
+import {
+  ListScoreTrend,
+  ListScores,
+  ProfileScreen,
+  ShopingHistory,
+} from '../screens';
 
 const ProfileNavigator = () => {
   const ProfileStack = createNativeStackNavigator();
