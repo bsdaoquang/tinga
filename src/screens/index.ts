@@ -4,6 +4,7 @@ import SignUpScreen from "./auth/SignUpScreen";
 import VerifyEmail from "./auth/VerifyEmail";
 import ExploreScreen from "./explores/ExploreScreen";
 import GroceryScreen from "./grocyries/GroceryScreen";
+import ProductDetail from "./grocyries/ProductDetail";
 import ImproveScore from "./grocyries/YourListScore";
 import HomeScreen from "./homes/HomeScreen";
 import ChooseAllergy from "./onboards/ChooseAllergy";
@@ -31,5 +32,6 @@ export {
   ListScoreTrend,
   ListScores,
   ImproveScore,
-  ShopingHistory
+  ShopingHistory,
+  ProductDetail
 };

@@ -18,7 +18,7 @@ import {Product} from '../../Models/Product';
 import {appSize} from '../../constants/appSize';
 import {Add, Location, Star1} from 'iconsax-react-native';
 
-const YourListScore = ({navigation, route}: any) => {
+const ProductDetail = ({navigation, route}: any) => {
   const {products}: {products: Product[]} = route.params;
 
   const renderProductCard = (item: Product) => (
@@ -78,7 +78,7 @@ const YourListScore = ({navigation, route}: any) => {
   );
 
   return (
-    <Container back isScroll barStyle="dark-content">
+    <Container back isScroll>
       <SectionComponent>
         <RowComponent justify="flex-start">
           <TitleComponent
@@ -216,4 +216,4 @@ const YourListScore = ({navigation, route}: any) => {
   );
 };
 
-export default YourListScore;
+export default ProductDetail;

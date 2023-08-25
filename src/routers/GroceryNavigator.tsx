@@ -10,7 +10,6 @@ const GroceryNavigator = () => {
         headerShown: false,
       }}>
       <GroceryStack.Screen name="GroceryScreen" component={GroceryScreen} />
-      <GroceryStack.Screen name="ImproveScore" component={ImproveScore} />
     </GroceryStack.Navigator>
   );
 };
