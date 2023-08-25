@@ -2,6 +2,7 @@ import {View, Text, TouchableOpacity, StyleProp, TextStyle} from 'react-native';
 import React, {ReactNode} from 'react';
 import TextComponent from './TextComponent';
 import {global} from '../styles/global';
+import {ViewStyle} from 'react-native';
 
 interface Props {
   text?: string;
@@ -11,16 +12,26 @@ interface Props {
   textSize?: number;
   fontStyles?: StyleProp<TextStyle>;
   disable?: boolean;
+  styles?: StyleProp<ViewStyle>;
 }
 
 const Button = (props: Props) => {
-  const {text, icon, onPress, textColor, textSize, fontStyles, disable} = props;
+  const {
+    text,
+    icon,
+    onPress,
+    textColor,
+    textSize,
+    fontStyles,
+    disable,
+    styles,
+  } = props;
 
   return (
     <TouchableOpacity
       disabled={disable}
       onPress={onPress}
-      style={[global.rowCenter]}>
+      style={[global.rowCenter, styles]}>
       {icon && icon}
       {text && (
         <TextComponent

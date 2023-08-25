@@ -21,14 +21,14 @@ import {global} from '../../styles/global';
 import ProductItem from './component/ProductItem';
 import {handleCalcTotal} from '../../utils/handleCalcTotal';
 import {Add} from 'iconsax-react-native';
-
-let currentOffset = 0;
+import {ModalizeEditShopList} from '../../modals';
 
 const GroceryScreen = ({navigation}: any) => {
   const [store, setStore] = useState('all');
   const [directionScroll, setDirectionScroll] = useState('up');
   const [isShowScoreCard, setIsShowScoreCard] = useState(true);
   const [productSelected, setProductSelected] = useState<Product[]>([]);
+  const [isVisibleModalEdit, setIsVisibleModalEdit] = useState(false);
 
   useEffect(() => {
     setIsShowScoreCard(directionScroll === 'up' ? true : false);
@@ -42,8 +42,6 @@ const GroceryScreen = ({navigation}: any) => {
     });
 
     setProductSelected(items);
-
-    console.log(productSelected, items);
   };
 
   const handleRemoveItem = (item: Product) => {
@@ -71,7 +69,10 @@ const GroceryScreen = ({navigation}: any) => {
       data: [
         {
           id: '1',
-          title: 'Item 3',
+          title: 'Item 1',
+          description: '',
+          mart: 'Walmart',
+          rating: 4.5,
           price: 2.99,
           imageUrl: '',
         },
@@ -81,15 +82,21 @@ const GroceryScreen = ({navigation}: any) => {
       title: 'Bread & Bakery',
       data: [
         {
-          id: '1',
-          title: 'Bread',
+          id: '2',
+          title: 'Dempsters Smooth Multigrains Bread',
+          description: '',
+          mart: 'Walmart',
+          rating: 4.5,
           price: 4.99,
           imageUrl:
             'https://s3-alpha-sig.figma.com/img/0949/c4f3/9f08eaf9572c1baf96c42c3a212ccb1d?Expires=1693785600&Signature=Wfk91~3IQK9-u43WF0CyrjxiM9u6yFW81iobYnSa5uaWNuEfFlCUoy8fmtSKvD4WUK~RJDKLGYyY-j~sUxdwIplb7Z8EWoiWDdsTBiVjdJGf5kRO-rGg1dzjsRfmw2pIhaQi0FYG5oISIc0ImaALDz1XzOSqT0qorGGIS32HYxSoDeYWY5q2GI1QRpu2gRZ5yuAXxiETcdwEPp9tMjRunM1lgf5RWtImX6etBONZPnOAl4Ycq3Kmo7N2LCC4xoKA~KOXbyR8sbtnWogNzvAI5qpBjycyqXRSk7tSsV6tF~NMm12HdTWCLounKwM3N4ixaaHJr7TgkF7T~aoJ3bPmjA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
         },
         {
-          id: '2',
-          title: 'Item 1',
+          id: '3',
+          title: 'Dempsters Smooth Multigrains Bread',
+          description: '',
+          mart: 'Walmart',
+          rating: 4.5,
           price: 3.99,
           imageUrl:
             'https://s3-alpha-sig.figma.com/img/0949/c4f3/9f08eaf9572c1baf96c42c3a212ccb1d?Expires=1693785600&Signature=Wfk91~3IQK9-u43WF0CyrjxiM9u6yFW81iobYnSa5uaWNuEfFlCUoy8fmtSKvD4WUK~RJDKLGYyY-j~sUxdwIplb7Z8EWoiWDdsTBiVjdJGf5kRO-rGg1dzjsRfmw2pIhaQi0FYG5oISIc0ImaALDz1XzOSqT0qorGGIS32HYxSoDeYWY5q2GI1QRpu2gRZ5yuAXxiETcdwEPp9tMjRunM1lgf5RWtImX6etBONZPnOAl4Ycq3Kmo7N2LCC4xoKA~KOXbyR8sbtnWogNzvAI5qpBjycyqXRSk7tSsV6tF~NMm12HdTWCLounKwM3N4ixaaHJr7TgkF7T~aoJ3bPmjA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
@@ -100,16 +107,12 @@ const GroceryScreen = ({navigation}: any) => {
       title: 'Dairy & Alternatives',
       data: [
         {
-          id: '1',
+          id: 'egg',
           title: 'Eggs',
+          description: '',
+          mart: 'Walmart',
+          rating: 4.5,
           price: 4.99,
-          imageUrl:
-            'https://s3-alpha-sig.figma.com/img/067f/b679/e685e7d371157fcadb175e7a57321e65?Expires=1693785600&Signature=gGuSYvk0Lh4RLkHDl9g~lHmr2s33Eh5vvMt~6jbNK72CKevP1BdnG7XwJFuf2xW8fm3cnly-rqQ6YeFNmYP~cQO02bggHIFnR1Ze57tcQWKr~gwvq3zMR-LCuDj0ov3x-yqJWnlJfVe4dCgsQ2nfeFuZJHlvxcFPZpPdoNNbb4sWdC9CvvmsWYG6A~K~4zB2AovPNKzfHPV6hW44BorH070GNI0mAAQgAwym5QC6u7juuCizmbpFIUm5TrcWy-6StKCUGpKmqi9DkmxpLXgzGH57yf2EbIZ3np2CL5Z9OpkSFSuGu1OhJbPVZ044m~4CHSYxGXx4xrd0kHHs8aQejg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
-        },
-        {
-          id: '2',
-          title: 'Item 2',
-          price: 3.99,
           imageUrl:
             'https://s3-alpha-sig.figma.com/img/067f/b679/e685e7d371157fcadb175e7a57321e65?Expires=1693785600&Signature=gGuSYvk0Lh4RLkHDl9g~lHmr2s33Eh5vvMt~6jbNK72CKevP1BdnG7XwJFuf2xW8fm3cnly-rqQ6YeFNmYP~cQO02bggHIFnR1Ze57tcQWKr~gwvq3zMR-LCuDj0ov3x-yqJWnlJfVe4dCgsQ2nfeFuZJHlvxcFPZpPdoNNbb4sWdC9CvvmsWYG6A~K~4zB2AovPNKzfHPV6hW44BorH070GNI0mAAQgAwym5QC6u7juuCizmbpFIUm5TrcWy-6StKCUGpKmqi9DkmxpLXgzGH57yf2EbIZ3np2CL5Z9OpkSFSuGu1OhJbPVZ044m~4CHSYxGXx4xrd0kHHs8aQejg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
         },
@@ -119,8 +122,11 @@ const GroceryScreen = ({navigation}: any) => {
       title: 'Produce',
       data: [
         {
-          id: '1',
-          title: 'Item 3',
+          id: '4',
+          title: 'Item 1',
+          description: '',
+          mart: 'Walmart',
+          rating: 4.5,
           price: 2.99,
           imageUrl: '',
         },
@@ -130,15 +136,21 @@ const GroceryScreen = ({navigation}: any) => {
       title: 'Bread & Bakery',
       data: [
         {
-          id: '1',
-          title: 'Bread',
+          id: '5',
+          title: 'Dempsters Smooth Multigrains Bread',
+          description: '',
+          mart: 'Walmart',
+          rating: 4.5,
           price: 4.99,
           imageUrl:
             'https://s3-alpha-sig.figma.com/img/0949/c4f3/9f08eaf9572c1baf96c42c3a212ccb1d?Expires=1693785600&Signature=Wfk91~3IQK9-u43WF0CyrjxiM9u6yFW81iobYnSa5uaWNuEfFlCUoy8fmtSKvD4WUK~RJDKLGYyY-j~sUxdwIplb7Z8EWoiWDdsTBiVjdJGf5kRO-rGg1dzjsRfmw2pIhaQi0FYG5oISIc0ImaALDz1XzOSqT0qorGGIS32HYxSoDeYWY5q2GI1QRpu2gRZ5yuAXxiETcdwEPp9tMjRunM1lgf5RWtImX6etBONZPnOAl4Ycq3Kmo7N2LCC4xoKA~KOXbyR8sbtnWogNzvAI5qpBjycyqXRSk7tSsV6tF~NMm12HdTWCLounKwM3N4ixaaHJr7TgkF7T~aoJ3bPmjA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
         },
         {
-          id: '2',
-          title: 'Item 1',
+          id: '6',
+          title: 'Dempsters Smooth Multigrains Bread',
+          description: '',
+          mart: 'Walmart',
+          rating: 4.5,
           price: 3.99,
           imageUrl:
             'https://s3-alpha-sig.figma.com/img/0949/c4f3/9f08eaf9572c1baf96c42c3a212ccb1d?Expires=1693785600&Signature=Wfk91~3IQK9-u43WF0CyrjxiM9u6yFW81iobYnSa5uaWNuEfFlCUoy8fmtSKvD4WUK~RJDKLGYyY-j~sUxdwIplb7Z8EWoiWDdsTBiVjdJGf5kRO-rGg1dzjsRfmw2pIhaQi0FYG5oISIc0ImaALDz1XzOSqT0qorGGIS32HYxSoDeYWY5q2GI1QRpu2gRZ5yuAXxiETcdwEPp9tMjRunM1lgf5RWtImX6etBONZPnOAl4Ycq3Kmo7N2LCC4xoKA~KOXbyR8sbtnWogNzvAI5qpBjycyqXRSk7tSsV6tF~NMm12HdTWCLounKwM3N4ixaaHJr7TgkF7T~aoJ3bPmjA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
@@ -149,16 +161,12 @@ const GroceryScreen = ({navigation}: any) => {
       title: 'Dairy & Alternatives',
       data: [
         {
-          id: '1',
+          id: '7',
           title: 'Eggs',
+          description: '',
+          mart: 'Walmart',
+          rating: 4.5,
           price: 4.99,
-          imageUrl:
-            'https://s3-alpha-sig.figma.com/img/067f/b679/e685e7d371157fcadb175e7a57321e65?Expires=1693785600&Signature=gGuSYvk0Lh4RLkHDl9g~lHmr2s33Eh5vvMt~6jbNK72CKevP1BdnG7XwJFuf2xW8fm3cnly-rqQ6YeFNmYP~cQO02bggHIFnR1Ze57tcQWKr~gwvq3zMR-LCuDj0ov3x-yqJWnlJfVe4dCgsQ2nfeFuZJHlvxcFPZpPdoNNbb4sWdC9CvvmsWYG6A~K~4zB2AovPNKzfHPV6hW44BorH070GNI0mAAQgAwym5QC6u7juuCizmbpFIUm5TrcWy-6StKCUGpKmqi9DkmxpLXgzGH57yf2EbIZ3np2CL5Z9OpkSFSuGu1OhJbPVZ044m~4CHSYxGXx4xrd0kHHs8aQejg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
-        },
-        {
-          id: '2',
-          title: 'Item 2',
-          price: 3.99,
           imageUrl:
             'https://s3-alpha-sig.figma.com/img/067f/b679/e685e7d371157fcadb175e7a57321e65?Expires=1693785600&Signature=gGuSYvk0Lh4RLkHDl9g~lHmr2s33Eh5vvMt~6jbNK72CKevP1BdnG7XwJFuf2xW8fm3cnly-rqQ6YeFNmYP~cQO02bggHIFnR1Ze57tcQWKr~gwvq3zMR-LCuDj0ov3x-yqJWnlJfVe4dCgsQ2nfeFuZJHlvxcFPZpPdoNNbb4sWdC9CvvmsWYG6A~K~4zB2AovPNKzfHPV6hW44BorH070GNI0mAAQgAwym5QC6u7juuCizmbpFIUm5TrcWy-6StKCUGpKmqi9DkmxpLXgzGH57yf2EbIZ3np2CL5Z9OpkSFSuGu1OhJbPVZ044m~4CHSYxGXx4xrd0kHHs8aQejg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
         },
@@ -192,9 +200,29 @@ const GroceryScreen = ({navigation}: any) => {
     </TouchableOpacity>
   );
 
+  const onPressModal = (id: string) => {
+    switch (id) {
+      case 'swap':
+        navigation.navigate('ImproveScore', {products: productSelected});
+        break;
+
+      case 'edit':
+        break;
+    }
+
+    setIsVisibleModalEdit(false);
+  };
+
   return (
     <Container
-      right={<Feather name="more-vertical" size={22} color={appColors.gray} />}>
+      right={
+        <Button
+          onPress={() => setIsVisibleModalEdit(true)}
+          icon={
+            <Feather name="more-vertical" size={22} color={appColors.gray} />
+          }
+        />
+      }>
       <SectionComponent>
         <RowComponent justify="flex-start">
           <TitleComponent
@@ -235,7 +263,11 @@ const GroceryScreen = ({navigation}: any) => {
                 text="Improve Score"
                 textSize={14}
                 textColor={appColors.primary}
-                onPress={() => {}}
+                onPress={() =>
+                  navigation.navigate('ImproveScore', {
+                    products: productSelected,
+                  })
+                }
               />
             </RowComponent>
             <SpaceComponent height={12} />
@@ -380,6 +412,12 @@ const GroceryScreen = ({navigation}: any) => {
           />
         </View>
       </RowComponent>
+
+      <ModalizeEditShopList
+        visible={isVisibleModalEdit}
+        onClose={() => setIsVisibleModalEdit(false)}
+        onPress={(id: string) => onPressModal(id)}
+      />
     </Container>
   );
 };
