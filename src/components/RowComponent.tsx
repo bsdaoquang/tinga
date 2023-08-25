@@ -27,6 +27,7 @@ const RowComponent = ({
 }: Props) => {
   return onPress ? (
     <TouchableOpacity
+      activeOpacity={0.8}
       disabled={disable}
       onPress={onPress}
       onLongPress={onLongPress}
@@ -36,8 +37,7 @@ const RowComponent = ({
           justifyContent: justify ?? 'center',
         },
         styles,
-      ]}
-    >
+      ]}>
       {children}
     </TouchableOpacity>
   ) : (
@@ -48,8 +48,7 @@ const RowComponent = ({
           justifyContent: justify ?? 'center',
         },
         styles,
-      ]}
-    >
+      ]}>
       {children}
     </View>
   );

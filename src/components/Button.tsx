@@ -10,13 +10,17 @@ interface Props {
   textColor?: string;
   textSize?: number;
   fontStyles?: StyleProp<TextStyle>;
+  disable?: boolean;
 }
 
 const Button = (props: Props) => {
-  const {text, icon, onPress, textColor, textSize, fontStyles} = props;
+  const {text, icon, onPress, textColor, textSize, fontStyles, disable} = props;
 
   return (
-    <TouchableOpacity onPress={onPress} style={[global.rowCenter]}>
+    <TouchableOpacity
+      disabled={disable}
+      onPress={onPress}
+      style={[global.rowCenter]}>
       {icon && icon}
       {text && (
         <TextComponent
