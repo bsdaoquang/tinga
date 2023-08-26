@@ -21,6 +21,7 @@ const TabNavigator = () => {
   return (
     <Tabs.Navigator
       screenOptions={({route}) => ({
+        tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarStyle:
           Platform.OS === 'android'

@@ -6,6 +6,7 @@ import {
   Container,
   RowComponent,
   SectionComponent,
+  SpaceComponent,
   TextComponent,
   TitleComponent,
 } from '../../components';
@@ -14,6 +15,9 @@ import {appColors} from '../../constants/appColors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {global} from '../../styles/global';
+import {SettingIcon} from '../../assets/svg';
+import {FlatList} from 'react-native';
+import ProductItem from './components/ProductItem';
 
 const ExploreScreen = () => {
   return (
@@ -26,46 +30,59 @@ const ExploreScreen = () => {
       }>
       <SectionComponent>
         <RowComponent>
-          <RowComponent
-            styles={{
-              ...global.shadow,
-              flex: 1,
-              marginRight: 12,
-              backgroundColor: appColors.white,
-              borderRadius: 8,
-              height: 56,
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: 8,
-            }}>
-            <SearchNormal1 size={22} color={appColors.gray} />
-            <TextInput
-              style={{
-                margin: 0,
-                paddingHorizontal: 8,
+          <View style={{flex: 1}}>
+            <RowComponent
+              styles={{
+                ...global.shadow,
                 flex: 1,
-              }}
-              placeholder="Search groceries"
-            />
-            <TouchableOpacity>
-              <Setting4 size={24} color={appColors.text} />
-              <View style={{}} />
-            </TouchableOpacity>
-          </RowComponent>
+                backgroundColor: appColors.white,
+                borderRadius: 8,
+                height: 48,
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingHorizontal: 8,
+              }}>
+              <SearchNormal1 size={22} color={appColors.gray} />
+              <TextInput
+                style={{
+                  margin: 0,
+                  paddingHorizontal: 8,
+                  flex: 1,
+                }}
+                placeholder="Search groceries"
+              />
+              <TouchableOpacity>
+                <SettingIcon width={24} color={appColors.text} />
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    width: 6,
+                    height: 6,
+                    borderRadius: 4,
+                    backgroundColor: appColors.error,
+                  }}
+                />
+              </TouchableOpacity>
+            </RowComponent>
+          </View>
+          <SpaceComponent width={12} />
           <ButtonComponent
+            color={appColors.primary}
             onPress={() => {}}
             icon={
               <FontAwesome6
                 name="cart-shopping"
-                size={18}
+                size={14}
                 color={appColors.white}
               />
             }
             text="0"
             textColor={appColors.white}
             styles={{
-              width: 56,
-              height: 56,
+              width: 48,
+              height: 48,
             }}
           />
         </RowComponent>
@@ -73,6 +90,19 @@ const ExploreScreen = () => {
       <SectionComponent>
         <TitleComponent text="Top categories" size={24} flex={0} />
       </SectionComponent>
+      <View
+        style={{
+          flex: 1,
+        }}>
+        <FlatList
+          numColumns={3}
+          horizontal={false}
+          showsVerticalScrollIndicator={false}
+          style={{paddingHorizontal: 16}}
+          data={Array.from({length: 20})}
+          renderItem={({item, index}) => <ProductItem item={{id: index}} />}
+        />
+      </View>
     </Container>
   );
 };
