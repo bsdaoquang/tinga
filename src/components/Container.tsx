@@ -11,6 +11,7 @@ import {
   NativeSyntheticEvent,
   Platform,
   RefreshControl,
+  SafeAreaView,
   ScrollView,
   StatusBar,
   StatusBarStyle,
@@ -23,6 +24,7 @@ import {appSize} from '../constants/appSize';
 import {global} from '../styles/global';
 import RowComponent from './RowComponent';
 import TextComponent from './TextComponent';
+import StatusBarComponent from './StatusBarComponent';
 
 const wait = (timeout: number) => {
   return new Promise((resolve: any) => setTimeout(resolve, timeout));
@@ -94,12 +96,13 @@ const Container = ({
   const navigation: any = useNavigation();
 
   return (
-    <View
+    <SafeAreaView
       style={{
         paddingTop: top ?? Platform.OS === 'android' ? 32 : 48,
         flex: 1,
         backgroundColor: backgroundColor ? backgroundColor : appColors.bgColor,
       }}>
+      <StatusBarComponent barStyle="light-content" />
       {title || back || left || right ? (
         <View
           style={{
@@ -197,7 +200,7 @@ const Container = ({
           {children}
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -7,6 +7,7 @@ import {
   RowComponent,
   SectionComponent,
   SpaceComponent,
+  StatusBarComponent,
   TextComponent,
   TitleComponent,
 } from '../../components';
@@ -28,7 +29,6 @@ const ExploreScreen = () => {
           onPress={() => {}}
         />
       }>
-      <StatusBar barStyle="dark-content" />
       <SectionComponent>
         <RowComponent>
           <View style={{flex: 1}}>

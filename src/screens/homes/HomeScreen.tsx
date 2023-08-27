@@ -11,7 +11,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {TingaLogo} from '../../assets/svg';
+import {TingaLogo, Users} from '../../assets/svg';
 import {
   ButtonComponent,
   ButtonIcon,
@@ -21,6 +21,7 @@ import {
   RowComponent,
   SectionComponent,
   SpaceComponent,
+  StatusBarComponent,
   TabbarComponent,
   TitleComponent,
 } from '../../components';
@@ -143,11 +144,7 @@ const HomeScreen = ({navigation}: any) => {
                 paddingHorizontal: 10,
               }}>
               <RowComponent>
-                <FontAwesome6
-                  name="users"
-                  color={appColors.success}
-                  size={16}
-                />
+                <Users width={24} />
                 <SpaceComponent width={4} />
                 <TitleComponent text="Tinga Community" />
               </RowComponent>

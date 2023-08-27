@@ -6,6 +6,7 @@ import GreatIcon from './GreatIcon.svg'
 import GoodIcon from './GoodIcon.svg'
 import LimitIcon from './LimitIcon.svg'
 import SettingIcon from './SettingIcon.svg'
+import Users from './Users.svg'
 export {
   TingaLogo,
   Circle1,
@@ -14,5 +15,6 @@ export {
   GreatIcon,
   GoodIcon,
   LimitIcon,
-  SettingIcon
+  SettingIcon,
+  Users
 };

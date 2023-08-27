@@ -140,7 +140,7 @@ const ProfileScreen = ({navigation}: any) => {
     },
     {
       id: 'contact2',
-      title: 'Contact Nuntritionist',
+      title: 'Contact Dietitian',
     },
   ];
 
@@ -165,7 +165,6 @@ const ProfileScreen = ({navigation}: any) => {
 
   return (
     <Container isScroll>
-      <StatusBar barStyle="dark-content" />
       <SectionComponent>
         <RowComponent>
           <TitleComponent text="Profile" size={28} />

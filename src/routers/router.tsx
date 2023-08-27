@@ -5,7 +5,7 @@ import {authSelector} from '../redux/reducers/authReducer';
 import {SplashScreen} from '../screens';
 import MainNavigator from './MainNavigator';
 import WelcomeNavigator from './WelcomeNavigator';
-import {StatusBar} from 'react-native';
+import {StatusBarComponent} from '../components';
 
 const Router = () => {
   const [isWelcome, setIsWelcome] = useState(true);
@@ -20,17 +20,14 @@ const Router = () => {
 
   return (
     <>
-      <StatusBar
-        translucent
-        backgroundColor={'transparent'}
-        barStyle="dark-content"
-      />
       {isWelcome ? (
         <SplashScreen />
       ) : (
-        <NavigationContainer>
-          {auth.uid ? <MainNavigator /> : <WelcomeNavigator />}
-        </NavigationContainer>
+        <>
+          <NavigationContainer>
+            {!auth.uid ? <MainNavigator /> : <WelcomeNavigator />}
+          </NavigationContainer>
+        </>
       )}
     </>
   );

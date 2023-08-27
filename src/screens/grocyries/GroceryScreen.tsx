@@ -229,7 +229,6 @@ const GroceryScreen = ({navigation}: any) => {
           }
         />
       }>
-      <StatusBar barStyle={'dark-content'} />
       <SectionComponent>
         <RowComponent justify="flex-start">
           <TitleComponent
