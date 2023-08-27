@@ -14,7 +14,6 @@ const MainNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        statusBarTranslucent: true,
       }}>
       <Stack.Screen name="HomeRoot" component={TabNavigator} />
       <Stack.Screen name="ShopingHistory" component={ShopingHistory} />

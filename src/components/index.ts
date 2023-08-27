@@ -12,7 +12,6 @@ import { LoadingComponent } from "./LoadingComponent";
 import RowComponent from "./RowComponent";
 import { SectionComponent } from "./SectionComponent";
 import SpaceComponent from "./SpaceComponent";
-import StatusBarComponent from "./StatusBarComponent";
 import TabbarComponent from "./TabbarComponent";
 import TextComponent from "./TextComponent";
 import TitleComponent from "./TitleComponent";
@@ -35,5 +34,4 @@ export {
   ChartPieItem,
   ListItemComponent,
   ImageProduct,
-  StatusBarComponent
 };

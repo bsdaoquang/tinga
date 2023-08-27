@@ -8,7 +8,6 @@ import {
   Container,
   RowComponent,
   SectionComponent,
-  StatusBarComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import Welcome1 from './components/Welcome1';
@@ -19,7 +18,10 @@ import Welcome4 from './components/Welcome4';
 const Welcome = ({navigation}: any) => {
   const [indexScreen, setIndexScreen] = useState(0);
   return (
-    <Container top={48} backgroundColor={appColors.text}>
+    <Container
+      top={48}
+      backgroundColor={appColors.text}
+      barStyle="light-content">
       <View style={{paddingVertical: 20, flex: 1}}>
         <RowComponent justify="flex-end" styles={{paddingHorizontal: 16}}>
           <Button

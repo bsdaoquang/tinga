@@ -7,8 +7,6 @@ import {
   RowComponent,
   SectionComponent,
   SpaceComponent,
-  StatusBarComponent,
-  TextComponent,
   TitleComponent,
 } from '../../components';
 import {AddSquare, SearchNormal1, Setting4} from 'iconsax-react-native';

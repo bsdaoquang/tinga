@@ -24,7 +24,6 @@ import {appSize} from '../constants/appSize';
 import {global} from '../styles/global';
 import RowComponent from './RowComponent';
 import TextComponent from './TextComponent';
-import StatusBarComponent from './StatusBarComponent';
 
 const wait = (timeout: number) => {
   return new Promise((resolve: any) => setTimeout(resolve, timeout));
@@ -102,7 +101,11 @@ const Container = ({
         flex: 1,
         backgroundColor: backgroundColor ? backgroundColor : appColors.bgColor,
       }}>
-      <StatusBarComponent barStyle="light-content" />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle={barStyle ?? 'dark-content'}
+      />
       {title || back || left || right ? (
         <View
           style={{

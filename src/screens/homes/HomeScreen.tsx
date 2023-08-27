@@ -1,14 +1,7 @@
-import {Gift, Status} from 'iconsax-react-native';
+import {Gift} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  StatusBar,
-  Touchable,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Alert, StatusBar, TouchableOpacity} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {TingaLogo, Users} from '../../assets/svg';
@@ -21,22 +14,22 @@ import {
   RowComponent,
   SectionComponent,
   SpaceComponent,
-  StatusBarComponent,
   TabbarComponent,
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
 import {
-  ModalOffer,
-  SubscriptionModal,
-  ModalRating,
   ModalFeedback,
+  ModalOffer,
+  ModalRating,
+  SubscriptionModal,
 } from '../../modals';
 import {global} from '../../styles/global';
 import CategoriesList from './components/CategoriesList';
 import Promotions from './components/Promotions';
 import VideoPlayer from './components/VideoPlayer';
+import {useIsFocused} from '@react-navigation/native';
 
 const HomeScreen = ({navigation}: any) => {
   const [isLogin, setIsLogin] = useState(false);
@@ -44,6 +37,7 @@ const HomeScreen = ({navigation}: any) => {
   const [isVisibleModalSubcriber, setIsVisibleModalSubcriber] = useState(false);
   const [isVisibleModalRating, setIsVisibleModalRating] = useState(false);
   const [isVisibleModalFeedback, setIsVisibleModalFeedback] = useState(false);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     setTimeout(() => {
@@ -53,6 +47,7 @@ const HomeScreen = ({navigation}: any) => {
 
   return (
     <>
+      <StatusBar barStyle={'light-content'} />
       <Container isScroll backgroundColor={appColors.primary} top={32}>
         <SectionComponent styles={{paddingTop: 26}}>
           <RowComponent>

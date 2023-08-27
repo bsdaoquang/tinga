@@ -1,7 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {ExploreScreen} from '../screens';
-import {StatusBarComponent} from '../components';
 
 const ExploreNavigator = () => {
   const ExploreStack = createNativeStackNavigator();
