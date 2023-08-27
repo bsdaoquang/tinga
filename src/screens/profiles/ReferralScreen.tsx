@@ -107,7 +107,6 @@ const ReferralScreen = ({navigation}: any) => {
 
   return (
     <ScrollView style={{flex: 1, backgroundColor: appColors.white}}>
-      <StatusBar barStyle={'light-content'} />
       <ImageBackground
         source={require('../../assets/images/ReferralImage.png')}
         style={{

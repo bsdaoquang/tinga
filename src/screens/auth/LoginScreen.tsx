@@ -18,7 +18,7 @@ import TermsText from './components/TermsText';
 const LoginScreen = ({navigation}: any) => {
   return (
     <>
-      <StatusBar translucent barStyle={'dark-content'} />
+      <StatusBar barStyle="dark-content" />
       <ImageBackground
         source={require('../../assets/images/BGLogin.png')}
         style={{

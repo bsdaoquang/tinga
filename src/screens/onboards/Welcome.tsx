@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {StatusBar, View} from 'react-native';
 import Swiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
@@ -18,10 +18,8 @@ import Welcome4 from './components/Welcome4';
 const Welcome = ({navigation}: any) => {
   const [indexScreen, setIndexScreen] = useState(0);
   return (
-    <Container
-      top={48}
-      backgroundColor={appColors.text}
-      barStyle="light-content">
+    <Container top={48} backgroundColor={appColors.text}>
+      <StatusBar barStyle="light-content" />
       <View style={{paddingVertical: 20, flex: 1}}>
         <RowComponent justify="flex-end" styles={{paddingHorizontal: 16}}>
           <Button

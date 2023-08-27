@@ -164,7 +164,7 @@ const ProfileScreen = ({navigation}: any) => {
   };
 
   return (
-    <Container isScroll barStyle="dark-content">
+    <Container isScroll>
       <SectionComponent>
         <RowComponent>
           <TitleComponent text="Profile" size={28} />

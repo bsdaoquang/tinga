@@ -283,7 +283,7 @@ const ShopingHistory = () => {
   );
 
   return (
-    <Container back isScroll barStyle="dark-content">
+    <Container back isScroll>
       <SectionComponent>
         <TitleComponent text="Grocery List History" size={32} />
         <SpaceComponent height={12} />

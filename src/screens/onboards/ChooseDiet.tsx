@@ -51,10 +51,7 @@ const ChooseDiet = ({navigation}: any) => {
   };
 
   return (
-    <Container
-      back
-      right={<Button text="Skip" onPress={() => {}} />}
-      barStyle="dark-content">
+    <Container back right={<Button text="Skip" onPress={() => {}} />}>
       <SectionComponent flex={1}>
         <TextComponent text="Lifestyle Choices" size={12} flex={0} />
         <TitleComponent

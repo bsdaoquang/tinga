@@ -78,7 +78,7 @@ const YourListScore = ({navigation, route}: any) => {
   );
 
   return (
-    <Container back isScroll barStyle="dark-content">
+    <Container back isScroll>
       <SectionComponent>
         <RowComponent justify="flex-start">
           <TitleComponent

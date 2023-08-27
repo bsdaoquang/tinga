@@ -100,11 +100,6 @@ const Container = ({
         flex: 1,
         backgroundColor: backgroundColor ? backgroundColor : appColors.bgColor,
       }}>
-      <StatusBar
-        barStyle={barStyle ? barStyle : 'dark-content'}
-        translucent
-        backgroundColor="transparent"
-      />
       {title || back || left || right ? (
         <View
           style={{

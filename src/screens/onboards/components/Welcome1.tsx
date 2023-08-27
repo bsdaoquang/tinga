@@ -7,7 +7,8 @@ const Welcome1 = () => {
   return (
     <>
       <View style={{flex: 1}}>
-        <RowComponent styles={{alignItems: 'flex-start'}}>
+        <RowComponent
+          styles={{alignItems: 'flex-start', paddingHorizontal: 16}}>
           <TitleComponent
             text="1. "
             size={26}

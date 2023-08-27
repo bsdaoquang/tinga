@@ -48,32 +48,8 @@ const ChooseAllergy = ({navigation}: any) => {
     setSelected(items);
   };
 
-  // const renderValue = (val: string) => (
-  //   <TouchableOpacity
-  //     onPress={() => handleSelect(val)}
-  //     key={`item${val}`}
-  //     style={[
-  //       global.tag,
-  //       global.shadow,
-  //       {
-  //         shadowColor: 'rgba(0, 0, 0, 0.1)',
-  //         borderWidth: selected.includes(val) ? 2 : 0,
-  //         borderColor: appColors.success1,
-  //       },
-  //     ]}>
-  //     <TextComponent
-  //       text={val}
-  //       flex={0}
-  //       color={appColors.text2}
-  //       font={selected.includes(val) ? fontFamilys.bold : fontFamilys.medium}
-  //     />
-  //   </TouchableOpacity>
-  // );
   return (
-    <Container
-      back
-      right={<Button text="Skip" onPress={() => {}} />}
-      barStyle="dark-content">
+    <Container back right={<Button text="Skip" onPress={() => {}} />}>
       <SectionComponent flex={1}>
         <TextComponent text="Allergens" size={12} flex={0} />
         <TitleComponent

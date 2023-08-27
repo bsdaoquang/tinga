@@ -48,10 +48,7 @@ const ChooseStore = ({navigation}: any) => {
   };
 
   return (
-    <Container
-      back
-      right={<Button text="Skip" onPress={() => {}} />}
-      barStyle="dark-content">
+    <Container back right={<Button text="Skip" onPress={() => {}} />}>
       <SectionComponent flex={1}>
         <TextComponent text="Grocery Stores" size={12} flex={0} />
         <TitleComponent text="Where do you usually shop?" flex={0} size={26} />

@@ -45,7 +45,7 @@ const ListScoreTrend = ({navigation}: any) => {
   };
 
   return (
-    <Container back barStyle="dark-content">
+    <Container back>
       <SectionComponent>
         <TitleComponent text="List Score Trends" flex={0} size={20} />
       </SectionComponent>
