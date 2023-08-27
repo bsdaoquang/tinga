@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, SectionList, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  SectionList,
+  StatusBar,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import {Product} from '../../Models/Product';
@@ -223,6 +229,7 @@ const GroceryScreen = ({navigation}: any) => {
           }
         />
       }>
+      <StatusBar barStyle={'dark-content'} />
       <SectionComponent>
         <RowComponent justify="flex-start">
           <TitleComponent

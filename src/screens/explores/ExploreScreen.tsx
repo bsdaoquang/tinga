@@ -1,4 +1,4 @@
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, StatusBar} from 'react-native';
 import React from 'react';
 import {
   Button,
@@ -28,6 +28,7 @@ const ExploreScreen = () => {
           onPress={() => {}}
         />
       }>
+      <StatusBar barStyle="dark-content" />
       <SectionComponent>
         <RowComponent>
           <View style={{flex: 1}}>

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, StatusBar, Text, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -165,6 +165,7 @@ const ProfileScreen = ({navigation}: any) => {
 
   return (
     <Container isScroll>
+      <StatusBar barStyle="dark-content" />
       <SectionComponent>
         <RowComponent>
           <TitleComponent text="Profile" size={28} />
