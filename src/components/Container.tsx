@@ -24,6 +24,8 @@ import {appSize} from '../constants/appSize';
 import {global} from '../styles/global';
 import RowComponent from './RowComponent';
 import TextComponent from './TextComponent';
+import {StyleProp} from 'react-native';
+import {ViewStyle} from 'react-native';
 
 const wait = (timeout: number) => {
   return new Promise((resolve: any) => setTimeout(resolve, timeout));
@@ -46,6 +48,7 @@ const Container = ({
   flexRight,
   barStyle,
   onScroll,
+  styles,
 }: {
   children: any;
   top?: number;
@@ -63,6 +66,7 @@ const Container = ({
   barStyle?: StatusBarStyle;
   onBack?: () => void;
   onScroll?: () => void;
+  styles?: StyleProp<ViewStyle>;
 }) => {
   const [contentY, setContentY] = useState<number>(0);
   const [refeshing, setRefeshing] = useState(false);
@@ -96,11 +100,16 @@ const Container = ({
 
   return (
     <SafeAreaView
-      style={{
-        paddingTop: top ?? Platform.OS === 'android' ? 32 : 48,
-        flex: 1,
-        backgroundColor: backgroundColor ? backgroundColor : appColors.bgColor,
-      }}>
+      style={[
+        {
+          paddingTop: top ?? Platform.OS === 'android' ? 32 : 48,
+          flex: 1,
+          backgroundColor: backgroundColor
+            ? backgroundColor
+            : appColors.bgColor,
+        },
+        styles,
+      ]}>
       <StatusBar
         translucent
         backgroundColor="transparent"
@@ -198,6 +207,7 @@ const Container = ({
         <View
           style={{
             ...global.container,
+
             backgroundColor: backgroundColor ?? appColors.bgColor,
           }}>
           {children}

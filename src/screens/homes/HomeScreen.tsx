@@ -47,8 +47,11 @@ const HomeScreen = ({navigation}: any) => {
 
   return (
     <>
-      <StatusBar barStyle={'light-content'} />
-      <Container isScroll backgroundColor={appColors.primary} top={32}>
+      <Container
+        isScroll
+        barStyle={'light-content'}
+        backgroundColor={appColors.primary}
+        top={32}>
         <SectionComponent styles={{paddingTop: 26}}>
           <RowComponent>
             <TingaLogo width={28} height={28} />
