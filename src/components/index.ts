@@ -2,6 +2,7 @@ import Button from "./Button";
 import { ButtonComponent } from "./ButtonComponent";
 import ButtonIcon from "./ButtonIcon";
 import CardContent from "./CardContent";
+import CategoryItem from "./CategoryItem";
 import ChartPieItem from "./ChartPieItem";
 import Container from "./Container";
 import CustomIcon from "./CustomIcon";
@@ -34,4 +35,5 @@ export {
   ChartPieItem,
   ListItemComponent,
   ImageProduct,
+  CategoryItem
 };

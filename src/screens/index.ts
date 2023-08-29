@@ -2,6 +2,7 @@ import SplashScreen from "./SplashScreen";
 import LoginScreen from "./auth/LoginScreen";
 import SignUpScreen from "./auth/SignUpScreen";
 import VerifyEmail from "./auth/VerifyEmail";
+import CategoryDetail from "./explores/CategoryDetail";
 import ExploreScreen from "./explores/ExploreScreen";
 import GroceryScreen from "./grocyries/GroceryScreen";
 import ProductDetail from "./grocyries/ProductDetail";
@@ -35,5 +36,6 @@ export {
   ImproveScore,
   ShopingHistory,
   ProductDetail,
-  ReferralScreen
+  ReferralScreen,
+  CategoryDetail
 };

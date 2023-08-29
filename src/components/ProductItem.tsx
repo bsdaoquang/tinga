@@ -1,7 +1,7 @@
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {TextComponent} from '../../../components';
-import {appSize} from '../../../constants/appSize';
+import {TextComponent} from '.';
+import {appSize} from '../constants/appSize';
 
 interface Props {
   item: any;

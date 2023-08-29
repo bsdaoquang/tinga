@@ -10,11 +10,13 @@ import {
   View,
 } from 'react-native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import {Category} from '../../Models/Category';
 import {SettingIcon} from '../../assets/svg';
 import {
   Button,
   ButtonComponent,
   CardContent,
+  CategoryItem,
   Container,
   RowComponent,
   SectionComponent,
@@ -23,15 +25,127 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {global} from '../../styles/global';
-import ProductItem from './components/ProductItem';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
+import {global} from '../../styles/global';
 
-const ExploreScreen = () => {
+const imageCat =
+  'https://s3-alpha-sig.figma.com/img/40d7/0023/5868cd6302567bf42e76f428442f47b7?Expires=1693785600&Signature=g7smBLUhN77wSMh~jRHZob99Le6q376mZzJ6BVhLHYBXj4IiV0I~aVYHlCtFXottxPmlldG1dAp1OGoiqmqujvOBLcFlT-IxkfVEOZviAcY87SF-3CTu6OOmuK3etGLt0bHfxutE5C5GRJ1Fz-3axOoDkkhpC0n2GZHH~QgQMTHXCX2ZCeZ3mr~~rXbMFEctVnmQnl2xySJ7XUpn3TWCMjBe3rAMpNySMSoM8O4kCfjK9nC7VhTOGBBjU~XDWBgnbK17kT43Ipj6i8tproTiugN66nHkGH5hfg2-za5krDdt2sbCrLdg~cp6fpk1ODmHuJwriVxrZ7iyLQobA9EU2Q__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4';
+
+const ExploreScreen = ({navigation}: any) => {
   const [isFocused, setIsFocused] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [results, setResults] = useState<any[]>([]);
+  const [categoriesTitle, setCategoriesTitle] = useState('Top categories');
+  const [categories, setCategories] = useState<Category[]>([
+    {
+      id: '1',
+      title: 'Produce',
+      imageUrl: imageCat,
+      childrens: [
+        {
+          id: 'child1',
+          title: 'Fruit',
+          imageUrl: imageCat,
+        },
+        {
+          id: 'child2',
+          title: 'Berries',
+          imageUrl: imageCat,
+        },
+        {
+          id: 'child3',
+          title: 'Stonefruit',
+          imageUrl: imageCat,
+        },
+        {
+          id: 'child1',
+          title: 'Vegetables',
+          imageUrl: imageCat,
+        },
+      ],
+    },
+    {
+      id: '2',
+      title: 'Meat, seafood & alternatives',
+      imageUrl: imageCat,
+    },
+    {
+      id: '3',
+      title: 'Nuts & seeds',
+      imageUrl: imageCat,
+    },
+    {
+      id: '4',
+      title: 'Pasta & grains',
+      imageUrl: imageCat,
+    },
+    {
+      id: '5',
+      title: 'Dairy & alternatives',
+      imageUrl: imageCat,
+    },
+    {
+      id: '6',
+      title: 'Spices & seasonings',
+      imageUrl: imageCat,
+    },
+    {
+      id: '7',
+      title: 'Oils, vinegars & Ghee',
+      imageUrl: imageCat,
+    },
+    {
+      id: '8',
+      title: 'Nut butters & fruit spreads',
+      imageUrl: imageCat,
+    },
+    {
+      id: '9',
+      title: 'Bread & bakery products',
+      imageUrl: imageCat,
+    },
+    {
+      id: '10',
+      title: 'Baking supplies',
+      imageUrl: imageCat,
+    },
+    {
+      id: '11',
+      title: 'Cereals & Granola',
+      imageUrl: imageCat,
+    },
+    {
+      id: '12',
+      title: 'Soups & side dishes',
+      imageUrl: imageCat,
+    },
+    {
+      id: '13',
+      title: 'Beverages',
+      imageUrl: imageCat,
+    },
+    {
+      id: '14',
+      title: 'Snacks',
+      imageUrl: imageCat,
+    },
+    {
+      id: '15',
+      title: 'Honey & sweeteners',
+      imageUrl: imageCat,
+    },
+    {
+      id: '16',
+      title: 'Condiments &  dressings',
+      imageUrl: imageCat,
+    },
+    {
+      id: '17',
+      title: 'Frozen & ready to eat meals',
+      imageUrl: imageCat,
+    },
+  ]);
 
   useEffect(() => {
     if (searchValue) {
@@ -61,6 +175,13 @@ const ExploreScreen = () => {
         'https://s3-alpha-sig.figma.com/img/fe50/c429/b7fe121db29ef4675012c561af1555b5?Expires=1694390400&Signature=hMaE7wqBOah66X6clfjgbv5E1GsgXwyiCXGL05-bqG2~pQaroUMZmiROA536uucDw9zp8fXzui3wTxOZNU0c5vuhXnywePn9PN~Y6WZayNwpYfpsXKvPfqPIbgHAn03XEx8yHvah3f6vjbW5dLZrKzdu47oeK0vao87bBzyoKBRDMFSXNqobMpgTxZuosB0rGfQdPgigTQMH2n4Uo~BG7P0MYgWzT60INpTa0nYZuFusJWy8qupzUa4LizqQ2dm~amPrHZjuaFIzj8wM0USnNTkujgsui8ohz89QhPrH22Exxw8EEQhQa~8cXTOA1HEnkdIvFExE7AmwBzURPugpRQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
     },
   ];
+
+  const handleCategory = (item: Category) => {
+    if (item.childrens) {
+      setCategoriesTitle(item.title);
+      setCategories(item.childrens);
+    }
+  };
 
   return (
     <>
@@ -231,7 +352,7 @@ const ExploreScreen = () => {
         ) : (
           <>
             <SectionComponent>
-              <TitleComponent text="Top categories" size={24} flex={0} />
+              <TitleComponent text={categoriesTitle} size={24} flex={0} />
             </SectionComponent>
             <View
               style={{
@@ -242,9 +363,19 @@ const ExploreScreen = () => {
                 horizontal={false}
                 showsVerticalScrollIndicator={false}
                 style={{paddingHorizontal: 16}}
-                data={Array.from({length: 20})}
+                data={categories}
                 renderItem={({item, index}) => (
-                  <ProductItem item={{id: index}} />
+                  <CategoryItem
+                    item={item}
+                    onPress={() =>
+                      item.childrens
+                        ? handleCategory(item)
+                        : navigation.navigate('CategoryDetail', {
+                            category: item,
+                          })
+                    }
+                    key={`category${item.id}`}
+                  />
                 )}
               />
             </View>

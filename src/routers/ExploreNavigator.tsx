@@ -1,6 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {ExploreScreen} from '../screens';
+import {CategoryDetail, ExploreScreen} from '../screens';
 
 const ExploreNavigator = () => {
   const ExploreStack = createNativeStackNavigator();
@@ -11,6 +11,7 @@ const ExploreNavigator = () => {
           headerShown: false,
         }}>
         <ExploreStack.Screen name="ExploreScreen" component={ExploreScreen} />
+        <ExploreStack.Screen name="CategoryDetail" component={CategoryDetail} />
       </ExploreStack.Navigator>
     </>
   );
