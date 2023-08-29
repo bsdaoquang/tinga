@@ -28,124 +28,132 @@ import {appColors} from '../../constants/appColors';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
 import {global} from '../../styles/global';
+import {useIsFocused} from '@react-navigation/native';
 
 const imageCat =
   'https://s3-alpha-sig.figma.com/img/40d7/0023/5868cd6302567bf42e76f428442f47b7?Expires=1693785600&Signature=g7smBLUhN77wSMh~jRHZob99Le6q376mZzJ6BVhLHYBXj4IiV0I~aVYHlCtFXottxPmlldG1dAp1OGoiqmqujvOBLcFlT-IxkfVEOZviAcY87SF-3CTu6OOmuK3etGLt0bHfxutE5C5GRJ1Fz-3axOoDkkhpC0n2GZHH~QgQMTHXCX2ZCeZ3mr~~rXbMFEctVnmQnl2xySJ7XUpn3TWCMjBe3rAMpNySMSoM8O4kCfjK9nC7VhTOGBBjU~XDWBgnbK17kT43Ipj6i8tproTiugN66nHkGH5hfg2-za5krDdt2sbCrLdg~cp6fpk1ODmHuJwriVxrZ7iyLQobA9EU2Q__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4';
 
+const demoCategories = [
+  {
+    id: '1',
+    title: 'Produce',
+    imageUrl: imageCat,
+    childrens: [
+      {
+        id: 'child1',
+        title: 'Fruit',
+        imageUrl: imageCat,
+      },
+      {
+        id: 'child2',
+        title: 'Berries',
+        imageUrl: imageCat,
+      },
+      {
+        id: 'child3',
+        title: 'Stonefruit',
+        imageUrl: imageCat,
+      },
+      {
+        id: 'child1',
+        title: 'Vegetables',
+        imageUrl: imageCat,
+      },
+    ],
+  },
+  {
+    id: '2',
+    title: 'Meat, seafood & alternatives',
+    imageUrl: imageCat,
+  },
+  {
+    id: '3',
+    title: 'Nuts & seeds',
+    imageUrl: imageCat,
+  },
+  {
+    id: '4',
+    title: 'Pasta & grains',
+    imageUrl: imageCat,
+  },
+  {
+    id: '5',
+    title: 'Dairy & alternatives',
+    imageUrl: imageCat,
+  },
+  {
+    id: '6',
+    title: 'Spices & seasonings',
+    imageUrl: imageCat,
+  },
+  {
+    id: '7',
+    title: 'Oils, vinegars & Ghee',
+    imageUrl: imageCat,
+  },
+  {
+    id: '8',
+    title: 'Nut butters & fruit spreads',
+    imageUrl: imageCat,
+  },
+  {
+    id: '9',
+    title: 'Bread & bakery products',
+    imageUrl: imageCat,
+  },
+  {
+    id: '10',
+    title: 'Baking supplies',
+    imageUrl: imageCat,
+  },
+  {
+    id: '11',
+    title: 'Cereals & Granola',
+    imageUrl: imageCat,
+  },
+  {
+    id: '12',
+    title: 'Soups & side dishes',
+    imageUrl: imageCat,
+  },
+  {
+    id: '13',
+    title: 'Beverages',
+    imageUrl: imageCat,
+  },
+  {
+    id: '14',
+    title: 'Snacks',
+    imageUrl: imageCat,
+  },
+  {
+    id: '15',
+    title: 'Honey & sweeteners',
+    imageUrl: imageCat,
+  },
+  {
+    id: '16',
+    title: 'Condiments &  dressings',
+    imageUrl: imageCat,
+  },
+  {
+    id: '17',
+    title: 'Frozen & ready to eat meals',
+    imageUrl: imageCat,
+  },
+];
 const ExploreScreen = ({navigation}: any) => {
   const [isFocused, setIsFocused] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [results, setResults] = useState<any[]>([]);
   const [categoriesTitle, setCategoriesTitle] = useState('Top categories');
-  const [categories, setCategories] = useState<Category[]>([
-    {
-      id: '1',
-      title: 'Produce',
-      imageUrl: imageCat,
-      childrens: [
-        {
-          id: 'child1',
-          title: 'Fruit',
-          imageUrl: imageCat,
-        },
-        {
-          id: 'child2',
-          title: 'Berries',
-          imageUrl: imageCat,
-        },
-        {
-          id: 'child3',
-          title: 'Stonefruit',
-          imageUrl: imageCat,
-        },
-        {
-          id: 'child1',
-          title: 'Vegetables',
-          imageUrl: imageCat,
-        },
-      ],
-    },
-    {
-      id: '2',
-      title: 'Meat, seafood & alternatives',
-      imageUrl: imageCat,
-    },
-    {
-      id: '3',
-      title: 'Nuts & seeds',
-      imageUrl: imageCat,
-    },
-    {
-      id: '4',
-      title: 'Pasta & grains',
-      imageUrl: imageCat,
-    },
-    {
-      id: '5',
-      title: 'Dairy & alternatives',
-      imageUrl: imageCat,
-    },
-    {
-      id: '6',
-      title: 'Spices & seasonings',
-      imageUrl: imageCat,
-    },
-    {
-      id: '7',
-      title: 'Oils, vinegars & Ghee',
-      imageUrl: imageCat,
-    },
-    {
-      id: '8',
-      title: 'Nut butters & fruit spreads',
-      imageUrl: imageCat,
-    },
-    {
-      id: '9',
-      title: 'Bread & bakery products',
-      imageUrl: imageCat,
-    },
-    {
-      id: '10',
-      title: 'Baking supplies',
-      imageUrl: imageCat,
-    },
-    {
-      id: '11',
-      title: 'Cereals & Granola',
-      imageUrl: imageCat,
-    },
-    {
-      id: '12',
-      title: 'Soups & side dishes',
-      imageUrl: imageCat,
-    },
-    {
-      id: '13',
-      title: 'Beverages',
-      imageUrl: imageCat,
-    },
-    {
-      id: '14',
-      title: 'Snacks',
-      imageUrl: imageCat,
-    },
-    {
-      id: '15',
-      title: 'Honey & sweeteners',
-      imageUrl: imageCat,
-    },
-    {
-      id: '16',
-      title: 'Condiments &  dressings',
-      imageUrl: imageCat,
-    },
-    {
-      id: '17',
-      title: 'Frozen & ready to eat meals',
-      imageUrl: imageCat,
-    },
-  ]);
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  const focus = useIsFocused();
+
+  useEffect(() => {
+    setCategories(demoCategories);
+  }, [navigation, focus]);
 
   useEffect(() => {
     if (searchValue) {
