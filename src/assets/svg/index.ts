@@ -8,6 +8,7 @@ import LimitIcon from './LimitIcon.svg';
 import SettingIcon from './SettingIcon.svg';
 import Users from './Users.svg';
 import HeartBold from './HeartBold.svg';
+import GoogleIcon from './GoogleIcon.svg';
 export {
   TingaLogo,
   Circle1,
@@ -18,5 +19,6 @@ export {
   LimitIcon,
   SettingIcon,
   Users,
-  HeartBold
+  HeartBold,
+  GoogleIcon
 };

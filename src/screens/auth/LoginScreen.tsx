@@ -1,5 +1,11 @@
 import React from 'react';
-import {ImageBackground, StatusBar, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  StatusBar,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   Button,
@@ -14,6 +20,9 @@ import {appColors} from '../../constants/appColors';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
 import TermsText from './components/TermsText';
+import {Sms} from 'iconsax-react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {GoogleIcon} from '../../assets/svg';
 
 const LoginScreen = ({navigation}: any) => {
   return (
@@ -21,12 +30,20 @@ const LoginScreen = ({navigation}: any) => {
       <StatusBar barStyle={'dark-content'} />
       <ImageBackground
         source={require('../../assets/images/BGLogin.png')}
-        style={{
-          flex: 1,
+        style={{flex: 1}}
+        imageStyle={{
+          height: '100%',
+          resizeMode: 'stretch',
           width: appSize.width,
-        }}
-        imageStyle={{resizeMode: 'cover', flex: 1, height: 'auto'}}>
-        <SectionComponent styles={{paddingTop: 32}}>
+        }}>
+        {/* <Image
+          source={}
+          style={{
+            width: appSize.width,
+            resizeMode: 'contain',
+          }}
+        /> */}
+        <SectionComponent styles={{paddingTop: 32, position: 'absolute'}}>
           <TouchableOpacity
             style={{padding: 12}}
             onPress={() => navigation.navigate('WelcomeScreen')}>
@@ -34,7 +51,8 @@ const LoginScreen = ({navigation}: any) => {
           </TouchableOpacity>
         </SectionComponent>
       </ImageBackground>
-      <View style={{zIndex: 2}}>
+
+      <View>
         <SectionComponent
           styles={{
             alignItems: 'center',
@@ -47,10 +65,11 @@ const LoginScreen = ({navigation}: any) => {
             text="Create an account to change the way you shop with Tinga – your personalised nutrition assistant"
           />
         </SectionComponent>
-        <SectionComponent styles={{marginBottom: 20}}>
+        <SectionComponent styles={{paddingHorizontal: 28}}>
           <ButtonComponent
+            icon={<FontAwesome name="apple" size={20} color={appColors.text} />}
             text="Continue to Sign Up"
-            onPress={() => navigation.navigate('SignUpScreen')}
+            onPress={() => {}}
             outline
             styles={{
               paddingVertical: 16,
@@ -61,8 +80,9 @@ const LoginScreen = ({navigation}: any) => {
             textColor={appColors.text}
           />
           <ButtonComponent
+            icon={<GoogleIcon width={20} />}
             text="Continue to Sign Up"
-            onPress={() => navigation.navigate('SignUpScreen')}
+            onPress={() => {}}
             outline
             styles={{
               paddingVertical: 16,
@@ -73,7 +93,8 @@ const LoginScreen = ({navigation}: any) => {
             textColor={appColors.text}
           />
           <ButtonComponent
-            text="Continue to Sign Up"
+            icon={<Sms size={20} color={appColors.gray} />}
+            text="Continue with Email"
             onPress={() => navigation.navigate('SignUpScreen')}
             outline
             styles={{
@@ -96,6 +117,7 @@ const LoginScreen = ({navigation}: any) => {
           </RowComponent>
           <SpaceComponent height={16} />
           <TermsText text="By continuing you agree with our " />
+          <SpaceComponent height={16} />
         </SectionComponent>
       </View>
     </>

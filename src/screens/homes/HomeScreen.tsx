@@ -41,7 +41,8 @@ const HomeScreen = ({navigation}: any) => {
 
   useEffect(() => {
     setTimeout(() => {
-      // setIsvisibleModalOffer(true);
+      setIsvisibleModalOffer(true);
+      // setIsVisibleModalFeedback(true);
     }, 3000);
   }, []);
 
