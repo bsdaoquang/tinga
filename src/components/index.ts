@@ -10,6 +10,7 @@ import ImageProduct from "./ImageProduct";
 import { InputComponent } from "./InputComponent";
 import ListItemComponent from "./ListItemComponent";
 import { LoadingComponent } from "./LoadingComponent";
+import ProductItemComponent from "./ProductItemComponent";
 import RowComponent from "./RowComponent";
 import { SectionComponent } from "./SectionComponent";
 import SpaceComponent from "./SpaceComponent";
@@ -35,5 +36,6 @@ export {
   ChartPieItem,
   ListItemComponent,
   ImageProduct,
-  CategoryItem
+  CategoryItem,
+  ProductItemComponent
 };

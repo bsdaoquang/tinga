@@ -5,6 +5,7 @@ import {
   CardContent,
   ChartPieItem,
   Container,
+  ProductItemComponent,
   RowComponent,
   SectionComponent,
   SpaceComponent,
@@ -17,65 +18,10 @@ import {fontFamilys} from '../../constants/fontFamily';
 import {Product} from '../../Models/Product';
 import {appSize} from '../../constants/appSize';
 import {Add, Location, Star1} from 'iconsax-react-native';
+import ProductItem from './component/ProductItem';
 
 const YourListScore = ({navigation, route}: any) => {
   const {products}: {products: Product[]} = route.params;
-
-  const renderProductCard = (item: Product) => (
-    <CardContent
-      isShadow
-      color={appColors.white}
-      styles={{padding: 0, width: (appSize.width - 48) / 2, marginBottom: 12}}
-      key={`${item.id}`}>
-      <Image
-        source={{
-          uri: item.imageUrl,
-        }}
-        style={{
-          width: '100%',
-          height: 96,
-          resizeMode: 'cover',
-          borderTopLeftRadius: 8,
-          borderTopRightRadius: 8,
-        }}
-      />
-      <Button
-        styles={{
-          width: 28,
-          height: 28,
-          backgroundColor: '#41393EA3',
-          borderRadius: 14,
-          position: 'absolute',
-          top: 10,
-          right: 10,
-        }}
-        icon={<Add size={24} color={appColors.white} />}
-        onPress={() => {}}
-      />
-      <View style={{padding: 10}}>
-        <TextComponent text={`$ ${item.price.toFixed(2)}`} size={12} />
-        <TextComponent text={item.title} size={12} line={1} />
-        <SpaceComponent height={8} />
-        <RowComponent justify="flex-start">
-          <Location size={14} color={appColors.gray} />
-          <TextComponent
-            text={` ${item.mart}`}
-            size={12}
-            flex={0}
-            color={appColors.gray}
-          />
-          <SpaceComponent width={12} />
-          <Star1 size={14} color={appColors.gray} />
-          <TextComponent
-            text={` ${item.rating}`}
-            size={12}
-            flex={0}
-            color={appColors.gray}
-          />
-        </RowComponent>
-      </View>
-    </CardContent>
-  );
 
   return (
     <Container back isScroll>
@@ -208,7 +154,9 @@ const YourListScore = ({navigation, route}: any) => {
         </RowComponent>
         {products && products.length > 0 && (
           <RowComponent justify="space-between">
-            {products.map(item => renderProductCard(item))}
+            {products.map(item => (
+              <ProductItemComponent item={item} key={item.id} />
+            ))}
           </RowComponent>
         )}
       </SectionComponent>

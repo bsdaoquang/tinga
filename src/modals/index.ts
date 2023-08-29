@@ -1,6 +1,7 @@
 import ModalFeedback from "./ModalFeedback";
 import ModalInfoScore from "./ModalInfoScore";
 import ModalOffer from "./ModalOffer";
+import ModalProduct from "./ModalProduct";
 import ModalRating from "./ModalRating";
 import ModalizeEditShopList from "./ModalizeEditShopList";
 import SubscriptionModal from "./SubscriptionModal";
@@ -11,5 +12,6 @@ export {
   ModalFeedback,
   ModalRating,
   ModalInfoScore,
-  ModalizeEditShopList
+  ModalizeEditShopList,
+  ModalProduct
 };

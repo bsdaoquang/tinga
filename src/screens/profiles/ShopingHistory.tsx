@@ -273,8 +273,12 @@ const ShopingHistory = () => {
           />
         }
         data={item.dataProducts}
-        renderItem={({item}) => (
-          <ImageProduct imageUrl={item.imageUrl} styles={{marginLeft: 8}} />
+        renderItem={({item, index}) => (
+          <ImageProduct
+            key={`image${index}`}
+            imageUrl={item.imageUrl}
+            styles={{marginLeft: 8}}
+          />
         )}
         showsHorizontalScrollIndicator={false}
         horizontal
