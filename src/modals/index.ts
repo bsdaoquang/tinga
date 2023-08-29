@@ -1,4 +1,5 @@
 import ModalFeedback from "./ModalFeedback";
+import ModalFoodScoreInfo from "./ModalFoodScoreInfo";
 import ModalInfoScore from "./ModalInfoScore";
 import ModalOffer from "./ModalOffer";
 import ModalProduct from "./ModalProduct";
@@ -13,5 +14,6 @@ export {
   ModalRating,
   ModalInfoScore,
   ModalizeEditShopList,
-  ModalProduct
+  ModalProduct,
+  ModalFoodScoreInfo
 };

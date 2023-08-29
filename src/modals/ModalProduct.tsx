@@ -36,6 +36,7 @@ import {
 import {global} from '../styles/global';
 import {fontFamilys} from '../constants/fontFamily';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import ModalFoodScoreInfo from './ModalFoodScoreInfo';
 
 interface Props {
   visible: boolean;
@@ -47,6 +48,8 @@ const ModalProduct = (props: Props) => {
   const {visible, onClose, product} = props;
   const [isLike, setIsLike] = useState(false);
   const [count, setCount] = useState(product.count ?? 1);
+  const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] =
+    useState(false);
 
   useEffect(() => {
     visible && modalRef.current?.open();
@@ -258,7 +261,7 @@ const ModalProduct = (props: Props) => {
                       top: 0,
                       right: 2,
                     }}
-                    onPress={() => {}}
+                    onPress={() => setIsShowModalFoodScoreInfo(true)}
                     icon={
                       <MaterialIcons name="info" size={20} color={'#9F9F9F'} />
                     }
@@ -403,6 +406,10 @@ const ModalProduct = (props: Props) => {
           </RowComponent>
         </View>
       </Modalize>
+      <ModalFoodScoreInfo
+        visible={isShowModalFoodScoreInfo}
+        onClose={() => setIsShowModalFoodScoreInfo(false)}
+      />
     </Portal>
   );
 };
