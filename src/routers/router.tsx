@@ -10,7 +10,7 @@ const Router = () => {
 
   return (
     <NavigationContainer>
-      {!auth.uid ? <MainNavigator /> : <WelcomeNavigator />}
+      {auth.uid ? <MainNavigator /> : <WelcomeNavigator />}
     </NavigationContainer>
   );
 };

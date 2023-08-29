@@ -1,5 +1,5 @@
 import React from 'react';
-import {ImageBackground, StatusBar, TouchableOpacity} from 'react-native';
+import {ImageBackground, StatusBar, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   Button,
@@ -25,7 +25,7 @@ const LoginScreen = ({navigation}: any) => {
           flex: 1,
           width: appSize.width,
         }}
-        imageStyle={{resizeMode: 'cover'}}>
+        imageStyle={{resizeMode: 'cover', flex: 1, height: 'auto'}}>
         <SectionComponent styles={{paddingTop: 32}}>
           <TouchableOpacity
             style={{padding: 12}}
@@ -33,11 +33,10 @@ const LoginScreen = ({navigation}: any) => {
             <AntDesign name="arrowleft" size={22} color={appColors.text} />
           </TouchableOpacity>
         </SectionComponent>
-
+      </ImageBackground>
+      <View style={{zIndex: 2}}>
         <SectionComponent
           styles={{
-            flex: 1,
-            justifyContent: 'flex-end',
             alignItems: 'center',
             width: '100%',
           }}>
@@ -56,13 +55,37 @@ const LoginScreen = ({navigation}: any) => {
             styles={{
               paddingVertical: 16,
               borderColor: '#EEF3DC',
-              marginVertical: 16,
+              marginVertical: 6,
+              borderRadius: 14,
+            }}
+            textColor={appColors.text}
+          />
+          <ButtonComponent
+            text="Continue to Sign Up"
+            onPress={() => navigation.navigate('SignUpScreen')}
+            outline
+            styles={{
+              paddingVertical: 16,
+              borderColor: '#EEF3DC',
+              marginVertical: 6,
+              borderRadius: 14,
+            }}
+            textColor={appColors.text}
+          />
+          <ButtonComponent
+            text="Continue to Sign Up"
+            onPress={() => navigation.navigate('SignUpScreen')}
+            outline
+            styles={{
+              paddingVertical: 16,
+              borderColor: '#EEF3DC',
+              marginVertical: 6,
               borderRadius: 14,
             }}
             textColor={appColors.text}
           />
 
-          <RowComponent>
+          <RowComponent styles={{marginTop: 12}}>
             <TextComponent text="Already have an account? " flex={0} />
             <Button
               text="Login"
@@ -74,7 +97,7 @@ const LoginScreen = ({navigation}: any) => {
           <SpaceComponent height={16} />
           <TermsText text="By continuing you agree with our " />
         </SectionComponent>
-      </ImageBackground>
+      </View>
     </>
   );
 };
