@@ -18,6 +18,7 @@ import {
   CardContent,
   CategoryItem,
   Container,
+  ProductItemComponent,
   RowComponent,
   SectionComponent,
   SpaceComponent,
@@ -278,39 +279,15 @@ const ExploreScreen = ({navigation}: any) => {
                 showsVerticalScrollIndicator={false}
                 data={Array.from({length: 20})}
                 renderItem={({item, index}) => (
-                  <CardContent
-                    isShadow
-                    onPress={() => console.log('first')}
-                    color={appColors.white}
-                    styles={{
-                      padding: 0,
-                      width: (appSize.width - 48) / 2,
-                      marginLeft: 16,
-
-                      marginBottom: 16,
-                    }}>
-                    <Image
-                      style={{
-                        width: '100%',
-                        height: 100,
-                        resizeMode: 'cover',
-                        borderTopLeftRadius: 8,
-                        borderTopRightRadius: 8,
-                      }}
-                      source={{
-                        uri: 'https://s3-alpha-sig.figma.com/img/fe50/c429/b7fe121db29ef4675012c561af1555b5?Expires=1694390400&Signature=hMaE7wqBOah66X6clfjgbv5E1GsgXwyiCXGL05-bqG2~pQaroUMZmiROA536uucDw9zp8fXzui3wTxOZNU0c5vuhXnywePn9PN~Y6WZayNwpYfpsXKvPfqPIbgHAn03XEx8yHvah3f6vjbW5dLZrKzdu47oeK0vao87bBzyoKBRDMFSXNqobMpgTxZuosB0rGfQdPgigTQMH2n4Uo~BG7P0MYgWzT60INpTa0nYZuFusJWy8qupzUa4LizqQ2dm~amPrHZjuaFIzj8wM0USnNTkujgsui8ohz89QhPrH22Exxw8EEQhQa~8cXTOA1HEnkdIvFExE7AmwBzURPugpRQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
-                      }}
-                    />
-                    <View style={{padding: 10}}>
-                      <TextComponent text="$12.99" />
-                      <TextComponent
-                        text="Apple Pie “Golden"
-                        size={12}
-                        styles={{marginVertical: 4}}
-                      />
-                    </View>
-                  </CardContent>
-                  // <ProductItem item={{id: index}} />
+                  <ProductItemComponent
+                    item={{
+                      imageUrl:
+                        index % 2 === 0
+                          ? 'https://s3-alpha-sig.figma.com/img/fe50/c429/b7fe121db29ef4675012c561af1555b5?Expires=1694390400&Signature=hMaE7wqBOah66X6clfjgbv5E1GsgXwyiCXGL05-bqG2~pQaroUMZmiROA536uucDw9zp8fXzui3wTxOZNU0c5vuhXnywePn9PN~Y6WZayNwpYfpsXKvPfqPIbgHAn03XEx8yHvah3f6vjbW5dLZrKzdu47oeK0vao87bBzyoKBRDMFSXNqobMpgTxZuosB0rGfQdPgigTQMH2n4Uo~BG7P0MYgWzT60INpTa0nYZuFusJWy8qupzUa4LizqQ2dm~amPrHZjuaFIzj8wM0USnNTkujgsui8ohz89QhPrH22Exxw8EEQhQa~8cXTOA1HEnkdIvFExE7AmwBzURPugpRQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
+                          : 'https://s3-alpha-sig.figma.com/img/620f/e1b9/e9b5cef2015ab78d3d15ac9542b76f0a?Expires=1694390400&Signature=hFKUQwT8Q3dMyNNfIkr6Xc4LpHTLrVO0Outk7i0T5eoJwSKJjo7foynJG37E0q1DTUzx~5M8HmaU6mwiOIzQQ4DBQJBF2w70jUvJrqNbf6i24sXkeX-eZEqeN514CCW-~pPLpaBeYCzsEK5CIzUC-37K6hxJKTIkdHPH2EjJ~LF5vzcKEEd6gTNI2pUlMOBkpr-Kl82qdLSU7PabJ79LleiN2NzExwuvClG2e~FPEfhXh0Wt9q913NkRbG4SFDWX7UkowDrdt2h5ZddoKmQb418kxa8mBL9Fi8uRkQ9IFZeT-g1mB29be7OBUS2sCfjmoisgR9lj6mwjXx2YXvDbWw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
+                    }}
+                    styles={{marginLeft: 16}}
+                  />
                 )}
               />
             ) : (

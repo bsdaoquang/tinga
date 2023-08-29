@@ -1,12 +1,12 @@
 import React, {ReactNode} from 'react';
-import {TouchableOpacity, View, ViewStyle} from 'react-native';
+import {StyleProp, TouchableOpacity, View, ViewStyle} from 'react-native';
 import {global} from '../styles/global';
 import {appColors} from '../constants/appColors';
 
 interface Props {
   children: ReactNode;
   onPress?: () => void;
-  styles?: ViewStyle;
+  styles?: StyleProp<ViewStyle>;
   color?: string;
   isShadow?: boolean;
 }
