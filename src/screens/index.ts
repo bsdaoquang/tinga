@@ -1,22 +1,23 @@
-import SplashScreen from "./SplashScreen";
-import LoginScreen from "./auth/LoginScreen";
-import SignUpScreen from "./auth/SignUpScreen";
-import VerifyEmail from "./auth/VerifyEmail";
-import CategoryDetail from "./explores/CategoryDetail";
-import ExploreScreen from "./explores/ExploreScreen";
-import GroceryScreen from "./grocyries/GroceryScreen";
-import ProductDetail from "./grocyries/ProductDetail";
-import ImproveScore from "./grocyries/YourListScore";
-import HomeScreen from "./homes/HomeScreen";
-import ChooseAllergy from "./onboards/ChooseAllergy";
-import ChooseDiet from "./onboards/ChooseDiet";
-import ChooseStore from "./onboards/ChooseStore";
-import Welcome from "./onboards/Welcome";
-import ListScoreTrend from "./profiles/ListScoreTrend";
-import ListScores from "./profiles/ListScores";
-import ProfileScreen from "./profiles/ProfileScreen";
-import ReferralScreen from "./profiles/ReferralScreen";
-import ShopingHistory from "./profiles/ShopingHistory";
+import SplashScreen from './SplashScreen';
+import HomeLoginScreen from './auth/HomeLoginScreen';
+import LoginScreen from './auth/LoginScreen';
+import SignUpScreen from './auth/SignUpScreen';
+import VerifyEmail from './auth/VerifyEmail';
+import CategoryDetail from './explores/CategoryDetail';
+import ExploreScreen from './explores/ExploreScreen';
+import GroceryScreen from './grocyries/GroceryScreen';
+import ProductDetail from './grocyries/ProductDetail';
+import ImproveScore from './grocyries/YourListScore';
+import HomeScreen from './homes/HomeScreen';
+import ChooseAllergy from './onboards/ChooseAllergy';
+import ChooseDiet from './onboards/ChooseDiet';
+import ChooseStore from './onboards/ChooseStore';
+import Welcome from './onboards/Welcome';
+import ListScoreTrend from './profiles/ListScoreTrend';
+import ListScores from './profiles/ListScores';
+import ProfileScreen from './profiles/ProfileScreen';
+import ReferralScreen from './profiles/ReferralScreen';
+import ShopingHistory from './profiles/ShopingHistory';
 
 export {
   HomeScreen,
@@ -37,5 +38,6 @@ export {
   ShopingHistory,
   ProductDetail,
   ReferralScreen,
-  CategoryDetail
+  CategoryDetail,
+  HomeLoginScreen,
 };

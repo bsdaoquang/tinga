@@ -26,7 +26,7 @@ const Welcome = ({navigation}: any) => {
         <RowComponent justify="flex-end" styles={{paddingHorizontal: 16}}>
           <Button
             text="Skip"
-            onPress={() => navigation.navigate('LoginScreen')}
+            onPress={() => navigation.navigate('HomeLoginScreen')}
             textColor={appColors.white6}
             textSize={16}
           />
@@ -40,7 +40,7 @@ const Welcome = ({navigation}: any) => {
               width: 32,
               marginBottom: -32,
             }}
-            onIndexChanged={i => console.log(i)}
+            onIndexChanged={i => setIndexScreen(i)}
             dotStyle={{marginBottom: -32}}
             dotColor={appColors.white4}>
             <Welcome1 />
@@ -54,7 +54,7 @@ const Welcome = ({navigation}: any) => {
             text={indexScreen >= 3 ? 'Let’s get started' : 'Next'}
             onPress={() =>
               indexScreen === 3
-                ? navigation.navigate('LoginScreen')
+                ? navigation.navigate('HomeLoginScreen')
                 : setIndexScreen(indexScreen + 1)
             }
             fontStyles={{fontSize: 16, textAlign: 'center'}}

@@ -4,6 +4,7 @@ import {
   ChooseAllergy,
   ChooseDiet,
   ChooseStore,
+  HomeLoginScreen,
   LoginScreen,
   SignUpScreen,
   VerifyEmail,
@@ -19,6 +20,7 @@ const WelcomeNavigator = () => {
       }}>
       <WelcomeStack.Screen name="WelcomeScreen" component={Welcome} />
       <WelcomeStack.Screen name="LoginScreen" component={LoginScreen} />
+      <WelcomeStack.Screen name="HomeLoginScreen" component={HomeLoginScreen} />
       <WelcomeStack.Screen name="SignUpScreen" component={SignUpScreen} />
       <WelcomeStack.Screen name="VerifyEmail" component={VerifyEmail} />
       <WelcomeStack.Screen name="ChooseAllergy" component={ChooseAllergy} />
