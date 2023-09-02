@@ -33,27 +33,24 @@ const ReferralScreen = ({navigation}: any) => {
   const [isCheckMail, setIsCheckMail] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setRewards({
-        title: '$10 Gift Card',
-        description:
-          'Congratulations! You’ve earned a gift card to spend at a store of your choice.',
-        isRedeem: false,
-      });
-
-      setIsLoading(false);
-    }, 1500);
+    // setIsLoading(true);
+    // setTimeout(() => {
+    //   setRewards({
+    //     title: '$10 Gift Card',
+    //     description:
+    //       'Congratulations! You’ve earned a gift card to spend at a store of your choice.',
+    //     isRedeem: false,
+    //   });
+    //   setIsLoading(false);
+    // }, 1500);
   }, []);
 
   const handleCheckMail = () => {
-    setIsCheckMail(true);
-
-    setTimeout(() => {
-      setRewards({...rewards, isRedeem: true});
-      setIsCheckMail(false);
-    }, 2000);
+    // setIsCheckMail(true);
+    // setTimeout(() => {
+    //   setRewards({...rewards, isRedeem: true});
+    //   setIsCheckMail(false);
+    // }, 2000);
   };
 
   const renderReward = () => (
@@ -171,9 +168,9 @@ const ReferralScreen = ({navigation}: any) => {
             onPress={() => {
               setIsCoping(true);
 
-              setTimeout(() => {
-                setIsCoping(false);
-              }, 1500);
+              // setTimeout(() => {
+              //   setIsCoping(false);
+              // }, 1500);
             }}
           />
         </SectionComponent>

@@ -19,6 +19,10 @@ import {GoogleIcon} from '../../assets/svg';
 import {Sms} from 'iconsax-react-native';
 
 const HomeLoginScreen = ({navigation}: any) => {
+  const handleLoginWithAppleAccount = async () => {};
+
+  const handleLoginWithGooleAccount = async () => {};
+
   return (
     <>
       <StatusBar barStyle={'dark-content'} />
@@ -56,7 +60,7 @@ const HomeLoginScreen = ({navigation}: any) => {
           <ButtonComponent
             icon={<FontAwesome name="apple" size={20} color={appColors.text} />}
             text="Continue to Sign Up"
-            onPress={() => {}}
+            onPress={handleLoginWithAppleAccount}
             outline
             styles={{
               paddingVertical: 16,
@@ -69,7 +73,7 @@ const HomeLoginScreen = ({navigation}: any) => {
           <ButtonComponent
             icon={<GoogleIcon width={20} />}
             text="Continue to Sign Up"
-            onPress={() => {}}
+            onPress={handleLoginWithGooleAccount}
             outline
             styles={{
               paddingVertical: 16,

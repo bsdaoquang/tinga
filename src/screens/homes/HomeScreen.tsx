@@ -40,10 +40,10 @@ const HomeScreen = ({navigation}: any) => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsvisibleModalOffer(true);
-      // setIsVisibleModalFeedback(true);
-    }, 3000);
+    // setTimeout(() => {
+    //   setIsvisibleModalOffer(true);
+    //   // setIsVisibleModalFeedback(true);
+    // }, 3000);
   }, []);
 
   return (

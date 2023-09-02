@@ -4,16 +4,15 @@ import store from './src/redux/store';
 import Router from './src/routers/router';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Host} from 'react-native-portalize';
-import {StatusBar} from 'react-native';
 
 const App = () => {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <Host>
-        <Provider store={store}>
+      <Provider store={store}>
+        <Host>
           <Router />
-        </Provider>
-      </Host>
+        </Host>
+      </Provider>
     </GestureHandlerRootView>
   );
 };

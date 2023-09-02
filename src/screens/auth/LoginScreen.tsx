@@ -1,12 +1,9 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
-import {
-  ActivityIndicator,
-  Image,
-  ImageBackground,
-  StatusBar,
-  TouchableOpacity,
-} from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import {Image} from 'react-native';
+import {useDispatch} from 'react-redux';
+import authenticationAPI from '../../apis/authAPI';
 import {
   Button,
   ButtonComponent,
@@ -19,16 +16,12 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
+import {appInfos} from '../../constants/appInfos';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
-import TermsText from './components/TermsText';
-import {Sms} from 'iconsax-react-native';
 import useAuth from '../../hooks/useAuth';
-import {useDispatch} from 'react-redux';
 import {addAuth} from '../../redux/reducers/authReducer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {appInfos} from '../../constants/appInfos';
-import authenticationAPI from '../../apis/authAPI';
+import TermsText from './components/TermsText';
 
 const LoginScreen = ({navigation}: any) => {
   const [isShowPass, setIsShowPass] = useState(false);

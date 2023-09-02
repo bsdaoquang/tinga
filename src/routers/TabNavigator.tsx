@@ -1,19 +1,14 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {
-  Element3,
-  SearchNormal1,
-  ShoppingCart,
-  User,
-} from 'iconsax-react-native';
+import {Element3, SearchNormal1, User} from 'iconsax-react-native';
 import React from 'react';
 import {Platform} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {TextComponent} from '../components';
 import {appColors} from '../constants/appColors';
 import ExploreNavigator from './ExploreNavigator';
 import GroceryNavigator from './GroceryNavigator';
 import HomeNavigator from './HomeNavigator';
 import ProfileNavigator from './ProfileNavigator';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const TabNavigator = () => {
   const Tabs = createBottomTabNavigator();
