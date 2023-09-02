@@ -18,8 +18,8 @@ const WelcomeNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <WelcomeStack.Screen name="WelcomeScreen" component={Welcome} />
-      {/* <WelcomeStack.Screen name="WelcomeScreen" component={ChooseAllergy} /> */}
+      {/* <WelcomeStack.Screen name="WelcomeScreen" component={Welcome} /> */}
+      <WelcomeStack.Screen name="WelcomeScreen" component={ChooseAllergy} />
       <WelcomeStack.Screen name="LoginScreen" component={LoginScreen} />
       <WelcomeStack.Screen name="HomeLoginScreen" component={HomeLoginScreen} />
       <WelcomeStack.Screen name="SignUpScreen" component={SignUpScreen} />

@@ -14,8 +14,8 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use(async (config: any) => {
-  const accessToken = await getAccessToken();
-
+  // const accessToken = await getAccessToken();
+  const accessToken = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTY5MzM1MjM1MSwibmJmIjoxNjkzMzUyMzUxLCJqdGkiOiIxNzVPV2JoelBoMnNwMTg1Iiwic3ViIjo1MjMsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.L4YVtPsjjg08QK2t_dAkBOlR7J0StRimalZlne9QD9I`;
   config.headers = {
     Authorization: accessToken ? `Bearer ${accessToken}` : '',
     'Content-Type': 'application/json',

@@ -60,7 +60,7 @@ const ChooseDiet = ({navigation}: any) => {
           size={26}
         />
         <SpaceComponent height={20} />
-        <RowComponent justify="flex-start">
+        {/* <RowComponent justify="flex-start">
           {values.map((val, index) => (
             <RenderChooseValue
               key={`diet${index}`}
@@ -69,7 +69,7 @@ const ChooseDiet = ({navigation}: any) => {
               selected={selected}
             />
           ))}
-        </RowComponent>
+        </RowComponent> */}
       </SectionComponent>
       <SectionComponent styles={{marginVertical: 20}}>
         <ButtonComponent

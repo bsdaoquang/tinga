@@ -4,35 +4,36 @@ import {global} from '../../../styles/global';
 import {appColors} from '../../../constants/appColors';
 import {TextComponent} from '../../../components';
 import {fontFamilys} from '../../../constants/fontFamily';
+import {UserChoose} from '../../../Models/UserChoose';
 
 interface Props {
-  value: string;
-  onPress: (val: string) => void;
-  selected?: string[];
+  item: UserChoose;
+  onPress: (val: UserChoose) => void;
+  selected?: number[];
 }
 
 const RenderChooseValue = (props: Props) => {
-  const {value, onPress, selected} = props;
+  const {item, onPress, selected} = props;
 
   return (
     <TouchableOpacity
-      onPress={() => onPress(value)}
-      key={`item${value}`}
+      onPress={() => onPress(item)}
+      key={`item${item}`}
       style={[
         global.tag,
         global.shadow,
         {
           shadowColor: 'rgba(0, 0, 0, 0.15)',
-          borderWidth: selected && selected.includes(value) ? 2 : 0,
+          borderWidth: selected && selected.includes(item.id) ? 2 : 0,
           borderColor: appColors.success1,
         },
       ]}>
       <TextComponent
-        text={value}
+        text={item.name}
         flex={0}
         color={appColors.text2}
         font={
-          selected && selected.includes(value)
+          selected && selected.includes(item.id)
             ? fontFamilys.bold
             : fontFamilys.medium
         }
