@@ -9,6 +9,7 @@ import {
   ButtonComponent,
   Container,
   InputComponent,
+  LoadingComponent,
   RowComponent,
   SectionComponent,
   SpaceComponent,
@@ -22,11 +23,12 @@ import {fontFamilys} from '../../constants/fontFamily';
 import useAuth from '../../hooks/useAuth';
 import {addAuth} from '../../redux/reducers/authReducer';
 import TermsText from './components/TermsText';
+import {LoadingModal} from '../../modals';
 
 const LoginScreen = ({navigation}: any) => {
   const [isShowPass, setIsShowPass] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('rfedun@hotmail.com');
+  const [password, setPassword] = useState('Fedunrob1');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -143,6 +145,7 @@ const LoginScreen = ({navigation}: any) => {
         <SpaceComponent height={16} />
         <TermsText text="By continuing you agree with our " />
       </SectionComponent>
+      <LoadingModal visible={isLoading} />
     </Container>
   );
 };

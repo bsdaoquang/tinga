@@ -30,6 +30,8 @@ import CategoriesList from './components/CategoriesList';
 import Promotions from './components/Promotions';
 import VideoPlayer from './components/VideoPlayer';
 import {useIsFocused} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {authSelector} from '../../redux/reducers/authReducer';
 
 const HomeScreen = ({navigation}: any) => {
   const [isLogin, setIsLogin] = useState(false);
@@ -39,12 +41,7 @@ const HomeScreen = ({navigation}: any) => {
   const [isVisibleModalFeedback, setIsVisibleModalFeedback] = useState(false);
   const isFocused = useIsFocused();
 
-  useEffect(() => {
-    // setTimeout(() => {
-    //   setIsvisibleModalOffer(true);
-    //   // setIsVisibleModalFeedback(true);
-    // }, 3000);
-  }, []);
+  const auth = useSelector(authSelector);
 
   return (
     <>
@@ -62,7 +59,7 @@ const HomeScreen = ({navigation}: any) => {
               style={{flex: 1}}
               onPress={() => navigation.navigate('Profile')}>
               <TitleComponent
-                text="Hi, Jenna"
+                text={`Hi, ${auth.first_name} ${auth.last_name}`}
                 size={28}
                 color={appColors.white}
                 height={28}
