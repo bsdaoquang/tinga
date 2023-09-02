@@ -23,13 +23,12 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {appleAuthAndroid} from '@invertase/react-native-apple-authentication';
 
-GoogleSignin.configure({
-  webClientId:
-    '1006468110259-2nsu1v04usg1urr2h9sb55u4ovb14irs.apps.googleusercontent.com',
-  offlineAccess: false,
-});
-
 const HomeLoginScreen = ({navigation}: any) => {
+  GoogleSignin.configure({
+    webClientId:
+      '648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl.apps.googleusercontent.com',
+  });
+
   const handleLoginWithAppleAccount = async () => {
     appleAuthAndroid.configure({
       // The Service ID you registered with Apple
@@ -54,7 +53,9 @@ const HomeLoginScreen = ({navigation}: any) => {
 
   const handleLoginWithGooleAccount = async () => {
     try {
-      await GoogleSignin.hasPlayServices();
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
       const userInfo = await GoogleSignin.signIn();
       console.log(userInfo);
       // handle login with user info id

@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl.apps.googleusercontent.com",
+          "client_id": "648702036593-et6rn5vi5026thpr6hfnisj1buhtup9t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tinga",
+            "certificate_hash": "93089b8e5f865566152653743669ccd4fdf3cdd9"
+          }
+        },
+        {
+          "client_id": "648702036593-1q314252tjvm4fj87ufd1hetqapi6cu6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +35,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl.apps.googleusercontent.com",
+              "client_id": "648702036593-1q314252tjvm4fj87ufd1hetqapi6cu6.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "648702036593-jb7h4e0jt8g24al2vpn2f0vd6m94ah67.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tinga"
+              }
             }
           ]
         }
