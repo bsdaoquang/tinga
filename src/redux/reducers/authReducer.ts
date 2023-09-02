@@ -4,7 +4,13 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     authData: {
-      uid: '',
+      access_token: '',
+      email: '',
+      first_name: '',
+      id: null,
+      last_name: '',
+      phone: null,
+      token_type: '',
     },
   },
   reducers: {

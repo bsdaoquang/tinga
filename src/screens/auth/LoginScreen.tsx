@@ -51,8 +51,8 @@ const LoginScreen = ({navigation}: any) => {
               );
               setIsLoading(false);
             } else {
+              setErrorMessage(res.message);
               setIsLoading(false);
-              setErrorMessage('Email/Password is not correct!');
             }
           });
       } catch (error) {

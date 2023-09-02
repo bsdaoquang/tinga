@@ -1,4 +1,4 @@
-import {Sms} from 'iconsax-react-native';
+import {CloudFog, Sms} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {
   ButtonComponent,
@@ -13,6 +13,11 @@ import {fontFamilys} from '../../constants/fontFamily';
 import useAuth from '../../hooks/useAuth';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import TermsText from './components/TermsText';
+import authenticationAPI from '../../apis/authAPI';
+import {useDispatch} from 'react-redux';
+import {addAuth} from '../../redux/reducers/authReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appInfos} from '../../constants/appInfos';
 
 const SignUpScreen = ({navigation}: any) => {
   const [isShowPass, setIsShowPass] = useState(false);
@@ -21,14 +26,7 @@ const SignUpScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [disable, setDisable] = useState(true);
-
-  useEffect(() => {
-    if (email && password && firstname && lastname) {
-      setDisable(false);
-    } else {
-      setDisable(true);
-    }
-  }, [email, password, firstname, lastname]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     handleCheckFirstname,
@@ -36,10 +34,52 @@ const SignUpScreen = ({navigation}: any) => {
     handleCheckEmail,
     handleCheckPass,
     helpText,
-    isLoading,
-    handleLogin,
   } = useAuth(navigation);
 
+  useEffect(() => {
+    if (
+      email &&
+      password &&
+      firstname &&
+      lastname &&
+      !helpText?.email &&
+      !helpText?.paddword
+    ) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [email, password, firstname, lastname, helpText]);
+
+  const dispatch = useDispatch();
+
+  const handleSignIn = async () => {
+    setIsLoading(true);
+    const api = `/register`;
+    try {
+      const data = {
+        email,
+        password,
+        first_name: firstname,
+        last_name: lastname,
+      };
+
+      await authenticationAPI
+        .HandleAuth(api, data, 'post')
+        .then(async (res: any) => {
+          navigation.navigate('VerifyEmail', {email});
+          // dispatch(addAuth(res.data));
+          // await AsyncStorage.setItem(
+          //   appInfos.localDataName.accessToken,
+          //   JSON.stringify(res.data),
+          // );
+          setIsLoading(false);
+        });
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
   return (
     <Container back isScroll>
       <SectionComponent>
@@ -89,13 +129,13 @@ const SignUpScreen = ({navigation}: any) => {
       </SectionComponent>
       <SectionComponent>
         <ButtonComponent
-          disable={disable}
+          disable={isLoading ? isLoading : disable}
           textColor={appColors.text}
           color={appColors.success1}
           fontStyles={{textAlign: 'center'}}
           text="Continue"
           styles={{opacity: disable ? 0.5 : 1, paddingVertical: 18}}
-          onPress={() => handleLogin({firstname, lastname, email, password})}
+          onPress={handleSignIn}
           iconRight
           icon={
             <AntDesign name="arrowright" size={20} color={appColors.text} />

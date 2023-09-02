@@ -17,11 +17,60 @@ import TermsText from './components/TermsText';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {GoogleIcon} from '../../assets/svg';
 import {Sms} from 'iconsax-react-native';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {appleAuthAndroid} from '@invertase/react-native-apple-authentication';
+
+GoogleSignin.configure({
+  webClientId:
+    '1006468110259-2nsu1v04usg1urr2h9sb55u4ovb14irs.apps.googleusercontent.com',
+  offlineAccess: false,
+});
 
 const HomeLoginScreen = ({navigation}: any) => {
-  const handleLoginWithAppleAccount = async () => {};
+  const handleLoginWithAppleAccount = async () => {
+    appleAuthAndroid.configure({
+      // The Service ID you registered with Apple
+      clientId: 'com.example.client-android',
 
-  const handleLoginWithGooleAccount = async () => {};
+      // Return URL added to your Apple dev console. We intercept this redirect, but it must still match
+      // the URL you provided to Apple. It can be an empty route on your backend as it's never called.
+      redirectUri: 'https://example.com/auth/callback',
+
+      // The type of response requested - code, id_token, or both.
+      responseType: appleAuthAndroid.ResponseType.ALL,
+
+      // The amount of user information requested from Apple.
+      scope: appleAuthAndroid.Scope.ALL,
+    });
+
+    // Open the browser window for user sign in
+    const response = await appleAuthAndroid.signIn();
+
+    console.log(response);
+  };
+
+  const handleLoginWithGooleAccount = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+      // handle login with user info id
+    } catch (error: any) {
+      console.log(error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
 
   return (
     <>
