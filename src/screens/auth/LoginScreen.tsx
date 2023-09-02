@@ -47,7 +47,7 @@ const LoginScreen = ({navigation}: any) => {
               dispatch(addAuth(res.data));
               await AsyncStorage.setItem(
                 appInfos.localDataName.accessToken,
-                JSON.stringify(res.data),
+                JSON.stringify(res.data.access_token),
               );
               setIsLoading(false);
             } else {

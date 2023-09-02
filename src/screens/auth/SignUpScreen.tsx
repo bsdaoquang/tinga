@@ -68,11 +68,11 @@ const SignUpScreen = ({navigation}: any) => {
         .HandleAuth(api, data, 'post')
         .then(async (res: any) => {
           navigation.navigate('VerifyEmail', {email});
-          // dispatch(addAuth(res.data));
-          // await AsyncStorage.setItem(
-          //   appInfos.localDataName.accessToken,
-          //   JSON.stringify(res.data),
-          // );
+          dispatch(addAuth(res.data));
+          await AsyncStorage.setItem(
+            appInfos.localDataName.accessToken,
+            JSON.stringify(res.data.access_token),
+          );
           setIsLoading(false);
         });
     } catch (error) {

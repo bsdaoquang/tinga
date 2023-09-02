@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Image, StatusBar, Text, View} from 'react-native';
+import {Alert, Image, StatusBar, Text, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -24,12 +24,16 @@ import {
 import {appColors} from '../../constants/appColors';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
-import {ModalInfoScore} from '../../modals';
+import {LoadingModal, ModalInfoScore} from '../../modals';
 import {addAuth} from '../../redux/reducers/authReducer';
 import {global} from '../../styles/global';
+import authenticationAPI from '../../apis/authAPI';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appInfos} from '../../constants/appInfos';
 
 const ProfileScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -84,6 +88,33 @@ const ProfileScreen = ({navigation}: any) => {
       />
     </View>
   );
+
+  const handleLogout = () => {
+    Alert.alert('Logout', 'Do you want logout?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+        onPress: () => console.log('Cancel'),
+      },
+      {text: 'Logout', style: 'destructive', onPress: onLogout},
+    ]);
+  };
+
+  const onLogout = async () => {
+    setIsLoading(true);
+    const api = `/logout`;
+
+    try {
+      await authenticationAPI.HandleAuth(api, {}, 'post').then(async res => {
+        dispatch(addAuth({}));
+        await AsyncStorage.removeItem(appInfos.localDataName.accessToken);
+        setIsLoading(false);
+      });
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
 
   const settings: ListMenuItem[] = [
     {
@@ -329,9 +360,7 @@ const ProfileScreen = ({navigation}: any) => {
         </CardContent>
       </SectionComponent>
       <SectionComponent>
-        <CardContent
-          color={appColors.white}
-          onPress={() => dispatch(addAuth({uid: ''}))}>
+        <CardContent color={appColors.white} onPress={handleLogout}>
           <TextComponent text="Log Out" color={appColors.danger} />
         </CardContent>
       </SectionComponent>
@@ -340,6 +369,8 @@ const ProfileScreen = ({navigation}: any) => {
         visible={isVisibleModalInfo}
         onClose={() => setIsVisibleModalInfo(false)}
       />
+
+      <LoadingModal visible={isLoading} />
     </Container>
   );
 };

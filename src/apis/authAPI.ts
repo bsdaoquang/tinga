@@ -1,6 +1,6 @@
-import { appInfos } from '../constants/appInfos';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appInfos} from '../constants/appInfos';
 import axiosClient from './axiosClient';
-
 
 class AuthAPI {
   HandleAuth = async (
@@ -10,14 +10,13 @@ class AuthAPI {
     isFile?: boolean,
     onProgress?: (val: any) => void,
   ) => {
-    
     return await axiosClient(`${appInfos.baseUrl}/api/auth${url}`, {
       headers: {
         'Content-Type': isFile ? 'multipart/form-data' : 'application/json',
       },
       method: method ?? 'get',
       data: data ? (isFile ? data : JSON.stringify(data)) : undefined,
-      onUploadProgress: onProgress ? onProgress : () => { },
+      onUploadProgress: onProgress ? onProgress : () => {},
     });
   };
 }

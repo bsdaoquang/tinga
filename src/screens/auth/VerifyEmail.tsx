@@ -36,7 +36,7 @@ const VerifyEmail = ({navigation, route}: any) => {
         <RowComponent justify="space-between">
           <View style={{width: (appSize.width - 80) / 5}}>
             <InputComponent
-              value="3"
+              value=""
               type="number-pad"
               onChange={val => console.log(val)}
               placeholder="-"
@@ -46,7 +46,7 @@ const VerifyEmail = ({navigation, route}: any) => {
           </View>
           <View style={{width: (appSize.width - 80) / 5}}>
             <InputComponent
-              value="2"
+              value=""
               type="number-pad"
               onChange={val => console.log(val)}
               placeholder="-"
@@ -56,7 +56,7 @@ const VerifyEmail = ({navigation, route}: any) => {
           </View>
           <View style={{width: (appSize.width - 80) / 5}}>
             <InputComponent
-              value="4"
+              value=""
               type="number-pad"
               onChange={val => console.log(val)}
               placeholder="-"
@@ -66,7 +66,7 @@ const VerifyEmail = ({navigation, route}: any) => {
           </View>
           <View style={{width: (appSize.width - 80) / 5}}>
             <InputComponent
-              value="9"
+              value=""
               type="number-pad"
               onChange={val => console.log(val)}
               placeholder="-"
@@ -76,7 +76,7 @@ const VerifyEmail = ({navigation, route}: any) => {
           </View>
           <View style={{width: (appSize.width - 80) / 5}}>
             <InputComponent
-              value="6"
+              value=""
               type="number-pad"
               onChange={val => console.log(val)}
               placeholder="-"
