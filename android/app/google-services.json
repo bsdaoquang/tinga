@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "648702036593",
+    "project_id": "tinga-f7936",
+    "storage_bucket": "tinga-f7936.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648702036593:android:9cee4ce343ef14b1baa9d0",
+        "android_client_info": {
+          "package_name": "com.tinga"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWIIagwu2LMJN_j0SPgRfR-efw-g_zAc0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
