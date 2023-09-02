@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {UserChoose} from '../../Models/UserChoose';
+import handleGetData from '../../apis/productAPI';
 import {
   Button,
   ButtonComponent,
@@ -13,12 +14,7 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {fontFamilys} from '../../constants/fontFamily';
-import {global} from '../../styles/global';
 import RenderChooseValue from './components/RenderChooseValue';
-import {UserChoose} from '../../Models/UserChoose';
-import handleGetData from '../../apis/productAPI';
-import {LoadingModal} from '../../modals';
 
 const ChooseAllergy = ({navigation}: any) => {
   const [selected, setSelected] = useState<number[]>([]);

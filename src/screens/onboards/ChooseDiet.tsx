@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {UserChoose} from '../../Models/UserChoose';
+import handleGetData from '../../apis/productAPI';
 import {
   Button,
   ButtonComponent,
   Container,
+  LoadingComponent,
   RowComponent,
   SectionComponent,
   SpaceComponent,
@@ -12,42 +14,59 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {fontFamilys} from '../../constants/fontFamily';
-import {global} from '../../styles/global';
 import RenderChooseValue from './components/RenderChooseValue';
 
 const ChooseDiet = ({navigation}: any) => {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<number[]>([]);
+  const [choosese, setChoosese] = useState<UserChoose[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  const values = [
-    'Diary-Free',
-    'Low Sodium',
-    'Soy-Free',
-    'Peanut-Free',
-    'Kosher',
-    'Organic',
-    'Gluten-Free',
-    'Vegan',
-    'Plant Based',
-    'Minimal Sugar (<0.5g)',
-    'Whole Grain',
-    'Milk-Free',
-    'FOD Map Friendly ',
-    'Wheat & Triticale-Free',
-    'Keto',
-  ];
+  useEffect(() => {
+    handleGetAllProducts();
+  }, []);
 
-  const handleSelect = (item: string) => {
-    const index = selected.indexOf(item);
-    const items = [...selected];
+  const handleGetAllProducts = async () => {
+    const api = `/dietpreference`;
 
-    if (index === -1) {
-      items.push(item);
-    } else {
-      items.splice(index, 1);
+    try {
+      setIsLoading(true);
+      await handleGetData.handleProduct(api).then((res: any) => {
+        if (res) {
+          setChoosese(res);
+          setIsLoading(false);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleContinue = async () => {
+    const api = `/dietpreference`;
+
+    const data = new FormData();
+    data.append('diets', JSON.stringify(selected));
+
+    try {
+      setIsUpdating(true);
+      await handleGetData
+        .handleUser(api, data, 'post', true)
+        .then((res: any) => {
+          if (res && res.success) {
+            navigation.navigate('ChooseStore');
+            setIsUpdating(false);
+          } else {
+            console.log('Can not update');
+            setIsUpdating(false);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+      setIsUpdating(false);
     }
 
-    setSelected(items);
+    //
   };
 
   return (
@@ -60,24 +79,29 @@ const ChooseDiet = ({navigation}: any) => {
           size={26}
         />
         <SpaceComponent height={20} />
-        {/* <RowComponent justify="flex-start">
-          {values.map((val, index) => (
-            <RenderChooseValue
-              key={`diet${index}`}
-              value={val}
-              onPress={() => handleSelect(val)}
-              selected={selected}
-            />
-          ))}
-        </RowComponent> */}
+        {choosese.length > 0 ? (
+          <RowComponent justify="flex-start">
+            {choosese.map((item, index) => (
+              <RenderChooseValue
+                key={item.id}
+                item={item}
+                onPress={() => setSelected([...selected, item.id])}
+                selected={selected}
+              />
+            ))}
+          </RowComponent>
+        ) : (
+          <LoadingComponent isLoading={isLoading} value={choosese.length} />
+        )}
       </SectionComponent>
       <SectionComponent styles={{marginVertical: 20}}>
         <ButtonComponent
+          disable={isUpdating}
           textColor={appColors.text}
           color={appColors.success1}
           fontStyles={{textAlign: 'center'}}
-          text="Continue"
-          onPress={() => navigation.navigate('ChooseStore')}
+          text={isUpdating ? 'Updating...' : 'Continue'}
+          onPress={handleContinue}
           iconRight
           icon={
             <AntDesign name="arrowright" size={20} color={appColors.text} />

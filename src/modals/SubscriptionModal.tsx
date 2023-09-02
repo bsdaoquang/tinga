@@ -18,6 +18,8 @@ import {appColors} from '../constants/appColors';
 import {fontFamilys} from '../constants/fontFamily';
 import {addAuth} from '../redux/reducers/authReducer';
 import {global} from '../styles/global';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appInfos} from '../constants/appInfos';
 
 interface Props {
   isVisible: boolean;
@@ -37,11 +39,23 @@ const SubscriptionModal = (props: Props) => {
 
   const dispatch = useDispatch();
 
-  const handleSaveDemodata = () => {
+  const handleSaveDemodata = async () => {
     dispatch(
       addAuth({
-        uid: 'admin',
+        id: 487,
+        first_name: 'Violet',
+        last_name: '..',
+        email: 'rfedun@hotmail.com',
+        phone: null,
+        access_token:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYmV0YS5lZHVvcC5pblwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTY5MzY2MDUxNywibmJmIjoxNjkzNjYwNTE3LCJqdGkiOiJEM3huV29BMW8xWGZnUExGIiwic3ViIjo0ODcsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.9D9gq_PouWTlASUmhyo8M5D7OgLkfvc1V934C6TJD4o',
+        token_type: 'bearer',
       }),
+    );
+
+    await AsyncStorage.setItem(
+      appInfos.localDataName.accessToken,
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYmV0YS5lZHVvcC5pblwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTY5MzY2MDUxNywibmJmIjoxNjkzNjYwNTE3LCJqdGkiOiJEM3huV29BMW8xWGZnUExGIiwic3ViIjo0ODcsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.9D9gq_PouWTlASUmhyo8M5D7OgLkfvc1V934C6TJD4o',
     );
   };
 
@@ -57,6 +71,7 @@ const SubscriptionModal = (props: Props) => {
         style={[
           {
             flex: 1,
+            paddingTop: 48,
           },
         ]}>
         <SectionComponent>
