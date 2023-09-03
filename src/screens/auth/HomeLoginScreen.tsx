@@ -57,7 +57,7 @@ const HomeLoginScreen = ({navigation}: any) => {
         showPlayServicesUpdateDialog: true,
       });
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
+      console.log('User info', userInfo);
       // handle login with user info id
     } catch (error: any) {
       console.log(error);
