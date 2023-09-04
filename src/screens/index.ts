@@ -1,4 +1,5 @@
 import SplashScreen from './SplashScreen';
+import WebviewScreen from './WebviewScreen';
 import HomeLoginScreen from './auth/HomeLoginScreen';
 import LoginScreen from './auth/LoginScreen';
 import SignUpScreen from './auth/SignUpScreen';
@@ -40,4 +41,5 @@ export {
   ReferralScreen,
   CategoryDetail,
   HomeLoginScreen,
+  WebviewScreen,
 };

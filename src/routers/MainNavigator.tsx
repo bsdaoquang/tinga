@@ -5,6 +5,7 @@ import {
   ProductDetail,
   ReferralScreen,
   ShopingHistory,
+  WebviewScreen,
 } from '../screens';
 import TabNavigator from './TabNavigator';
 
@@ -20,6 +21,7 @@ const MainNavigator = () => {
       <Stack.Screen name="ProductDetail" component={ProductDetail} />
       <Stack.Screen name="ImproveScore" component={ImproveScore} />
       <Stack.Screen name="ReferralScreen" component={ReferralScreen} />
+      <Stack.Screen name="WebviewScreen" component={WebviewScreen} />
     </Stack.Navigator>
   );
 };

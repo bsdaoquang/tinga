@@ -8,6 +8,7 @@ import {
   LoginScreen,
   SignUpScreen,
   VerifyEmail,
+  WebviewScreen,
   Welcome,
 } from '../screens';
 
@@ -27,6 +28,7 @@ const WelcomeNavigator = () => {
       <WelcomeStack.Screen name="ChooseAllergy" component={ChooseAllergy} />
       <WelcomeStack.Screen name="ChooseDiet" component={ChooseDiet} />
       <WelcomeStack.Screen name="ChooseStore" component={ChooseStore} />
+      <WelcomeStack.Screen name="WebviewScreen" component={WebviewScreen} />
     </WelcomeStack.Navigator>
   );
 };
