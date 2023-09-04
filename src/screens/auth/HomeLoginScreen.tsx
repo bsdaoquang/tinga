@@ -1,6 +1,23 @@
+import appleAuth from '@invertase/react-native-apple-authentication';
+import auth from '@react-native-firebase/auth';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {Sms} from 'iconsax-react-native';
 import React from 'react';
-import {ImageBackground, StatusBar, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  ImageBackground,
+  Platform,
+  StatusBar,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import authenticationAPI from '../../apis/authAPI';
+import {GoogleIcon} from '../../assets/svg';
 import {
   Button,
   ButtonComponent,
@@ -13,54 +30,56 @@ import {
 import {appColors} from '../../constants/appColors';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
+import {showToast} from '../../utils/showToast';
 import TermsText from './components/TermsText';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {GoogleIcon} from '../../assets/svg';
-import {Sms} from 'iconsax-react-native';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-import {appleAuthAndroid} from '@invertase/react-native-apple-authentication';
+
+GoogleSignin.configure({
+  webClientId:
+    '648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl.apps.googleusercontent.com',
+});
 
 const HomeLoginScreen = ({navigation}: any) => {
-  GoogleSignin.configure({
-    webClientId:
-      '648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl.apps.googleusercontent.com',
-  });
-
   const handleLoginWithAppleAccount = async () => {
-    appleAuthAndroid.configure({
-      // The Service ID you registered with Apple
-      clientId: 'com.example.client-android',
+    if (Platform.OS === 'android') {
+      showToast(
+        'Apple login is not supported on your device, please try it with Google login',
+      );
+    } else {
+      try {
+        // performs login request
+        const appleAuthRequestResponse = await appleAuth.performRequest({
+          requestedOperation: appleAuth.Operation.LOGIN,
+          // Note: it appears putting FULL_NAME first is important, see issue #293
+          requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+        });
 
-      // Return URL added to your Apple dev console. We intercept this redirect, but it must still match
-      // the URL you provided to Apple. It can be an empty route on your backend as it's never called.
-      redirectUri: 'https://example.com/auth/callback',
+        // get current authentication state for user
+        // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+        const credentialState = await appleAuth.getCredentialStateForUser(
+          appleAuthRequestResponse.user,
+        );
 
-      // The type of response requested - code, id_token, or both.
-      responseType: appleAuthAndroid.ResponseType.ALL,
-
-      // The amount of user information requested from Apple.
-      scope: appleAuthAndroid.Scope.ALL,
-    });
-
-    // Open the browser window for user sign in
-    const response = await appleAuthAndroid.signIn();
-
-    console.log(response);
+        // use credentialState response to ensure the user is authenticated
+        if (credentialState === appleAuth.State.AUTHORIZED) {
+          // user is authenticated
+          console.log(credentialState);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const handleLoginWithGooleAccount = async () => {
+    await GoogleSignin.hasPlayServices({
+      showPlayServicesUpdateDialog: true,
+    });
+
     try {
-      await GoogleSignin.hasPlayServices({
-        showPlayServicesUpdateDialog: true,
-      });
+      await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log('User info', userInfo);
-      // handle login with user info id
+      handleSaveToDatabase(userInfo.user);
     } catch (error: any) {
-      console.log(error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -70,6 +89,28 @@ const HomeLoginScreen = ({navigation}: any) => {
       } else {
         // some other error happened
       }
+    }
+  };
+
+  const handleSaveToDatabase = async (profile: any) => {
+    const api = `/loginWithGoogle`;
+    const data = {
+      google_id: profile.id,
+      email: profile.email,
+      first_name: profile.givenName,
+      last_name: profile.familyName,
+    };
+
+    try {
+      await authenticationAPI.HandleAuth(api, data, 'post').then((res: any) => {
+        if (res.success && res.data) {
+          console.log(res.data);
+        } else {
+          Alert.alert('Error', res.message);
+        }
+      });
+    } catch (error: any) {
+      console.log(error);
     }
   };
 

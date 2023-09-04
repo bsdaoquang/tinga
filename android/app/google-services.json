@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "648702036593-et6rn5vi5026thpr6hfnisj1buhtup9t.apps.googleusercontent.com",
+          "client_id": "648702036593-kc505i903bp9m2mhm9f9i0cj3lm3bj32.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.tinga",
-            "certificate_hash": "93089b8e5f865566152653743669ccd4fdf3cdd9"
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
