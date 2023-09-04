@@ -30,6 +30,7 @@ import {global} from '../../styles/global';
 import authenticationAPI from '../../apis/authAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appInfos} from '../../constants/appInfos';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const ProfileScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
@@ -105,6 +106,8 @@ const ProfileScreen = ({navigation}: any) => {
     const api = `/logout`;
 
     try {
+      await GoogleSignin.signOut().then(() => console.log('Logouted'));
+
       await authenticationAPI.HandleAuth(api, {}, 'post').then(async res => {
         dispatch(addAuth({}));
         await AsyncStorage.removeItem(appInfos.localDataName.accessToken);

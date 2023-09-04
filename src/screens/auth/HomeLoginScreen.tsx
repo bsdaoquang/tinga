@@ -1,11 +1,11 @@
 import appleAuth from '@invertase/react-native-apple-authentication';
-import auth from '@react-native-firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {Sms} from 'iconsax-react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Alert,
   ImageBackground,
@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useDispatch} from 'react-redux';
 import authenticationAPI from '../../apis/authAPI';
 import {GoogleIcon} from '../../assets/svg';
 import {
@@ -28,10 +29,13 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
+import {appInfos} from '../../constants/appInfos';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
+import {addAuth} from '../../redux/reducers/authReducer';
 import {showToast} from '../../utils/showToast';
 import TermsText from './components/TermsText';
+import {LoadingModal} from '../../modals';
 
 GoogleSignin.configure({
   webClientId:
@@ -39,6 +43,10 @@ GoogleSignin.configure({
 });
 
 const HomeLoginScreen = ({navigation}: any) => {
+  const [isLogin, setIsLogin] = useState(false);
+
+  const dispatch = useDispatch();
+
   const handleLoginWithAppleAccount = async () => {
     if (Platform.OS === 'android') {
       showToast(
@@ -80,15 +88,7 @@ const HomeLoginScreen = ({navigation}: any) => {
       const userInfo = await GoogleSignin.signIn();
       handleSaveToDatabase(userInfo.user);
     } catch (error: any) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
-      } else {
-        // some other error happened
-      }
+      console.log(error);
     }
   };
 
@@ -101,16 +101,33 @@ const HomeLoginScreen = ({navigation}: any) => {
       last_name: profile.familyName,
     };
 
+    setIsLogin(true);
+
     try {
-      await authenticationAPI.HandleAuth(api, data, 'post').then((res: any) => {
-        if (res.success && res.data) {
-          console.log(res.data);
-        } else {
-          Alert.alert('Error', res.message);
-        }
-      });
+      await authenticationAPI
+        .HandleAuth(api, data, 'post')
+        .then(async (res: any) => {
+          if (res.success && res.data) {
+            dispatch(addAuth(res.data));
+
+            await AsyncStorage.setItem(
+              appInfos.localDataName.accessToken,
+              JSON.stringify(res.data.access_token),
+            );
+            setIsLogin(false);
+          } else {
+            Alert.alert('Error', res.message, [
+              {
+                text: 'OK',
+                onPress: async () => await GoogleSignin.signOut(),
+              },
+            ]);
+            setIsLogin(false);
+          }
+        });
     } catch (error: any) {
       console.log(error);
+      setIsLogin(false);
     }
   };
 
@@ -197,11 +214,13 @@ const HomeLoginScreen = ({navigation}: any) => {
               fontStyles={{fontFamily: fontFamilys.bold}}
             />
           </RowComponent>
+
           <SpaceComponent height={16} />
           <TermsText text="By continuing you agree with our " />
           <SpaceComponent height={16} />
         </SectionComponent>
       </View>
+      <LoadingModal visible={isLogin} />
     </>
   );
 };
