@@ -6,6 +6,7 @@ import {
   ChooseStore,
   HomeLoginScreen,
   LoginScreen,
+  ResetPassword,
   SignUpScreen,
   VerifyEmail,
   WebviewScreen,
@@ -22,6 +23,7 @@ const WelcomeNavigator = () => {
       <WelcomeStack.Screen name="WelcomeScreen" component={Welcome} />
       {/* <WelcomeStack.Screen name="WelcomeScreen" component={ChooseAllergy} /> */}
       <WelcomeStack.Screen name="LoginScreen" component={LoginScreen} />
+      <WelcomeStack.Screen name="ResetPassword" component={ResetPassword} />
       <WelcomeStack.Screen name="HomeLoginScreen" component={HomeLoginScreen} />
       <WelcomeStack.Screen name="SignUpScreen" component={SignUpScreen} />
       <WelcomeStack.Screen name="VerifyEmail" component={VerifyEmail} />

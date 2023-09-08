@@ -2,6 +2,7 @@ import SplashScreen from './SplashScreen';
 import WebviewScreen from './WebviewScreen';
 import HomeLoginScreen from './auth/HomeLoginScreen';
 import LoginScreen from './auth/LoginScreen';
+import ResetPassword from './auth/ResetPassword';
 import SignUpScreen from './auth/SignUpScreen';
 import VerifyEmail from './auth/VerifyEmail';
 import CategoryDetail from './explores/CategoryDetail';
@@ -42,4 +43,5 @@ export {
   CategoryDetail,
   HomeLoginScreen,
   WebviewScreen,
+  ResetPassword,
 };

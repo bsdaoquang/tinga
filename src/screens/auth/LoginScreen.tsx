@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
-import {Image} from 'react-native';
+import {Image, ScrollView} from 'react-native';
 import {useDispatch} from 'react-redux';
 import authenticationAPI from '../../apis/authAPI';
 import {
@@ -9,7 +9,6 @@ import {
   ButtonComponent,
   Container,
   InputComponent,
-  LoadingComponent,
   RowComponent,
   SectionComponent,
   SpaceComponent,
@@ -18,12 +17,11 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {appInfos} from '../../constants/appInfos';
-import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
 import useAuth from '../../hooks/useAuth';
-import {addAuth} from '../../redux/reducers/authReducer';
-import TermsText from './components/TermsText';
 import {LoadingModal} from '../../modals';
+import {addAuth} from '../../redux/reducers/authReducer';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 const LoginScreen = ({navigation}: any) => {
   const [isShowPass, setIsShowPass] = useState(false);
@@ -67,26 +65,20 @@ const LoginScreen = ({navigation}: any) => {
   };
 
   return (
-    <Container isScroll back>
+    <Container back isScroll>
       <SectionComponent
         styles={{
-          marginBottom: 20,
-          justifyContent: 'center',
-          alignItems: 'center',
-          flex: 1,
+          marginTop: 40,
         }}>
         <Image
           source={require('../../assets/images/TingaLogo.png')}
-          style={{width: appSize.width * 0.5, resizeMode: 'contain'}}
-        />
-        <TitleComponent
-          text="Sign In"
-          size={32}
-          flex={0}
-          styles={{textAlign: 'center'}}
+          style={{width: 175, height: 68, resizeMode: 'contain'}}
         />
       </SectionComponent>
-      <SectionComponent>
+
+      <SectionComponent flex={1} styles={{justifyContent: 'center'}}>
+        <TitleComponent text="Login" size={26} flex={0} />
+        <SpaceComponent height={22} />
         <InputComponent
           value={email}
           placeholder="Email address*"
@@ -117,22 +109,26 @@ const LoginScreen = ({navigation}: any) => {
             flex={0}
           />
         )}
-      </SectionComponent>
 
-      <SectionComponent>
         <ButtonComponent
-          text={isLoading ? 'Loading...' : 'Continue'}
+          text={isLoading ? 'Loading...' : 'Login'}
+          iconRight
+          icon={
+            <Octicons name="arrow-right" size={20} color={appColors.text} />
+          }
           disable={isLoading}
+          fontStyles={{textAlign: 'center'}}
           onPress={handleLogin}
           styles={{
             paddingVertical: 16,
             borderColor: '#EEF3DC',
-            marginVertical: 16,
             borderRadius: 14,
           }}
           textColor={appColors.text}
         />
+      </SectionComponent>
 
+      <SectionComponent styles={{marginVertical: 20}}>
         <RowComponent>
           <TextComponent text="You have not an account? " flex={0} />
           <Button
@@ -142,8 +138,15 @@ const LoginScreen = ({navigation}: any) => {
             fontStyles={{fontFamily: fontFamilys.bold}}
           />
         </RowComponent>
-        <SpaceComponent height={16} />
-        <TermsText text="By continuing you agree with our " />
+        <RowComponent styles={{marginTop: 8}}>
+          <TextComponent text="Forgot your password? " flex={0} />
+          <Button
+            text="Recover password"
+            onPress={() => navigation.navigate('ResetPassword')}
+            textColor={appColors.primary}
+            fontStyles={{fontFamily: fontFamilys.bold}}
+          />
+        </RowComponent>
       </SectionComponent>
       <LoadingModal visible={isLoading} />
     </Container>
