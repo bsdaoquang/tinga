@@ -1,5 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import React, {useState} from 'react';
-import {Alert, Image, StatusBar, Text, View} from 'react-native';
+import {Alert, Image, Linking, Text, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -7,6 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch} from 'react-redux';
 import {ListMenuItem} from '../../Models/ListMenuItem';
+import authenticationAPI from '../../apis/authAPI';
 import {Circle1, Circle2, Circle3} from '../../assets/svg';
 import {
   Button,
@@ -22,15 +25,12 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
+import {appInfos} from '../../constants/appInfos';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
 import {LoadingModal, ModalInfoScore} from '../../modals';
 import {addAuth} from '../../redux/reducers/authReducer';
 import {global} from '../../styles/global';
-import authenticationAPI from '../../apis/authAPI';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {appInfos} from '../../constants/appInfos';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const ProfileScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
@@ -188,10 +188,12 @@ const ProfileScreen = ({navigation}: any) => {
     {
       id: 'info2',
       title: 'Privacy Policy',
+      onPress: () => Linking.openURL('https://tinga.ca/privacy.html'),
     },
     {
       id: 'info3',
       title: 'Terms of Use',
+      onPress: () => Linking.openURL('https://tinga.ca/terms.html'),
     },
   ];
 
