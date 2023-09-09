@@ -15,6 +15,8 @@ import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
 import {global} from '../../styles/global';
 import authenticationAPI from '../../apis/authAPI';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appInfos} from '../../constants/appInfos';
 
 const VerifyEmail = ({navigation, route}: any) => {
   const {email}: {email: string} = route.params;
@@ -56,15 +58,22 @@ const VerifyEmail = ({navigation, route}: any) => {
 
     try {
       setIsLoading(true);
-      await authenticationAPI.HandleAuth(api, data, 'post').then((res: any) => {
-        if (res.status === 200 && res.data && res.data.success) {
-          navigation.navigate('ChooseAllergy');
-        } else {
-          setMessageError(res.data.message);
-        }
+      await authenticationAPI
+        .HandleAuth(api, data, 'post')
+        .then(async (res: any) => {
+          if (res.code === 200 && res.success && res.data) {
+            navigation.navigate('ChooseAllergy');
 
-        setIsLoading(false);
-      });
+            await AsyncStorage.setItem(
+              appInfos.localDataName.userData,
+              JSON.stringify(res.data),
+            );
+          } else {
+            setMessageError(res.data.message);
+          }
+
+          setIsLoading(false);
+        });
     } catch (error: any) {
       console.log('error: ', error.data.message);
     }

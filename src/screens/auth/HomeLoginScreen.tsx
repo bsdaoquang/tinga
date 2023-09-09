@@ -105,7 +105,7 @@ const HomeLoginScreen = ({navigation}: any) => {
         .HandleAuth(api, data, 'post')
         .then(async (res: any) => {
           if (res.success && res.data) {
-            // dispatch(addAuth(res.data));
+            dispatch(addAuth({...res.data, isChooseStore: false}));
 
             await AsyncStorage.setItem(
               appInfos.localDataName.accessToken,

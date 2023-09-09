@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Sms} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -13,10 +12,8 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {appInfos} from '../../constants/appInfos';
 import {fontFamilys} from '../../constants/fontFamily';
 import useAuth from '../../hooks/useAuth';
-import {addAuth} from '../../redux/reducers/authReducer';
 import TermsText from './components/TermsText';
 
 const SignUpScreen = ({navigation}: any) => {
@@ -51,8 +48,6 @@ const SignUpScreen = ({navigation}: any) => {
     }
   }, [email, password, firstname, lastname, helpText]);
 
-  const dispatch = useDispatch();
-
   const handleSignIn = async () => {
     setIsLoading(true);
     const api = `/register`;
@@ -68,11 +63,6 @@ const SignUpScreen = ({navigation}: any) => {
         .HandleAuth(api, data, 'post')
         .then(async (res: any) => {
           navigation.navigate('VerifyEmail', {email});
-          // dispatch(addAuth(res.data));
-          await AsyncStorage.setItem(
-            appInfos.localDataName.accessToken,
-            JSON.stringify(res.data.access_token),
-          );
           setIsLoading(false);
         });
     } catch (error) {

@@ -16,6 +16,8 @@ import {
 import {appColors} from '../../constants/appColors';
 import RenderChooseValue from './components/RenderChooseValue';
 import {SubscriptionModal} from '../../modals';
+import {useDispatch} from 'react-redux';
+import {handleSaveUser} from '../../utils/handleSaveUser';
 
 const ChooseStore = ({navigation}: any) => {
   const [selected, setSelected] = useState<number[]>([]);
@@ -23,6 +25,8 @@ const ChooseStore = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isVisibleModalSubcribe, setIsVisibleModalSubcribe] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     handleGetAllProducts();
@@ -56,6 +60,7 @@ const ChooseStore = ({navigation}: any) => {
         .handleUser(api, data, 'post', true)
         .then((res: any) => {
           if (res && res.success) {
+            handleSaveUser(dispatch);
             setIsVisibleModalSubcribe(true);
             setIsUpdating(false);
           } else {

@@ -44,7 +44,7 @@ const LoginScreen = ({navigation}: any) => {
           .HandleAuth(api, {email, password}, 'post')
           .then(async (res: any) => {
             if (res.data) {
-              // dispatch(addAuth(res.data));
+              dispatch(addAuth({...res.data, isChooseStore: false}));
               await AsyncStorage.setItem(
                 appInfos.localDataName.accessToken,
                 JSON.stringify(res.data.access_token),
