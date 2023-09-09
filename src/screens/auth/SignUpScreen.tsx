@@ -1,5 +1,9 @@
-import {CloudFog, Sms} from 'iconsax-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Sms} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useDispatch} from 'react-redux';
+import authenticationAPI from '../../apis/authAPI';
 import {
   ButtonComponent,
   Container,
@@ -9,15 +13,11 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
+import {appInfos} from '../../constants/appInfos';
 import {fontFamilys} from '../../constants/fontFamily';
 import useAuth from '../../hooks/useAuth';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import TermsText from './components/TermsText';
-import authenticationAPI from '../../apis/authAPI';
-import {useDispatch} from 'react-redux';
 import {addAuth} from '../../redux/reducers/authReducer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {appInfos} from '../../constants/appInfos';
+import TermsText from './components/TermsText';
 
 const SignUpScreen = ({navigation}: any) => {
   const [isShowPass, setIsShowPass] = useState(false);
@@ -68,7 +68,7 @@ const SignUpScreen = ({navigation}: any) => {
         .HandleAuth(api, data, 'post')
         .then(async (res: any) => {
           navigation.navigate('VerifyEmail', {email});
-          dispatch(addAuth(res.data));
+          // dispatch(addAuth(res.data));
           await AsyncStorage.setItem(
             appInfos.localDataName.accessToken,
             JSON.stringify(res.data.access_token),

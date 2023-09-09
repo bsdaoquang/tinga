@@ -1,9 +1,6 @@
 import appleAuth from '@invertase/react-native-apple-authentication';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
 import {
@@ -32,10 +29,10 @@ import {appColors} from '../../constants/appColors';
 import {appInfos} from '../../constants/appInfos';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
+import {LoadingModal} from '../../modals';
 import {addAuth} from '../../redux/reducers/authReducer';
 import {showToast} from '../../utils/showToast';
 import TermsText from './components/TermsText';
-import {LoadingModal} from '../../modals';
 
 GoogleSignin.configure({
   webClientId:
@@ -108,7 +105,7 @@ const HomeLoginScreen = ({navigation}: any) => {
         .HandleAuth(api, data, 'post')
         .then(async (res: any) => {
           if (res.success && res.data) {
-            dispatch(addAuth(res.data));
+            // dispatch(addAuth(res.data));
 
             await AsyncStorage.setItem(
               appInfos.localDataName.accessToken,

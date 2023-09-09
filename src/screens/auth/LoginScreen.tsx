@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
-import {Image, ScrollView} from 'react-native';
+import {Image} from 'react-native';
+import Octicons from 'react-native-vector-icons/Octicons';
 import {useDispatch} from 'react-redux';
 import authenticationAPI from '../../apis/authAPI';
 import {
@@ -21,7 +22,6 @@ import {fontFamilys} from '../../constants/fontFamily';
 import useAuth from '../../hooks/useAuth';
 import {LoadingModal} from '../../modals';
 import {addAuth} from '../../redux/reducers/authReducer';
-import Octicons from 'react-native-vector-icons/Octicons';
 
 const LoginScreen = ({navigation}: any) => {
   const [isShowPass, setIsShowPass] = useState(false);
@@ -44,7 +44,7 @@ const LoginScreen = ({navigation}: any) => {
           .HandleAuth(api, {email, password}, 'post')
           .then(async (res: any) => {
             if (res.data) {
-              dispatch(addAuth(res.data));
+              // dispatch(addAuth(res.data));
               await AsyncStorage.setItem(
                 appInfos.localDataName.accessToken,
                 JSON.stringify(res.data.access_token),

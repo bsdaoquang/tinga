@@ -43,6 +43,12 @@ const HomeScreen = ({navigation}: any) => {
 
   const auth = useSelector(authSelector);
 
+  useEffect(() => {
+    setTimeout(() => {
+      !auth.premium_till && setIsVisibleModalSubcriber(true);
+    }, 1500);
+  }, []);
+
   return (
     <>
       <Container
