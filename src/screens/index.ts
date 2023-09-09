@@ -15,6 +15,8 @@ import ChooseAllergy from './onboards/ChooseAllergy';
 import ChooseDiet from './onboards/ChooseDiet';
 import ChooseStore from './onboards/ChooseStore';
 import Welcome from './onboards/Welcome';
+import ContactDietitian from './profiles/ContactDietitian';
+import ContactSupport from './profiles/ContactSupport';
 import ListScoreTrend from './profiles/ListScoreTrend';
 import ListScores from './profiles/ListScores';
 import ProfileScreen from './profiles/ProfileScreen';
@@ -44,4 +46,6 @@ export {
   HomeLoginScreen,
   WebviewScreen,
   ResetPassword,
+  ContactSupport,
+  ContactDietitian,
 };

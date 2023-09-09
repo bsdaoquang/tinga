@@ -171,9 +171,11 @@ const ProfileScreen = ({navigation}: any) => {
     {
       id: 'contact1',
       title: 'Contact Support',
+      onPress: () => navigation.navigate('ContactSupport'),
     },
     {
       id: 'contact2',
+      onPress: () => navigation.navigate('ContactDietitian'),
       title: 'Contact Dietitian',
     },
   ];
