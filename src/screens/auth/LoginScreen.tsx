@@ -22,11 +22,13 @@ import {fontFamilys} from '../../constants/fontFamily';
 import useAuth from '../../hooks/useAuth';
 import {LoadingModal} from '../../modals';
 import {addAuth} from '../../redux/reducers/authReducer';
+import profileAPI from '../../apis/userAPI';
+import {HandleLogin} from '../../utils/HandleLogin';
 
 const LoginScreen = ({navigation}: any) => {
   const [isShowPass, setIsShowPass] = useState(false);
-  const [email, setEmail] = useState('rfedun@hotmail.com');
-  const [password, setPassword] = useState('Fedunrob1');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -44,11 +46,16 @@ const LoginScreen = ({navigation}: any) => {
           .HandleAuth(api, {email, password}, 'post')
           .then(async (res: any) => {
             if (res.data) {
-              dispatch(addAuth({...res.data, isChooseStore: false}));
               await AsyncStorage.setItem(
-                appInfos.localDataName.accessToken,
-                JSON.stringify(res.data.access_token),
-              );
+                appInfos.localDataName.userData,
+                JSON.stringify(res.data),
+              ).then(() => {
+                HandleLogin.handleCheckUserLoginAgain(
+                  res.data,
+                  navigation,
+                  dispatch,
+                );
+              });
               setIsLoading(false);
             } else {
               setErrorMessage(res.message);

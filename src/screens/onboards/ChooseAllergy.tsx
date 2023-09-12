@@ -32,6 +32,7 @@ const ChooseAllergy = ({navigation}: any) => {
     try {
       setIsLoading(true);
       await handleGetData.handleProduct(api).then((res: any) => {
+        console.log(res);
         if (res) {
           setChoosese(res);
           setIsLoading(false);

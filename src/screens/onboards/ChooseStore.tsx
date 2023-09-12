@@ -61,7 +61,7 @@ const ChooseStore = ({navigation}: any) => {
         .then((res: any) => {
           if (res && res.success) {
             handleSaveUser(dispatch);
-            setIsVisibleModalSubcribe(true);
+            // setIsVisibleModalSubcribe(true);
             setIsUpdating(false);
           } else {
             console.log('Can not update');
@@ -111,10 +111,10 @@ const ChooseStore = ({navigation}: any) => {
           }
         />
       </SectionComponent>
-      <SubscriptionModal
+      {/* <SubscriptionModal
         isVisible={isVisibleModalSubcribe}
         onClose={() => setIsVisibleModalSubcribe(false)}
-      />
+      /> */}
     </Container>
   );
 };
