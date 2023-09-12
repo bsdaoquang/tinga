@@ -1,6 +1,8 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {
+  BarCodeScreen,
+  HomeScan,
   ImproveScore,
   ProductDetail,
   ReferralScreen,
@@ -22,6 +24,8 @@ const MainNavigator = () => {
       <Stack.Screen name="ImproveScore" component={ImproveScore} />
       <Stack.Screen name="ReferralScreen" component={ReferralScreen} />
       <Stack.Screen name="WebviewScreen" component={WebviewScreen} />
+      <Stack.Screen name="HomeScan" component={HomeScan} />
+      <Stack.Screen name="BarCodeScreen" component={BarCodeScreen} />
     </Stack.Navigator>
   );
 };

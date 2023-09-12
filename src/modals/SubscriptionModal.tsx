@@ -243,7 +243,10 @@ const SubscriptionModal = (props: Props) => {
         <SectionComponent>
           <ButtonComponent
             text="Try free and subscribe"
-            onPress={handleSaveDemodata}
+            onPress={() => {
+              onClose();
+              navigation.navigate('HomeScan');
+            }}
             color={appColors.success1}
             textColor={appColors.text}
           />

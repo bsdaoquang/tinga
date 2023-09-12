@@ -11,6 +11,8 @@ import GroceryScreen from './grocyries/GroceryScreen';
 import ProductDetail from './grocyries/ProductDetail';
 import ImproveScore from './grocyries/YourListScore';
 import HomeScreen from './homes/HomeScreen';
+import BarCodeScreen from './homes/ScranOnboarding/BarCodeScreen';
+import HomeScan from './homes/ScranOnboarding/HomeScan';
 import ChooseAllergy from './onboards/ChooseAllergy';
 import ChooseDiet from './onboards/ChooseDiet';
 import ChooseDislike from './onboards/ChooseDislike';
@@ -50,4 +52,6 @@ export {
   ContactSupport,
   ContactDietitian,
   ChooseDislike,
+  HomeScan,
+  BarCodeScreen,
 };
