@@ -33,6 +33,7 @@ import {LoadingModal} from '../../modals';
 import {addAuth} from '../../redux/reducers/authReducer';
 import {showToast} from '../../utils/showToast';
 import TermsText from './components/TermsText';
+import {HandleLogin} from '../../utils/HandleLogin';
 
 GoogleSignin.configure({
   webClientId:
@@ -105,11 +106,15 @@ const HomeLoginScreen = ({navigation}: any) => {
         .HandleAuth(api, data, 'post')
         .then(async (res: any) => {
           if (res.success && res.data) {
-            dispatch(addAuth({...res.data, isChooseStore: false}));
-
             await AsyncStorage.setItem(
-              appInfos.localDataName.accessToken,
-              JSON.stringify(res.data.access_token),
+              appInfos.localDataName.userData,
+              JSON.stringify(res.data),
+            ).then(() =>
+              HandleLogin.handleCheckUserLoginAgain(
+                res.data,
+                navigation,
+                dispatch,
+              ),
             );
             setIsLogin(false);
           } else {
