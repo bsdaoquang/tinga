@@ -32,7 +32,6 @@ const ChooseAllergy = ({navigation}: any) => {
     try {
       setIsLoading(true);
       await handleGetData.handleProduct(api).then((res: any) => {
-        console.log(res);
         if (res) {
           setChoosese(res);
           setIsLoading(false);
@@ -55,7 +54,7 @@ const ChooseAllergy = ({navigation}: any) => {
         .handleUser(api, data, 'post', true)
         .then((res: any) => {
           if (res && res.success) {
-            navigation.navigate('ChooseDiet');
+            navigation.navigate('ChooseDislike');
             setIsUpdating(false);
           } else {
             console.log('Can not update');
@@ -68,6 +67,19 @@ const ChooseAllergy = ({navigation}: any) => {
     }
 
     //
+  };
+
+  const handleSelectedItem = (id: number) => {
+    const items = [...selected];
+    const index = selected.findIndex(element => element === id);
+
+    if (index === -1) {
+      items.push(id);
+    } else {
+      items.splice(index, 1);
+    }
+
+    setSelected(items);
   };
 
   return (
@@ -86,7 +98,7 @@ const ChooseAllergy = ({navigation}: any) => {
               <RenderChooseValue
                 key={item.id}
                 item={item}
-                onPress={() => setSelected([...selected, item.id])}
+                onPress={() => handleSelectedItem(item.id)}
                 selected={selected}
               />
             ))}
@@ -97,7 +109,7 @@ const ChooseAllergy = ({navigation}: any) => {
       </SectionComponent>
       <SectionComponent styles={{marginVertical: 20}}>
         <ButtonComponent
-          disable={isUpdating}
+          disable={selected.length === 0 || isUpdating}
           textColor={appColors.text}
           color={appColors.success1}
           fontStyles={{textAlign: 'center'}}

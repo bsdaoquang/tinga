@@ -13,6 +13,7 @@ import ImproveScore from './grocyries/YourListScore';
 import HomeScreen from './homes/HomeScreen';
 import ChooseAllergy from './onboards/ChooseAllergy';
 import ChooseDiet from './onboards/ChooseDiet';
+import ChooseDislike from './onboards/ChooseDislike';
 import ChooseStore from './onboards/ChooseStore';
 import Welcome from './onboards/Welcome';
 import ContactDietitian from './profiles/ContactDietitian';
@@ -48,4 +49,5 @@ export {
   ResetPassword,
   ContactSupport,
   ContactDietitian,
+  ChooseDislike,
 };

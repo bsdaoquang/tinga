@@ -15,6 +15,8 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import RenderChooseValue from './components/RenderChooseValue';
+import {Touchable, TouchableOpacity} from 'react-native';
+import {global} from '../../styles/global';
 
 const ChooseDiet = ({navigation}: any) => {
   const [selected, setSelected] = useState<number[]>([]);
@@ -54,7 +56,7 @@ const ChooseDiet = ({navigation}: any) => {
         .handleUser(api, data, 'post', true)
         .then((res: any) => {
           if (res && res.success) {
-            navigation.navigate('ChooseStore');
+            navigation.navigate('ChooseAllergy');
             setIsUpdating(false);
           } else {
             console.log('Can not update');
@@ -69,6 +71,18 @@ const ChooseDiet = ({navigation}: any) => {
     //
   };
 
+  const handleSelectedItem = (id: number) => {
+    const items = [...selected];
+    const index = selected.findIndex(element => element === id);
+
+    if (index === -1) {
+      items.push(id);
+    } else {
+      items.splice(index, 1);
+    }
+
+    setSelected(items);
+  };
   return (
     <Container back right={<Button text="Skip" onPress={() => {}} />}>
       <SectionComponent flex={1}>
@@ -80,23 +94,32 @@ const ChooseDiet = ({navigation}: any) => {
         />
         <SpaceComponent height={20} />
         {choosese.length > 0 ? (
-          <RowComponent justify="flex-start">
-            {choosese.map((item, index) => (
-              <RenderChooseValue
-                key={item.id}
-                item={item}
-                onPress={() => setSelected([...selected, item.id])}
-                selected={selected}
-              />
-            ))}
-          </RowComponent>
+          choosese.map((item, index) => (
+            <TouchableOpacity
+              onPress={() => handleSelectedItem(item.id)}
+              style={[
+                {
+                  borderWidth: selected.includes(item.id) ? 2 : 0,
+                  borderColor: appColors.success1,
+                  paddingHorizontal: 16,
+                  paddingVertical: 20,
+                  justifyContent: 'flex-start',
+                  borderRadius: 12,
+                  backgroundColor: appColors.white,
+                  marginTop: 16,
+                },
+              ]}
+              key={item.id}>
+              <TextComponent text={item.name} flex={0} />
+            </TouchableOpacity>
+          ))
         ) : (
           <LoadingComponent isLoading={isLoading} value={choosese.length} />
         )}
       </SectionComponent>
       <SectionComponent styles={{marginVertical: 20}}>
         <ButtonComponent
-          disable={isUpdating}
+          disable={selected.length === 0 || isUpdating}
           textColor={appColors.text}
           color={appColors.success1}
           fontStyles={{textAlign: 'center'}}

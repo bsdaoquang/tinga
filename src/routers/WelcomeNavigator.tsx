@@ -3,6 +3,7 @@ import React from 'react';
 import {
   ChooseAllergy,
   ChooseDiet,
+  ChooseDislike,
   ChooseStore,
   HomeLoginScreen,
   LoginScreen,
@@ -28,6 +29,7 @@ const WelcomeNavigator = () => {
       <WelcomeStack.Screen name="SignUpScreen" component={SignUpScreen} />
       <WelcomeStack.Screen name="VerifyEmail" component={VerifyEmail} />
       <WelcomeStack.Screen name="ChooseAllergy" component={ChooseAllergy} />
+      <WelcomeStack.Screen name="ChooseDislike" component={ChooseDislike} />
       <WelcomeStack.Screen name="ChooseDiet" component={ChooseDiet} />
       <WelcomeStack.Screen name="ChooseStore" component={ChooseStore} />
       <WelcomeStack.Screen name="WebviewScreen" component={WebviewScreen} />

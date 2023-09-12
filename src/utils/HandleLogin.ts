@@ -17,7 +17,7 @@ export class HandleLogin {
         ) {
           dispatch(addAuth(data));
         } else {
-          navigation.navigate('ChooseAllergy');
+          navigation.navigate('ChooseDiet');
         }
       });
     } catch (error) {

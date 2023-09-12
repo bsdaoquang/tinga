@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useDispatch} from 'react-redux';
 import {UserChoose} from '../../Models/UserChoose';
 import handleGetData from '../../apis/productAPI';
 import {
@@ -15,23 +14,20 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {handleSaveUser} from '../../utils/handleSaveUser';
 import RenderChooseValue from './components/RenderChooseValue';
 
-const ChooseStore = ({navigation}: any) => {
+const ChooseDislike = ({navigation}: any) => {
   const [selected, setSelected] = useState<number[]>([]);
   const [choosese, setChoosese] = useState<UserChoose[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    handleGetAllProducts();
+    handleGetAllgery();
   }, []);
 
-  const handleGetAllProducts = async () => {
-    const api = `/shops`;
+  const handleGetAllgery = async () => {
+    const api = `/allergies`;
 
     try {
       setIsLoading(true);
@@ -47,10 +43,10 @@ const ChooseStore = ({navigation}: any) => {
   };
 
   const handleContinue = async () => {
-    const api = `/shops`;
+    const api = `/allergies`;
 
     const data = new FormData();
-    data.append('shop', JSON.stringify(selected));
+    data.append('allergies', JSON.stringify(selected));
 
     try {
       setIsUpdating(true);
@@ -58,8 +54,7 @@ const ChooseStore = ({navigation}: any) => {
         .handleUser(api, data, 'post', true)
         .then((res: any) => {
           if (res && res.success) {
-            handleSaveUser(dispatch);
-            // setIsVisibleModalSubcribe(true);
+            navigation.navigate('ChooseStore');
             setIsUpdating(false);
           } else {
             console.log('Can not update');
@@ -90,8 +85,12 @@ const ChooseStore = ({navigation}: any) => {
   return (
     <Container back right={<Button text="Skip" onPress={() => {}} />}>
       <SectionComponent flex={1}>
-        <TextComponent text="Grocery Stores" size={12} flex={0} />
-        <TitleComponent text="Where do you usually shop?" flex={0} size={26} />
+        <TextComponent text="Dislikes" size={12} flex={0} />
+        <TitleComponent
+          text="Does your household have any dislikes??"
+          flex={0}
+          size={26}
+        />
         <SpaceComponent height={20} />
         {choosese.length > 0 ? (
           <RowComponent justify="flex-start">
@@ -122,12 +121,8 @@ const ChooseStore = ({navigation}: any) => {
           }
         />
       </SectionComponent>
-      {/* <SubscriptionModal
-        isVisible={isVisibleModalSubcribe}
-        onClose={() => setIsVisibleModalSubcribe(false)}
-      /> */}
     </Container>
   );
 };
 
-export default ChooseStore;
+export default ChooseDislike;
