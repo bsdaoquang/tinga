@@ -1,9 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ActivityIndicator, Image, View} from 'react-native';
 import {appColors} from '../constants/appColors';
 import {global} from '../styles/global';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appInfos} from '../constants/appInfos';
+import {useDispatch} from 'react-redux';
+import {addAuth} from '../redux/reducers/authReducer';
 
 const SplashScreen = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  const getUserData = async () => {
+    const res = await AsyncStorage.getItem(appInfos.localDataName.userData);
+
+    res && dispatch(addAuth(JSON.parse(res)));
+  };
+
   return (
     <View
       style={[
