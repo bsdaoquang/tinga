@@ -39,13 +39,13 @@ import ModalFoodScoreInfo from './ModalFoodScoreInfo';
 interface Props {
   visible: boolean;
   onClose: () => void;
-  product: Product;
+  product?: Product;
 }
 
 const ModalProduct = (props: Props) => {
   const {visible, onClose, product} = props;
   const [isLike, setIsLike] = useState(false);
-  const [count, setCount] = useState(product.count ?? 1);
+  const [count, setCount] = useState(product ? product.count : 1);
   const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] =
     useState(false);
 
@@ -159,83 +159,102 @@ const ModalProduct = (props: Props) => {
         adjustToContentHeight
         handleStyle={{backgroundColor: 'transparent'}}>
         <View style={{backgroundColor: appColors.bgColor}}>
-          <ImageBackground
-            source={{uri: product.imageUrl}}
-            style={{
-              width: '100%',
-              height: 180,
-              borderTopLeftRadius: 12,
-              borderTopRightRadius: 12,
-            }}
-            imageStyle={{
-              resizeMode: 'cover',
-            }}>
-            <LinearGradient
-              style={{height: 180, width: '100%'}}
-              colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0)']}>
-              <RowComponent
-                justify="space-between"
-                styles={{padding: 16, paddingTop: 20}}>
-                <Button
-                  icon={
-                    <AntDesign name="close" color={appColors.white} size={22} />
-                  }
-                  onPress={handleCloseModal}
-                />
-                <Button
-                  onPress={() => setIsLike(!isLike)}
-                  icon={
-                    isLike ? (
-                      <HeartBold width={24} height={24} />
-                    ) : (
-                      <Heart variant="Bold" color={appColors.white} size={24} />
-                    )
-                  }
-                />
-              </RowComponent>
-              <View style={{flex: 1}} />
-              <RowComponent justify="space-between" styles={{padding: 16}}>
+          {product && product.imageUrl && (
+            <ImageBackground
+              source={{
+                uri: product.imageUrl,
+              }}
+              style={{
+                width: '100%',
+                height: 180,
+                borderTopLeftRadius: 12,
+                borderTopRightRadius: 12,
+              }}
+              imageStyle={{
+                resizeMode: 'cover',
+              }}>
+              <LinearGradient
+                style={{height: 180, width: '100%'}}
+                colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0)']}>
                 <RowComponent
-                  styles={{
-                    backgroundColor: '#41393E70',
-                    flex: 0,
-                    borderRadius: 100,
-                    paddingVertical: 8,
-                    paddingHorizontal: 12,
-                  }}>
-                  <Location size={14} color={appColors.white} />
-                  <SpaceComponent width={4} />
-                  <TextComponent
-                    text="Walmart"
-                    color={appColors.white}
-                    flex={0}
-                    size={12}
+                  justify="space-between"
+                  styles={{padding: 16, paddingTop: 20}}>
+                  <Button
+                    icon={
+                      <AntDesign
+                        name="close"
+                        color={appColors.white}
+                        size={22}
+                      />
+                    }
+                    onPress={handleCloseModal}
+                  />
+                  <Button
+                    onPress={() => setIsLike(!isLike)}
+                    icon={
+                      isLike ? (
+                        <HeartBold width={24} height={24} />
+                      ) : (
+                        <Heart
+                          variant="Bold"
+                          color={appColors.white}
+                          size={24}
+                        />
+                      )
+                    }
                   />
                 </RowComponent>
-                <RowComponent
-                  styles={{
-                    backgroundColor: '#41393E70',
-                    flex: 0,
-                    borderRadius: 100,
-                    paddingVertical: 8,
-                    paddingHorizontal: 12,
-                  }}>
-                  <TextComponent
-                    text="1 / 25"
-                    color={appColors.white}
-                    flex={0}
-                    size={12}
-                  />
+                <View style={{flex: 1}} />
+                <RowComponent justify="space-between" styles={{padding: 16}}>
+                  <RowComponent
+                    styles={{
+                      backgroundColor: '#41393E70',
+                      flex: 0,
+                      borderRadius: 100,
+                      paddingVertical: 8,
+                      paddingHorizontal: 12,
+                    }}>
+                    <Location size={14} color={appColors.white} />
+                    <SpaceComponent width={4} />
+                    <TextComponent
+                      text="Walmart"
+                      color={appColors.white}
+                      flex={0}
+                      size={12}
+                    />
+                  </RowComponent>
+                  <RowComponent
+                    styles={{
+                      backgroundColor: '#41393E70',
+                      flex: 0,
+                      borderRadius: 100,
+                      paddingVertical: 8,
+                      paddingHorizontal: 12,
+                    }}>
+                    <TextComponent
+                      text="1 / 25"
+                      color={appColors.white}
+                      flex={0}
+                      size={12}
+                    />
+                  </RowComponent>
                 </RowComponent>
-              </RowComponent>
-            </LinearGradient>
-          </ImageBackground>
+              </LinearGradient>
+            </ImageBackground>
+          )}
+
           <View style={{flex: 1}}>
             <SectionComponent styles={{marginTop: 20}}>
-              <RowComponent styles={{alignItems: 'flex-start'}}>
-                <TitleComponent text={product.title} size={20} height={20} />
-                <TextComponent text={`$ ${product.price}`} flex={0} size={16} />
-              </RowComponent>
+              {product && (
+                <RowComponent styles={{alignItems: 'flex-start'}}>
+                  <TitleComponent text={product.title} size={20} height={20} />
+                  <TextComponent
+                    text={`$ ${product.price}`}
+                    flex={0}
+                    size={16}
+                  />
+                </RowComponent>
+              )}
             </SectionComponent>
             <FlatList
               style={{paddingHorizontal: 16}}
@@ -375,7 +394,7 @@ const ModalProduct = (props: Props) => {
                 flex: 1,
               }}>
               <RowComponent>
-                {count > 1 && (
+                {count && count > 1 && (
                   <Button
                     icon={<MinusSquare size={22} color={appColors.text2} />}
                     onPress={() => setCount(count - 1)}
@@ -391,7 +410,7 @@ const ModalProduct = (props: Props) => {
                 />
                 <Button
                   icon={<AddSquare size={22} color={appColors.text2} />}
-                  onPress={() => setCount(count + 1)}
+                  onPress={() => setCount(count ? count + 1 : 1)}
                 />
               </RowComponent>
             </RowComponent>

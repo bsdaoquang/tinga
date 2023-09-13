@@ -31,8 +31,9 @@ const demoProduc = {
 
 const BarCodeScreen = ({navigation}: any) => {
   const [codeDetail, setCodeDetail] = useState('');
-  const [showDetail, setShowDetail] = useState(false);
+  const [showProduct, setShowProduct] = useState(false);
   const [product, setProduct] = useState<Product | undefined>();
+  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     requestPermision();
@@ -47,14 +48,13 @@ const BarCodeScreen = ({navigation}: any) => {
           {
             text: 'Not product',
             onPress: () => {
-              setShowDetail(true);
-              setProduct(undefined);
+              setShowError(true);
             },
           },
           {
             text: 'Is Product',
             onPress: () => {
-              setShowDetail(true);
+              setShowProduct(true);
               setProduct(demoProduc);
             },
           },
@@ -162,23 +162,21 @@ const BarCodeScreen = ({navigation}: any) => {
       </SectionComponent>
 
       <ModalizeProducDetail
-        visible={showDetail && !product}
+        visible={showError}
         onClose={() => {
+          setShowError(false);
           setCodeDetail('');
-          setShowDetail(false);
         }}
       />
-      {product && (
-        <ModalProduct
-          visible={showDetail && product ? true : false}
-          onClose={() => {
-            setCodeDetail('');
-            setProduct(undefined);
-            setShowDetail(false);
-          }}
-          product={product}
-        />
-      )}
+
+      <ModalProduct
+        visible={showProduct}
+        onClose={() => {
+          setCodeDetail('');
+          setProduct(undefined);
+        }}
+        product={product}
+      />
     </View>
   );
 };
