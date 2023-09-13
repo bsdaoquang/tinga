@@ -1,6 +1,18 @@
-import {View, Text, Platform, PermissionsAndroid} from 'react-native';
 import React, {useEffect} from 'react';
+import {PermissionsAndroid, Platform, View} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import {appSize} from '../../../constants/appSize';
+import {
+  Button,
+  ButtonComponent,
+  RowComponent,
+  SectionComponent,
+  TextComponent,
+  TitleComponent,
+} from '../../../components';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {appColors} from '../../../constants/appColors';
+import LinearGradient from 'react-native-linear-gradient';
 
 const BarCodeScreen = () => {
   useEffect(() => {
@@ -32,7 +44,80 @@ const BarCodeScreen = () => {
   };
 
   return (
-    <View>{/* <QRCodeScanner onRead={val => console.log(val)} /> */}</View>
+    <View style={{flex: 1}}>
+      <QRCodeScanner
+        cameraStyle={{
+          width: appSize.width,
+          height: appSize.height,
+          position: 'absolute',
+        }}
+        onRead={val => console.log(val.data)}
+        cameraType="back"
+        showMarker
+        markerStyle={{
+          borderColor: appColors.white,
+          borderRadius: 12,
+          width: appSize.width - 64,
+        }}
+        cameraProps={{
+          captureAudio: false,
+          ratio: '1:1',
+        }}
+      />
+      <LinearGradient
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+        }}
+        colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0)']}>
+        <RowComponent
+          styles={{
+            paddingVertical: 42,
+            paddingHorizontal: 16,
+          }}>
+          <Button
+            icon={<AntDesign name="close" size={22} color={appColors.white} />}
+            onPress={() => {}}
+          />
+          <TitleComponent
+            text="Scan at least 5 pantry items"
+            color={appColors.white}
+            size={18}
+            styles={{textAlign: 'center'}}
+          />
+          <TitleComponent
+            text={`3/5`}
+            styles={{
+              backgroundColor: appColors.white,
+              paddingVertical: 4,
+              borderRadius: 100,
+              flex: 0,
+              paddingHorizontal: 12,
+            }}
+            size={20}
+          />
+        </RowComponent>
+      </LinearGradient>
+
+      <SectionComponent
+        styles={{
+          position: 'absolute',
+          bottom: 24,
+          right: 0,
+          left: 0,
+        }}>
+        <RowComponent styles={{marginBottom: 24}}>
+          <TextComponent
+            text="Scanning for barcodes..."
+            flex={0}
+            color={appColors.white}
+          />
+        </RowComponent>
+        <ButtonComponent text="Finish Pantry Reset" onPress={() => {}} />
+      </SectionComponent>
+    </View>
   );
 };
 

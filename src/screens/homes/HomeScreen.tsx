@@ -34,7 +34,6 @@ import {useSelector} from 'react-redux';
 import {authSelector} from '../../redux/reducers/authReducer';
 
 const HomeScreen = ({navigation}: any) => {
-  const [isLogin, setIsLogin] = useState(false);
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
   const [isVisibleModalSubcriber, setIsVisibleModalSubcriber] = useState(false);
   const [isVisibleModalRating, setIsVisibleModalRating] = useState(false);
@@ -93,6 +92,7 @@ const HomeScreen = ({navigation}: any) => {
             />
             <RowComponent justify="space-between">
               <ButtonComponent
+                onPress={() => {}}
                 flex={1}
                 textColor={appColors.white}
                 icon={
@@ -106,27 +106,25 @@ const HomeScreen = ({navigation}: any) => {
                 color={appColors.success}
                 font={fontFamilys.bold}
                 text="NEW LIST"
-                onPress={() => setIsLogin(!isLogin)}
               />
-              {isLogin && (
-                <TouchableOpacity
-                  style={[
-                    global.row,
-                    {flex: 1, justifyContent: 'center', alignItems: 'center'},
-                  ]}>
-                  <MaterialIcons
-                    name="history"
-                    size={22}
-                    color={appColors.success}
-                  />
-                  <SpaceComponent width={4} />
-                  <TitleComponent
-                    text="VIEW HISTORY"
-                    color={appColors.success}
-                    flex={0}
-                  />
-                </TouchableOpacity>
-              )}
+
+              <TouchableOpacity
+                style={[
+                  global.row,
+                  {flex: 1, justifyContent: 'center', alignItems: 'center'},
+                ]}>
+                <MaterialIcons
+                  name="history"
+                  size={22}
+                  color={appColors.success}
+                />
+                <SpaceComponent width={4} />
+                <TitleComponent
+                  text="VIEW HISTORY"
+                  color={appColors.success}
+                  flex={0}
+                />
+              </TouchableOpacity>
             </RowComponent>
           </CardContent>
           <RowComponent>
