@@ -1,6 +1,6 @@
-import { Dimensions, Platform, StyleSheet } from 'react-native';
-import { appColors } from '../constants/appColors';
-import { fontFamilys } from '../constants/fontFamily';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
+import {appColors} from '../constants/appColors';
+import {fontFamilys} from '../constants/fontFamily';
 
 export const global = StyleSheet.create({
   container: {
@@ -27,7 +27,6 @@ export const global = StyleSheet.create({
     padding: 16,
     backgroundColor: '#BFBFBF36',
     borderRadius: 10,
-
   },
 
   row: {
@@ -47,7 +46,6 @@ export const global = StyleSheet.create({
     alignItems: 'center',
   },
 
-
   shadow: {
     shadowColor: 'rgba(0,0,0, 0.5)',
     shadowOffset: {
@@ -55,7 +53,7 @@ export const global = StyleSheet.create({
       height: 4,
     },
     shadowOpacity: Platform.OS === 'android' ? 0.25 : 0.15,
-    shadowRadius: 8.30,
+    shadowRadius: 8.3,
     elevation: 6,
   },
 
@@ -88,7 +86,7 @@ export const global = StyleSheet.create({
   },
 
   modalContent: {
-    padding: 27,
+    padding: 16,
     borderRadius: 10,
     width: Dimensions.get('window').width - 32,
     backgroundColor: appColors.white,
@@ -154,7 +152,7 @@ export const global = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
-    marginBottom: 12
+    marginBottom: 12,
   },
 
   modalContainer: {
@@ -168,6 +166,6 @@ export const global = StyleSheet.create({
     width: 40,
     height: 40,
     backgroundColor: appColors.gray1,
-    borderRadius: 20
-  }
+    borderRadius: 20,
+  },
 });

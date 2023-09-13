@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import {Alert, PermissionsAndroid, Platform, View} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {appSize} from '../../../constants/appSize';
@@ -16,6 +16,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import ModalizeProducDetail from '../../../modals/ModalizeProducDetail';
 import {ModalProduct} from '../../../modals';
 import {Product} from '../../../Models/Product';
+import ModalResultScan from '../../../modals/ModalResultScan';
 
 const demoProduc = {
   count: 1,
@@ -34,13 +35,37 @@ const BarCodeScreen = ({navigation}: any) => {
   const [showProduct, setShowProduct] = useState(false);
   const [product, setProduct] = useState<Product | undefined>();
   const [showError, setShowError] = useState(false);
+  const [qrCodeContent, setQrCodeContent] = useState<ReactNode>();
+  const [isVisibleModalResult, setIsVisibleModalResult] = useState(false);
+
+  const renderQrCode = (
+    <QRCodeScanner
+      cameraStyle={{
+        width: appSize.width,
+        height: appSize.height,
+        position: 'absolute',
+      }}
+      onRead={val => setCodeDetail(val.data)}
+      cameraType="back"
+      showMarker
+      markerStyle={{
+        borderColor: appColors.white,
+        borderRadius: 12,
+        width: appSize.width - 64,
+      }}
+      cameraProps={{
+        captureAudio: false,
+        ratio: '1:1',
+      }}
+    />
+  );
 
   useEffect(() => {
     requestPermision();
   }, []);
 
   useEffect(() => {
-    codeDetail &&
+    if (codeDetail) {
       Alert.alert(
         'BarCode',
         `Barcode is ${codeDetail}, try check code is produc or not and show detail`,
@@ -60,7 +85,12 @@ const BarCodeScreen = ({navigation}: any) => {
           },
         ],
       );
+    }
   }, [codeDetail]);
+
+  useEffect(() => {
+    setQrCodeContent(!showError || !showProduct ? renderQrCode : <></>);
+  }, [showError, showProduct]);
 
   const requestPermision = async () => {
     if (Platform.OS === 'android') {
@@ -88,25 +118,7 @@ const BarCodeScreen = ({navigation}: any) => {
 
   return (
     <View style={{flex: 1}}>
-      <QRCodeScanner
-        cameraStyle={{
-          width: appSize.width,
-          height: appSize.height,
-          position: 'absolute',
-        }}
-        onRead={val => setCodeDetail(val.data)}
-        cameraType="back"
-        showMarker
-        markerStyle={{
-          borderColor: appColors.white,
-          borderRadius: 12,
-          width: appSize.width - 64,
-        }}
-        cameraProps={{
-          captureAudio: false,
-          ratio: '1:1',
-        }}
-      />
+      {qrCodeContent}
       <LinearGradient
         style={{
           position: 'absolute',
@@ -130,8 +142,8 @@ const BarCodeScreen = ({navigation}: any) => {
             size={18}
             styles={{textAlign: 'center'}}
           />
-          <TitleComponent
-            text={`3/5`}
+          <TextComponent
+            text={`5/5`}
             styles={{
               backgroundColor: appColors.white,
               paddingVertical: 4,
@@ -158,7 +170,10 @@ const BarCodeScreen = ({navigation}: any) => {
             color={appColors.white}
           />
         </RowComponent>
-        <ButtonComponent text="Finish Pantry Reset" onPress={() => {}} />
+        <ButtonComponent
+          text="Finish Pantry Reset"
+          onPress={() => setIsVisibleModalResult(true)}
+        />
       </SectionComponent>
 
       <ModalizeProducDetail
@@ -176,6 +191,11 @@ const BarCodeScreen = ({navigation}: any) => {
           setProduct(undefined);
         }}
         product={product}
+      />
+
+      <ModalResultScan
+        isVisible={isVisibleModalResult}
+        onClose={() => setIsVisibleModalResult(false)}
       />
     </View>
   );
