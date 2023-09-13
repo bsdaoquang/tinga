@@ -14,39 +14,52 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {appColors} from '../../../constants/appColors';
 import LinearGradient from 'react-native-linear-gradient';
 import ModalizeProducDetail from '../../../modals/ModalizeProducDetail';
+import {ModalProduct} from '../../../modals';
+import {Product} from '../../../Models/Product';
+
+const demoProduc = {
+  count: 1,
+  description: '',
+  id: '3',
+  imageUrl:
+    'https://s3-alpha-sig.figma.com/img/0949/c4f3/9f08eaf9572c1baf96c42c3a212ccb1d?Expires=1695600000&Signature=Lg1zOVGWIh-PObTZ~1emXensFTTJhm4mMd-MEaUH9Uzm3WkG~D46kmA6Q6OqdarLpSTtfLOy1gqdgja40gXnsWHqhABJpIWh6oLvlwHw5s3j~FylcAxldq6RyclYck-yzX0jHNzpMDPwl2t--2G11Ns9fGyAfVrE1~x5S85d1acRYh9i-6uCS1Na5DADtO0HN2eDJ5Had7g05llBicXHzuRlin0Hd8kKDWCI-vH9UWHVjG42fS63Z-zr1~rrHx~l8CdUHQBZWYbnN8DlZ8qAGr0VSKFu0Yvzo1GNFYIYYkUgSCegvTmj9CIuqASlRx2s5NtDymYai4uqfuDEMqemLQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
+  mart: 'Walmart',
+  price: 3.99,
+  rating: 4.5,
+  title: 'Dempsters Smooth Multigrains Bread',
+};
 
 const BarCodeScreen = ({navigation}: any) => {
   const [codeDetail, setCodeDetail] = useState('');
   const [showDetail, setShowDetail] = useState(false);
-  const [product, setProduct] = useState(false);
+  const [product, setProduct] = useState<Product | undefined>();
 
   useEffect(() => {
     requestPermision();
   }, []);
 
   useEffect(() => {
-    Alert.alert(
-      'BarCode',
-      `Barcode is ${codeDetail}, try check code is produc or not and show detail`,
-      [
-        {
-          text: 'Not product',
-          onPress: () => {
-            setShowDetail(true);
-            setProduct(false);
+    codeDetail &&
+      Alert.alert(
+        'BarCode',
+        `Barcode is ${codeDetail}, try check code is produc or not and show detail`,
+        [
+          {
+            text: 'Not product',
+            onPress: () => {
+              setShowDetail(true);
+              setProduct(undefined);
+            },
           },
-        },
-        {
-          text: 'Is Product',
-          onPress: () => {
-            setShowDetail(true);
-            setProduct(true);
+          {
+            text: 'Is Product',
+            onPress: () => {
+              setShowDetail(true);
+              setProduct(demoProduc);
+            },
           },
-        },
-      ],
-    );
-
-    setShowDetail(true);
+        ],
+      );
   }, [codeDetail]);
 
   const requestPermision = async () => {
@@ -148,7 +161,24 @@ const BarCodeScreen = ({navigation}: any) => {
         <ButtonComponent text="Finish Pantry Reset" onPress={() => {}} />
       </SectionComponent>
 
-      <ModalizeProducDetail visible={showDetail} onClose={() => {}} />
+      <ModalizeProducDetail
+        visible={showDetail && !product}
+        onClose={() => {
+          setCodeDetail('');
+          setShowDetail(false);
+        }}
+      />
+      {product && (
+        <ModalProduct
+          visible={showDetail && product ? true : false}
+          onClose={() => {
+            setCodeDetail('');
+            setProduct(undefined);
+            setShowDetail(false);
+          }}
+          product={product}
+        />
+      )}
     </View>
   );
 };
