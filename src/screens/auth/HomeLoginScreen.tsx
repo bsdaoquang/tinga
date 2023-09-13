@@ -30,10 +30,9 @@ import {appInfos} from '../../constants/appInfos';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
 import {LoadingModal} from '../../modals';
-import {addAuth} from '../../redux/reducers/authReducer';
+import {HandleLogin} from '../../utils/HandleLogin';
 import {showToast} from '../../utils/showToast';
 import TermsText from './components/TermsText';
-import {HandleLogin} from '../../utils/HandleLogin';
 
 GoogleSignin.configure({
   webClientId:
