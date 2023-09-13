@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {PermissionsAndroid, Platform, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert, PermissionsAndroid, Platform, View} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {appSize} from '../../../constants/appSize';
 import {
@@ -13,11 +13,41 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {appColors} from '../../../constants/appColors';
 import LinearGradient from 'react-native-linear-gradient';
+import ModalizeProducDetail from '../../../modals/ModalizeProducDetail';
 
-const BarCodeScreen = () => {
+const BarCodeScreen = ({navigation}: any) => {
+  const [codeDetail, setCodeDetail] = useState('');
+  const [showDetail, setShowDetail] = useState(false);
+  const [product, setProduct] = useState(false);
+
   useEffect(() => {
     requestPermision();
   }, []);
+
+  useEffect(() => {
+    Alert.alert(
+      'BarCode',
+      `Barcode is ${codeDetail}, try check code is produc or not and show detail`,
+      [
+        {
+          text: 'Not product',
+          onPress: () => {
+            setShowDetail(true);
+            setProduct(false);
+          },
+        },
+        {
+          text: 'Is Product',
+          onPress: () => {
+            setShowDetail(true);
+            setProduct(true);
+          },
+        },
+      ],
+    );
+
+    setShowDetail(true);
+  }, [codeDetail]);
 
   const requestPermision = async () => {
     if (Platform.OS === 'android') {
@@ -51,7 +81,7 @@ const BarCodeScreen = () => {
           height: appSize.height,
           position: 'absolute',
         }}
-        onRead={val => console.log(val.data)}
+        onRead={val => setCodeDetail(val.data)}
         cameraType="back"
         showMarker
         markerStyle={{
@@ -79,7 +109,7 @@ const BarCodeScreen = () => {
           }}>
           <Button
             icon={<AntDesign name="close" size={22} color={appColors.white} />}
-            onPress={() => {}}
+            onPress={() => navigation.goBack()}
           />
           <TitleComponent
             text="Scan at least 5 pantry items"
@@ -117,6 +147,8 @@ const BarCodeScreen = () => {
         </RowComponent>
         <ButtonComponent text="Finish Pantry Reset" onPress={() => {}} />
       </SectionComponent>
+
+      <ModalizeProducDetail visible={showDetail} onClose={() => {}} />
     </View>
   );
 };

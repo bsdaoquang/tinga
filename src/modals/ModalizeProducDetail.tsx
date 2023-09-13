@@ -3,7 +3,12 @@ import {View} from 'react-native';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {RowComponent} from '../components';
+import {
+  ButtonComponent,
+  RowComponent,
+  SpaceComponent,
+  TitleComponent,
+} from '../components';
 import {appColors} from '../constants/appColors';
 
 interface Props {
@@ -11,7 +16,7 @@ interface Props {
   onClose: () => void;
 }
 
-const ModalizeDefault = (props: Props) => {
+const ModalizeProducDetail = (props: Props) => {
   const {visible, onClose} = props;
 
   useEffect(() => {
@@ -36,13 +41,17 @@ const ModalizeDefault = (props: Props) => {
             padding: 20,
             paddingBottom: 40,
           }}>
-          <RowComponent justify="flex-end" onPress={handleCloseModal}>
+          <RowComponent justify="flex-start" onPress={handleCloseModal}>
             <AntDesign name="close" color={appColors.gray} size={22} />
           </RowComponent>
+
+          <TitleComponent text="Oops! Product Not Found" size={24} />
+          <SpaceComponent height={16} />
+          <ButtonComponent text="Scan Something Else" onPress={onClose} />
         </View>
       </Modalize>
     </Portal>
   );
 };
 
-export default ModalizeDefault;
+export default ModalizeProducDetail;

@@ -1,16 +1,26 @@
+import {
+  AddSquare,
+  ArrowDown2,
+  Heart,
+  Location,
+  MinusSquare,
+} from 'iconsax-react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   Image,
   ImageBackground,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {Product} from '../Models/Product';
+import {HeartBold} from '../assets/svg';
 import {
   Button,
   ButtonComponent,
@@ -22,20 +32,8 @@ import {
   TitleComponent,
 } from '../components';
 import {appColors} from '../constants/appColors';
-import {Product} from '../Models/Product';
-import LinearGradient from 'react-native-linear-gradient';
-import {HeartBold} from '../assets/svg';
-import {
-  AddSquare,
-  ArrowDown2,
-  Heart,
-  InfoCircle,
-  Location,
-  MinusSquare,
-} from 'iconsax-react-native';
-import {global} from '../styles/global';
 import {fontFamilys} from '../constants/fontFamily';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {global} from '../styles/global';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
 
 interface Props {
@@ -174,7 +172,7 @@ const ModalProduct = (props: Props) => {
             }}>
             <LinearGradient
               style={{height: 180, width: '100%'}}
-              colors={['rgba(0,0,0,0.8)', 'rgba(0,0,0,0)']}>
+              colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0)']}>
               <RowComponent
                 justify="space-between"
                 styles={{padding: 16, paddingTop: 20}}>
