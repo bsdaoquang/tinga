@@ -16,9 +16,11 @@ import {
 import {appColors} from '../../constants/appColors';
 import RenderChooseValue from './components/RenderChooseValue';
 
-const ChooseDislike = ({navigation}: any) => {
+const ChooseDislike = ({navigation, route}: any) => {
+  const {allergy_ids} = route.params;
+
   const [selected, setSelected] = useState<number[]>([]);
-  const [choosese, setChoosese] = useState<UserChoose[]>([]);
+  const [choosese, setChoosese] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -27,15 +29,17 @@ const ChooseDislike = ({navigation}: any) => {
   }, []);
 
   const handleGetAllgery = async () => {
-    const api = `/allergies`;
+    const api = `/dislikeItems`;
+    const data = new FormData();
+
+    data.append('allergy_ids', allergy_ids ? `${allergy_ids}` : '[]');
+    data.append('prefrence', '3');
 
     try {
       setIsLoading(true);
-      await handleGetData.handleProduct(api).then((res: any) => {
-        if (res) {
-          setChoosese(res);
-          setIsLoading(false);
-        }
+      await handleGetData.handleProduct(api, data, 'post').then((res: any) => {
+        setChoosese(res);
+        setIsLoading(false);
       });
     } catch (error) {
       console.log(error);
@@ -95,12 +99,16 @@ const ChooseDislike = ({navigation}: any) => {
         {choosese.length > 0 ? (
           <RowComponent justify="flex-start">
             {choosese.map((item, index) => (
-              <RenderChooseValue
-                key={item.id}
-                item={item}
-                onPress={() => handleSelectedItem(item.id)}
-                selected={selected}
-              />
+              <TextComponent text={item} key={`item${index}`} flex={0} />
+              // <RenderChooseValue
+              //   key={`choose${index}`}
+              //   item={{
+              //     id: index,
+              //     name: item,
+              //   }}
+              //   onPress={() => handleSelectedItem(index)}
+              //   selected={selected}
+              // />
             ))}
           </RowComponent>
         ) : (

@@ -110,7 +110,7 @@ const ProfileScreen = ({navigation}: any) => {
 
       await authenticationAPI.HandleAuth(api, {}, 'post').then(async res => {
         dispatch(addAuth({}));
-        await AsyncStorage.removeItem(appInfos.localDataName.accessToken);
+        await AsyncStorage.removeItem(appInfos.localDataName.userData);
         setIsLoading(false);
       });
     } catch (error) {

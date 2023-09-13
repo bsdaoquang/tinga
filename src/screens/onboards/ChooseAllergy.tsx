@@ -54,7 +54,9 @@ const ChooseAllergy = ({navigation}: any) => {
         .handleUser(api, data, 'post', true)
         .then((res: any) => {
           if (res && res.success) {
-            navigation.navigate('ChooseDislike');
+            navigation.navigate('ChooseDislike', {
+              allergy_ids: selected,
+            });
             setIsUpdating(false);
           } else {
             console.log('Can not update');
