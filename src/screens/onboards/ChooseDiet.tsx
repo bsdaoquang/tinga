@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {UserChoose} from '../../Models/UserChoose';
 import handleGetData from '../../apis/productAPI';
@@ -7,16 +8,12 @@ import {
   ButtonComponent,
   Container,
   LoadingComponent,
-  RowComponent,
   SectionComponent,
   SpaceComponent,
   TextComponent,
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import RenderChooseValue from './components/RenderChooseValue';
-import {Touchable, TouchableOpacity} from 'react-native';
-import {global} from '../../styles/global';
 
 const ChooseDiet = ({navigation}: any) => {
   const [selected, setSelected] = useState<number[]>([]);

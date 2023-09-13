@@ -15,8 +15,11 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import RenderChooseValue from './components/RenderChooseValue';
+import {FlatList, ScrollView} from 'react-native';
 
-const ChooseDislike = ({navigation}: any) => {
+const ChooseDislike = ({navigation, route}: any) => {
+  const {allergy_ids} = route.params;
+
   const [selected, setSelected] = useState<number[]>([]);
   const [choosese, setChoosese] = useState<UserChoose[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,15 +30,26 @@ const ChooseDislike = ({navigation}: any) => {
   }, []);
 
   const handleGetAllgery = async () => {
-    const api = `/allergies`;
+    const api = `/dislikeItems`;
+    const data = new FormData();
+
+    data.append('allergy_ids', allergy_ids ? `${allergy_ids}` : '[]');
+    data.append('prefrence', '3');
 
     try {
       setIsLoading(true);
-      await handleGetData.handleProduct(api).then((res: any) => {
-        if (res) {
-          setChoosese(res);
-          setIsLoading(false);
+      await handleGetData.handleProduct(api, data, 'post').then((res: any) => {
+        const items: any[] = [];
+
+        for (const i in res) {
+          items.push({
+            id: parseInt(i),
+            name: res[i],
+          });
         }
+
+        setChoosese(items);
+        setIsLoading(false);
       });
     } catch (error) {
       console.log(error);
@@ -43,10 +57,18 @@ const ChooseDislike = ({navigation}: any) => {
   };
 
   const handleContinue = async () => {
-    const api = `/allergies`;
+    const api = `/dislikes`;
+
+    const items: string[] = [];
+
+    selected.forEach(id => {
+      const item = choosese.find(element => element.id === id);
+
+      item && items.push(item.name);
+    });
 
     const data = new FormData();
-    data.append('allergies', JSON.stringify(selected));
+    data.append('dislikes', JSON.stringify(items));
 
     try {
       setIsUpdating(true);
@@ -87,27 +109,30 @@ const ChooseDislike = ({navigation}: any) => {
       <SectionComponent flex={1}>
         <TextComponent text="Dislikes" size={12} flex={0} />
         <TitleComponent
-          text="Does your household have any dislikes??"
+          text="Does your household have any dislikes?"
           flex={0}
           size={26}
         />
         <SpaceComponent height={20} />
+
         {choosese.length > 0 ? (
-          <RowComponent justify="flex-start">
-            {choosese.map((item, index) => (
-              <RenderChooseValue
-                key={item.id}
-                item={item}
-                onPress={() => handleSelectedItem(item.id)}
-                selected={selected}
-              />
-            ))}
-          </RowComponent>
+          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
+            <RowComponent justify="flex-start">
+              {choosese.map((item, index) => (
+                <RenderChooseValue
+                  key={`choose${index}`}
+                  item={item}
+                  onPress={() => handleSelectedItem(index)}
+                  selected={selected}
+                />
+              ))}
+            </RowComponent>
+          </ScrollView>
         ) : (
           <LoadingComponent isLoading={isLoading} value={choosese.length} />
         )}
       </SectionComponent>
-      <SectionComponent styles={{marginVertical: 20}}>
+      <SectionComponent styles={{}}>
         <ButtonComponent
           disable={selected.length === 0 || isUpdating}
           textColor={appColors.text}

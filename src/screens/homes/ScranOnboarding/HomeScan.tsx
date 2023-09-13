@@ -21,7 +21,15 @@ const HomeScan = ({navigation}: any) => {
         backgroundColor="#263238"
         left={<ArrowLeft size={20} color={appColors.white} />}
         right={
-          <Button text="Skip" onPress={() => {}} textColor={appColors.white6} />
+          <Button
+            text="Skip"
+            onPress={() =>
+              navigation.navigate('Home', {
+                screen: 'HomeScreen',
+              })
+            }
+            textColor={appColors.white6}
+          />
         }
         isScroll>
         <SectionComponent>
