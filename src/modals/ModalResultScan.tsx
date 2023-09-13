@@ -5,11 +5,13 @@ import {
   Button,
   ButtonComponent,
   RowComponent,
+  SpaceComponent,
   TextComponent,
   TitleComponent,
 } from '../components';
 import {appColors} from '../constants/appColors';
 import {global} from '../styles/global';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   isVisible: boolean;
@@ -18,7 +20,7 @@ interface Props {
 
 const ModalResultScan = (props: Props) => {
   const {isVisible, onClose} = props;
-
+  const navigation: any = useNavigation();
   const handleClose = () => {
     onClose();
   };
@@ -43,7 +45,7 @@ const ModalResultScan = (props: Props) => {
           flex: 1,
           paddingHorizontal: 12,
         }}>
-        <RowComponent>
+        <RowComponent justify="flex-start">
           <TextComponent text={`Gluten-Free Bread`} flex={0} />
           <AntDesign
             name="swap"
@@ -51,7 +53,31 @@ const ModalResultScan = (props: Props) => {
             color={appColors.gray4}
             style={{marginHorizontal: 4}}
           />
-          <TextComponent text={`Gluten-Free Bread`} flex={0} />
+          <TextComponent
+            text={`White Bread`}
+            flex={1}
+            line={1}
+            styles={{
+              textDecorationColor: appColors.text,
+              textDecorationLine: 'line-through',
+            }}
+          />
+        </RowComponent>
+        <RowComponent justify="flex-start">
+          <RowComponent
+            styles={[
+              global.tag,
+              {
+                backgroundColor: '#E6EECC',
+                borderRadius: 100,
+                paddingHorizontal: 8,
+                paddingVertical: 4,
+              },
+            ]}>
+            <TextComponent text="Added To My List" flex={0} size={12} />
+            <SpaceComponent width={4} />
+            <AntDesign name="check" size={16} color={appColors.text} />
+          </RowComponent>
         </RowComponent>
       </View>
     </RowComponent>
@@ -81,7 +107,11 @@ const ModalResultScan = (props: Props) => {
             }}>
             <ButtonComponent
               text="I’m Done "
-              onPress={() => {}}
+              onPress={() =>
+                navigation.navigate('Home', {
+                  screen: 'HomeScreen',
+                })
+              }
               styles={{marginVertical: 8}}
             />
             <ButtonComponent
