@@ -110,6 +110,9 @@ const ModalResultScan = (props: Props) => {
               onPress={() =>
                 navigation.navigate('Home', {
                   screen: 'HomeScreen',
+                  params: {
+                    isResultScan: true,
+                  },
                 })
               }
               styles={{marginVertical: 8}}

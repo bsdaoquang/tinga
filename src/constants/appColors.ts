@@ -11,15 +11,13 @@ export const appColors = {
   gray4: '#41393EC9',
 
   text: '#263238',
-  text2: "#505050",
+  text2: '#505050',
   text3: '#41393E',
   success: '#13917B',
   success1: '#ABC43F',
   success2: '#32645B',
   error: '#F15D59',
-  danger: '#F15D59'
+  danger: '#F15D59',
 };
 
-export const listColors = [
-  '#97CDDB', '#ABC43F', '#B59473', '#00927C'
-];
+export const listColors = ['#97CDDB', '#ABC43F', '#B59473', '#00927C'];

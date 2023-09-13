@@ -26,6 +26,9 @@ const HomeScan = ({navigation}: any) => {
             onPress={() =>
               navigation.navigate('Home', {
                 screen: 'HomeScreen',
+                params: {
+                  isResultScan: false,
+                },
               })
             }
             textColor={appColors.white6}

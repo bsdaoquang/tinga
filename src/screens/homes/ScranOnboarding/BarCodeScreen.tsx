@@ -1,7 +1,9 @@
 import React, {ReactNode, useEffect, useState} from 'react';
 import {Alert, PermissionsAndroid, Platform, View} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import {appSize} from '../../../constants/appSize';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {Product} from '../../../Models/Product';
 import {
   Button,
   ButtonComponent,
@@ -10,13 +12,11 @@ import {
   TextComponent,
   TitleComponent,
 } from '../../../components';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {appColors} from '../../../constants/appColors';
-import LinearGradient from 'react-native-linear-gradient';
-import ModalizeProducDetail from '../../../modals/ModalizeProducDetail';
+import {appSize} from '../../../constants/appSize';
 import {ModalProduct} from '../../../modals';
-import {Product} from '../../../Models/Product';
 import ModalResultScan from '../../../modals/ModalResultScan';
+import ModalizeProducDetail from '../../../modals/ModalizeProducDetail';
 
 const demoProduc = {
   count: 1,
@@ -88,10 +88,6 @@ const BarCodeScreen = ({navigation}: any) => {
     }
   }, [codeDetail]);
 
-  useEffect(() => {
-    setQrCodeContent(!showError || !showProduct ? renderQrCode : <></>);
-  }, [showError, showProduct]);
-
   const requestPermision = async () => {
     if (Platform.OS === 'android') {
       try {
@@ -118,7 +114,7 @@ const BarCodeScreen = ({navigation}: any) => {
 
   return (
     <View style={{flex: 1}}>
-      {qrCodeContent}
+      {renderQrCode}
       <LinearGradient
         style={{
           position: 'absolute',

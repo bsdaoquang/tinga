@@ -1,6 +1,6 @@
 import {Gift} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {Alert, StatusBar, TouchableOpacity} from 'react-native';
+import {Alert, StatusBar, TouchableOpacity, View} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -15,6 +15,7 @@ import {
   SectionComponent,
   SpaceComponent,
   TabbarComponent,
+  TextComponent,
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
@@ -32,8 +33,11 @@ import VideoPlayer from './components/VideoPlayer';
 import {useIsFocused} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {authSelector} from '../../redux/reducers/authReducer';
+import Swiper from 'react-native-swiper';
 
-const HomeScreen = ({navigation}: any) => {
+const HomeScreen = ({navigation, route}: any) => {
+  const isResultScan = route.params ? route.params.isResultScan : false;
+
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
   const [isVisibleModalSubcriber, setIsVisibleModalSubcriber] = useState(false);
   const [isVisibleModalRating, setIsVisibleModalRating] = useState(false);
@@ -84,76 +88,155 @@ const HomeScreen = ({navigation}: any) => {
             borderTopRightRadius: 20,
             // marginTop: 12,
             paddingBottom: 12,
+            paddingHorizontal: 0,
           }}>
-          <CardContent isShadow={false} styles={{marginVertical: 16}}>
-            <TitleComponent
-              text={`Start your Gluten-free shopping experience`}
-              size={20}
-            />
-            <RowComponent justify="space-between">
+          <Swiper
+            activeDotColor="#13917B"
+            activeDotStyle={{
+              width: 32,
+            }}
+            dotColor={`#13917B66`}
+            loop={false}
+            showsPagination
+            style={{flex: 0, height: 230, paddingVertical: 16}}>
+            <CardContent styles={{marginHorizontal: 8}}>
+              <TitleComponent
+                text="Step 1 - Reset Your Pantry"
+                flex={0}
+                size={20}
+              />
+              <TextComponent
+                text="Scan to learn which foods match your dietary restrictions and what to swap."
+                flex={0}
+              />
+              <SpaceComponent height={16} />
               <ButtonComponent
-                onPress={() => {}}
-                flex={1}
-                textColor={appColors.white}
+                disable={isResultScan}
+                onPress={() => navigation.navigate('BarCodeScreen')}
+                text="Scan my food"
                 icon={
-                  <CustomIcon
-                    icon={
-                      <Ionicons name="add" size={20} color={appColors.white} />
-                    }
+                  <Ionicons
+                    name="barcode-outline"
+                    size={24}
+                    color={appColors.white}
                   />
                 }
-                styles={{marginTop: 16}}
                 color={appColors.success}
-                font={fontFamilys.bold}
-                text="NEW LIST"
+                textColor={appColors.white}
+              />
+            </CardContent>
+            <CardContent styles={{marginHorizontal: 8}}>
+              <TitleComponent
+                text="Step 2 - Create your first  grocery list"
+                flex={0}
+                size={20}
+              />
+              <TextComponent text="" flex={0} />
+              <SpaceComponent height={16} />
+              <ButtonComponent
+                onPress={() => navigation.navigate('BarCodeScreen')}
+                text="START LIST"
+                color={appColors.success}
+                textColor={appColors.white}
+              />
+            </CardContent>
+            <CardContent isShadow={false}>
+              <TitleComponent
+                text={`Start your Gluten-free shopping experience`}
+                size={20}
+                flex={0}
               />
 
-              <TouchableOpacity
-                style={[
-                  global.row,
-                  {flex: 1, justifyContent: 'center', alignItems: 'center'},
-                ]}>
-                <MaterialIcons
-                  name="history"
-                  size={22}
+              <TextComponent text="" flex={0} />
+              <SpaceComponent height={16} />
+              <RowComponent justify="space-between">
+                <ButtonComponent
+                  onPress={() => {}}
+                  styles={{paddingVertical: 12}}
+                  flex={1}
+                  textColor={appColors.white}
+                  icon={
+                    <CustomIcon
+                      icon={
+                        <Ionicons
+                          name="add"
+                          size={20}
+                          color={appColors.white}
+                        />
+                      }
+                    />
+                  }
                   color={appColors.success}
+                  font={fontFamilys.bold}
+                  text="NEW LIST"
                 />
-                <SpaceComponent width={4} />
-                <TitleComponent
-                  text="VIEW HISTORY"
-                  color={appColors.success}
-                  flex={0}
-                />
-              </TouchableOpacity>
-            </RowComponent>
-          </CardContent>
-          <RowComponent>
-            <CardContent
-              onPress={() => {}}
-              styles={{flex: 1, paddingHorizontal: 10}}>
-              <RowComponent>
-                <EvilIcons name="search" color={appColors.success} size={24} />
-                <TitleComponent text="Search products" />
-              </RowComponent>
-            </CardContent>
-            <SpaceComponent width={10} />
-            <CardContent
-              onPress={() => {}}
-              styles={{
-                flex: 1,
-                paddingHorizontal: 10,
-              }}>
-              <RowComponent>
-                <Users width={24} />
-                <SpaceComponent width={4} />
-                <TitleComponent text="Tinga Community" />
-              </RowComponent>
-            </CardContent>
-          </RowComponent>
 
-          <SpaceComponent height={16} />
-          <TabbarComponent title="How it works" seemore onPress={() => {}} />
-          <VideoPlayer />
+                <TouchableOpacity
+                  style={[
+                    global.row,
+                    {flex: 1, justifyContent: 'center', alignItems: 'center'},
+                  ]}>
+                  <MaterialIcons
+                    name="history"
+                    size={22}
+                    color={appColors.success}
+                  />
+                  <SpaceComponent width={4} />
+                  <TitleComponent
+                    text="VIEW HISTORY"
+                    color={appColors.success}
+                    flex={0}
+                  />
+                </TouchableOpacity>
+              </RowComponent>
+            </CardContent>
+          </Swiper>
+          {/* <Swiper
+            index={1}
+            loop={false}
+            activeDotColor="white"
+            activeDotStyle={{
+              width: 32,
+              marginBottom: -32,
+            }}
+            onIndexChanged={i => console.log(i)}
+            dotStyle={{marginBottom: -32}}
+            dotColor={appColors.white4}>
+            
+          </Swiper> */}
+          <View style={{paddingHorizontal: 16}}>
+            <RowComponent>
+              <CardContent
+                onPress={() => {}}
+                styles={{flex: 1, paddingHorizontal: 10}}>
+                <RowComponent>
+                  <EvilIcons
+                    name="search"
+                    color={appColors.success}
+                    size={24}
+                  />
+                  <TitleComponent text="Search products" />
+                </RowComponent>
+              </CardContent>
+              <SpaceComponent width={10} />
+              <CardContent
+                onPress={() => {}}
+                styles={{
+                  flex: 1,
+                  paddingHorizontal: 10,
+                }}>
+                <RowComponent>
+                  <Users width={24} />
+                  <SpaceComponent width={4} />
+                  <TitleComponent text="Tinga Community" />
+                </RowComponent>
+              </CardContent>
+            </RowComponent>
+
+            <SpaceComponent height={16} />
+            <TabbarComponent title="How it works" seemore onPress={() => {}} />
+            <VideoPlayer />
+          </View>
         </SectionComponent>
         <SectionComponent
           styles={{
