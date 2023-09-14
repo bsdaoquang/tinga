@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, PermissionsAndroid, Platform, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -35,7 +35,6 @@ const BarCodeScreen = ({navigation}: any) => {
   const [showProduct, setShowProduct] = useState(false);
   const [product, setProduct] = useState<Product | undefined>();
   const [showError, setShowError] = useState(false);
-  const [qrCodeContent, setQrCodeContent] = useState<ReactNode>();
   const [isVisibleModalResult, setIsVisibleModalResult] = useState(false);
 
   const renderQrCode = (
@@ -60,9 +59,21 @@ const BarCodeScreen = ({navigation}: any) => {
     />
   );
 
+  const [QRCodeCotainer, setQRCodeCotainer] = useState(renderQrCode);
+
   useEffect(() => {
     requestPermision();
+    setQRCodeCotainer(renderQrCode);
   }, []);
+
+  useEffect(() => {
+    // !codeDetail && setQRCodeCotainer(renderQrCode);
+    if (showProduct || showError) {
+      setQRCodeCotainer(<></>);
+    } else {
+      setQRCodeCotainer(renderQrCode);
+    }
+  }, [showProduct, showError]);
 
   useEffect(() => {
     if (codeDetail) {
@@ -114,7 +125,7 @@ const BarCodeScreen = ({navigation}: any) => {
 
   return (
     <View style={{flex: 1}}>
-      {renderQrCode}
+      {QRCodeCotainer}
       <LinearGradient
         style={{
           position: 'absolute',
@@ -185,6 +196,7 @@ const BarCodeScreen = ({navigation}: any) => {
         onClose={() => {
           setCodeDetail('');
           setProduct(undefined);
+          setShowProduct(false);
         }}
         product={product}
       />

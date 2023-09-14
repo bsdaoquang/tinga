@@ -20,14 +20,10 @@ const ModalizeProducDetail = (props: Props) => {
   const {visible, onClose} = props;
 
   useEffect(() => {
-    visible && modalRef.current?.open();
+    visible ? modalRef.current?.open() : modalRef.current?.close();
   }, [visible]);
 
   const modalRef = useRef<Modalize>();
-
-  const handleCloseModal = () => {
-    modalRef.current?.close();
-  };
 
   return (
     <Portal>
@@ -41,7 +37,7 @@ const ModalizeProducDetail = (props: Props) => {
             padding: 20,
             paddingBottom: 40,
           }}>
-          <RowComponent justify="flex-start" onPress={handleCloseModal}>
+          <RowComponent justify="flex-start" onPress={onClose}>
             <AntDesign name="close" color={appColors.gray} size={22} />
           </RowComponent>
 
