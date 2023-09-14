@@ -131,6 +131,8 @@ const VerifyEmail = ({navigation, route}: any) => {
               width: (appSize.width - 80) / 5,
             }}
             ref={ref1}
+            returnKeyLabel="Next"
+            returnKeyType="next"
             value={numsCode[0]}
             onChangeText={val => {
               handleSetNumCode(val, 0);
