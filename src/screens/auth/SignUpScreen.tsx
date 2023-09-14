@@ -15,6 +15,7 @@ import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
 import useAuth from '../../hooks/useAuth';
 import TermsText from './components/TermsText';
+import {LoadingModal} from '../../modals';
 
 const SignUpScreen = ({navigation}: any) => {
   const [isShowPass, setIsShowPass] = useState(false);
@@ -135,6 +136,8 @@ const SignUpScreen = ({navigation}: any) => {
       <SectionComponent>
         <TermsText text="By continuing you agree with our " />
       </SectionComponent>
+
+      <LoadingModal visible={isLoading} />
     </Container>
   );
 };

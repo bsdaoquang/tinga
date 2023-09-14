@@ -80,6 +80,7 @@ interface Props {
     | 'username-new'
     | 'off'
     | undefined;
+  ref?: any;
 }
 
 export const InputComponent = (props: Props) => {
@@ -110,6 +111,7 @@ export const InputComponent = (props: Props) => {
     inputStyles,
     isMultible,
     rows,
+    ref,
   } = props;
 
   return (
@@ -133,6 +135,7 @@ export const InputComponent = (props: Props) => {
         ]}>
         {prefix && prefix}
         <TextInput
+          ref={ref}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           value={value}

@@ -154,6 +154,7 @@ const ExploreScreen = ({navigation}: any) => {
 
   useEffect(() => {
     setCategories(demoCategories);
+    setCategoriesTitle('Top categories');
   }, [navigation, focus]);
 
   useEffect(() => {

@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Alert, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   ButtonComponent,
@@ -17,6 +17,7 @@ import {global} from '../../styles/global';
 import authenticationAPI from '../../apis/authAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appInfos} from '../../constants/appInfos';
+import {LoadingModal} from '../../modals';
 
 const VerifyEmail = ({navigation, route}: any) => {
   const {email}: {email: string} = route.params;
@@ -27,6 +28,15 @@ const VerifyEmail = ({navigation, route}: any) => {
   const [messageError, setMessageError] = useState('');
 
   const [disable, setDisable] = useState(true);
+  const ref1 = useRef<TextInput>(null);
+  const ref2 = useRef<TextInput>(null);
+  const ref3 = useRef<TextInput>(null);
+  const ref4 = useRef<TextInput>(null);
+  const ref5 = useRef<TextInput>(null);
+
+  useEffect(() => {
+    ref1.current?.focus();
+  }, []);
 
   useEffect(() => {
     setDisable(code.length === 5 ? false : true);
@@ -109,24 +119,103 @@ const VerifyEmail = ({navigation, route}: any) => {
 
       <SectionComponent styles={{marginTop: 20}}>
         <RowComponent justify="space-between">
-          {Array.from({length: 5}).map((_item, index) => (
-            <View
-              key={`input${index}`}
-              style={{width: (appSize.width - 80) / 5}}>
-              <InputComponent
-                value={numsCode[index]}
-                type="number-pad"
-                onChange={val => handleSetNumCode(val, index)}
-                placeholder="-"
-                inputStyles={{
-                  textAlign: 'center',
-                  fontFamily: fontFamilys.bold,
-                  fontSize: 22,
-                }}
-                styles={{marginBottom: 0}}
-              />
-            </View>
-          ))}
+          <TextInput
+            placeholder="-"
+            style={{
+              textAlign: 'center',
+              fontFamily: fontFamilys.bold,
+              fontSize: 22,
+              borderRadius: 8,
+              borderWidth: 2,
+              borderColor: ref1.current?.isFocused() ? '#ABC43F' : '#EEF3DC',
+              width: (appSize.width - 80) / 5,
+            }}
+            ref={ref1}
+            value={numsCode[0]}
+            onChangeText={val => {
+              handleSetNumCode(val, 0);
+              val && ref2.current?.focus();
+            }}
+            maxLength={1}
+            keyboardType="number-pad"
+          />
+          <TextInput
+            placeholder="-"
+            style={{
+              textAlign: 'center',
+              fontFamily: fontFamilys.bold,
+              fontSize: 22,
+              borderRadius: 8,
+              borderWidth: 2,
+              borderColor: ref2.current?.isFocused() ? '#ABC43F' : '#EEF3DC',
+              width: (appSize.width - 80) / 5,
+            }}
+            ref={ref2}
+            value={numsCode[1]}
+            maxLength={1}
+            onChangeText={val => {
+              handleSetNumCode(val, 1);
+              val && ref3.current?.focus();
+            }}
+            keyboardType="number-pad"
+          />
+          <TextInput
+            placeholder="-"
+            style={{
+              textAlign: 'center',
+              fontFamily: fontFamilys.bold,
+              fontSize: 22,
+              borderRadius: 8,
+              borderWidth: 2,
+              borderColor: ref3.current?.isFocused() ? '#ABC43F' : '#EEF3DC',
+              width: (appSize.width - 80) / 5,
+            }}
+            maxLength={1}
+            ref={ref3}
+            value={numsCode[2]}
+            onChangeText={val => {
+              handleSetNumCode(val, 2);
+              val && ref4.current?.focus();
+            }}
+            keyboardType="number-pad"
+          />
+          <TextInput
+            placeholder="-"
+            style={{
+              textAlign: 'center',
+              fontFamily: fontFamilys.bold,
+              fontSize: 22,
+              borderRadius: 8,
+              borderWidth: 2,
+              borderColor: ref4.current?.isFocused() ? '#ABC43F' : '#EEF3DC',
+              width: (appSize.width - 80) / 5,
+            }}
+            ref={ref4}
+            maxLength={1}
+            value={numsCode[3]}
+            onChangeText={val => {
+              handleSetNumCode(val, 3);
+              val && ref5.current?.focus();
+            }}
+            keyboardType="number-pad"
+          />
+          <TextInput
+            placeholder="-"
+            style={{
+              textAlign: 'center',
+              fontFamily: fontFamilys.bold,
+              fontSize: 22,
+              borderRadius: 8,
+              borderWidth: 2,
+              borderColor: ref5.current?.isFocused() ? '#ABC43F' : '#EEF3DC',
+              width: (appSize.width - 80) / 5,
+            }}
+            ref={ref5}
+            maxLength={1}
+            value={numsCode[4]}
+            onChangeText={val => handleSetNumCode(val, 4)}
+            keyboardType="number-pad"
+          />
         </RowComponent>
       </SectionComponent>
 
@@ -170,6 +259,7 @@ const VerifyEmail = ({navigation, route}: any) => {
           </Text>
         </Text>
       </SectionComponent>
+      <LoadingModal visible={isLoading} />
     </Container>
   );
 };

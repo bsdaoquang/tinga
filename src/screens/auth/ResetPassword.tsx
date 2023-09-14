@@ -1,27 +1,19 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
-import {Image, ScrollView} from 'react-native';
+import Octicons from 'react-native-vector-icons/Octicons';
 import {useDispatch} from 'react-redux';
-import authenticationAPI from '../../apis/authAPI';
 import {
-  Button,
   ButtonComponent,
   Container,
   InputComponent,
-  RowComponent,
   SectionComponent,
   SpaceComponent,
   TextComponent,
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {appInfos} from '../../constants/appInfos';
-import {fontFamilys} from '../../constants/fontFamily';
 import useAuth from '../../hooks/useAuth';
 import {LoadingModal} from '../../modals';
-import {addAuth} from '../../redux/reducers/authReducer';
-import Octicons from 'react-native-vector-icons/Octicons';
 import {showToast} from '../../utils/showToast';
 
 const ResetPassword = ({navigation}: any) => {
