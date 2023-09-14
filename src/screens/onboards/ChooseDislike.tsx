@@ -16,6 +16,7 @@ import {
 import {appColors} from '../../constants/appColors';
 import RenderChooseValue from './components/RenderChooseValue';
 import {FlatList, ScrollView} from 'react-native';
+import {LoadingModal} from '../../modals';
 
 const ChooseDislike = ({navigation, route}: any) => {
   const {allergy_ids} = route.params;
@@ -24,6 +25,7 @@ const ChooseDislike = ({navigation, route}: any) => {
   const [choosese, setChoosese] = useState<UserChoose[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [count, setCount] = useState(16);
 
   useEffect(() => {
     handleGetAllgery();
@@ -105,7 +107,14 @@ const ChooseDislike = ({navigation, route}: any) => {
   };
 
   return (
-    <Container back right={<Button text="Skip" onPress={() => {}} />}>
+    <Container
+      back
+      right={
+        <Button
+          text="Skip"
+          onPress={() => navigation.navigate('ChooseStore')}
+        />
+      }>
       <SectionComponent flex={1}>
         <TextComponent text="Dislikes" size={12} flex={0} />
         <TitleComponent
@@ -118,14 +127,25 @@ const ChooseDislike = ({navigation, route}: any) => {
         {choosese.length > 0 ? (
           <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
             <RowComponent justify="flex-start">
-              {choosese.map((item, index) => (
-                <RenderChooseValue
-                  key={`choose${index}`}
-                  item={item}
-                  onPress={() => handleSelectedItem(index)}
-                  selected={selected}
-                />
-              ))}
+              {choosese.map(
+                (item, index) =>
+                  index <= count && (
+                    <RenderChooseValue
+                      key={`choose${index}`}
+                      item={item}
+                      onPress={() => handleSelectedItem(index)}
+                      selected={selected}
+                    />
+                  ),
+              )}
+            </RowComponent>
+            <RowComponent justify="flex-start" styles={{marginTop: 12}}>
+              <Button
+                text={count === choosese.length ? 'Less' : 'See all'}
+                onPress={() =>
+                  setCount(count === choosese.length ? 18 : choosese.length)
+                }
+              />
             </RowComponent>
           </ScrollView>
         ) : (
@@ -146,6 +166,8 @@ const ChooseDislike = ({navigation, route}: any) => {
           }
         />
       </SectionComponent>
+
+      <LoadingModal visible={isUpdating} mess="Updating..." />
     </Container>
   );
 };

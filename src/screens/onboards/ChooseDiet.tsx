@@ -14,6 +14,7 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
+import {LoadingModal} from '../../modals';
 
 const ChooseDiet = ({navigation}: any) => {
   const [selected, setSelected] = useState<number[]>([]);
@@ -81,7 +82,14 @@ const ChooseDiet = ({navigation}: any) => {
     setSelected(items);
   };
   return (
-    <Container back right={<Button text="Skip" onPress={() => {}} />}>
+    <Container
+      back
+      right={
+        <Button
+          text="Skip"
+          onPress={() => navigation.navigate('ChooseAllergy')}
+        />
+      }>
       <SectionComponent flex={1}>
         <TextComponent text="Lifestyle Choices" size={12} flex={0} />
         <TitleComponent
@@ -128,6 +136,8 @@ const ChooseDiet = ({navigation}: any) => {
           }
         />
       </SectionComponent>
+
+      <LoadingModal visible={isUpdating} mess="Updating..." />
     </Container>
   );
 };

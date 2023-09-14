@@ -15,6 +15,7 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import RenderChooseValue from './components/RenderChooseValue';
+import {LoadingModal} from '../../modals';
 
 const ChooseAllergy = ({navigation}: any) => {
   const [selected, setSelected] = useState<number[]>([]);
@@ -85,7 +86,18 @@ const ChooseAllergy = ({navigation}: any) => {
   };
 
   return (
-    <Container back right={<Button text="Skip" onPress={() => {}} />}>
+    <Container
+      back
+      right={
+        <Button
+          text="Skip"
+          onPress={() =>
+            navigation.navigate('ChooseDislike', {
+              allergy_ids: [],
+            })
+          }
+        />
+      }>
       <SectionComponent flex={1}>
         <TextComponent text="Allergens" size={12} flex={0} />
         <TitleComponent
@@ -123,6 +135,7 @@ const ChooseAllergy = ({navigation}: any) => {
           }
         />
       </SectionComponent>
+      <LoadingModal visible={isUpdating} mess="Updating..." />
     </Container>
   );
 };
