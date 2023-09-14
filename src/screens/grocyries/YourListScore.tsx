@@ -1,5 +1,7 @@
-import {View, Text, Image} from 'react-native';
 import React from 'react';
+import {Image, View} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {Product} from '../../Models/Product';
 import {
   Button,
   CardContent,
@@ -13,12 +15,7 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {fontFamilys} from '../../constants/fontFamily';
-import {Product} from '../../Models/Product';
-import {appSize} from '../../constants/appSize';
-import {Add, Location, Star1} from 'iconsax-react-native';
-import ProductItem from './component/ProductItem';
 
 const YourListScore = ({navigation, route}: any) => {
   const {products}: {products: Product[]} = route.params;

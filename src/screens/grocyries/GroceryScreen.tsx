@@ -120,7 +120,7 @@ const GroceryScreen = ({navigation}: any) => {
           rating: 4.5,
           price: 4.99,
           imageUrl:
-            'https://s3-alpha-sig.figma.com/img/067f/b679/e685e7d371157fcadb175e7a57321e65?Expires=1693785600&Signature=gGuSYvk0Lh4RLkHDl9g~lHmr2s33Eh5vvMt~6jbNK72CKevP1BdnG7XwJFuf2xW8fm3cnly-rqQ6YeFNmYP~cQO02bggHIFnR1Ze57tcQWKr~gwvq3zMR-LCuDj0ov3x-yqJWnlJfVe4dCgsQ2nfeFuZJHlvxcFPZpPdoNNbb4sWdC9CvvmsWYG6A~K~4zB2AovPNKzfHPV6hW44BorH070GNI0mAAQgAwym5QC6u7juuCizmbpFIUm5TrcWy-6StKCUGpKmqi9DkmxpLXgzGH57yf2EbIZ3np2CL5Z9OpkSFSuGu1OhJbPVZ044m~4CHSYxGXx4xrd0kHHs8aQejg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
+            'https://www.google.com/url?sa=i&url=https%3A%2F%2Ffood.unl.edu%2Fhow-avoid-green-ring-hard-boiled-egg-yolks&psig=AOvVaw2mF5phXPK2oCWakvaPH0qP&ust=1694796949087000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCKCRyuPIqoEDFQAAAAAdAAAAABAE',
         },
       ],
     },
@@ -174,7 +174,7 @@ const GroceryScreen = ({navigation}: any) => {
           rating: 4.5,
           price: 4.99,
           imageUrl:
-            'https://s3-alpha-sig.figma.com/img/067f/b679/e685e7d371157fcadb175e7a57321e65?Expires=1693785600&Signature=gGuSYvk0Lh4RLkHDl9g~lHmr2s33Eh5vvMt~6jbNK72CKevP1BdnG7XwJFuf2xW8fm3cnly-rqQ6YeFNmYP~cQO02bggHIFnR1Ze57tcQWKr~gwvq3zMR-LCuDj0ov3x-yqJWnlJfVe4dCgsQ2nfeFuZJHlvxcFPZpPdoNNbb4sWdC9CvvmsWYG6A~K~4zB2AovPNKzfHPV6hW44BorH070GNI0mAAQgAwym5QC6u7juuCizmbpFIUm5TrcWy-6StKCUGpKmqi9DkmxpLXgzGH57yf2EbIZ3np2CL5Z9OpkSFSuGu1OhJbPVZ044m~4CHSYxGXx4xrd0kHHs8aQejg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
+            'https://www.google.com/url?sa=i&url=https%3A%2F%2Ffood.unl.edu%2Fhow-avoid-green-ring-hard-boiled-egg-yolks&psig=AOvVaw2mF5phXPK2oCWakvaPH0qP&ust=1694796949087000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCKCRyuPIqoEDFQAAAAAdAAAAABAE',
         },
       ],
     },

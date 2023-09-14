@@ -32,7 +32,7 @@ import {global} from '../../styles/global';
 import {useIsFocused} from '@react-navigation/native';
 
 const imageCat =
-  'https://s3-alpha-sig.figma.com/img/40d7/0023/5868cd6302567bf42e76f428442f47b7?Expires=1693785600&Signature=g7smBLUhN77wSMh~jRHZob99Le6q376mZzJ6BVhLHYBXj4IiV0I~aVYHlCtFXottxPmlldG1dAp1OGoiqmqujvOBLcFlT-IxkfVEOZviAcY87SF-3CTu6OOmuK3etGLt0bHfxutE5C5GRJ1Fz-3axOoDkkhpC0n2GZHH~QgQMTHXCX2ZCeZ3mr~~rXbMFEctVnmQnl2xySJ7XUpn3TWCMjBe3rAMpNySMSoM8O4kCfjK9nC7VhTOGBBjU~XDWBgnbK17kT43Ipj6i8tproTiugN66nHkGH5hfg2-za5krDdt2sbCrLdg~cp6fpk1ODmHuJwriVxrZ7iyLQobA9EU2Q__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4';
+  'https://firebasestorage.googleapis.com/v0/b/tinga-f7936.appspot.com/o/Bread%20img.png?alt=media&token=8482c36c-cbe2-468e-8079-5557858e6bb7';
 
 const demoCategories = [
   {
@@ -170,18 +170,19 @@ const ExploreScreen = ({navigation}: any) => {
     }
   }, [searchValue]);
 
+  const appleImageURL = `https://firebasestorage.googleapis.com/v0/b/tinga-f7936.appspot.com/o/e9b5cef2015ab78d3d15ac9542b76f0a.png?alt=media&token=ab19646b-a9e3-4691-874e-6fa2a0f9d7bd`;
+  const foodImageURL = `https://firebasestorage.googleapis.com/v0/b/tinga-f7936.appspot.com/o/b7fe121db29ef4675012c561af1555b5.png?alt=media&token=8892f65f-dfce-4b78-a7da-4cc9423d5838`;
+
   const itemsSearch = [
     {
       id: 1,
       title: 'Apple “Royal Gala”',
-      imageUrl:
-        'https://s3-alpha-sig.figma.com/img/620f/e1b9/e9b5cef2015ab78d3d15ac9542b76f0a?Expires=1694390400&Signature=hFKUQwT8Q3dMyNNfIkr6Xc4LpHTLrVO0Outk7i0T5eoJwSKJjo7foynJG37E0q1DTUzx~5M8HmaU6mwiOIzQQ4DBQJBF2w70jUvJrqNbf6i24sXkeX-eZEqeN514CCW-~pPLpaBeYCzsEK5CIzUC-37K6hxJKTIkdHPH2EjJ~LF5vzcKEEd6gTNI2pUlMOBkpr-Kl82qdLSU7PabJ79LleiN2NzExwuvClG2e~FPEfhXh0Wt9q913NkRbG4SFDWX7UkowDrdt2h5ZddoKmQb418kxa8mBL9Fi8uRkQ9IFZeT-g1mB29be7OBUS2sCfjmoisgR9lj6mwjXx2YXvDbWw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
+      imageUrl: appleImageURL,
     },
     {
       id: 2,
       title: 'Apple Pie “Golden”',
-      imageUrl:
-        'https://s3-alpha-sig.figma.com/img/fe50/c429/b7fe121db29ef4675012c561af1555b5?Expires=1694390400&Signature=hMaE7wqBOah66X6clfjgbv5E1GsgXwyiCXGL05-bqG2~pQaroUMZmiROA536uucDw9zp8fXzui3wTxOZNU0c5vuhXnywePn9PN~Y6WZayNwpYfpsXKvPfqPIbgHAn03XEx8yHvah3f6vjbW5dLZrKzdu47oeK0vao87bBzyoKBRDMFSXNqobMpgTxZuosB0rGfQdPgigTQMH2n4Uo~BG7P0MYgWzT60INpTa0nYZuFusJWy8qupzUa4LizqQ2dm~amPrHZjuaFIzj8wM0USnNTkujgsui8ohz89QhPrH22Exxw8EEQhQa~8cXTOA1HEnkdIvFExE7AmwBzURPugpRQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
+      imageUrl: foodImageURL,
     },
   ];
 
@@ -281,10 +282,7 @@ const ExploreScreen = ({navigation}: any) => {
                 renderItem={({item, index}) => (
                   <ProductItemComponent
                     item={{
-                      imageUrl:
-                        index % 2 === 0
-                          ? 'https://s3-alpha-sig.figma.com/img/fe50/c429/b7fe121db29ef4675012c561af1555b5?Expires=1694390400&Signature=hMaE7wqBOah66X6clfjgbv5E1GsgXwyiCXGL05-bqG2~pQaroUMZmiROA536uucDw9zp8fXzui3wTxOZNU0c5vuhXnywePn9PN~Y6WZayNwpYfpsXKvPfqPIbgHAn03XEx8yHvah3f6vjbW5dLZrKzdu47oeK0vao87bBzyoKBRDMFSXNqobMpgTxZuosB0rGfQdPgigTQMH2n4Uo~BG7P0MYgWzT60INpTa0nYZuFusJWy8qupzUa4LizqQ2dm~amPrHZjuaFIzj8wM0USnNTkujgsui8ohz89QhPrH22Exxw8EEQhQa~8cXTOA1HEnkdIvFExE7AmwBzURPugpRQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
-                          : 'https://s3-alpha-sig.figma.com/img/620f/e1b9/e9b5cef2015ab78d3d15ac9542b76f0a?Expires=1694390400&Signature=hFKUQwT8Q3dMyNNfIkr6Xc4LpHTLrVO0Outk7i0T5eoJwSKJjo7foynJG37E0q1DTUzx~5M8HmaU6mwiOIzQQ4DBQJBF2w70jUvJrqNbf6i24sXkeX-eZEqeN514CCW-~pPLpaBeYCzsEK5CIzUC-37K6hxJKTIkdHPH2EjJ~LF5vzcKEEd6gTNI2pUlMOBkpr-Kl82qdLSU7PabJ79LleiN2NzExwuvClG2e~FPEfhXh0Wt9q913NkRbG4SFDWX7UkowDrdt2h5ZddoKmQb418kxa8mBL9Fi8uRkQ9IFZeT-g1mB29be7OBUS2sCfjmoisgR9lj6mwjXx2YXvDbWw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
+                      imageUrl: index % 2 === 0 ? appleImageURL : foodImageURL,
                     }}
                     styles={{marginLeft: 16}}
                   />
