@@ -184,6 +184,7 @@ const Container = ({
 
       {isScroll ? (
         <ScrollView
+          keyboardShouldPersistTaps="always"
           onScrollBeginDrag={onScroll}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{flexGrow: isFlex ? 1 : 0}}

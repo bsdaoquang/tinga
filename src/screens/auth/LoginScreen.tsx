@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
-import {Image} from 'react-native';
+import {Image, KeyboardAvoidingView} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 import {useDispatch} from 'react-redux';
 import authenticationAPI from '../../apis/authAPI';
@@ -114,6 +114,7 @@ const LoginScreen = ({navigation}: any) => {
             size={12}
             color={appColors.danger}
             flex={0}
+            styles={{marginBottom: 12}}
           />
         )}
 
@@ -155,6 +156,7 @@ const LoginScreen = ({navigation}: any) => {
           />
         </RowComponent>
       </SectionComponent>
+
       <LoadingModal visible={isLoading} />
     </Container>
   );
