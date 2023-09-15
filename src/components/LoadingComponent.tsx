@@ -28,14 +28,14 @@ export const LoadingComponent = (props: Props) => {
           <>
             <Feather name="inbox" size={32} color={appColors.gray} />
             <TextComponent
-              text="EmptyData"
+              text={message ?? 'Data not found'}
               styles={{
                 marginTop: 8,
-                color: appColors.gray,
+                color: appColors.text2,
+
                 textAlign: 'center',
               }}
               size={12}
-              flex={0}
             />
           </>
         )

@@ -1,6 +1,9 @@
+import {useIsFocused} from '@react-navigation/native';
 import {AddSquare, SearchNormal1} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {
+  Alert,
+  BackHandler,
   FlatList,
   Image,
   Platform,
@@ -11,11 +14,11 @@ import {
 } from 'react-native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Category} from '../../Models/Category';
+import handleGetData from '../../apis/productAPI';
 import {SettingIcon} from '../../assets/svg';
 import {
   Button,
   ButtonComponent,
-  CardContent,
   CategoryItem,
   Container,
   LoadingComponent,
@@ -30,24 +33,58 @@ import {appColors} from '../../constants/appColors';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
 import {global} from '../../styles/global';
-import {useIsFocused} from '@react-navigation/native';
 import {showToast} from '../../utils/showToast';
-import handleGetData from '../../apis/productAPI';
+import LinearGradient from 'react-native-linear-gradient';
+
+const titleCat = 'Top categories';
 
 const ExploreScreen = ({navigation}: any) => {
   const [isFocused, setIsFocused] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [results, setResults] = useState<any[]>([]);
-  const [categoriesTitle, setCategoriesTitle] = useState('Top categories');
+  const [categoriesTitle, setCategoriesTitle] = useState(titleCat);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [category, setCategory] = useState<Category>();
+  const [categoriesSelected, setCategoriesSelected] = useState<Category[]>([]);
 
   const focus = useIsFocused();
 
   useEffect(() => {
-    getCategories();
-    setCategoriesTitle('Top categories');
+    categories.length > 0 ? setCategoriesSelected(categories) : getCategories();
+    setCategoriesTitle(titleCat);
+    setCategory(undefined);
   }, [navigation, focus]);
+
+  useEffect(() => {
+    if (category) {
+      getCategoriesById(category.id);
+      setCategoriesTitle(category.name);
+    } else {
+      setCategoriesSelected(categories);
+      setCategoriesTitle(titleCat);
+    }
+  }, [category]);
+
+  useEffect(() => {
+    const backAction = () => {
+      // console.log(category);
+      if (!category) {
+        navigation.goBack();
+      } else {
+        setCategoriesTitle(titleCat);
+        setCategoriesSelected(categories);
+      }
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, [category]);
 
   useEffect(() => {
     if (searchValue) {
@@ -87,6 +124,7 @@ const ExploreScreen = ({navigation}: any) => {
 
       await handleGetData.handleProduct(api).then((res: any) => {
         setCategories(res);
+        setCategoriesSelected(res);
         setIsLoading(false);
       });
     } catch (error: any) {
@@ -96,12 +134,20 @@ const ExploreScreen = ({navigation}: any) => {
     }
   };
 
-  // const handleCategory = (item: Category) => {
-  //   if (item.childrens) {
-  //     setCategoriesTitle(item.title);
-  //     setCategories(item.childrens);
-  //   }
-  // };
+  const getCategoriesById = async (id: number) => {
+    const api = `/getSubCategories/${id}`;
+
+    try {
+      await handleGetData.handleProduct(api).then((res: any) => {
+        setCategoriesSelected(res);
+        setIsLoading(false);
+      });
+    } catch (error: any) {
+      setIsLoading(false);
+      console.log(`Can not get sub categories ${error.message}`);
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -242,7 +288,7 @@ const ExploreScreen = ({navigation}: any) => {
               </SectionComponent>
             )}
           </>
-        ) : categories.length > 0 ? (
+        ) : !isLoading ? (
           <>
             <SectionComponent>
               <TitleComponent text={categoriesTitle} size={24} flex={0} />
@@ -256,11 +302,13 @@ const ExploreScreen = ({navigation}: any) => {
                 horizontal={false}
                 showsVerticalScrollIndicator={false}
                 style={{paddingHorizontal: 16}}
-                data={categories}
+                data={categoriesSelected}
                 renderItem={({item, index}) => (
                   <CategoryItem
                     item={item}
-                    onPress={() => {}}
+                    onPress={() =>
+                      !category ? setCategory(item) : console.log(item)
+                    }
                     key={`category${item.id}`}
                   />
                 )}
