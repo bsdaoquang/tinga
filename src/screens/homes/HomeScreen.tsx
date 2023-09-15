@@ -42,7 +42,6 @@ const HomeScreen = ({navigation, route}: any) => {
   const [isVisibleModalSubcriber, setIsVisibleModalSubcriber] = useState(false);
   const [isVisibleModalRating, setIsVisibleModalRating] = useState(false);
   const [isVisibleModalFeedback, setIsVisibleModalFeedback] = useState(false);
-  const isFocused = useIsFocused();
 
   const auth = useSelector(authSelector);
 

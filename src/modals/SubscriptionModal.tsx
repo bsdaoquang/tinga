@@ -3,7 +3,6 @@ import React, {useEffect, useState} from 'react';
 import {Image, Modal, ScrollView, Text, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useDispatch} from 'react-redux';
 import {Subscription} from '../Models/Subscription';
 import subscriptionAPI from '../apis/subscriptionAPI';
 import {
@@ -20,9 +19,12 @@ import {
 import {appColors} from '../constants/appColors';
 import {fontFamilys} from '../constants/fontFamily';
 import {global} from '../styles/global';
-import LoadingModal from './LoadingModal';
 import {add0toNumber} from '../utils/add0toNumber';
 import {showToast} from '../utils/showToast';
+import LoadingModal from './LoadingModal';
+import {useDispatch, useSelector} from 'react-redux';
+import {addAuth, authSelector} from '../redux/reducers/authReducer';
+import handleGetData from '../apis/productAPI';
 
 interface Props {
   isVisible: boolean;
@@ -32,7 +34,6 @@ interface Props {
 const date = new Date();
 
 const SubscriptionModal = (props: Props) => {
-  const navigation: any = useNavigation();
   const {isVisible, onClose} = props;
 
   const [subscriptionsPlan, setSubscriptionsPlan] = useState<Subscription[]>(
@@ -41,20 +42,45 @@ const SubscriptionModal = (props: Props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
 
+  const auth = useSelector(authSelector);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     getSubscriptionsPlan();
   }, []);
+
+  const getUserProfile = async () => {
+    const api = `/getUserProfile`;
+
+    try {
+      await handleGetData.handleUser(api).then((res: any) => {
+        const still = res.premium_till;
+
+        if (still) {
+          dispatch(
+            addAuth({
+              ...auth,
+              premium_till: still,
+            }),
+          );
+        }
+      });
+    } catch (error: any) {
+      showToast(error.message);
+    }
+  };
 
   const getSubscriptionsPlan = async () => {
     const api = `/plans`;
 
     try {
-      await subscriptionAPI.HandleSubscription(api).then((res: any) => {
+      await subscriptionAPI.HandleSubscription(api).then(async (res: any) => {
         setSubscriptionsPlan(res);
         setIsLoading(false);
       });
-    } catch (error) {
+    } catch (error: any) {
       setIsLoading(false);
+      showToast(error.message);
       console.log(error);
       console.log(`Can not get subscription plans ${error}`);
     }
@@ -85,9 +111,12 @@ const SubscriptionModal = (props: Props) => {
           },
           'post',
         )
-        .then((res: any) => {
+        .then(async (res: any) => {
+          await getUserProfile();
+
           showToast(res.message);
           setIsUpdating(false);
+
           onClose();
         });
     } catch (error) {
