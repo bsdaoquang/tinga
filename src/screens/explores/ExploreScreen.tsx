@@ -307,7 +307,11 @@ const ExploreScreen = ({navigation}: any) => {
                   <CategoryItem
                     item={item}
                     onPress={() =>
-                      !category ? setCategory(item) : console.log(item)
+                      !category
+                        ? setCategory(item)
+                        : navigation.navigate('CategoryDetail', {
+                            category: item,
+                          })
                     }
                     key={`category${item.id}`}
                   />
