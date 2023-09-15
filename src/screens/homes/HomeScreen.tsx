@@ -1,9 +1,12 @@
+import {useIsFocused} from '@react-navigation/native';
 import {Gift} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {Alert, StatusBar, TouchableOpacity, View} from 'react-native';
+import {Alert, TouchableOpacity, View} from 'react-native';
+import Swiper from 'react-native-swiper';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useSelector} from 'react-redux';
 import {TingaLogo, Users} from '../../assets/svg';
 import {
   ButtonComponent,
@@ -26,14 +29,11 @@ import {
   ModalRating,
   SubscriptionModal,
 } from '../../modals';
+import {authSelector} from '../../redux/reducers/authReducer';
 import {global} from '../../styles/global';
 import CategoriesList from './components/CategoriesList';
 import Promotions from './components/Promotions';
 import VideoPlayer from './components/VideoPlayer';
-import {useIsFocused} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-import {authSelector} from '../../redux/reducers/authReducer';
-import Swiper from 'react-native-swiper';
 
 const HomeScreen = ({navigation, route}: any) => {
   const isResultScan = route.params ? route.params.isResultScan : false;
