@@ -1,6 +1,6 @@
 export interface Category {
-  id: string;
-  title: string;
-  imageUrl: string;
-  childrens?: Category[];
+  id: number;
+  parent_id: number;
+  image: string;
+  name: string;
 }

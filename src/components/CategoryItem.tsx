@@ -21,18 +21,30 @@ const CategoryItem = (props: Props) => {
         marginBottom: 16,
         marginRight: 16,
       }}>
-      <Image
-        source={{
-          uri: item.imageUrl,
-        }}
-        style={{
-          width: '100%',
-          height: 100,
-          borderRadius: 8,
-          resizeMode: 'cover',
-        }}
-      />
-      <TextComponent text={item.title} line={2} />
+      {item.image ? (
+        <Image
+          source={{
+            uri: item.image,
+          }}
+          style={{
+            width: '100%',
+            height: 100,
+            borderRadius: 8,
+            resizeMode: 'cover',
+          }}
+        />
+      ) : (
+        <View
+          style={{
+            width: '100%',
+            height: 100,
+            borderRadius: 8,
+            backgroundColor: '#e0e0e0',
+          }}
+        />
+      )}
+
+      <TextComponent text={item.name} line={2} />
     </TouchableOpacity>
   );
 };

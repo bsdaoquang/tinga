@@ -18,6 +18,7 @@ import {
   CardContent,
   CategoryItem,
   Container,
+  LoadingComponent,
   ProductItemComponent,
   RowComponent,
   SectionComponent,
@@ -30,130 +31,21 @@ import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
 import {global} from '../../styles/global';
 import {useIsFocused} from '@react-navigation/native';
+import {showToast} from '../../utils/showToast';
+import handleGetData from '../../apis/productAPI';
 
-const imageCat =
-  'https://firebasestorage.googleapis.com/v0/b/tinga-f7936.appspot.com/o/Bread%20img.png?alt=media&token=8482c36c-cbe2-468e-8079-5557858e6bb7';
-
-const demoCategories = [
-  {
-    id: '1',
-    title: 'Produce',
-    imageUrl: imageCat,
-    childrens: [
-      {
-        id: 'child1',
-        title: 'Fruit',
-        imageUrl: imageCat,
-      },
-      {
-        id: 'child2',
-        title: 'Berries',
-        imageUrl: imageCat,
-      },
-      {
-        id: 'child3',
-        title: 'Stonefruit',
-        imageUrl: imageCat,
-      },
-      {
-        id: 'child1',
-        title: 'Vegetables',
-        imageUrl: imageCat,
-      },
-    ],
-  },
-  {
-    id: '2',
-    title: 'Meat, seafood & alternatives',
-    imageUrl: imageCat,
-  },
-  {
-    id: '3',
-    title: 'Nuts & seeds',
-    imageUrl: imageCat,
-  },
-  {
-    id: '4',
-    title: 'Pasta & grains',
-    imageUrl: imageCat,
-  },
-  {
-    id: '5',
-    title: 'Dairy & alternatives',
-    imageUrl: imageCat,
-  },
-  {
-    id: '6',
-    title: 'Spices & seasonings',
-    imageUrl: imageCat,
-  },
-  {
-    id: '7',
-    title: 'Oils, vinegars & Ghee',
-    imageUrl: imageCat,
-  },
-  {
-    id: '8',
-    title: 'Nut butters & fruit spreads',
-    imageUrl: imageCat,
-  },
-  {
-    id: '9',
-    title: 'Bread & bakery products',
-    imageUrl: imageCat,
-  },
-  {
-    id: '10',
-    title: 'Baking supplies',
-    imageUrl: imageCat,
-  },
-  {
-    id: '11',
-    title: 'Cereals & Granola',
-    imageUrl: imageCat,
-  },
-  {
-    id: '12',
-    title: 'Soups & side dishes',
-    imageUrl: imageCat,
-  },
-  {
-    id: '13',
-    title: 'Beverages',
-    imageUrl: imageCat,
-  },
-  {
-    id: '14',
-    title: 'Snacks',
-    imageUrl: imageCat,
-  },
-  {
-    id: '15',
-    title: 'Honey & sweeteners',
-    imageUrl: imageCat,
-  },
-  {
-    id: '16',
-    title: 'Condiments &  dressings',
-    imageUrl: imageCat,
-  },
-  {
-    id: '17',
-    title: 'Frozen & ready to eat meals',
-    imageUrl: imageCat,
-  },
-];
 const ExploreScreen = ({navigation}: any) => {
   const [isFocused, setIsFocused] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [results, setResults] = useState<any[]>([]);
   const [categoriesTitle, setCategoriesTitle] = useState('Top categories');
   const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const focus = useIsFocused();
 
   useEffect(() => {
-    setCategories(demoCategories);
+    getCategories();
     setCategoriesTitle('Top categories');
   }, [navigation, focus]);
 
@@ -187,12 +79,29 @@ const ExploreScreen = ({navigation}: any) => {
     },
   ];
 
-  const handleCategory = (item: Category) => {
-    if (item.childrens) {
-      setCategoriesTitle(item.title);
-      setCategories(item.childrens);
+  const getCategories = async () => {
+    const api = `/getCategories`;
+
+    try {
+      setIsLoading(true);
+
+      await handleGetData.handleProduct(api).then((res: any) => {
+        setCategories(res);
+        setIsLoading(false);
+      });
+    } catch (error: any) {
+      setIsLoading(false);
+      console.log(error);
+      showToast(error.message);
     }
   };
+
+  // const handleCategory = (item: Category) => {
+  //   if (item.childrens) {
+  //     setCategoriesTitle(item.title);
+  //     setCategories(item.childrens);
+  //   }
+  // };
 
   return (
     <>
@@ -333,7 +242,7 @@ const ExploreScreen = ({navigation}: any) => {
               </SectionComponent>
             )}
           </>
-        ) : (
+        ) : categories.length > 0 ? (
           <>
             <SectionComponent>
               <TitleComponent text={categoriesTitle} size={24} flex={0} />
@@ -351,19 +260,15 @@ const ExploreScreen = ({navigation}: any) => {
                 renderItem={({item, index}) => (
                   <CategoryItem
                     item={item}
-                    onPress={() =>
-                      item.childrens
-                        ? handleCategory(item)
-                        : navigation.navigate('CategoryDetail', {
-                            category: item,
-                          })
-                    }
+                    onPress={() => {}}
                     key={`category${item.id}`}
                   />
                 )}
               />
             </View>
           </>
+        ) : (
+          <LoadingComponent isLoading={isLoading} value={categories.length} />
         )}
       </Container>
       {isFocused && (
