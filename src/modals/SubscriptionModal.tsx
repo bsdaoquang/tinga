@@ -159,9 +159,9 @@ const SubscriptionModal = (props: Props) => {
               size={12}
               color={appColors.white}
               font={fontFamilys.semiBold}
-              text={`${((item.offer_price / item.price) * 100).toFixed(
-                0,
-              )}% OFF`}
+              text={`${Math.floor(
+                100 - (item.offer_price / item.price) * 100,
+              ).toFixed(0)}% OFF`}
               flex={0}
               styles={[
                 {
@@ -229,7 +229,9 @@ const SubscriptionModal = (props: Props) => {
             size={12}
             color={appColors.text}
             font={fontFamilys.semiBold}
-            text={`${((item.offer_price / item.price) * 100).toFixed(0)}% OFF`}
+            text={`${Math.floor(
+              100 - (item.offer_price / item.price) * 100,
+            ).toFixed(0)}% OFF`}
             flex={0}
             styles={[
               {
@@ -348,30 +350,6 @@ const SubscriptionModal = (props: Props) => {
             value={subscriptionsPlan.length}
           />
         )}
-
-        {/* <SectionComponent>
-          <RowComponent>
-            <Button
-              text="Restore Purchase"
-              fontStyles={{
-                fontFamily: fontFamilys.bold,
-                color: appColors.primary,
-              }}
-              textSize={12}
-              onPress={() => {}}
-            />
-            <TextComponent text=" • " flex={0} />
-            <Button
-              text="Terms & Conditions"
-              fontStyles={{
-                fontFamily: fontFamilys.bold,
-                color: appColors.primary,
-              }}
-              textSize={12}
-              onPress={() => {}}
-            />
-          </RowComponent>
-        </SectionComponent> */}
       </ScrollView>
       <Image
         source={require('../assets/images/Ellipse.png')}

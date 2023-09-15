@@ -6,7 +6,7 @@ import Swiper from 'react-native-swiper';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {TingaLogo, Users} from '../../assets/svg';
 import {
   ButtonComponent,
@@ -29,11 +29,15 @@ import {
   ModalRating,
   SubscriptionModal,
 } from '../../modals';
-import {authSelector} from '../../redux/reducers/authReducer';
+import {addAuth, authSelector} from '../../redux/reducers/authReducer';
 import {global} from '../../styles/global';
 import CategoriesList from './components/CategoriesList';
 import Promotions from './components/Promotions';
 import VideoPlayer from './components/VideoPlayer';
+import {showToast} from '../../utils/showToast';
+import handleGetData from '../../apis/productAPI';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appInfos} from '../../constants/appInfos';
 
 const HomeScreen = ({navigation, route}: any) => {
   const isResultScan = route.params ? route.params.isResultScan : false;
@@ -44,12 +48,37 @@ const HomeScreen = ({navigation, route}: any) => {
   const [isVisibleModalFeedback, setIsVisibleModalFeedback] = useState(false);
 
   const auth = useSelector(authSelector);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    handleGetAndUpdateProfile();
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
       !auth.premium_till && setIsVisibleModalSubcriber(true);
     }, 1500);
   }, []);
+
+  const handleGetAndUpdateProfile = async () => {
+    const api = `/getUserProfile`;
+
+    try {
+      await handleGetData.handleUser(api).then(async (res: any) => {
+        const data = {...auth, ...res, permium_till: res.permium_till};
+
+        dispatch(addAuth(data));
+
+        await AsyncStorage.setItem(
+          appInfos.localDataName.userData,
+          JSON.stringify(data),
+        );
+      });
+    } catch (error: any) {
+      console.log(error.message);
+      showToast(`Can not get profile`);
+    }
+  };
 
   return (
     <>
