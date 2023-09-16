@@ -2,11 +2,13 @@ import {useIsFocused} from '@react-navigation/native';
 import {AddSquare, SearchNormal1} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   Alert,
   BackHandler,
   FlatList,
   Image,
   Platform,
+  ScrollView,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -35,66 +37,52 @@ import {fontFamilys} from '../../constants/fontFamily';
 import {global} from '../../styles/global';
 import {showToast} from '../../utils/showToast';
 import LinearGradient from 'react-native-linear-gradient';
+import {Product} from '../../Models/Product';
 
 const titleCat = 'Top categories';
 
 const ExploreScreen = ({navigation}: any) => {
   const [isFocused, setIsFocused] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<Product[]>([]);
   const [categoriesTitle, setCategoriesTitle] = useState(titleCat);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [category, setCategory] = useState<Category>();
-  const [categoriesSelected, setCategoriesSelected] = useState<Category[]>([]);
+  const [catIds, setCatIds] = useState<number[]>([0]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   const focus = useIsFocused();
 
   useEffect(() => {
-    categories.length > 0 ? setCategoriesSelected(categories) : getCategories();
+    getProducts();
+  }, []);
+
+  useEffect(() => {
     setCategoriesTitle(titleCat);
-    setCategory(undefined);
+    getCategories();
+    setCatIds([]);
   }, [navigation, focus]);
 
   useEffect(() => {
-    if (category) {
-      getCategoriesById(category.id);
-      setCategoriesTitle(category.name);
-    } else {
-      setCategoriesSelected(categories);
-      setCategoriesTitle(titleCat);
-    }
-  }, [category]);
+    const id = catIds[catIds.length - 1];
+
+    id && getCategoriesById(id);
+  }, [catIds]);
 
   useEffect(() => {
-    const backAction = () => {
-      // console.log(category);
-      if (!category) {
-        navigation.goBack();
-      } else {
-        setCategoriesTitle(titleCat);
-        setCategoriesSelected(categories);
-      }
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove();
-  }, [category]);
-
-  useEffect(() => {
+    setIsSearching(true);
     if (searchValue) {
-      const items = itemsSearch.filter(element =>
-        element.title.toLowerCase().includes(searchValue.toLowerCase()),
+      const items = products.filter(element =>
+        element.name.toLowerCase().includes(searchValue.toLowerCase()),
       );
 
       if (items.length > 0) {
         setResults(items);
+      } else {
+        setResults([]);
       }
+      setIsSearching(false);
     } else {
       setResults([]);
     }
@@ -103,18 +91,29 @@ const ExploreScreen = ({navigation}: any) => {
   const appleImageURL = `https://firebasestorage.googleapis.com/v0/b/tinga-f7936.appspot.com/o/e9b5cef2015ab78d3d15ac9542b76f0a.png?alt=media&token=ab19646b-a9e3-4691-874e-6fa2a0f9d7bd`;
   const foodImageURL = `https://firebasestorage.googleapis.com/v0/b/tinga-f7936.appspot.com/o/b7fe121db29ef4675012c561af1555b5.png?alt=media&token=8892f65f-dfce-4b78-a7da-4cc9423d5838`;
 
-  const itemsSearch = [
-    {
-      id: 1,
-      title: 'Apple “Royal Gala”',
-      imageUrl: appleImageURL,
-    },
-    {
-      id: 2,
-      title: 'Apple Pie “Golden”',
-      imageUrl: foodImageURL,
-    },
-  ];
+  const getProducts = async () => {
+    const api = `/getProductListing`;
+
+    try {
+      await handleGetData
+        .handleProduct(
+          api,
+          {
+            category_id: '0',
+            subcategory_id: '0',
+            sub_subcategory_id: '0',
+            offset: '',
+          },
+          'post',
+        )
+        .then((res: any) => {
+          setProducts(res);
+        });
+    } catch (error) {
+      console.log(error);
+      showToast('Can not get products');
+    }
+  };
 
   const getCategories = async () => {
     const api = `/getCategories`;
@@ -124,7 +123,6 @@ const ExploreScreen = ({navigation}: any) => {
 
       await handleGetData.handleProduct(api).then((res: any) => {
         setCategories(res);
-        setCategoriesSelected(res);
         setIsLoading(false);
       });
     } catch (error: any) {
@@ -139,8 +137,8 @@ const ExploreScreen = ({navigation}: any) => {
 
     try {
       await handleGetData.handleProduct(api).then((res: any) => {
-        setCategoriesSelected(res);
         setIsLoading(false);
+        setCategories(res);
       });
     } catch (error: any) {
       setIsLoading(false);
@@ -302,17 +300,14 @@ const ExploreScreen = ({navigation}: any) => {
                 horizontal={false}
                 showsVerticalScrollIndicator={false}
                 style={{paddingHorizontal: 16}}
-                data={categoriesSelected}
+                data={categories}
                 renderItem={({item, index}) => (
                   <CategoryItem
                     item={item}
-                    onPress={() =>
-                      !category
-                        ? setCategory(item)
-                        : navigation.navigate('CategoryDetail', {
-                            category: item,
-                          })
-                    }
+                    onPress={() => {
+                      setCategoriesTitle(item.name);
+                      setCatIds([...catIds, item.id]);
+                    }}
                     key={`category${item.id}`}
                   />
                 )}
@@ -324,9 +319,7 @@ const ExploreScreen = ({navigation}: any) => {
         )}
       </Container>
       {isFocused && (
-        <TouchableWithoutFeedback
-          style={{flex: 1}}
-          onPress={() => setIsFocused(false)}>
+        <View style={{flex: 1}}>
           <View
             style={{
               ...global.container,
@@ -382,7 +375,8 @@ const ExploreScreen = ({navigation}: any) => {
                   />
                 </TouchableOpacity>
                 {searchValue && (
-                  <View
+                  <ScrollView
+                    keyboardShouldPersistTaps="always"
                     style={{
                       ...global.shadow,
                       backgroundColor: appColors.bgColor,
@@ -397,14 +391,16 @@ const ExploreScreen = ({navigation}: any) => {
                       borderBottomLeftRadius: 12,
                       borderBottomRightRadius: 12,
                     }}>
-                    {results.length > 0 ? (
+                    {isSearching ? (
+                      <ActivityIndicator />
+                    ) : results.length > 0 ? (
                       <>
                         {results.map(item => (
                           <RowComponent
                             key={item.id}
                             styles={{paddingVertical: 8}}>
                             <Image
-                              source={{uri: item.imageUrl}}
+                              source={{uri: item.image}}
                               style={{
                                 width: 42,
                                 height: 40,
@@ -413,7 +409,7 @@ const ExploreScreen = ({navigation}: any) => {
                                 marginRight: 8,
                               }}
                             />
-                            <TextComponent text={item.title} />
+                            <TextComponent text={item.name} />
                           </RowComponent>
                         ))}
                       </>
@@ -446,12 +442,12 @@ const ExploreScreen = ({navigation}: any) => {
                         </RowComponent>
                       </>
                     )}
-                  </View>
+                  </ScrollView>
                 )}
               </RowComponent>
             </SectionComponent>
           </View>
-        </TouchableWithoutFeedback>
+        </View>
       )}
     </>
   );
