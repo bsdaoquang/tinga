@@ -219,19 +219,7 @@ const HomeScreen = ({navigation, route}: any) => {
               </RowComponent>
             </CardContent>
           </Swiper>
-          {/* <Swiper
-            index={1}
-            loop={false}
-            activeDotColor="white"
-            activeDotStyle={{
-              width: 32,
-              marginBottom: -32,
-            }}
-            onIndexChanged={i => console.log(i)}
-            dotStyle={{marginBottom: -32}}
-            dotColor={appColors.white4}>
-            
-          </Swiper> */}
+
           <View style={{paddingHorizontal: 16}}>
             <RowComponent>
               <CardContent
