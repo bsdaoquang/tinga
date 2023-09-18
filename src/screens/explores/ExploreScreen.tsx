@@ -36,6 +36,7 @@ import {fontFamilys} from '../../constants/fontFamily';
 import {LoadingModal} from '../../modals';
 import {global} from '../../styles/global';
 import {showToast} from '../../utils/showToast';
+import ModalizeFilter from '../../modals/ModalizeFilter';
 
 const titleCat = 'Top categories';
 const rootStack = {
@@ -58,6 +59,7 @@ const ExploreScreen = ({navigation}: any) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [checking, setChecking] = useState(false);
+  const [isVisibleModalFilter, setIsVisibleModalFilter] = useState(false);
 
   const focus = useIsFocused();
 
@@ -177,7 +179,7 @@ const ExploreScreen = ({navigation}: any) => {
                 flex={1}
                 styles={{paddingHorizontal: 8}}
               />
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => setIsVisibleModalFilter(true)}>
                 <SettingIcon width={24} color={appColors.text} />
                 <View
                   style={{
@@ -367,7 +369,11 @@ const ExploreScreen = ({navigation}: any) => {
                   }}
                   placeholder="Search groceries"
                 />
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsFocused(false);
+                    setIsVisibleModalFilter(true);
+                  }}>
                   <SettingIcon width={24} color={appColors.text} />
                   <View
                     style={{
@@ -458,6 +464,11 @@ const ExploreScreen = ({navigation}: any) => {
       )}
 
       <LoadingModal visible={checking} />
+
+      <ModalizeFilter
+        visible={isVisibleModalFilter}
+        onClose={() => setIsVisibleModalFilter(false)}
+      />
     </>
   );
 };
