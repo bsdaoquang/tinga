@@ -101,7 +101,7 @@ const ModalProduct = (props: Props) => {
     {
       title: 'fat',
       desscription: '160',
-      unit: 'mg',
+      unit: 'g',
     },
     {
       title: 'protein',

@@ -19,7 +19,6 @@ const CategoryDetail = ({navigation, route}: any) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log(category);
     getProducts();
   }, [category]);
 
