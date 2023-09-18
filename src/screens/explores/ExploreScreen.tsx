@@ -124,7 +124,9 @@ const ExploreScreen = ({navigation}: any) => {
         if (res.length > 0) {
           setCategories(res);
         } else {
-          navigation.navigate('CategoryDetail', {category: item});
+          navigation.navigate('CategoryDetail', {
+            category: categories.find(element => element.id === item.id),
+          });
         }
 
         setChecking(false);

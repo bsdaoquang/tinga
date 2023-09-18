@@ -7,3 +7,23 @@ export interface Product {
   shopname: string;
   image: string;
 }
+
+export interface ProductDetail {
+  id: number;
+  name: string;
+  description: string;
+  size: string;
+  price: string;
+  old_price: string;
+  upc: string;
+  code: string;
+  calories: string;
+  fat: string;
+  carbohydrate: string;
+  protein: string;
+  rating: string;
+  reviews: string;
+  ingridients: string;
+  shopname: string;
+  image: string;
+}

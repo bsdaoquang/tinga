@@ -19,7 +19,7 @@ import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {Product} from '../Models/Product';
+import {Product, ProductDetail} from '../Models/Product';
 import {HeartBold} from '../assets/svg';
 import {
   Button,
@@ -35,6 +35,8 @@ import {appColors} from '../constants/appColors';
 import {fontFamilys} from '../constants/fontFamily';
 import {global} from '../styles/global';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
+import {showToast} from '../utils/showToast';
+import handleGetData from '../apis/productAPI';
 
 interface Props {
   visible: boolean;
@@ -45,18 +47,38 @@ interface Props {
 const ModalProduct = (props: Props) => {
   const {visible, onClose, product} = props;
   const [isLike, setIsLike] = useState(false);
-  const [count, setCount] = useState(product ? product.count : 1);
+  const [count, setCount] = useState(1);
   const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] =
     useState(false);
+  const [producDetail, setProducDetail] = useState<ProductDetail>();
 
   useEffect(() => {
     visible && modalRef.current?.open();
   }, [visible]);
 
+  useEffect(() => {
+    getProducDetail();
+  }, [product]);
+
+  // console.log(producDetail);
+
   const modalRef = useRef<Modalize>();
 
   const handleCloseModal = () => {
     modalRef.current?.close();
+  };
+
+  const getProducDetail = async () => {
+    const api = `/getProductDetail/${product?.id}`;
+
+    try {
+      await handleGetData.handleProduct(api).then((res: any) => {
+        res.length > 0 && setProducDetail(res[0]);
+      });
+    } catch (error) {
+      showToast(`Can not get product detail`);
+      console.log(error);
+    }
   };
 
   const categories = ['Gluten Free', 'Vegan', 'Organic'];
@@ -159,10 +181,10 @@ const ModalProduct = (props: Props) => {
         adjustToContentHeight
         handleStyle={{backgroundColor: 'transparent'}}>
         <View style={{backgroundColor: appColors.bgColor}}>
-          {product && product.imageUrl && (
+          {producDetail && producDetail.image && (
             <ImageBackground
               source={{
-                uri: product.imageUrl,
+                uri: producDetail.image,
               }}
               style={{
                 width: '100%',
@@ -245,11 +267,16 @@ const ModalProduct = (props: Props) => {
 
           <View style={{flex: 1}}>
             <SectionComponent styles={{marginTop: 20}}>
-              {product && (
+              {producDetail && (
                 <RowComponent styles={{alignItems: 'flex-start'}}>
-                  <TitleComponent text={product.title} size={20} height={20} />
+                  <TitleComponent
+                    text={producDetail.name}
+                    size={20}
+                    height={20}
+                  />
+                  <SpaceComponent width={24} />
                   <TextComponent
-                    text={`$ ${product.price}`}
+                    text={`$ ${producDetail.price}`}
                     flex={0}
                     size={16}
                   />
@@ -325,12 +352,16 @@ const ModalProduct = (props: Props) => {
                   fontStyles={{fontSize: 14, color: appColors.primary}}
                 />
               </RowComponent>
-
-              <RowComponent justify="space-between">
-                {Array.from({length: 2}).map((item, index) => (
-                  <ProductItemComponent item={item} key={`item.id${index}`} />
-                ))}
-              </RowComponent>
+              {product && (
+                <RowComponent justify="space-between">
+                  {Array.from({length: 2}).map((_item, index) => (
+                    <ProductItemComponent
+                      item={product}
+                      key={`item.id${index}`}
+                    />
+                  ))}
+                </RowComponent>
+              )}
             </SectionComponent>
 
             <SectionComponent>
@@ -358,6 +389,7 @@ const ModalProduct = (props: Props) => {
                   onPress={() => {}}
                 />
               </RowComponent>
+              <TextComponent text={'fsafs'} flex={1} />
             </SectionComponent>
             <SectionComponent>
               <RowComponent>
