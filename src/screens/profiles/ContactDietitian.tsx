@@ -1,5 +1,6 @@
-import {View, Text} from 'react-native';
+import {Sms, User} from 'iconsax-react-native';
 import React, {useState} from 'react';
+import Octicons from 'react-native-vector-icons/Octicons';
 import {
   ButtonComponent,
   Container,
@@ -10,8 +11,6 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {Sms, User} from 'iconsax-react-native';
-import Octicons from 'react-native-vector-icons/Octicons';
 
 const ContactDietitian = () => {
   const [firstName, setFirstName] = useState('');
@@ -65,10 +64,8 @@ const ContactDietitian = () => {
           }
           fontStyles={{textAlign: 'center'}}
           onPress={() => {}}
-          color="#B69475A0"
           styles={{
             paddingVertical: 16,
-            borderColor: '#EEF3DC',
             borderRadius: 14,
           }}
           textColor={appColors.text}

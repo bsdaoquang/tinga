@@ -1,5 +1,5 @@
 import {View, Text, ScrollView, FlatList, Animated} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   CardContent,
   SectionComponent,
@@ -8,44 +8,36 @@ import {
 } from '../../../components';
 import {appColors, listColors} from '../../../constants/appColors';
 import {global} from '../../../styles/global';
+import {Tip} from '../../../Models/TipModel';
+import {showToast} from '../../../utils/showToast';
+import dashboardAPI from '../../../apis/dashboardAPI';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   title: string;
+  url: string;
 }
 
-const CategoriesList = ({title}: Props) => {
+const CategoriesList = ({title, url}: Props) => {
   const [indexItem, setIndexItem] = useState(0);
 
-  const categories = [
-    {
-      id: '1',
-      title: 'Tips for going Gluten-free',
-    },
-    {
-      id: '2',
-      title: 'Top 5 Celiac facts',
-    },
-    {
-      id: '3',
-      title: 'Lesser known highly processed foods',
-    },
-    {
-      id: '4',
-      title: 'Protein 101',
-    },
-    {
-      id: '5',
-      title: 'Top 5 Celiac facts',
-    },
-    {
-      id: '6',
-      title: 'Top 5 Celiac facts',
-    },
-    {
-      id: '7',
-      title: 'Top 5 Celiac facts',
-    },
-  ];
+  const [tips, setTips] = useState<Tip[]>([]);
+  const navigation: any = useNavigation();
+
+  useEffect(() => {
+    getTips();
+  }, []);
+
+  const getTips = async () => {
+    try {
+      await dashboardAPI.HandleAPI(url).then((res: any) => {
+        setTips(res);
+      });
+    } catch (error) {
+      console.log(error);
+      showToast('Can not get tips by user');
+    }
+  };
 
   const renderDotsView = (array: any[], position: any) => (
     <View style={{flexDirection: 'row'}}>
@@ -65,8 +57,9 @@ const CategoriesList = ({title}: Props) => {
     </View>
   );
 
-  const renderCardItem = (item: {id: string; title: string}) => (
+  const renderCardItem = (item: Tip) => (
     <CardContent
+      onPress={() => navigation.navigate('TipDetail', {item})}
       isShadow
       color={appColors.white}
       styles={{
@@ -82,7 +75,7 @@ const CategoriesList = ({title}: Props) => {
         text={item.title}
         flex={0}
         size={20}
-        color={listColors[Math.floor(Math.random() * listColors.length)]}
+        color={item.color}
         styles={{
           textAlign: 'center',
         }}
@@ -97,13 +90,18 @@ const CategoriesList = ({title}: Props) => {
           styles={{marginBottom: 0}}
           title={title}
           seemore
-          onPress={() => {}}
+          onPress={() =>
+            navigation.navigate('TipsScreens', {
+              title,
+              tips,
+            })
+          }
         />
       </View>
 
       <FlatList
         showsHorizontalScrollIndicator={false}
-        data={categories}
+        data={tips}
         onScroll={event => {
           const index = Math.floor(event.nativeEvent.contentOffset.x / 186);
           setIndexItem(index);
@@ -117,7 +115,7 @@ const CategoriesList = ({title}: Props) => {
           marginTop: 4,
           alignItems: 'center',
         }}>
-        {renderDotsView(categories, indexItem)}
+        {renderDotsView(tips, indexItem)}
       </View>
     </View>
   );

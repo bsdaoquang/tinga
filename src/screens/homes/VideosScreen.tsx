@@ -1,11 +1,6 @@
-import {View, Text, FlatList} from 'react-native';
 import React from 'react';
-import {
-  Container,
-  SpaceComponent,
-  TextComponent,
-  TitleComponent,
-} from '../../components';
+import {FlatList, View} from 'react-native';
+import {Container, SpaceComponent, TitleComponent} from '../../components';
 import VideoPlayer from './components/VideoPlayer';
 
 const VideosScreen = ({route, navigation}: any) => {

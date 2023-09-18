@@ -65,10 +65,9 @@ const ContactSupport = () => {
           }
           fontStyles={{textAlign: 'center'}}
           onPress={() => {}}
-          color="#B69475A0"
           styles={{
             paddingVertical: 16,
-            borderColor: '#EEF3DC',
+
             borderRadius: 14,
           }}
           textColor={appColors.text}

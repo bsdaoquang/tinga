@@ -282,8 +282,8 @@ const HomeScreen = ({navigation, route}: any) => {
             paddingHorizontal: 0,
             backgroundColor: appColors.white,
           }}>
-          <CategoriesList title="Tips for you" />
-          <CategoriesList title="Healthier Planning" />
+          <CategoriesList title="Tips for you" url="/tipsForYou" />
+          <CategoriesList title="Healthier Planning" url={'/healthiereating'} />
         </SectionComponent>
 
         <SectionComponent
