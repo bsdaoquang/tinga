@@ -1,6 +1,7 @@
 import {
   AddSquare,
   ArrowDown2,
+  ArrowUp2,
   Heart,
   Location,
   MinusSquare,
@@ -10,6 +11,7 @@ import {
   FlatList,
   Image,
   ImageBackground,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -51,6 +53,8 @@ const ModalProduct = (props: Props) => {
   const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] =
     useState(false);
   const [producDetail, setProducDetail] = useState<ProductDetail>();
+  const [isShowDesc, setIsShowDesc] = useState(true);
+  const [isShowIngre, setIsShowIngre] = useState(true);
 
   useEffect(() => {
     visible && modalRef.current?.open();
@@ -85,75 +89,77 @@ const ModalProduct = (props: Props) => {
 
   const productIngredients = [
     {
-      title: 'Sugar',
+      title: 'calories',
       desscription: '0',
       unit: 'g',
     },
     {
-      title: 'Sat. Fat',
+      title: 'carbohydrate',
       desscription: '3',
       unit: 'g',
     },
     {
-      title: 'Sodium',
+      title: 'fat',
       desscription: '160',
       unit: 'mg',
     },
     {
-      title: 'Fibre',
+      title: 'protein',
       desscription: '3',
-      unit: 'g',
-    },
-    {
-      title: 'Fibre',
-      desscription: '0',
       unit: 'g',
     },
   ];
 
-  const renderProductIngredient = (item: any) => (
-    <View
-      style={{
-        borderWidth: 1,
-        borderColor: '#dbdbdb',
-        marginBottom: 16,
-        marginRight: 6,
-        width: 56,
-        height: 56,
-        borderRadius: 100,
-        backgroundColor: appColors.white,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <RowComponent styles={{alignItems: 'flex-end'}}>
-        <View
-          style={{
-            width: 8,
-            height: 8,
-            borderRadius: 4,
-            backgroundColor: appColors.success1,
-            marginRight: 2,
-            marginBottom: 2,
-          }}
-        />
-        <Text
-          style={[
-            global.text,
-            {flex: 0, lineHeight: 16, fontFamily: fontFamilys.bold},
-          ]}>
-          {item.desscription}
-          <Text style={{fontSize: 8}}>{item.unit}</Text>
-        </Text>
-      </RowComponent>
+  const renderProductIngredient = (item: {title: string; unit: string}) => {
+    const productIngre: any = producDetail;
+    const value = productIngre[`${item.title}`];
 
-      <TextComponent
-        text={item.title}
-        flex={0}
-        size={10}
-        color={appColors.gray}
-      />
-    </View>
-  );
+    return (
+      <View
+        style={{
+          borderWidth: 1,
+          borderColor: '#dbdbdb',
+          marginBottom: 16,
+          marginRight: 6,
+          width: 56,
+          height: 56,
+          borderRadius: 100,
+          backgroundColor: appColors.white,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <RowComponent styles={{alignItems: 'flex-end'}}>
+          <View
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: 4,
+              backgroundColor: appColors.success1,
+              marginRight: 2,
+              marginBottom: 2,
+            }}
+          />
+          <Text
+            style={[
+              global.text,
+              {flex: 0, lineHeight: 16, fontFamily: fontFamilys.bold},
+            ]}>
+            {value ? (value * 1).toFixed(1) : 0}
+            <Text style={{fontSize: 8}}>{item.unit}</Text>
+          </Text>
+        </RowComponent>
+
+        <TextComponent
+          text={item.title}
+          flex={0}
+          size={10}
+          styles={{paddingHorizontal: 2}}
+          line={1}
+          color={appColors.gray}
+        />
+      </View>
+    );
+  };
 
   const renderCategory = (item: string, index: number) => (
     <TouchableOpacity
@@ -283,6 +289,7 @@ const ModalProduct = (props: Props) => {
                 </RowComponent>
               )}
             </SectionComponent>
+
             <FlatList
               style={{paddingHorizontal: 16}}
               ListHeaderComponent={
@@ -385,11 +392,23 @@ const ModalProduct = (props: Props) => {
                   />
                 </RowComponent>
                 <Button
-                  icon={<ArrowDown2 size={22} color={appColors.text2} />}
-                  onPress={() => {}}
+                  icon={
+                    isShowDesc ? (
+                      <ArrowUp2 size={22} color={appColors.text2} />
+                    ) : (
+                      <ArrowDown2 size={22} color={appColors.text2} />
+                    )
+                  }
+                  onPress={() => setIsShowDesc(!isShowDesc)}
                 />
               </RowComponent>
-              <TextComponent text={'fsafs'} flex={1} />
+
+              {producDetail?.description && isShowDesc && (
+                <TextComponent
+                  text={producDetail?.description ?? ''}
+                  flex={1}
+                />
+              )}
             </SectionComponent>
             <SectionComponent>
               <RowComponent>
@@ -408,10 +427,27 @@ const ModalProduct = (props: Props) => {
                   />
                 </RowComponent>
                 <Button
-                  icon={<ArrowDown2 size={22} color={appColors.text2} />}
-                  onPress={() => {}}
+                  icon={
+                    isShowIngre ? (
+                      <ArrowUp2 size={22} color={appColors.text2} />
+                    ) : (
+                      <ArrowDown2 size={22} color={appColors.text2} />
+                    )
+                  }
+                  onPress={() => setIsShowIngre(!isShowIngre)}
                 />
               </RowComponent>
+              {producDetail?.ingridients && isShowIngre && (
+                <View style={{marginTop: 8}}>
+                  {producDetail.ingridients.split(', ').map((item, index) => (
+                    <TextComponent
+                      text={item}
+                      key={`ingre${index}`}
+                      styles={{textTransform: 'capitalize', marginBottom: 12}}
+                    />
+                  ))}
+                </View>
+              )}
             </SectionComponent>
           </View>
         </View>

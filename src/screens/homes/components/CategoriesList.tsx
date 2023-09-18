@@ -4,6 +4,7 @@ import {
   CardContent,
   SectionComponent,
   TabbarComponent,
+  TextComponent,
   TitleComponent,
 } from '../../../components';
 import {appColors, listColors} from '../../../constants/appColors';
@@ -63,7 +64,7 @@ const CategoriesList = ({title, url}: Props) => {
       isShadow
       color={appColors.white}
       styles={{
-        marginLeft: 16,
+        marginHorizontal: 16,
         marginVertical: 12,
         width: 186,
         height: 114,
@@ -98,17 +99,25 @@ const CategoriesList = ({title, url}: Props) => {
           }
         />
       </View>
+      {tips.length > 0 ? (
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          data={tips}
+          onScroll={event => {
+            const index = Math.floor(event.nativeEvent.contentOffset.x / 186);
+            setIndexItem(index);
+          }}
+          renderItem={({item}) => renderCardItem(item)}
+          horizontal
+        />
+      ) : (
+        <TextComponent
+          text={`${title} not found`}
+          flex={0}
+          styles={{textAlign: 'center', marginTop: 8}}
+        />
+      )}
 
-      <FlatList
-        showsHorizontalScrollIndicator={false}
-        data={tips}
-        onScroll={event => {
-          const index = Math.floor(event.nativeEvent.contentOffset.x / 186);
-          setIndexItem(index);
-        }}
-        renderItem={({item}) => renderCardItem(item)}
-        horizontal
-      />
       <View
         style={{
           flex: 1,
