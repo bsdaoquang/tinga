@@ -13,7 +13,7 @@ import ImproveScore from './grocyries/YourListScore';
 import HomeScreen from './homes/HomeScreen';
 import BarCodeScreen from './homes/ScranOnboarding/BarCodeScreen';
 import HomeScan from './homes/ScranOnboarding/HomeScan';
-import VideosScreens from './homes/VideosScreens';
+import VideosScreen from './homes/VideosScreen';
 import ChooseAllergy from './onboards/ChooseAllergy';
 import ChooseDiet from './onboards/ChooseDiet';
 import ChooseDislike from './onboards/ChooseDislike';
@@ -55,5 +55,5 @@ export {
   ChooseDislike,
   HomeScan,
   BarCodeScreen,
-  VideosScreens,
+  VideosScreen,
 };

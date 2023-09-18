@@ -38,6 +38,8 @@ import {showToast} from '../../utils/showToast';
 import handleGetData from '../../apis/productAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appInfos} from '../../constants/appInfos';
+import {VideoModel} from '../../Models/VideoModel';
+import dashboardAPI from '../../apis/dashboardAPI';
 
 const HomeScreen = ({navigation, route}: any) => {
   const isResultScan = route.params ? route.params.isResultScan : false;
@@ -46,6 +48,7 @@ const HomeScreen = ({navigation, route}: any) => {
   const [isVisibleModalSubcriber, setIsVisibleModalSubcriber] = useState(false);
   const [isVisibleModalRating, setIsVisibleModalRating] = useState(false);
   const [isVisibleModalFeedback, setIsVisibleModalFeedback] = useState(false);
+  const [videos, setVideos] = useState<VideoModel[]>([]);
 
   const auth = useSelector(authSelector);
   const dispatch = useDispatch();
@@ -59,6 +62,22 @@ const HomeScreen = ({navigation, route}: any) => {
       !auth.premium_till && setIsVisibleModalSubcriber(true);
     }, 1500);
   }, []);
+
+  useEffect(() => {
+    getVideos();
+  }, []);
+  const getVideos = async () => {
+    const api = `/videos`;
+
+    try {
+      await dashboardAPI.HandleAPI(api).then((res: any) => {
+        setVideos(res);
+      });
+    } catch (error) {
+      console.log(`can not get videos for dashboard`);
+      showToast('Can not get videos');
+    }
+  };
 
   const handleGetAndUpdateProfile = async () => {
     const api = `/getUserProfile`;
@@ -250,8 +269,12 @@ const HomeScreen = ({navigation, route}: any) => {
             </RowComponent>
 
             <SpaceComponent height={16} />
-            <TabbarComponent title="How it works" seemore onPress={() => {}} />
-            <VideoPlayer />
+            <TabbarComponent
+              title="How it works"
+              seemore
+              onPress={() => navigation.navigate('VideosScreen', {videos})}
+            />
+            {videos.length > 0 && <VideoPlayer id={videos[1].code} />}
           </View>
         </SectionComponent>
         <SectionComponent
