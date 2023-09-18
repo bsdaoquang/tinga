@@ -3,8 +3,6 @@ import {AddSquare, SearchNormal1} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
-  Alert,
-  BackHandler,
   FlatList,
   Image,
   Platform,
@@ -16,6 +14,7 @@ import {
 } from 'react-native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Category} from '../../Models/Category';
+import {Product} from '../../Models/Product';
 import handleGetData from '../../apis/productAPI';
 import {SettingIcon} from '../../assets/svg';
 import {
@@ -34,23 +33,31 @@ import {
 import {appColors} from '../../constants/appColors';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
+import {LoadingModal} from '../../modals';
 import {global} from '../../styles/global';
 import {showToast} from '../../utils/showToast';
-import LinearGradient from 'react-native-linear-gradient';
-import {Product} from '../../Models/Product';
 
 const titleCat = 'Top categories';
+const rootStack = {
+  id: 0,
+  title: titleCat,
+};
 
 const ExploreScreen = ({navigation}: any) => {
   const [isFocused, setIsFocused] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [results, setResults] = useState<Product[]>([]);
-  const [categoriesTitle, setCategoriesTitle] = useState(titleCat);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [catIds, setCatIds] = useState<number[]>([0]);
+  const [navigationStacks, setNavigationStacks] = useState<
+    {
+      id: number;
+      title: string;
+    }[]
+  >([rootStack]);
   const [products, setProducts] = useState<Product[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [checking, setChecking] = useState(false);
 
   const focus = useIsFocused();
 
@@ -59,16 +66,13 @@ const ExploreScreen = ({navigation}: any) => {
   }, []);
 
   useEffect(() => {
-    setCategoriesTitle(titleCat);
-    getCategories();
-    setCatIds([]);
+    setNavigationStacks([rootStack]);
+    getCategoriesById(rootStack);
   }, [navigation, focus]);
 
   useEffect(() => {
-    const id = catIds[catIds.length - 1];
-
-    id && getCategoriesById(id);
-  }, [catIds]);
+    getCategoriesById(navigationStacks[navigationStacks.length - 1]);
+  }, [navigationStacks]);
 
   useEffect(() => {
     setIsSearching(true);
@@ -87,9 +91,6 @@ const ExploreScreen = ({navigation}: any) => {
       setResults([]);
     }
   }, [searchValue]);
-
-  const appleImageURL = `https://firebasestorage.googleapis.com/v0/b/tinga-f7936.appspot.com/o/e9b5cef2015ab78d3d15ac9542b76f0a.png?alt=media&token=ab19646b-a9e3-4691-874e-6fa2a0f9d7bd`;
-  const foodImageURL = `https://firebasestorage.googleapis.com/v0/b/tinga-f7936.appspot.com/o/b7fe121db29ef4675012c561af1555b5.png?alt=media&token=8892f65f-dfce-4b78-a7da-4cc9423d5838`;
 
   const getProducts = async () => {
     const api = `/getProductListing`;
@@ -115,41 +116,38 @@ const ExploreScreen = ({navigation}: any) => {
     }
   };
 
-  const getCategories = async () => {
-    const api = `/getCategories`;
-
-    try {
-      setIsLoading(true);
-
-      await handleGetData.handleProduct(api).then((res: any) => {
-        setCategories(res);
-        setIsLoading(false);
-      });
-    } catch (error: any) {
-      setIsLoading(false);
-      console.log(error);
-      showToast(error.message);
-    }
-  };
-
-  const getCategoriesById = async (id: number) => {
-    const api = `/getSubCategories/${id}`;
-
+  const getCategoriesById = async (item: {id: number; title: string}) => {
+    const api = `/getSubCategories/${item.id}`;
+    item.id > 0 && setChecking(true);
     try {
       await handleGetData.handleProduct(api).then((res: any) => {
-        setIsLoading(false);
-        setCategories(res);
+        if (res.length > 0) {
+          setCategories(res);
+        } else {
+          navigation.navigate('CategoryDetail', {category: item});
+        }
+
+        setChecking(false);
       });
     } catch (error: any) {
+      setChecking(false);
       setIsLoading(false);
       console.log(`Can not get sub categories ${error.message}`);
       console.log(error);
     }
   };
 
+  const handleBack = () => {
+    const items = navigationStacks;
+    items.pop();
+    setNavigationStacks([...items]);
+  };
+
   return (
     <>
       <Container
+        back={navigationStacks.length > 1}
+        onBack={handleBack}
         right={
           <Button
             icon={
@@ -234,12 +232,13 @@ const ExploreScreen = ({navigation}: any) => {
                 showsVerticalScrollIndicator={false}
                 data={Array.from({length: 20})}
                 renderItem={({item, index}) => (
-                  <ProductItemComponent
-                    item={{
-                      imageUrl: index % 2 === 0 ? appleImageURL : foodImageURL,
-                    }}
-                    styles={{marginLeft: 16}}
-                  />
+                  <></>
+                  // <ProductItemComponent
+                  //   item={{
+                  //     imageUrl: index % 2 === 0 ? appleImageURL : foodImageURL,
+                  //   }}
+                  //   styles={{marginLeft: 16}}
+                  // />
                 )}
               />
             ) : (
@@ -289,7 +288,11 @@ const ExploreScreen = ({navigation}: any) => {
         ) : !isLoading ? (
           <>
             <SectionComponent>
-              <TitleComponent text={categoriesTitle} size={24} flex={0} />
+              <TitleComponent
+                text={navigationStacks[navigationStacks.length - 1].title}
+                size={24}
+                flex={0}
+              />
             </SectionComponent>
             <View
               style={{
@@ -305,8 +308,10 @@ const ExploreScreen = ({navigation}: any) => {
                   <CategoryItem
                     item={item}
                     onPress={() => {
-                      setCategoriesTitle(item.name);
-                      setCatIds([...catIds, item.id]);
+                      setNavigationStacks([
+                        ...navigationStacks,
+                        {id: item.id, title: item.name},
+                      ]);
                     }}
                     key={`category${item.id}`}
                   />
@@ -319,7 +324,7 @@ const ExploreScreen = ({navigation}: any) => {
         )}
       </Container>
       {isFocused && (
-        <View style={{flex: 1}}>
+        <TouchableWithoutFeedback onPress={() => setIsFocused(!isFocused)}>
           <View
             style={{
               ...global.container,
@@ -447,8 +452,10 @@ const ExploreScreen = ({navigation}: any) => {
               </RowComponent>
             </SectionComponent>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       )}
+
+      <LoadingModal visible={checking} />
     </>
   );
 };
