@@ -3,12 +3,12 @@ import React from 'react';
 import {
   ContactDietitian,
   ContactSupport,
-  HomeScan,
   HomeScreen,
   TipDetail,
   TipsScreens,
   VideosScreen,
 } from '../screens';
+import VideoPlayer from '../screens/homes/components/VideoPlayer';
 
 const HomeNavigator = () => {
   const HomeStack = createNativeStackNavigator();
@@ -24,6 +24,7 @@ const HomeNavigator = () => {
       <HomeStack.Screen name="TipDetail" component={TipDetail} />
       <HomeStack.Screen name="ContactSupport" component={ContactSupport} />
       <HomeStack.Screen name="ContactDietitian" component={ContactDietitian} />
+      <HomeStack.Screen name="VideoPlayer" component={VideoPlayer} />
     </HomeStack.Navigator>
   );
 };

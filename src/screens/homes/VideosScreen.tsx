@@ -1,7 +1,7 @@
 import React from 'react';
 import {FlatList, View} from 'react-native';
 import {Container, SpaceComponent, TitleComponent} from '../../components';
-import VideoPlayer from './components/VideoPlayer';
+import VideoComponent from './components/VideoComponent';
 
 const VideosScreen = ({route, navigation}: any) => {
   const {videos} = route.params;
@@ -15,7 +15,8 @@ const VideosScreen = ({route, navigation}: any) => {
           <View style={{padding: 16}}>
             <TitleComponent text={item.name} flex={0} />
             <SpaceComponent height={8} />
-            <VideoPlayer id={item.code} />
+
+            <VideoComponent item={item} isVideo />
           </View>
         )}
       />

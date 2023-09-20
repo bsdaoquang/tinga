@@ -1,4 +1,4 @@
-import {useIsFocused} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Gift} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {Alert, TouchableOpacity, View} from 'react-native';
@@ -7,6 +7,9 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
+import {VideoModel} from '../../Models/VideoModel';
+import dashboardAPI from '../../apis/dashboardAPI';
+import handleGetData from '../../apis/productAPI';
 import {TingaLogo, Users} from '../../assets/svg';
 import {
   ButtonComponent,
@@ -22,6 +25,7 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
+import {appInfos} from '../../constants/appInfos';
 import {fontFamilys} from '../../constants/fontFamily';
 import {
   ModalFeedback,
@@ -31,15 +35,11 @@ import {
 } from '../../modals';
 import {addAuth, authSelector} from '../../redux/reducers/authReducer';
 import {global} from '../../styles/global';
+import {showToast} from '../../utils/showToast';
 import CategoriesList from './components/CategoriesList';
 import Promotions from './components/Promotions';
 import VideoPlayer from './components/VideoPlayer';
-import {showToast} from '../../utils/showToast';
-import handleGetData from '../../apis/productAPI';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {appInfos} from '../../constants/appInfos';
-import {VideoModel} from '../../Models/VideoModel';
-import dashboardAPI from '../../apis/dashboardAPI';
+import VideoComponent from './components/VideoComponent';
 
 const HomeScreen = ({navigation, route}: any) => {
   const isResultScan = route.params ? route.params.isResultScan : false;
@@ -66,6 +66,7 @@ const HomeScreen = ({navigation, route}: any) => {
   useEffect(() => {
     getVideos();
   }, []);
+
   const getVideos = async () => {
     const api = `/videos`;
 
@@ -144,6 +145,8 @@ const HomeScreen = ({navigation, route}: any) => {
             }}
             dotColor={`#13917B66`}
             loop={false}
+            autoplay={false}
+            horizontal
             showsPagination
             style={{flex: 0, height: 230, paddingVertical: 16}}>
             <CardContent styles={{marginHorizontal: 8}}>
@@ -181,13 +184,13 @@ const HomeScreen = ({navigation, route}: any) => {
               <TextComponent text="" flex={0} />
               <SpaceComponent height={16} />
               <ButtonComponent
-                onPress={() => navigation.navigate('BarCodeScreen')}
+                onPress={() => navigation.navigate('ShopingHistory')}
                 text="START LIST"
                 color={appColors.success}
                 textColor={appColors.white}
               />
             </CardContent>
-            <CardContent isShadow={false}>
+            <CardContent isShadow={false} styles={{marginHorizontal: 8}}>
               <TitleComponent
                 text={`Start your Gluten-free shopping experience`}
                 size={20}
@@ -274,7 +277,7 @@ const HomeScreen = ({navigation, route}: any) => {
               seemore
               onPress={() => navigation.navigate('VideosScreen', {videos})}
             />
-            {videos.length > 0 && <VideoPlayer id={videos[1].code} />}
+            {videos.length > 0 && <VideoComponent item={videos[2]} />}
           </View>
         </SectionComponent>
         <SectionComponent

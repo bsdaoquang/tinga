@@ -1,8 +1,12 @@
 import React, {useCallback, useState} from 'react';
-import {View} from 'react-native';
+import {Image, View} from 'react-native';
+import {VideoModel} from '../../../Models/VideoModel';
+import {appSize} from '../../../constants/appSize';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
-const VideoPlayer = ({id}: {id: string}) => {
+const VideoPlayer = ({route, navigation}: any) => {
+  const {video}: {video: VideoModel} = route.params;
+
   const [playing, setPlaying] = useState(false);
 
   const onStateChange = useCallback((state: any) => {
@@ -13,15 +17,11 @@ const VideoPlayer = ({id}: {id: string}) => {
   }, []);
 
   return (
-    <View style={{minHeight: 200}}>
-      <YoutubePlayer
-        height={200}
-        contentScale={1}
-        play={playing}
-        videoId={id}
-        onChangeState={onStateChange}
-      />
-    </View>
+    <YoutubePlayer
+      videoId={`${video.code}`}
+      contentScale={1}
+      height={appSize.height}
+    />
   );
 };
 

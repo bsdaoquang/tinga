@@ -1,5 +1,7 @@
-import {View, Text, Image} from 'react-native';
+import {ArrowLeft} from 'iconsax-react-native';
 import React from 'react';
+import {Image} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   Button,
   ButtonComponent,
@@ -8,11 +10,9 @@ import {
   TextComponent,
   TitleComponent,
 } from '../../../components';
-import {ArrowLeft, Barcode} from 'iconsax-react-native';
 import {appColors} from '../../../constants/appColors';
-import {fontFamilys} from '../../../constants/fontFamily';
 import {appSize} from '../../../constants/appSize';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {fontFamilys} from '../../../constants/fontFamily';
 
 const HomeScan = ({navigation}: any) => {
   return (

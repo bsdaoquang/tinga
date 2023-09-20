@@ -39,8 +39,33 @@ const BarCodeScreen = ({navigation}: any) => {
   const [showError, setShowError] = useState(false);
   const [isVisibleModalResult, setIsVisibleModalResult] = useState(false);
 
+  const renderQrCode = (
+    <QRCodeScanner
+      cameraStyle={{
+        width: appSize.width,
+        height: appSize.height,
+        position: 'absolute',
+      }}
+      onRead={val => setCodeDetail(val.data)}
+      cameraType="back"
+      showMarker
+      markerStyle={{
+        borderColor: appColors.white,
+        borderRadius: 12,
+        width: appSize.width - 64,
+      }}
+      cameraProps={{
+        captureAudio: false,
+        ratio: '1:1',
+      }}
+    />
+  );
+
+  const [QRCodeCotainer, setQRCodeCotainer] = useState(renderQrCode);
+
   useEffect(() => {
-    // requestPermision();
+    requestPermision();
+    setQRCodeCotainer(renderQrCode);
   }, []);
 
   useEffect(() => {
@@ -48,6 +73,14 @@ const BarCodeScreen = ({navigation}: any) => {
       getProductDetail(codeDetail);
     }
   }, [codeDetail]);
+
+  useEffect(() => {
+    if (showProduct || showError) {
+      setQRCodeCotainer(<></>);
+    } else {
+      setQRCodeCotainer(renderQrCode);
+    }
+  }, [showProduct, showError]);
 
   const getProductDetail = async (id: string) => {
     const api = `/getProductDetail/${id}`;
@@ -63,54 +96,33 @@ const BarCodeScreen = ({navigation}: any) => {
     }
   };
 
-  // const requestPermision = async () => {
-  //   if (Platform.OS === 'android') {
-  //     try {
-  //       const granted = await PermissionsAndroid.request(
-  //         PermissionsAndroid.PERMISSIONS.CAMERA,
-  //         {
-  //           title: 'RequestAuth',
-  //           message: 'Please allow camera permission to scan QR code',
-  //           buttonNeutral: 'Later',
-  //           buttonNegative: 'Cancel',
-  //           buttonPositive: 'Agree',
-  //         },
-  //       );
-  //       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-  //         console.log('Đã được cấp quyền');
-  //       } else {
-  //         console.log('Yêu cầu bị từ chối');
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
+  const requestPermision = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: 'RequestAuth',
+            message: 'Please allow camera permission to scan QR code',
+            buttonNeutral: 'Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'Agree',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('Đã được cấp quyền');
+        } else {
+          console.log('Yêu cầu bị từ chối');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <View style={{flex: 1}}>
-      {/* <QRCodeScanner
-        cameraStyle={{
-          width: appSize.width,
-          height: appSize.height,
-          position: 'absolute',
-        }}
-        onRead={val => {
-          console.log(val);
-          setCodeDetail(val.data);
-        }}
-        cameraType="back"
-        showMarker
-        markerStyle={{
-          borderColor: appColors.white,
-          borderRadius: 12,
-          width: appSize.width - 64,
-        }}
-        cameraProps={{
-          captureAudio: false,
-          ratio: '1:1',
-        }}
-      /> */}
+      {QRCodeCotainer}
       <LinearGradient
         style={{
           position: 'absolute',
