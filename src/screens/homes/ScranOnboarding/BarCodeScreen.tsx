@@ -40,7 +40,7 @@ const BarCodeScreen = ({navigation}: any) => {
   const [isVisibleModalResult, setIsVisibleModalResult] = useState(false);
 
   useEffect(() => {
-    requestPermision();
+    // requestPermision();
   }, []);
 
   useEffect(() => {
@@ -63,33 +63,33 @@ const BarCodeScreen = ({navigation}: any) => {
     }
   };
 
-  const requestPermision = async () => {
-    if (Platform.OS === 'android') {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.CAMERA,
-          {
-            title: 'RequestAuth',
-            message: 'Please allow camera permission to scan QR code',
-            buttonNeutral: 'Later',
-            buttonNegative: 'Cancel',
-            buttonPositive: 'Agree',
-          },
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('Đã được cấp quyền');
-        } else {
-          console.log('Yêu cầu bị từ chối');
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+  // const requestPermision = async () => {
+  //   if (Platform.OS === 'android') {
+  //     try {
+  //       const granted = await PermissionsAndroid.request(
+  //         PermissionsAndroid.PERMISSIONS.CAMERA,
+  //         {
+  //           title: 'RequestAuth',
+  //           message: 'Please allow camera permission to scan QR code',
+  //           buttonNeutral: 'Later',
+  //           buttonNegative: 'Cancel',
+  //           buttonPositive: 'Agree',
+  //         },
+  //       );
+  //       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //         console.log('Đã được cấp quyền');
+  //       } else {
+  //         console.log('Yêu cầu bị từ chối');
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
 
   return (
     <View style={{flex: 1}}>
-      <QRCodeScanner
+      {/* <QRCodeScanner
         cameraStyle={{
           width: appSize.width,
           height: appSize.height,
@@ -110,7 +110,7 @@ const BarCodeScreen = ({navigation}: any) => {
           captureAudio: false,
           ratio: '1:1',
         }}
-      />
+      /> */}
       <LinearGradient
         style={{
           position: 'absolute',

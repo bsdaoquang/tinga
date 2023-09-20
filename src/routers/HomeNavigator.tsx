@@ -1,6 +1,8 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {
+  ContactDietitian,
+  ContactSupport,
   HomeScan,
   HomeScreen,
   TipDetail,
@@ -20,7 +22,8 @@ const HomeNavigator = () => {
       <HomeStack.Screen name="VideosScreen" component={VideosScreen} />
       <HomeStack.Screen name="TipsScreens" component={TipsScreens} />
       <HomeStack.Screen name="TipDetail" component={TipDetail} />
-      {/* <HomeStack.Screen name="HomeScan" component={HomeScan} /> */}
+      <HomeStack.Screen name="ContactSupport" component={ContactSupport} />
+      <HomeStack.Screen name="ContactDietitian" component={ContactDietitian} />
     </HomeStack.Navigator>
   );
 };

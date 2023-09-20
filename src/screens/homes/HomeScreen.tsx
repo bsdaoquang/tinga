@@ -296,9 +296,7 @@ const HomeScreen = ({navigation, route}: any) => {
             text="Contact a Dietitian"
             color={appColors.success1}
             styles={{paddingVertical: 16}}
-            onPress={() =>
-              navigation.navigate('Profile', {screen: 'ContactDietitian'})
-            }
+            onPress={() => navigation.navigate('ContactDietitian')}
             fontStyles={{
               color: appColors.text,
               fontSize: 16,
