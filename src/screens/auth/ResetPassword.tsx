@@ -17,7 +17,7 @@ import {LoadingModal} from '../../modals';
 import {showToast} from '../../utils/showToast';
 
 const ResetPassword = ({navigation}: any) => {
-  const [email, setEmail] = useState('rfedun@hotmail.com');
+  const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 

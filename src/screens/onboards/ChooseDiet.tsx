@@ -69,27 +69,20 @@ const ChooseDiet = ({navigation}: any) => {
     //
   };
 
-  const handleSelectedItem = (id: number) => {
-    const items = [...selected];
-    const index = selected.findIndex(element => element === id);
+  // const handleSelectedItem = (id: number) => {
+  //   const items = [...selected];
+  //   const index = selected.findIndex(element => element === id);
 
-    if (index === -1) {
-      items.push(id);
-    } else {
-      items.splice(index, 1);
-    }
+  //   if (index === -1) {
+  //     items.push(id);
+  //   } else {
+  //     items.splice(index, 1);
+  //   }
 
-    setSelected(items);
-  };
+  //   setSelected(items);
+  // };
   return (
-    <Container
-      back
-      right={
-        <Button
-          text="Skip"
-          onPress={() => navigation.navigate('ChooseAllergy')}
-        />
-      }>
+    <Container back>
       <SectionComponent flex={1}>
         <TextComponent text="Lifestyle Choices" size={12} flex={0} />
         <TitleComponent
@@ -101,7 +94,7 @@ const ChooseDiet = ({navigation}: any) => {
         {choosese.length > 0 ? (
           choosese.map((item, index) => (
             <TouchableOpacity
-              onPress={() => handleSelectedItem(item.id)}
+              onPress={() => setSelected([item.id])}
               style={[
                 {
                   borderWidth: selected.includes(item.id) ? 2 : 0,
