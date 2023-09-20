@@ -10,6 +10,7 @@ import {appColors} from '../constants/appColors';
 import {SpaceComponent, TextComponent} from '.';
 import {fontFamilys} from '../constants/fontFamily';
 import {global} from '../styles/global';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 interface Props {
   text: string;
@@ -75,6 +76,7 @@ export const ButtonComponent = (props: Props) => {
             : appColors.success1,
           alignItems: 'center',
           justifyContent: 'center',
+          opacity: disable ? 0.7 : 1,
         },
         styles,
       ]}>
@@ -100,7 +102,9 @@ export const ButtonComponent = (props: Props) => {
           fontStyles,
         ]}
       />
-      {iconRight && icon}
+      {iconRight && (
+        <Octicons name="arrow-right" size={20} color={appColors.text} />
+      )}
     </TouchableOpacity>
   );
 };

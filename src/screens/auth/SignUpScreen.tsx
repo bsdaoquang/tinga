@@ -63,7 +63,7 @@ const SignUpScreen = ({navigation}: any) => {
       await authenticationAPI
         .HandleAuth(api, data, 'post')
         .then(async (res: any) => {
-          navigation.navigate('VerifyEmail', {email});
+          navigation.navigate('VerifyEmail', {email, type: 'confirm'});
           setIsLoading(false);
         });
     } catch (error) {

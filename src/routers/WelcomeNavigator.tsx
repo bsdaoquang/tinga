@@ -1,6 +1,7 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {
+  ChangePassword,
   ChooseAllergy,
   ChooseDiet,
   ChooseDislike,
@@ -33,6 +34,7 @@ const WelcomeNavigator = () => {
       <WelcomeStack.Screen name="ChooseDiet" component={ChooseDiet} />
       <WelcomeStack.Screen name="ChooseStore" component={ChooseStore} />
       <WelcomeStack.Screen name="WebviewScreen" component={WebviewScreen} />
+      <WelcomeStack.Screen name="ChangePassword" component={ChangePassword} />
     </WelcomeStack.Navigator>
   );
 };

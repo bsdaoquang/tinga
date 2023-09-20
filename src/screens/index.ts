@@ -1,5 +1,6 @@
 import SplashScreen from './SplashScreen';
 import WebviewScreen from './WebviewScreen';
+import ChangePassword from './auth/ChangePassword';
 import HomeLoginScreen from './auth/HomeLoginScreen';
 import LoginScreen from './auth/LoginScreen';
 import ResetPassword from './auth/ResetPassword';
@@ -60,4 +61,5 @@ export {
   VideosScreen,
   TipsScreens,
   TipDetail,
+  ChangePassword
 };

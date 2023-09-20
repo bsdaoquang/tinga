@@ -149,7 +149,7 @@ export const InputComponent = (props: Props) => {
               flex: 1,
               margin: 0,
               padding: 0,
-              color: appColors.text,
+              color: appColors.text2,
               fontFamily: fontFamilys.medium,
               marginLeft: prefix ? 10 : 0,
               fontSize: appSize.textSize,

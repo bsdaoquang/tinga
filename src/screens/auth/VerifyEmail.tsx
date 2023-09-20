@@ -20,7 +20,8 @@ import {appInfos} from '../../constants/appInfos';
 import {LoadingModal} from '../../modals';
 
 const VerifyEmail = ({navigation, route}: any) => {
-  const {email}: {email: string} = route.params;
+  const {email, type}: {email: string; type: 'confirm' | 'resetPass'} =
+    route.params;
 
   const [code, setCode] = useState('');
   const [numsCode, setNumsCode] = useState<string[]>([]);
@@ -59,7 +60,7 @@ const VerifyEmail = ({navigation, route}: any) => {
   };
 
   const handleVerifyCode = async () => {
-    const api = `/verifyemail`;
+    const api = type === 'confirm' ? `/verifyemail` : `/verifyPasswordResetOTP`;
 
     const data = {
       email,
@@ -72,7 +73,11 @@ const VerifyEmail = ({navigation, route}: any) => {
         .HandleAuth(api, data, 'post')
         .then(async (res: any) => {
           if (res.code === 200 && res.success && res.data) {
-            navigation.navigate('ChooseAllergy');
+            if (type === 'confirm') {
+              navigation.navigate('ChooseDiet');
+            } else {
+              navigation.navigate('ChangePassword', {code});
+            }
 
             await AsyncStorage.setItem(
               appInfos.localDataName.userData,
@@ -110,9 +115,18 @@ const VerifyEmail = ({navigation, route}: any) => {
   return (
     <Container back isScroll>
       <SectionComponent>
-        <TitleComponent text="Verify your email" size={26} />
+        <TitleComponent
+          text={
+            type === 'confirm' ? 'Verify your email' : 'Reset your password'
+          }
+          size={26}
+        />
         <TextComponent
-          text={`Check your email. We’ve sent a code to ${email}`}
+          text={
+            type === 'confirm'
+              ? `Check your email. We’ve sent a code to ${email}`
+              : `Check your email.  We’ve sent a code to ${email}.  To reset your password please enter the code`
+          }
           font={fontFamilys.medium}
         />
       </SectionComponent>

@@ -2,19 +2,18 @@ import {Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
 import Octicons from 'react-native-vector-icons/Octicons';
 import {useDispatch} from 'react-redux';
+import authenticationAPI from '../../apis/authAPI';
 import {
   ButtonComponent,
   Container,
   InputComponent,
   SectionComponent,
-  SpaceComponent,
   TextComponent,
-  TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import useAuth from '../../hooks/useAuth';
 import {LoadingModal} from '../../modals';
-import {showToast} from '../../utils/showToast';
+import {Image} from 'react-native';
 
 const ResetPassword = ({navigation}: any) => {
   const [email, setEmail] = useState('');
@@ -26,27 +25,23 @@ const ResetPassword = ({navigation}: any) => {
 
   const handleResetPassword = async () => {
     if (email) {
-      showToast('Comming soon!');
-      // setIsLoading(true);
+      setIsLoading(true);
 
-      // const api = `/login`;
+      const api = `/requestResetPassword`;
 
-      // try {
-      //   await authenticationAPI
-      //     .HandleAuth(api, {email}, 'post')
-      //     .then(async (res: any) => {
-      //       if (res.data) {
-      //         console.log(res);
-      //         setIsLoading(false);
-      //       } else {
-      //         setErrorMessage(res.message);
-      //         setIsLoading(false);
-      //       }
-      //     });
-      // } catch (error) {
-      //   console.log(error);
-      //   setIsLoading(false);
-      // }
+      try {
+        await authenticationAPI
+          .HandleAuth(api, {email}, 'post')
+          .then(async (res: any) => {
+            if (res.success && res.code === 200) {
+              navigation.navigate('VerifyEmail', {type: 'resetPass', email});
+            }
+            setIsLoading(false);
+          });
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
     } else {
       setErrorMessage('Please enter your email!');
     }
@@ -54,9 +49,18 @@ const ResetPassword = ({navigation}: any) => {
 
   return (
     <Container back isScroll>
-      <SectionComponent flex={1} styles={{justifyContent: 'center'}}>
-        <TitleComponent text="Reset password" size={26} flex={0} />
-        <SpaceComponent height={22} />
+      <SectionComponent
+        styles={{
+          marginTop: 40,
+        }}>
+        <Image
+          source={require('../../assets/images/TingaLogo.png')}
+          style={{width: 175, height: 68, resizeMode: 'contain'}}
+        />
+      </SectionComponent>
+      <SectionComponent
+        flex={1}
+        styles={{justifyContent: 'center', marginTop: '25%'}}>
         <InputComponent
           value={email}
           placeholder="Email address*"
@@ -79,12 +83,12 @@ const ResetPassword = ({navigation}: any) => {
         )}
 
         <ButtonComponent
-          text={isLoading ? 'Loading...' : 'Login'}
+          text={isLoading ? 'Loading...' : 'Recover'}
           iconRight
           icon={
-            <Octicons name="arrow-right" size={20} color={appColors.text} />
+            <Octicons name="arrow-right" size={20} color={appColors.text2} />
           }
-          disable={isLoading}
+          disable={!email || isLoading}
           fontStyles={{textAlign: 'center'}}
           onPress={handleResetPassword}
           styles={{

@@ -1,4 +1,4 @@
-import {appInfos} from '../constants/appInfos';
+import { appInfos } from '../constants/appInfos';
 import axiosClient from './axiosClient';
 
 class DataAPI {
@@ -15,7 +15,7 @@ class DataAPI {
       },
       method: method ?? 'get',
       data: data ? (isFile ? data : JSON.stringify(data)) : undefined,
-      onUploadProgress: onProgress ? onProgress : () => {},
+      onUploadProgress: onProgress ? onProgress : () => { },
     });
   };
   handleUser = async (
@@ -31,7 +31,7 @@ class DataAPI {
       },
       method: method ?? 'get',
       data: data ? (isFile ? data : JSON.stringify(data)) : undefined,
-      onUploadProgress: onProgress ? onProgress : () => {},
+      onUploadProgress: onProgress ? onProgress : () => { },
     });
   };
 }

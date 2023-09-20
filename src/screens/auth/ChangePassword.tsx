@@ -6,11 +6,9 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import {useDispatch} from 'react-redux';
 import authenticationAPI from '../../apis/authAPI';
 import {
-  Button,
   ButtonComponent,
   Container,
   InputComponent,
-  RowComponent,
   SectionComponent,
   SpaceComponent,
   TextComponent,
@@ -18,12 +16,13 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {appInfos} from '../../constants/appInfos';
-import {fontFamilys} from '../../constants/fontFamily';
 import useAuth from '../../hooks/useAuth';
 import {LoadingModal} from '../../modals';
 import {HandleLogin} from '../../utils/HandleLogin';
 
-const LoginScreen = ({navigation}: any) => {
+const LoginScreen = ({route, navigation}: any) => {
+  const {code} = route.params;
+
   const [isShowPass, setIsShowPass] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,26 +39,26 @@ const LoginScreen = ({navigation}: any) => {
       const api = `/login`;
 
       try {
-        await authenticationAPI
-          .HandleAuth(api, {email, password}, 'post')
-          .then(async (res: any) => {
-            if (res.data) {
-              await AsyncStorage.setItem(
-                appInfos.localDataName.userData,
-                JSON.stringify(res.data),
-              ).then(() => {
-                HandleLogin.handleCheckUserLoginAgain(
-                  res.data,
-                  navigation,
-                  dispatch,
-                );
-              });
-              setIsLoading(false);
-            } else {
-              setErrorMessage(res.message);
-              setIsLoading(false);
-            }
-          });
+        // await authenticationAPI
+        //   .HandleAuth(api, {email, reset_token: code, password}, 'post')
+        //   .then(async (res: any) => {
+        //     if (res.data) {
+        //       await AsyncStorage.setItem(
+        //         appInfos.localDataName.userData,
+        //         JSON.stringify(res.data),
+        //       ).then(() => {
+        //         HandleLogin.handleCheckUserLoginAgain(
+        //           res.data,
+        //           navigation,
+        //           dispatch,
+        //         );
+        //       });
+        //       setIsLoading(false);
+        //     } else {
+        //       setErrorMessage(res.message);
+        //       setIsLoading(false);
+        //     }
+        //   });
       } catch (error) {
         console.log(error);
         setIsLoading(false);
@@ -81,12 +80,14 @@ const LoginScreen = ({navigation}: any) => {
         />
       </SectionComponent>
 
-      <SectionComponent flex={1} styles={{justifyContent: 'center'}}>
-        <TitleComponent text="Login" size={26} flex={0} />
+      <SectionComponent
+        flex={1}
+        styles={{justifyContent: 'center', paddingTop: '15%'}}>
+        <TitleComponent text="Enter a new  password" size={26} flex={0} />
         <SpaceComponent height={22} />
         <InputComponent
           value={email}
-          placeholder="Email address*"
+          placeholder="Email address"
           affix={<Sms size={20} color={appColors.gray} />}
           onChange={val => setEmail(val)}
           type="email-address"
@@ -117,12 +118,12 @@ const LoginScreen = ({navigation}: any) => {
         )}
 
         <ButtonComponent
-          text={isLoading ? 'Loading...' : 'Login'}
+          text={isLoading ? 'Loading...' : 'Recover'}
           iconRight
           icon={
             <Octicons name="arrow-right" size={20} color={appColors.text} />
           }
-          disable={isLoading}
+          disable={!email || !password || isLoading}
           fontStyles={{textAlign: 'center'}}
           onPress={handleLogin}
           styles={{
@@ -132,27 +133,6 @@ const LoginScreen = ({navigation}: any) => {
           }}
           textColor={appColors.text}
         />
-      </SectionComponent>
-
-      <SectionComponent styles={{marginVertical: 20}}>
-        <RowComponent>
-          <TextComponent text="You have not an account? " flex={0} />
-          <Button
-            text="Sign up"
-            onPress={() => navigation.navigate('SignUpScreen')}
-            textColor={appColors.primary}
-            fontStyles={{fontFamily: fontFamilys.bold}}
-          />
-        </RowComponent>
-        <RowComponent styles={{marginTop: 8}}>
-          <TextComponent text="Forgot your password? " flex={0} />
-          <Button
-            text="Recover password"
-            onPress={() => navigation.navigate('ResetPassword')}
-            textColor={appColors.primary}
-            fontStyles={{fontFamily: fontFamilys.bold}}
-          />
-        </RowComponent>
       </SectionComponent>
 
       <LoadingModal visible={isLoading} />
