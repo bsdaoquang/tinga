@@ -16,10 +16,11 @@ import {useNavigation} from '@react-navigation/native';
 interface Props {
   isVisible: boolean;
   onClose: () => void;
+  count: number;
 }
 
 const ModalResultScan = (props: Props) => {
-  const {isVisible, onClose} = props;
+  const {isVisible, onClose, count} = props;
   const navigation: any = useNavigation();
   const handleClose = () => {
     onClose();
@@ -83,22 +84,44 @@ const ModalResultScan = (props: Props) => {
     </RowComponent>
   );
 
+  const renderResultCount = () => {
+    let title = ``;
+    let text = ``;
+
+    switch (true) {
+      case count < 5:
+        title = 'Sure you’re finished?';
+        text = 'Keep up the great work, you’re almost there!';
+        break;
+      case count === 5:
+        title = 'Great Work!';
+        text =
+          'You’re already putting in the work towards meeting your dietary goals';
+        break;
+      case count < 5:
+        title = 'Excellent!';
+        text = 'That’s a big head-start towards your dietary goals';
+        break;
+    }
+
+    return (
+      <>
+        <TitleComponent
+          text={`${count}/5 - ${title}`}
+          flex={0}
+          size={20}
+          styles={{textAlign: 'center'}}
+        />
+        <TextComponent text={text} flex={0} styles={{textAlign: 'center'}} />
+      </>
+    );
+  };
+
   return (
     <Modal visible={isVisible} transparent animationType="slide">
       <View style={[global.modalContainer]}>
         <View style={[global.modalContent]}>
-          <TitleComponent
-            text={`12/5 - Excellent!`}
-            flex={0}
-            size={20}
-            styles={{textAlign: 'center'}}
-          />
-          <TextComponent
-            text="That’s a big head-start towards your dietary goals"
-            flex={0}
-            styles={{textAlign: 'center'}}
-          />
-
+          {renderResultCount()}
           <View
             style={{
               borderBottomColor: '#d9d9d9',

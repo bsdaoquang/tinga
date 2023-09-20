@@ -16,8 +16,6 @@ const VideoComponent = ({
 }) => {
   const navigation: any = useNavigation();
 
-  console.log(item);
-
   return isVideo ? (
     item.videotype === 'Youtube' && item.code && item.name && (
       <YoutubePlayer videoId={`${item.code}`} contentScale={1} height={200} />

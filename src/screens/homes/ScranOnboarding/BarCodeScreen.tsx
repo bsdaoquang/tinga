@@ -1,9 +1,10 @@
-import React, {ReactNode, useEffect, useState} from 'react';
-import {Alert, PermissionsAndroid, Platform, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {PermissionsAndroid, Platform, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Product} from '../../../Models/Product';
+import handleGetData from '../../../apis/productAPI';
 import {
   Button,
   ButtonComponent,
@@ -18,19 +19,6 @@ import {ModalProduct} from '../../../modals';
 import ModalResultScan from '../../../modals/ModalResultScan';
 import ModalizeProducDetail from '../../../modals/ModalizeProducDetail';
 import {showToast} from '../../../utils/showToast';
-import handleGetData from '../../../apis/productAPI';
-
-const demoProduc = {
-  count: 1,
-  description: '',
-  id: '3',
-  imageUrl:
-    'https://s3-alpha-sig.figma.com/img/0949/c4f3/9f08eaf9572c1baf96c42c3a212ccb1d?Expires=1695600000&Signature=Lg1zOVGWIh-PObTZ~1emXensFTTJhm4mMd-MEaUH9Uzm3WkG~D46kmA6Q6OqdarLpSTtfLOy1gqdgja40gXnsWHqhABJpIWh6oLvlwHw5s3j~FylcAxldq6RyclYck-yzX0jHNzpMDPwl2t--2G11Ns9fGyAfVrE1~x5S85d1acRYh9i-6uCS1Na5DADtO0HN2eDJ5Had7g05llBicXHzuRlin0Hd8kKDWCI-vH9UWHVjG42fS63Z-zr1~rrHx~l8CdUHQBZWYbnN8DlZ8qAGr0VSKFu0Yvzo1GNFYIYYkUgSCegvTmj9CIuqASlRx2s5NtDymYai4uqfuDEMqemLQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
-  mart: 'Walmart',
-  price: 3.99,
-  rating: 4.5,
-  title: 'Dempsters Smooth Multigrains Bread',
-};
 
 const BarCodeScreen = ({navigation}: any) => {
   const [codeDetail, setCodeDetail] = useState('');
@@ -38,6 +26,7 @@ const BarCodeScreen = ({navigation}: any) => {
   const [product, setProduct] = useState<Product>();
   const [showError, setShowError] = useState(false);
   const [isVisibleModalResult, setIsVisibleModalResult] = useState(false);
+  const [countProducts, setCountProducts] = useState(0);
 
   const renderQrCode = (
     <QRCodeScanner
@@ -84,11 +73,15 @@ const BarCodeScreen = ({navigation}: any) => {
 
   const getProductDetail = async (id: string) => {
     const api = `/getProductDetail/${id}`;
-    console.log(api);
 
     try {
       await handleGetData.handleProduct(api).then((res: any) => {
-        console.log(res);
+        if (res.length > 0) {
+          setProduct(res[0]);
+        } else {
+          setProduct(undefined);
+          setShowError(true);
+        }
       });
     } catch (error) {
       console.log(error);
@@ -147,7 +140,7 @@ const BarCodeScreen = ({navigation}: any) => {
             styles={{textAlign: 'center'}}
           />
           <TextComponent
-            text={`5/5`}
+            text={`${countProducts}/5`}
             styles={{
               backgroundColor: appColors.white,
               paddingVertical: 4,
@@ -201,6 +194,7 @@ const BarCodeScreen = ({navigation}: any) => {
       <ModalResultScan
         isVisible={isVisibleModalResult}
         onClose={() => setIsVisibleModalResult(false)}
+        count={countProducts}
       />
     </View>
   );
