@@ -69,18 +69,6 @@ const ChooseDiet = ({navigation}: any) => {
     //
   };
 
-  // const handleSelectedItem = (id: number) => {
-  //   const items = [...selected];
-  //   const index = selected.findIndex(element => element === id);
-
-  //   if (index === -1) {
-  //     items.push(id);
-  //   } else {
-  //     items.splice(index, 1);
-  //   }
-
-  //   setSelected(items);
-  // };
   return (
     <Container back>
       <SectionComponent flex={1}>

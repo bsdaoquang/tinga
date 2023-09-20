@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import {Alert, PermissionsAndroid, Platform, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -17,6 +17,8 @@ import {appSize} from '../../../constants/appSize';
 import {ModalProduct} from '../../../modals';
 import ModalResultScan from '../../../modals/ModalResultScan';
 import ModalizeProducDetail from '../../../modals/ModalizeProducDetail';
+import {showToast} from '../../../utils/showToast';
+import handleGetData from '../../../apis/productAPI';
 
 const demoProduc = {
   count: 1,
@@ -33,71 +35,33 @@ const demoProduc = {
 const BarCodeScreen = ({navigation}: any) => {
   const [codeDetail, setCodeDetail] = useState('');
   const [showProduct, setShowProduct] = useState(false);
-  const [product, setProduct] = useState<Product | undefined>();
+  const [product, setProduct] = useState<Product>();
   const [showError, setShowError] = useState(false);
   const [isVisibleModalResult, setIsVisibleModalResult] = useState(false);
 
-  const renderQrCode = (
-    <QRCodeScanner
-      cameraStyle={{
-        width: appSize.width,
-        height: appSize.height,
-        position: 'absolute',
-      }}
-      onRead={val => setCodeDetail(val.data)}
-      cameraType="back"
-      showMarker
-      markerStyle={{
-        borderColor: appColors.white,
-        borderRadius: 12,
-        width: appSize.width - 64,
-      }}
-      cameraProps={{
-        captureAudio: false,
-        ratio: '1:1',
-      }}
-    />
-  );
-
-  const [QRCodeCotainer, setQRCodeCotainer] = useState(renderQrCode);
-
   useEffect(() => {
     requestPermision();
-    setQRCodeCotainer(renderQrCode);
   }, []);
 
   useEffect(() => {
-    // !codeDetail && setQRCodeCotainer(renderQrCode);
-    if (showProduct || showError) {
-      setQRCodeCotainer(<></>);
-    } else {
-      setQRCodeCotainer(renderQrCode);
-    }
-  }, [showProduct, showError]);
-
-  useEffect(() => {
     if (codeDetail) {
-      Alert.alert(
-        'BarCode',
-        `Barcode is ${codeDetail}, try check code is produc or not and show detail`,
-        [
-          {
-            text: 'Not product',
-            onPress: () => {
-              setShowError(true);
-            },
-          },
-          {
-            text: 'Is Product',
-            onPress: () => {
-              setShowProduct(true);
-              setProduct(demoProduc);
-            },
-          },
-        ],
-      );
+      getProductDetail(codeDetail);
     }
   }, [codeDetail]);
+
+  const getProductDetail = async (id: string) => {
+    const api = `/getProductDetail/${id}`;
+    console.log(api);
+
+    try {
+      await handleGetData.handleProduct(api).then((res: any) => {
+        console.log(res);
+      });
+    } catch (error) {
+      console.log(error);
+      showToast('Can not get product detail by code');
+    }
+  };
 
   const requestPermision = async () => {
     if (Platform.OS === 'android') {
@@ -125,7 +89,28 @@ const BarCodeScreen = ({navigation}: any) => {
 
   return (
     <View style={{flex: 1}}>
-      {QRCodeCotainer}
+      <QRCodeScanner
+        cameraStyle={{
+          width: appSize.width,
+          height: appSize.height,
+          position: 'absolute',
+        }}
+        onRead={val => {
+          console.log(val);
+          setCodeDetail(val.data);
+        }}
+        cameraType="back"
+        showMarker
+        markerStyle={{
+          borderColor: appColors.white,
+          borderRadius: 12,
+          width: appSize.width - 64,
+        }}
+        cameraProps={{
+          captureAudio: false,
+          ratio: '1:1',
+        }}
+      />
       <LinearGradient
         style={{
           position: 'absolute',
