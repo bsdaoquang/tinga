@@ -8,7 +8,7 @@ import {tagsStyles} from '../../constants/tagStyles';
 const TipDetail = ({route, navigation}: any) => {
   const {item}: {item: Tip} = route.params;
 
-  console.log(item);
+  // console.log(item);
   return (
     <Container back title={item.title} isScroll>
       <SectionComponent>

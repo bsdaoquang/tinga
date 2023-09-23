@@ -1,5 +1,5 @@
 import {Eye, EyeSlash} from 'iconsax-react-native';
-import React, {ReactNode, useEffect, useState} from 'react';
+import React, {ReactNode, useState} from 'react';
 import {
   KeyboardTypeOptions,
   Platform,
@@ -10,11 +10,11 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {TextComponent} from '.';
 import {appColors} from '../constants/appColors';
-import {fontFamilys} from '../constants/fontFamily';
 import {appSize} from '../constants/appSize';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import {fontFamilys} from '../constants/fontFamily';
 
 interface Props {
   label?: string;
@@ -81,6 +81,7 @@ interface Props {
     | 'off'
     | undefined;
   ref?: any;
+  readOnly?: boolean;
 }
 
 export const InputComponent = (props: Props) => {
@@ -112,6 +113,7 @@ export const InputComponent = (props: Props) => {
     isMultible,
     rows,
     ref,
+    readOnly,
   } = props;
 
   return (
@@ -144,6 +146,7 @@ export const InputComponent = (props: Props) => {
           secureTextEntry={isSecure ? !show : false}
           placeholderTextColor={appColors.gray}
           keyboardType={type ? type : 'default'}
+          readOnly={readOnly}
           style={[
             {
               flex: 1,

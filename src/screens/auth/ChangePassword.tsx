@@ -1,9 +1,7 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
 import {Image} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
-import {useDispatch} from 'react-redux';
 import authenticationAPI from '../../apis/authAPI';
 import {
   ButtonComponent,
@@ -15,51 +13,42 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {appInfos} from '../../constants/appInfos';
 import useAuth from '../../hooks/useAuth';
 import {LoadingModal} from '../../modals';
-import {HandleLogin} from '../../utils/HandleLogin';
+import {showToast} from '../../utils/showToast';
 
 const LoginScreen = ({route, navigation}: any) => {
-  const {code} = route.params;
+  const {code, currentEmail} = route.params;
 
   const [isShowPass, setIsShowPass] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(currentEmail);
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const {handleCheckEmail, handleCheckPass, helpText} = useAuth(navigation);
-  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     if (email && password) {
       setIsLoading(true);
 
-      const api = `/login`;
+      const api = `/resetPassword`;
 
       try {
-        // await authenticationAPI
-        //   .HandleAuth(api, {email, reset_token: code, password}, 'post')
-        //   .then(async (res: any) => {
-        //     if (res.data) {
-        //       await AsyncStorage.setItem(
-        //         appInfos.localDataName.userData,
-        //         JSON.stringify(res.data),
-        //       ).then(() => {
-        //         HandleLogin.handleCheckUserLoginAgain(
-        //           res.data,
-        //           navigation,
-        //           dispatch,
-        //         );
-        //       });
-        //       setIsLoading(false);
-        //     } else {
-        //       setErrorMessage(res.message);
-        //       setIsLoading(false);
-        //     }
-        //   });
-      } catch (error) {
+        await authenticationAPI
+          .HandleAuth(api, {email, reset_token: code, password}, 'post')
+          .then(async (res: any) => {
+            if (res.success) {
+              showToast('Change password successfully!');
+              setIsLoading(false);
+              navigation.navigate('LoginScreen');
+            } else {
+              setErrorMessage(res.message);
+              setIsLoading(false);
+            }
+          });
+      } catch (error: any) {
+        showToast(`${'Can not change password'}${error.message}`);
         console.log(error);
         setIsLoading(false);
       }
@@ -95,6 +84,7 @@ const LoginScreen = ({route, navigation}: any) => {
           isCapitalize="none"
           onEnd={() => handleCheckEmail(email)}
           helpText={helpText?.email}
+          readOnly
         />
         <InputComponent
           value={password}

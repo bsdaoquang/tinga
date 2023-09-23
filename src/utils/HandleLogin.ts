@@ -10,16 +10,7 @@ export class HandleLogin {
     const api = `/getUserChoice`;
     try {
       await profileAPI.HandleUser(api).then((res: any) => {
-        if (
-          res.allergies &&
-          res.allergies.length > 0 &&
-          res.shops &&
-          res.shops.length > 0 &&
-          res.diets &&
-          res.diets.length > 0 &&
-          res.dislikes &&
-          res.dislikes.length > 0
-        ) {
+        if (res.diets && res.diets.length > 0) {
           dispatch(addAuth(data));
         } else {
           navigation.navigate('ChooseDiet');

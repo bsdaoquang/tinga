@@ -1,23 +1,22 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useRef, useState} from 'react';
-import {Alert, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Alert, Text, TextInput} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import authenticationAPI from '../../apis/authAPI';
 import {
   ButtonComponent,
   Container,
-  InputComponent,
   RowComponent,
   SectionComponent,
   TextComponent,
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
+import {appInfos} from '../../constants/appInfos';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
-import {global} from '../../styles/global';
-import authenticationAPI from '../../apis/authAPI';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {appInfos} from '../../constants/appInfos';
 import {LoadingModal} from '../../modals';
+import {global} from '../../styles/global';
 
 const VerifyEmail = ({navigation, route}: any) => {
   const {email, type}: {email: string; type: 'confirm' | 'resetPass'} =
@@ -76,7 +75,10 @@ const VerifyEmail = ({navigation, route}: any) => {
             if (type === 'confirm') {
               navigation.navigate('ChooseDiet');
             } else {
-              navigation.navigate('ChangePassword', {code});
+              navigation.navigate('ChangePassword', {
+                code: res.data.reset_token,
+                currentEmail: email,
+              });
             }
 
             await AsyncStorage.setItem(

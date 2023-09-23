@@ -119,7 +119,7 @@ const ExploreScreen = ({navigation}: any) => {
   };
 
   const getCategoriesById = async (item: {id: number; title: string}) => {
-    const api = `/getSubCategories/${item.id}`;
+    const api = `/getCategories`;
     item.id > 0 && setChecking(true);
     try {
       await handleGetData.handleProduct(api).then((res: any) => {
@@ -310,6 +310,7 @@ const ExploreScreen = ({navigation}: any) => {
                 data={categories}
                 renderItem={({item, index}) => (
                   <CategoryItem
+                    // onPress={() => console.log(item)}
                     item={item}
                     onPress={() => {
                       setNavigationStacks([
