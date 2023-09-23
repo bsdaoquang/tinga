@@ -43,14 +43,16 @@ const SubCategories = ({route, navigation}: any) => {
 
   const handleCheckChildrenValues = async (item: Category) => {
     setIsChecking(true);
-    const api = `/getSubSubCategories/${item.id}`;
-
+    const api = `/getSubCategories/${item.id}`;
     try {
       await handleGetData.handleProduct(api).then((res: any) => {
         if (res.length > 0) {
-          navigation.navigate('SubCategories', {category: item});
+          navigation.navigate('SubSubCategories', {
+            parentCategory: category,
+            category: item,
+          });
         } else {
-          navigation.navigate('CategoryDetail', {category: item});
+          navigation.navigate('CategoryDetail', {category, subCategory: item});
         }
       });
       setIsChecking(false);

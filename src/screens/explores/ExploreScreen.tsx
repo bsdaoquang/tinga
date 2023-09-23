@@ -46,7 +46,6 @@ const ExploreScreen = ({navigation}: any) => {
 
     try {
       await handleGetData.handleProduct(api).then((res: any) => {
-        console.log(res);
         if (res.length > 0) {
           navigation.navigate('SubCategories', {category: item});
         } else {

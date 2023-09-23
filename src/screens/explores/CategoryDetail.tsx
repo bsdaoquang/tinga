@@ -13,7 +13,12 @@ import handleGetData from '../../apis/productAPI';
 import {FlatList} from 'react-native';
 
 const CategoryDetail = ({navigation, route}: any) => {
-  const {category}: {category: Category} = route.params;
+  const {
+    category,
+    subCategory,
+    subSubCategory,
+  }: {category: Category; subCategory: Category; subSubCategory: Category} =
+    route.params;
 
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,11 +30,12 @@ const CategoryDetail = ({navigation, route}: any) => {
   const getProducts = async () => {
     const api = `/getProductListing`;
     const data = {
-      category_id: category.parent_id,
-      subcategory_id: category.id ?? 0,
-      sub_subcategory_id: 0,
-      offset: '',
+      category_id: category.id,
+      subcategory_id: subCategory.id ?? 0,
+      sub_subcategory_id: subSubCategory ?? 0,
+      offset: 1,
     };
+    console.log(data);
     setIsLoading(true);
     try {
       await handleGetData.handleProduct(api, data, 'post').then((res: any) => {

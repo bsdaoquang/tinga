@@ -1,5 +1,8 @@
-import {View, Text, FlatList} from 'react-native';
+import {AddSquare} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
+import {FlatList, View} from 'react-native';
+import {Category} from '../../Models/Category';
+import handleGetData from '../../apis/productAPI';
 import {
   Button,
   CategoryItem,
@@ -8,14 +11,11 @@ import {
   SectionComponent,
   TitleComponent,
 } from '../../components';
-import {AddSquare} from 'iconsax-react-native';
 import {appColors} from '../../constants/appColors';
 import SearchFilterComponent from './components/SearchFilterComponent';
-import {Category} from '../../Models/Category';
-import handleGetData from '../../apis/productAPI';
 
 const SubSubCategories = ({route, navigation}: any) => {
-  const {category} = route.params;
+  const {parentCategory, category} = route.params;
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -68,8 +68,10 @@ const SubSubCategories = ({route, navigation}: any) => {
               renderItem={({item, index}) => (
                 <CategoryItem
                   onPress={() =>
-                    navigation.navigate('SubSubCategories', {
-                      category: item,
+                    navigation.navigate('CategoryDetail', {
+                      category: parentCategory,
+                      subCategory: category,
+                      subSubCategory: item,
                     })
                   }
                   item={item}
