@@ -1,12 +1,6 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleProp,
-  ViewStyle,
-} from 'react-native';
+import {Add, Location, Star1} from 'iconsax-react-native';
 import React, {useState} from 'react';
+import {Image, StyleProp, View, ViewStyle} from 'react-native';
 import {
   Button,
   CardContent,
@@ -14,11 +8,10 @@ import {
   SpaceComponent,
   TextComponent,
 } from '.';
-import {appSize} from '../constants/appSize';
-import {appColors} from '../constants/appColors';
-import {Add, Location, Star1} from 'iconsax-react-native';
-import {ModalProduct} from '../modals';
 import {Product} from '../Models/Product';
+import {appColors} from '../constants/appColors';
+import {appSize} from '../constants/appSize';
+import {ModalProduct} from '../modals';
 
 interface Props {
   item: Product;
@@ -93,12 +86,6 @@ const ProductItemComponent = (props: Props) => {
             />
             <SpaceComponent width={12} />
             <Star1 size={14} color={appColors.gray} />
-            {/* <TextComponent
-              text={` ${item.rating}`}
-              size={12}
-              flex={0}
-              color={appColors.gray}
-            /> */}
           </RowComponent>
         </View>
       </CardContent>

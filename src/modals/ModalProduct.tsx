@@ -54,8 +54,8 @@ const ModalProduct = (props: Props) => {
   const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] =
     useState(false);
   const [producDetail, setProducDetail] = useState<ProductDetail>();
-  const [isShowDesc, setIsShowDesc] = useState(true);
-  const [isShowIngre, setIsShowIngre] = useState(true);
+  const [isShowDesc, setIsShowDesc] = useState(false);
+  const [isShowIngre, setIsShowIngre] = useState(false);
 
   useEffect(() => {
     visible && modalRef.current?.open();
@@ -64,8 +64,6 @@ const ModalProduct = (props: Props) => {
   useEffect(() => {
     getProducDetail();
   }, [product]);
-
-  // console.log(producDetail);
 
   const modalRef = useRef<Modalize>();
 
@@ -113,7 +111,8 @@ const ModalProduct = (props: Props) => {
 
   const renderProductIngredient = (item: {title: string; unit: string}) => {
     const productIngre: any = producDetail;
-    const value = productIngre[`${item.title}`];
+
+    const value = productIngre ? productIngre[`${item.title}`] : [];
 
     return (
       <View
