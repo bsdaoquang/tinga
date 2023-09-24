@@ -20,6 +20,7 @@ import {ModalProduct} from '../../../modals';
 import {global} from '../../../styles/global';
 import {showToast} from '../../../utils/showToast';
 import {fontFamilys} from '../../../constants/fontFamily';
+import ModalizeFilter from '../../../modals/ModalizeFilter';
 
 interface Props {
   category_id: number;
@@ -81,59 +82,21 @@ const SearchFilterComponent = (props: Props) => {
               zIndex: 1,
             }}>
             <SearchNormal1 size={18} color={appColors.gray} />
-            <>
-              <TextInput
-                value={searchValue}
-                onChangeText={val => setSearchValue(val)}
-                style={{
-                  ...global.text,
-                  flex: 1,
-                  margin: 0,
-                  padding: 0,
-                  paddingHorizontal: 8,
-                }}
-                autoCapitalize="none"
-                placeholder="Search groceries"
-                placeholderTextColor={appColors.gray}
-              />
-              {/* {searchValue && (
-                <View
-                  style={{
-                    ...global.shadow,
-                    backgroundColor: appColors.white,
-                    position: 'absolute',
-                    right: 0,
-                    top: 48,
-                    left: 0,
-                    zIndex: 1,
-                    padding: 12,
-                  }}>
-                  {results.length > 0 ? (
-                    <FlatList
-                      style={{maxHeight: '80%'}}
-                      showsVerticalScrollIndicator={false}
-                      data={results}
-                      renderItem={({item}) => (
-                        <RowComponent
-                          onPress={() => {
-                            setProduct(item);
-                            setIsVisibleModalProduct(true);
-                          }}
-                          justify="flex-start"
-                          styles={{paddingVertical: 8}}>
-                          <ImageProduct imageUrl={item.image} />
-                          <View style={{paddingHorizontal: 8, flex: 1}}>
-                            <TextComponent text={item.name} flex={0} line={2} />
-                          </View>
-                        </RowComponent>
-                      )}
-                    />
-                  ) : (
-                    <TextComponent text="fafas" flex={0} />
-                  )}
-                </View>
-              )} */}
-            </>
+
+            <TextInput
+              value={searchValue}
+              onChangeText={val => setSearchValue(val)}
+              style={{
+                ...global.text,
+                flex: 1,
+                margin: 0,
+                padding: 0,
+                paddingHorizontal: 8,
+              }}
+              autoCapitalize="none"
+              placeholder="Search groceries"
+              placeholderTextColor={appColors.gray}
+            />
 
             {searchValue.length > 0 && (
               <Button
@@ -252,6 +215,11 @@ const SearchFilterComponent = (props: Props) => {
           setIsVisibleModalProduct(false);
           setProduct(undefined);
         }}
+      />
+
+      <ModalizeFilter
+        visible={isVisibleModalFilter}
+        onClose={() => setIsVisibleModalFilter(false)}
       />
     </>
   );
