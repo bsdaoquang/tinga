@@ -1,4 +1,4 @@
-import {SearchNormal1} from 'iconsax-react-native';
+import {AddSquare, SearchNormal1} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {FlatList, TextInput, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -16,8 +16,10 @@ import {
   TextComponent,
 } from '../../../components';
 import {appColors} from '../../../constants/appColors';
-import {global} from '../../../styles/global';
 import {ModalProduct} from '../../../modals';
+import {global} from '../../../styles/global';
+import {showToast} from '../../../utils/showToast';
+import {fontFamilys} from '../../../constants/fontFamily';
 
 interface Props {
   category_id: number;
@@ -52,10 +54,7 @@ const SearchFilterComponent = (props: Props) => {
   const getProductsList = async () => {
     const api = `/getProductListing`;
     const data = {
-      category_id: category_id ?? '1',
-      subcategory_id: subCategory_id ?? '0',
-      sub_subcategory_id: subSubCategory_id ?? '0',
-      offset: '1',
+      category_id: 0,
     };
 
     try {
@@ -69,7 +68,7 @@ const SearchFilterComponent = (props: Props) => {
 
   return (
     <>
-      <SectionComponent styles={{paddingBottom: 12}}>
+      <SectionComponent styles={{paddingBottom: 12, zIndex: 1}}>
         <RowComponent>
           <RowComponent
             styles={{
@@ -79,21 +78,62 @@ const SearchFilterComponent = (props: Props) => {
               paddingHorizontal: 8,
               flex: 1,
               paddingVertical: 12,
+              zIndex: 1,
             }}>
             <SearchNormal1 size={18} color={appColors.gray} />
-            <TextInput
-              value={searchValue}
-              onChangeText={val => setSearchValue(val)}
-              style={{
-                ...global.text,
-                flex: 1,
-                margin: 0,
-                padding: 0,
-                paddingHorizontal: 8,
-              }}
-              placeholder="Search groceries"
-              placeholderTextColor={appColors.gray}
-            />
+            <>
+              <TextInput
+                value={searchValue}
+                onChangeText={val => setSearchValue(val)}
+                style={{
+                  ...global.text,
+                  flex: 1,
+                  margin: 0,
+                  padding: 0,
+                  paddingHorizontal: 8,
+                }}
+                autoCapitalize="none"
+                placeholder="Search groceries"
+                placeholderTextColor={appColors.gray}
+              />
+              {/* {searchValue && (
+                <View
+                  style={{
+                    ...global.shadow,
+                    backgroundColor: appColors.white,
+                    position: 'absolute',
+                    right: 0,
+                    top: 48,
+                    left: 0,
+                    zIndex: 1,
+                    padding: 12,
+                  }}>
+                  {results.length > 0 ? (
+                    <FlatList
+                      style={{maxHeight: '80%'}}
+                      showsVerticalScrollIndicator={false}
+                      data={results}
+                      renderItem={({item}) => (
+                        <RowComponent
+                          onPress={() => {
+                            setProduct(item);
+                            setIsVisibleModalProduct(true);
+                          }}
+                          justify="flex-start"
+                          styles={{paddingVertical: 8}}>
+                          <ImageProduct imageUrl={item.image} />
+                          <View style={{paddingHorizontal: 8, flex: 1}}>
+                            <TextComponent text={item.name} flex={0} line={2} />
+                          </View>
+                        </RowComponent>
+                      )}
+                    />
+                  ) : (
+                    <TextComponent text="fafas" flex={0} />
+                  )}
+                </View>
+              )} */}
+            </>
 
             {searchValue.length > 0 && (
               <Button
@@ -141,12 +181,12 @@ const SearchFilterComponent = (props: Props) => {
           />
         </RowComponent>
       </SectionComponent>
-      {searchValue.length > 0 && (
+      {searchValue && (
         <View
           style={{
-            backgroundColor: 'rgba(0,0,0,0.2)',
             paddingHorizontal: 16,
             position: 'absolute',
+            marginRight: 60,
             top: 48,
             right: 0,
             left: 0,
@@ -156,11 +196,12 @@ const SearchFilterComponent = (props: Props) => {
           }}>
           <View
             style={{
-              backgroundColor: 'white',
-              padding: 16,
-              height: '80%',
-              borderBottomRightRadius: 12,
-              borderBottomLeftRadius: 12,
+              ...global.shadow,
+              backgroundColor: appColors.white,
+              padding: 12,
+              // height: '100%',
+              borderBottomRightRadius: 8,
+              borderBottomLeftRadius: 8,
             }}>
             {results.length > 0 ? (
               <FlatList
@@ -182,7 +223,22 @@ const SearchFilterComponent = (props: Props) => {
                 )}
               />
             ) : (
-              <TextComponent text="fafas" flex={0} />
+              <>
+                <TextComponent
+                  text="Can’t find what you’re looking for?Help us grow our database."
+                  flex={0}
+                />
+                <SpaceComponent height={12} />
+                <RowComponent onPress={() => showToast('Comming soon')}>
+                  <AddSquare variant="Bold" color={appColors.text} size={20} />
+
+                  <SpaceComponent width={8} />
+                  <TextComponent
+                    text="Add Missing Product"
+                    font={fontFamilys.bold}
+                  />
+                </RowComponent>
+              </>
             )}
           </View>
         </View>
