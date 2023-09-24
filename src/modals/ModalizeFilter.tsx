@@ -26,6 +26,8 @@ import {fontFamilys} from '../constants/fontFamily';
 import {ArrowDown2, ArrowUp2, InfoCircle} from 'iconsax-react-native';
 import {global} from '../styles/global';
 import LoadingModal from './LoadingModal';
+import ModalizeInfo from './ModalizeInfo';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 interface Props {
   visible: boolean;
@@ -54,6 +56,8 @@ const ModalizeFilter = (props: Props) => {
     shops: [],
     disLikes: [],
   });
+  const [isVisibleModalInfoDiet, setIsVisibleModalInfoDiet] = useState(false);
+  const [typeInfo, setTypeInfo] = useState<'diet' | 'allergy'>('diet');
 
   useEffect(() => {
     getUserChoices();
@@ -340,250 +344,282 @@ const ModalizeFilter = (props: Props) => {
   };
 
   return (
-    <Portal>
-      <Modalize
-        onClose={onClose}
-        ref={modalRef}
-        adjustToContentHeight
-        handlePosition="inside">
-        <View
-          style={{
-            padding: 12,
-            paddingBottom: 40,
-          }}>
-          <RowComponent justify="flex-end" onPress={handleCloseModal}>
-            <AntDesign name="close" color={appColors.gray} size={22} />
-          </RowComponent>
+    <>
+      <Portal>
+        <Modalize
+          onClose={onClose}
+          ref={modalRef}
+          adjustToContentHeight
+          handlePosition="inside">
+          <View
+            style={{
+              padding: 12,
+              paddingBottom: 40,
+            }}>
+            <RowComponent justify="flex-end" onPress={handleCloseModal}>
+              <AntDesign name="close" color={appColors.gray} size={22} />
+            </RowComponent>
 
-          <TitleComponent text="Filters" size={20} />
-          <ScrollView>
-            <View style={{marginTop: 20}}>
-              <RowComponent justify="flex-start" styles={{marginBottom: 8}}>
-                <TextComponent
-                  size={16}
-                  text="Diet"
-                  flex={0}
-                  color="#41393E"
-                  font={fontFamilys.medium}
-                />
-                <SpaceComponent width={8} />
-                <Button
-                  icon={<InfoCircle size={18} color={appColors.gray} />}
-                  onPress={() => {}}
-                />
-              </RowComponent>
-              {isShowDiets
-                ? diets.map(item =>
-                    renderButton({
-                      id: item.id,
+            <TitleComponent text="Filters" size={20} />
+            <ScrollView>
+              <View style={{marginTop: 20}}>
+                <RowComponent justify="flex-start" styles={{marginBottom: 8}}>
+                  <TextComponent
+                    size={16}
+                    text="Diet"
+                    flex={0}
+                    color="#41393E"
+                    font={fontFamilys.medium}
+                  />
+                  <SpaceComponent width={8} />
+                  <Button
+                    icon={
+                      <MaterialIcons
+                        name="info-outline"
+                        size={20}
+                        color={'#9F9F9F'}
+                      />
+                    }
+                    onPress={() => {
+                      setTypeInfo('diet');
+                      setIsVisibleModalInfoDiet(true);
+                    }}
+                  />
+                </RowComponent>
+                {isShowDiets
+                  ? diets.map(item =>
+                      renderButton({
+                        id: item.id,
+                        isDiet: true,
+                        text: item.name,
+                        isRight: false,
+                        isSelected: userChoices?.diets.find(
+                          element => element.id === item.id,
+                        )
+                          ? true
+                          : false,
+                        onPress: () => handleUpdateDietChoice(item.id),
+                      }),
+                    )
+                  : renderButton({
+                      id: 1,
                       isDiet: true,
-                      text: item.name,
-                      isRight: false,
-                      isSelected: userChoices?.diets.find(
-                        element => element.id === item.id,
-                      )
-                        ? true
-                        : false,
-                      onPress: () => handleUpdateDietChoice(item.id),
-                    }),
-                  )
-                : renderButton({
-                    id: 1,
-                    isDiet: true,
-                    text: userChoices?.diets[0].name ?? '',
-                    isRight: true,
-                    isSelected: true,
-                    onPress: () => setIsShowDiets(true),
-                  })}
-            </View>
-            <View style={{marginTop: 20}}>
-              <RowComponent
-                justify="flex-start"
-                styles={{marginBottom: 8}}
-                onPress={() => setIsShowAllergy(!isShowAllergy)}>
-                <TextComponent
-                  size={16}
-                  text="Allergens/Restrictions"
-                  flex={0}
-                  color="#41393E"
-                  font={fontFamilys.medium}
-                />
-                <SpaceComponent width={12} />
-                <Button
-                  icon={
-                    isShowAllergy ? (
-                      <ArrowUp2 size={20} color={appColors.text} />
-                    ) : (
-                      <ArrowDown2 size={20} color={appColors.text} />
-                    )
-                  }
-                  onPress={() => {}}
-                />
-              </RowComponent>
-              {isShowAllergy ? (
-                <RowComponent justify="flex-start">
-                  {allergies.map(item =>
-                    renderButton({
-                      id: item.id,
-                      text: item.name,
-                      isRight: false,
-                      isSelected: userChoices?.allergies.find(
-                        element => element.id === item.id,
-                      )
-                        ? true
-                        : false,
-                      onPress: () => handleSelectedItem(item.id, 'allergies'),
-                    }),
-                  )}
-                </RowComponent>
-              ) : (
-                <RowComponent justify="flex-start">
-                  {userChoices?.allergies.map(item =>
-                    renderButton({
-                      id: item.id,
-                      text: item.name,
-                      isRight: false,
+                      text: userChoices?.diets[0].name ?? '',
+                      isRight: true,
                       isSelected: true,
-                      onPress: () => handleSelectedItem(item.id, 'allergies'),
-                    }),
-                  )}
-                </RowComponent>
-              )}
-            </View>
-            <View style={{marginTop: 20}}>
-              <RowComponent
-                justify="flex-start"
-                styles={{marginBottom: 8}}
-                onPress={() => setIsShowDislike(!isShowDislike)}>
-                <TextComponent
-                  size={16}
-                  text="Dislikes"
-                  flex={0}
-                  color="#41393E"
-                  font={fontFamilys.medium}
-                />
-                <SpaceComponent width={12} />
-                <Button
-                  icon={
-                    isShowDislike ? (
-                      <ArrowUp2 size={20} color={appColors.text} />
-                    ) : (
-                      <ArrowDown2 size={20} color={appColors.text} />
-                    )
-                  }
-                  onPress={() => {}}
-                />
-              </RowComponent>
-              {isShowDislike ? (
-                <RowComponent justify="flex-start">
-                  {disLikes.map(item =>
-                    renderButton({
-                      id: item.id,
-                      text: item.name,
-                      isRight: false,
-                      isSelected: userChoices?.dislikes.find(
-                        element => element.id === item.id,
+                      onPress: () => setIsShowDiets(true),
+                    })}
+              </View>
+              <View style={{marginTop: 20}}>
+                <RowComponent
+                  justify="flex-start"
+                  styles={{marginBottom: 8}}
+                  onPress={() => setIsShowAllergy(!isShowAllergy)}>
+                  <RowComponent styles={{flex: 1}} justify="flex-start">
+                    <TextComponent
+                      size={16}
+                      text="Allergens/Restrictions"
+                      flex={0}
+                      color="#41393E"
+                      font={fontFamilys.medium}
+                    />
+                    <SpaceComponent width={12} />
+                    <Button
+                      icon={
+                        <MaterialIcons
+                          name="info-outline"
+                          size={20}
+                          color={'#9F9F9F'}
+                        />
+                      }
+                      onPress={() => {
+                        setTypeInfo('allergy');
+                        setIsVisibleModalInfoDiet(true);
+                      }}
+                    />
+                  </RowComponent>
+
+                  <Button
+                    icon={
+                      isShowAllergy ? (
+                        <ArrowUp2 size={20} color={appColors.text} />
+                      ) : (
+                        <ArrowDown2 size={20} color={appColors.text} />
                       )
-                        ? true
-                        : false,
-                      onPress: () => handleSelectedItem(item.id, 'disLikes'),
-                    }),
-                  )}
+                    }
+                    onPress={() => {}}
+                  />
                 </RowComponent>
-              ) : (
-                <RowComponent justify="flex-start">
-                  {userChoices?.dislikes.map(item =>
-                    renderButton({
-                      id: item.id,
-                      text: item.allergy_dislike,
-                      isRight: false,
-                      isSelected: true,
-                      onPress: () => handleSelectedItem(item.id, 'disLikes'),
-                    }),
-                  )}
-                </RowComponent>
-              )}
-            </View>
-            <View style={{marginTop: 20}}>
-              <RowComponent
-                justify="flex-start"
-                styles={{marginBottom: 8}}
-                onPress={() => setIsShowShop(!isShowShop)}>
-                <TextComponent
-                  size={16}
-                  text="Grocery Stores"
-                  flex={0}
-                  color="#41393E"
-                  font={fontFamilys.medium}
-                />
-                <SpaceComponent width={12} />
-                <Button
-                  icon={
-                    isShowShop ? (
-                      <ArrowUp2 size={20} color={appColors.text} />
-                    ) : (
-                      <ArrowDown2 size={20} color={appColors.text} />
-                    )
-                  }
-                  onPress={() => {}}
-                />
-              </RowComponent>
-              {isShowShop ? (
-                <RowComponent justify="flex-start">
-                  {shops.map(item =>
-                    renderButton({
-                      id: item.id,
-                      text: item.name,
-                      isRight: false,
-                      isSelected: userChoices?.shops.find(
-                        element => element.id === item.id,
+                {isShowAllergy ? (
+                  <RowComponent justify="flex-start">
+                    {allergies.map(item =>
+                      renderButton({
+                        id: item.id,
+                        text: item.name,
+                        isRight: false,
+                        isSelected: userChoices?.allergies.find(
+                          element => element.id === item.id,
+                        )
+                          ? true
+                          : false,
+                        onPress: () => handleSelectedItem(item.id, 'allergies'),
+                      }),
+                    )}
+                  </RowComponent>
+                ) : (
+                  <RowComponent justify="flex-start">
+                    {userChoices?.allergies.map(item =>
+                      renderButton({
+                        id: item.id,
+                        text: item.name,
+                        isRight: false,
+                        isSelected: true,
+                        onPress: () => handleSelectedItem(item.id, 'allergies'),
+                      }),
+                    )}
+                  </RowComponent>
+                )}
+              </View>
+              <View style={{marginTop: 20}}>
+                <RowComponent
+                  justify="flex-start"
+                  styles={{marginBottom: 8}}
+                  onPress={() => setIsShowDislike(!isShowDislike)}>
+                  <TextComponent
+                    size={16}
+                    text="Dislikes"
+                    flex={0}
+                    color="#41393E"
+                    font={fontFamilys.medium}
+                  />
+                  <SpaceComponent width={12} />
+                  <Button
+                    icon={
+                      isShowDislike ? (
+                        <ArrowUp2 size={20} color={appColors.text} />
+                      ) : (
+                        <ArrowDown2 size={20} color={appColors.text} />
                       )
-                        ? true
-                        : false,
-                      onPress: () => handleSelectedItem(item.id, 'shops'),
-                    }),
-                  )}
+                    }
+                    onPress={() => {}}
+                  />
                 </RowComponent>
-              ) : (
-                <RowComponent justify="flex-start">
-                  {userChoices?.shops.map(item =>
-                    renderButton({
-                      id: item.id,
-                      text: item.name,
-                      isRight: false,
-                      isSelected: true,
-                      onPress: () => handleSelectedItem(item.id, 'shops'),
-                    }),
-                  )}
+                {isShowDislike ? (
+                  <RowComponent justify="flex-start">
+                    {disLikes.map(item =>
+                      renderButton({
+                        id: item.id,
+                        text: item.name,
+                        isRight: false,
+                        isSelected: userChoices?.dislikes.find(
+                          element => element.id === item.id,
+                        )
+                          ? true
+                          : false,
+                        onPress: () => handleSelectedItem(item.id, 'disLikes'),
+                      }),
+                    )}
+                  </RowComponent>
+                ) : (
+                  <RowComponent justify="flex-start">
+                    {userChoices?.dislikes.map(item =>
+                      renderButton({
+                        id: item.id,
+                        text: item.allergy_dislike,
+                        isRight: false,
+                        isSelected: true,
+                        onPress: () => handleSelectedItem(item.id, 'disLikes'),
+                      }),
+                    )}
+                  </RowComponent>
+                )}
+              </View>
+              <View style={{marginTop: 20}}>
+                <RowComponent
+                  justify="flex-start"
+                  styles={{marginBottom: 8}}
+                  onPress={() => setIsShowShop(!isShowShop)}>
+                  <TextComponent
+                    size={16}
+                    text="Grocery Stores"
+                    flex={0}
+                    color="#41393E"
+                    font={fontFamilys.medium}
+                  />
+                  <SpaceComponent width={12} />
+                  <Button
+                    icon={
+                      isShowShop ? (
+                        <ArrowUp2 size={20} color={appColors.text} />
+                      ) : (
+                        <ArrowDown2 size={20} color={appColors.text} />
+                      )
+                    }
+                    onPress={() => {}}
+                  />
                 </RowComponent>
-              )}
-            </View>
-          </ScrollView>
-          <RowComponent justify="space-around">
-            <Button
-              text="Clear all"
-              onPress={() => {
-                setSelected({
-                  allergies: [],
-                  shops: [],
-                  disLikes: [],
-                });
-              }}
-            />
-            <ButtonComponent
-              text="Show 300+ results"
-              onPress={() => {
-                setIsShowAllergy(true);
-                setIsShowDiets(true);
-                setIsShowDislike(true);
-                setIsShowShop(true);
-              }}
-            />
-          </RowComponent>
-        </View>
-        <LoadingModal visible={isUpdating} mess="Updating..." />
-      </Modalize>
-    </Portal>
+                {isShowShop ? (
+                  <RowComponent justify="flex-start">
+                    {shops.map(item =>
+                      renderButton({
+                        id: item.id,
+                        text: item.name,
+                        isRight: false,
+                        isSelected: userChoices?.shops.find(
+                          element => element.id === item.id,
+                        )
+                          ? true
+                          : false,
+                        onPress: () => handleSelectedItem(item.id, 'shops'),
+                      }),
+                    )}
+                  </RowComponent>
+                ) : (
+                  <RowComponent justify="flex-start">
+                    {userChoices?.shops.map(item =>
+                      renderButton({
+                        id: item.id,
+                        text: item.name,
+                        isRight: false,
+                        isSelected: true,
+                        onPress: () => handleSelectedItem(item.id, 'shops'),
+                      }),
+                    )}
+                  </RowComponent>
+                )}
+              </View>
+            </ScrollView>
+            <RowComponent justify="space-around">
+              <Button
+                text="Clear all"
+                onPress={() => {
+                  setSelected({
+                    allergies: [],
+                    shops: [],
+                    disLikes: [],
+                  });
+                }}
+              />
+              <ButtonComponent
+                text="Show 300+ results"
+                onPress={() => {
+                  setIsShowAllergy(true);
+                  setIsShowDiets(true);
+                  setIsShowDislike(true);
+                  setIsShowShop(true);
+                }}
+              />
+            </RowComponent>
+          </View>
+          <LoadingModal visible={isUpdating} mess="Updating..." />
+        </Modalize>
+      </Portal>
+      <ModalizeInfo
+        visible={isVisibleModalInfoDiet}
+        onClose={() => setIsVisibleModalInfoDiet(false)}
+        type={typeInfo}
+      />
+    </>
   );
 };
 
