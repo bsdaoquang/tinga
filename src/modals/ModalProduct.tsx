@@ -44,6 +44,7 @@ interface Props {
   visible: boolean;
   onClose: () => void;
   product?: Product;
+  products?: Product[];
 }
 
 const ModalProduct = (props: Props) => {

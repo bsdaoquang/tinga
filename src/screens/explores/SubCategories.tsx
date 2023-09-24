@@ -71,7 +71,7 @@ const SubCategories = ({route, navigation}: any) => {
           onPress={() => {}}
         />
       }>
-      <SearchFilterComponent />
+      <SearchFilterComponent category_id={category.id} />
       {!isLoading ? (
         <>
           <SectionComponent>

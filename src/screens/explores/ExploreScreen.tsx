@@ -70,7 +70,7 @@ const ExploreScreen = ({navigation}: any) => {
             onPress={() => {}}
           />
         }>
-        <SearchFilterComponent />
+        <SearchFilterComponent category_id={0} />
 
         {!isLoading ? (
           <>

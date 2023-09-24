@@ -1,16 +1,14 @@
 import React, {useEffect, useState} from 'react';
+import {FlatList} from 'react-native';
 import {Category} from '../../Models/Category';
+import {Product} from '../../Models/Product';
+import handleGetData from '../../apis/productAPI';
 import {
   Container,
   LoadingComponent,
   ProductItemComponent,
-  SectionComponent,
-  TextComponent,
 } from '../../components';
-import {Product} from '../../Models/Product';
 import {showToast} from '../../utils/showToast';
-import handleGetData from '../../apis/productAPI';
-import {FlatList} from 'react-native';
 
 const CategoryDetail = ({navigation, route}: any) => {
   const {
@@ -50,7 +48,15 @@ const CategoryDetail = ({navigation, route}: any) => {
   };
 
   return (
-    <Container back title={category.name}>
+    <Container
+      back
+      title={
+        subSubCategory
+          ? subSubCategory.name
+          : subCategory
+          ? subCategory.name
+          : category.name
+      }>
       {products.length > 0 ? (
         <FlatList
           numColumns={2}

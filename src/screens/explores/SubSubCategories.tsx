@@ -49,7 +49,11 @@ const SubSubCategories = ({route, navigation}: any) => {
           onPress={() => {}}
         />
       }>
-      <SearchFilterComponent />
+      <SearchFilterComponent
+        category_id={parentCategory.id}
+        subCategory_id={category.id}
+        subSubCategory_id={0}
+      />
       {!isLoading ? (
         <>
           <SectionComponent>
