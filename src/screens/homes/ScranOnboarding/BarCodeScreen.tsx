@@ -72,10 +72,14 @@ const BarCodeScreen = ({navigation}: any) => {
   }, [showProduct, showError]);
 
   const getProductDetail = async (id: string) => {
-    const api = `/getProductDetail/${id}`;
-
+    console.log(id);
+    const api = `/getProductByBarcode`;
+    const data = {
+      barcode: `(01)${id}`,
+    };
     try {
-      await handleGetData.handleProduct(api).then((res: any) => {
+      await handleGetData.handleProduct(api, data, 'post').then((res: any) => {
+        console.log(res);
         if (res.length > 0) {
           setProduct(res[0]);
         } else {
