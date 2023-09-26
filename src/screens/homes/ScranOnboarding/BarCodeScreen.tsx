@@ -74,12 +74,14 @@ const BarCodeScreen = ({navigation}: any) => {
   const getProductDetail = async (id: string) => {
     const api = `/getProductByBarcode`;
     const data = {
-      barcode: `(01)${id}`,
+      barcode: `${id}`,
     };
     try {
       await handleGetData.handleProduct(api, data, 'post').then((res: any) => {
         if (res.length > 0) {
           setProduct(res[0]);
+          setShowProduct(true);
+          setCountProducts(countProducts + 1);
         } else {
           setProduct(undefined);
           setShowError(true);
@@ -141,17 +143,29 @@ const BarCodeScreen = ({navigation}: any) => {
             size={18}
             styles={{textAlign: 'center'}}
           />
-          <TextComponent
-            text={`${countProducts}/5`}
-            styles={{
-              backgroundColor: appColors.white,
-              paddingVertical: 4,
+          <View>
+            <TextComponent
+              text={`${countProducts}/5`}
+              styles={{
+                backgroundColor: appColors.white,
+                paddingVertical: 4,
+                borderRadius: 100,
+                flex: 0,
+                paddingHorizontal: 12,
+              }}
+              size={20}
+            />
+          </View>
+          <View
+            style={{
+              position: 'absolute',
+              top: 10,
+              right: 10,
+              backgroundColor: 'coral',
               borderRadius: 100,
-              flex: 0,
-              paddingHorizontal: 12,
-            }}
-            size={20}
-          />
+            }}>
+            <TextComponent text="You scanned your first item!" flex={1} />
+          </View>
         </RowComponent>
       </LinearGradient>
 
