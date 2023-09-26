@@ -26,8 +26,7 @@ const BarCodeScreen = ({navigation}: any) => {
   const [product, setProduct] = useState<Product>();
   const [showError, setShowError] = useState(false);
   const [isVisibleModalResult, setIsVisibleModalResult] = useState(false);
-  const [countProducts, setCountProducts] = useState(0);
-
+  const [products, setProducts] = useState<Product[]>([]);
   const renderQrCode = (
     <QRCodeScanner
       cameraStyle={{
@@ -81,7 +80,7 @@ const BarCodeScreen = ({navigation}: any) => {
         if (res.length > 0) {
           setProduct(res[0]);
           setShowProduct(true);
-          setCountProducts(countProducts + 1);
+          setProducts([...products, res[0]]);
         } else {
           setProduct(undefined);
           setShowError(true);
@@ -145,7 +144,7 @@ const BarCodeScreen = ({navigation}: any) => {
           />
           <View>
             <TextComponent
-              text={`${countProducts}/5`}
+              text={`${products.length}/5`}
               styles={{
                 backgroundColor: appColors.white,
                 paddingVertical: 4,
@@ -156,16 +155,43 @@ const BarCodeScreen = ({navigation}: any) => {
               size={20}
             />
           </View>
-          <View
-            style={{
-              position: 'absolute',
-              top: 10,
-              right: 10,
-              backgroundColor: 'coral',
-              borderRadius: 100,
-            }}>
-            <TextComponent text="You scanned your first item!" flex={1} />
-          </View>
+          {products.length === 1 && (
+            <View
+              style={{
+                position: 'absolute',
+                top: 84,
+                right: 20,
+                backgroundColor: appColors.white,
+                borderRadius: 12,
+                paddingVertical: 10,
+                paddingHorizontal: 12,
+              }}>
+              <TextComponent text="You scanned your first item!" flex={1} />
+            </View>
+          )}
+          {products.length >= 5 && (
+            <View
+              style={{
+                position: 'absolute',
+                top: 84,
+                right: 20,
+                backgroundColor: appColors.white,
+                borderRadius: 12,
+                paddingVertical: 10,
+                paddingHorizontal: 12,
+              }}>
+              <TextComponent
+                text="Well done! You’ve scanned 5 items"
+                flex={1}
+              />
+
+              <ButtonComponent
+                styles={{marginTop: 12, paddingVertical: 8}}
+                text="Finish Pantry Reset"
+                onPress={() => setIsVisibleModalResult(true)}
+              />
+            </View>
+          )}
         </RowComponent>
       </LinearGradient>
 
@@ -210,7 +236,7 @@ const BarCodeScreen = ({navigation}: any) => {
       <ModalResultScan
         isVisible={isVisibleModalResult}
         onClose={() => setIsVisibleModalResult(false)}
-        count={countProducts}
+        count={products.length}
       />
     </View>
   );
