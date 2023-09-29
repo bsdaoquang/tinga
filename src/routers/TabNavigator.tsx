@@ -9,6 +9,7 @@ import ExploreNavigator from './ExploreNavigator';
 import GroceryNavigator from './GroceryNavigator';
 import HomeNavigator from './HomeNavigator';
 import ProfileNavigator from './ProfileNavigator';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const TabNavigator = () => {
   const Tabs = createBottomTabNavigator();
@@ -56,7 +57,9 @@ const TabNavigator = () => {
           } else if (route.name === 'Explore') {
             icon = <SearchNormal1 size={size} color={color} />;
           } else if (route.name === 'Grocery List') {
-            icon = (
+            icon = focused ? (
+              <FontAwesome name="shopping-cart" size={size + 2} color={color} />
+            ) : (
               <AntDesign name="shoppingcart" size={size + 2} color={color} />
             );
           } else {
