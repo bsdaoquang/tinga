@@ -3,6 +3,7 @@ import React from 'react';
 import {TextComponent} from '.';
 import {appSize} from '../constants/appSize';
 import {Category} from '../Models/Category';
+import FastImage from 'react-native-fast-image';
 
 interface Props {
   item: Category;
@@ -22,7 +23,7 @@ const CategoryItem = (props: Props) => {
         marginRight: 16,
       }}>
       {item.image ? (
-        <Image
+        <FastImage
           source={{
             uri: item.image,
           }}
@@ -30,8 +31,8 @@ const CategoryItem = (props: Props) => {
             width: '100%',
             height: 100,
             borderRadius: 8,
-            resizeMode: 'cover',
           }}
+          resizeMode={FastImage.resizeMode.cover}
         />
       ) : (
         <View

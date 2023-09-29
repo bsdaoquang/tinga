@@ -1,20 +1,13 @@
+import {Add} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {
-  FlatList,
-  SectionList,
-  StatusBar,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Feather from 'react-native-vector-icons/Feather';
 import {Product} from '../../../Models/Product';
 import {
   Button,
   ButtonComponent,
   CardContent,
   ChartPieItem,
-  Container,
   RowComponent,
   SectionComponent,
   SpaceComponent,
@@ -23,11 +16,8 @@ import {
 } from '../../../components';
 import {appColors} from '../../../constants/appColors';
 import {fontFamilys} from '../../../constants/fontFamily';
-import {global} from '../../../styles/global';
-import ProductItem from './ProductItem';
-import {handleCalcTotal} from '../../../utils/handleCalcTotal';
-import {Add} from 'iconsax-react-native';
 import {ModalizeEditShopList} from '../../../modals';
+import {global} from '../../../styles/global';
 
 const AddToList = ({navigation}: any) => {
   const [store, setStore] = useState('all');
