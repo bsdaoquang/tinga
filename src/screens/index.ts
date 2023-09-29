@@ -61,5 +61,5 @@ export {
   VideosScreen,
   TipsScreens,
   TipDetail,
-  ChangePassword
+  ChangePassword,
 };

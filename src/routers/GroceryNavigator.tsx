@@ -1,6 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {GroceryScreen, ImproveScore} from '../screens';
+import {GroceryScreen} from '../screens';
 
 const GroceryNavigator = () => {
   const GroceryStack = createNativeStackNavigator();
