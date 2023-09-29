@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Product} from '../../Models/Product';
@@ -16,9 +16,11 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
+import {ModalFoodScoreInfo, ModalInfoScore} from '../../modals';
 
 const YourListScore = ({navigation, route}: any) => {
   const {products}: {products: Product[]} = route.params;
+  const [isVisibleModalScoreInfo, setIsVisibleModalScoreInfo] = useState(false);
 
   return (
     <Container back isScroll>
@@ -35,7 +37,7 @@ const YourListScore = ({navigation, route}: any) => {
             icon={
               <AntDesign name="infocirlceo" size={20} color={appColors.gray} />
             }
-            onPress={() => {}}
+            onPress={() => setIsVisibleModalScoreInfo(true)}
           />
         </RowComponent>
         <CardContent
@@ -157,6 +159,11 @@ const YourListScore = ({navigation, route}: any) => {
           </RowComponent>
         )}
       </SectionComponent>
+
+      <ModalInfoScore
+        visible={isVisibleModalScoreInfo}
+        onClose={() => setIsVisibleModalScoreInfo(false)}
+      />
     </Container>
   );
 };

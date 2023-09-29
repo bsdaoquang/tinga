@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Product} from '../../../Models/Product';
+import handleGetData from '../../../apis/productAPI';
 import {
   Button,
   ButtonComponent,
@@ -18,13 +19,23 @@ import {appColors} from '../../../constants/appColors';
 import {fontFamilys} from '../../../constants/fontFamily';
 import {ModalizeEditShopList} from '../../../modals';
 import {global} from '../../../styles/global';
+import {showToast} from '../../../utils/showToast';
+import {useNavigation} from '@react-navigation/native';
 
-const AddToList = ({navigation}: any) => {
+const AddToList = () => {
   const [store, setStore] = useState('all');
   const [directionScroll, setDirectionScroll] = useState('up');
   const [isShowScoreCard, setIsShowScoreCard] = useState(true);
+  const [products, setProducts] = useState<Product[]>([]);
   const [productSelected, setProductSelected] = useState<Product[]>([]);
   const [isVisibleModalEdit, setIsVisibleModalEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigation: any = useNavigation();
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
   useEffect(() => {
     setIsShowScoreCard(directionScroll === 'up' ? true : false);
@@ -56,119 +67,31 @@ const AddToList = ({navigation}: any) => {
     {id: 'wholeFoods', title: 'Whole Foods', totalItem: 1, totalPayment: 14.5},
   ];
 
-  // const products: {
-  //   title: string;
-  //   data: Product[];
-  // }[] = [
-  //   {
-  //     title: 'Produce',
-  //     data: [
-  //       {
-  //         id: '1',
-  //         title: 'Item 1',
-  //         description: '',
-  //         mart: 'Walmart',
-  //         rating: 4.5,
-  //         price: 2.99,
-  //         imageUrl: '',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: 'Bread & Bakery',
-  //     data: [
-  //       {
-  //         id: '2',
-  //         title: 'Dempsters Smooth Multigrains Bread',
-  //         description: '',
-  //         mart: 'Walmart',
-  //         rating: 4.5,
-  //         price: 4.99,
-  //         imageUrl:
-  //           'https://s3-alpha-sig.figma.com/img/0949/c4f3/9f08eaf9572c1baf96c42c3a212ccb1d?Expires=1695600000&Signature=Lg1zOVGWIh-PObTZ~1emXensFTTJhm4mMd-MEaUH9Uzm3WkG~D46kmA6Q6OqdarLpSTtfLOy1gqdgja40gXnsWHqhABJpIWh6oLvlwHw5s3j~FylcAxldq6RyclYck-yzX0jHNzpMDPwl2t--2G11Ns9fGyAfVrE1~x5S85d1acRYh9i-6uCS1Na5DADtO0HN2eDJ5Had7g05llBicXHzuRlin0Hd8kKDWCI-vH9UWHVjG42fS63Z-zr1~rrHx~l8CdUHQBZWYbnN8DlZ8qAGr0VSKFu0Yvzo1GNFYIYYkUgSCegvTmj9CIuqASlRx2s5NtDymYai4uqfuDEMqemLQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
-  //       },
-  //       {
-  //         id: '3',
-  //         title: 'Dempsters Smooth Multigrains Bread',
-  //         description: '',
-  //         mart: 'Walmart',
-  //         rating: 4.5,
-  //         price: 3.99,
-  //         imageUrl:
-  //           'https://s3-alpha-sig.figma.com/img/0949/c4f3/9f08eaf9572c1baf96c42c3a212ccb1d?Expires=1695600000&Signature=Lg1zOVGWIh-PObTZ~1emXensFTTJhm4mMd-MEaUH9Uzm3WkG~D46kmA6Q6OqdarLpSTtfLOy1gqdgja40gXnsWHqhABJpIWh6oLvlwHw5s3j~FylcAxldq6RyclYck-yzX0jHNzpMDPwl2t--2G11Ns9fGyAfVrE1~x5S85d1acRYh9i-6uCS1Na5DADtO0HN2eDJ5Had7g05llBicXHzuRlin0Hd8kKDWCI-vH9UWHVjG42fS63Z-zr1~rrHx~l8CdUHQBZWYbnN8DlZ8qAGr0VSKFu0Yvzo1GNFYIYYkUgSCegvTmj9CIuqASlRx2s5NtDymYai4uqfuDEMqemLQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: 'Dairy & Alternatives',
-  //     data: [
-  //       {
-  //         id: 'egg',
-  //         title: 'Eggs',
-  //         description: '',
-  //         mart: 'Walmart',
-  //         rating: 4.5,
-  //         price: 4.99,
-  //         imageUrl:
-  //           'https://www.google.com/url?sa=i&url=https%3A%2F%2Ffood.unl.edu%2Fhow-avoid-green-ring-hard-boiled-egg-yolks&psig=AOvVaw2mF5phXPK2oCWakvaPH0qP&ust=1694796949087000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCKCRyuPIqoEDFQAAAAAdAAAAABAE',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: 'Produce',
-  //     data: [
-  //       {
-  //         id: '4',
-  //         title: 'Item 1',
-  //         description: '',
-  //         mart: 'Walmart',
-  //         rating: 4.5,
-  //         price: 2.99,
-  //         imageUrl: '',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: 'Bread & Bakery',
-  //     data: [
-  //       {
-  //         id: '5',
-  //         title: 'Dempsters Smooth Multigrains Bread',
-  //         description: '',
-  //         mart: 'Walmart',
-  //         rating: 4.5,
-  //         price: 4.99,
-  //         imageUrl:
-  //           'https://s3-alpha-sig.figma.com/img/0949/c4f3/9f08eaf9572c1baf96c42c3a212ccb1d?Expires=1695600000&Signature=Lg1zOVGWIh-PObTZ~1emXensFTTJhm4mMd-MEaUH9Uzm3WkG~D46kmA6Q6OqdarLpSTtfLOy1gqdgja40gXnsWHqhABJpIWh6oLvlwHw5s3j~FylcAxldq6RyclYck-yzX0jHNzpMDPwl2t--2G11Ns9fGyAfVrE1~x5S85d1acRYh9i-6uCS1Na5DADtO0HN2eDJ5Had7g05llBicXHzuRlin0Hd8kKDWCI-vH9UWHVjG42fS63Z-zr1~rrHx~l8CdUHQBZWYbnN8DlZ8qAGr0VSKFu0Yvzo1GNFYIYYkUgSCegvTmj9CIuqASlRx2s5NtDymYai4uqfuDEMqemLQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
-  //       },
-  //       {
-  //         id: '6',
-  //         title: 'Dempsters Smooth Multigrains Bread',
-  //         description: '',
-  //         mart: 'Walmart',
-  //         rating: 4.5,
-  //         price: 3.99,
-  //         imageUrl:
-  //           'https://s3-alpha-sig.figma.com/img/0949/c4f3/9f08eaf9572c1baf96c42c3a212ccb1d?Expires=1695600000&Signature=Lg1zOVGWIh-PObTZ~1emXensFTTJhm4mMd-MEaUH9Uzm3WkG~D46kmA6Q6OqdarLpSTtfLOy1gqdgja40gXnsWHqhABJpIWh6oLvlwHw5s3j~FylcAxldq6RyclYck-yzX0jHNzpMDPwl2t--2G11Ns9fGyAfVrE1~x5S85d1acRYh9i-6uCS1Na5DADtO0HN2eDJ5Had7g05llBicXHzuRlin0Hd8kKDWCI-vH9UWHVjG42fS63Z-zr1~rrHx~l8CdUHQBZWYbnN8DlZ8qAGr0VSKFu0Yvzo1GNFYIYYkUgSCegvTmj9CIuqASlRx2s5NtDymYai4uqfuDEMqemLQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: 'Dairy & Alternatives',
-  //     data: [
-  //       {
-  //         id: '7',
-  //         title: 'Eggs',
-  //         description: '',
-  //         mart: 'Walmart',
-  //         rating: 4.5,
-  //         price: 4.99,
-  //         imageUrl:
-  //           'https://www.google.com/url?sa=i&url=https%3A%2F%2Ffood.unl.edu%2Fhow-avoid-green-ring-hard-boiled-egg-yolks&psig=AOvVaw2mF5phXPK2oCWakvaPH0qP&ust=1694796949087000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCKCRyuPIqoEDFQAAAAAdAAAAABAE',
-  //       },
-  //     ],
-  //   },
-  // ];
+  const getAllProducts = async () => {
+    const api = `/getProductListing`;
+    setIsLoading(true);
+    try {
+      await handleGetData
+        .handleProduct(
+          api,
+          {
+            category_id: '0',
+            subcategory_id: '0',
+            sub_subcategory_id: '0',
+            offset: '0',
+          },
+          'post',
+        )
+        .then((res: any) => {
+          setProducts(res);
+          setIsLoading(false);
+        });
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+      showToast('Can not get product list');
+    }
+  };
 
   const renderTabStore = (item: any) => (
     <TouchableOpacity

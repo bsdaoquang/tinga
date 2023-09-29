@@ -53,7 +53,7 @@ const BarCodeScreen = ({navigation}: any) => {
 
   useEffect(() => {
     requestPermision();
-    setQRCodeCotainer(renderQrCode);
+    // setQRCodeCotainer(renderQrCode);
   }, []);
 
   useEffect(() => {
@@ -107,6 +107,7 @@ const BarCodeScreen = ({navigation}: any) => {
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           console.log('Đã được cấp quyền');
+          setQRCodeCotainer(renderQrCode);
         } else {
           console.log('Yêu cầu bị từ chối');
         }
