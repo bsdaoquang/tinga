@@ -11,6 +11,7 @@ import {
   FlatList,
   Image,
   ImageBackground,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -19,6 +20,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Product, ProductDetail} from '../Models/Product';
 import handleGetData from '../apis/productAPI';
@@ -38,6 +40,7 @@ import {fontFamilys} from '../constants/fontFamily';
 import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
+import {appSize} from '../constants/appSize';
 
 interface Props {
   visible: boolean;
@@ -179,14 +182,91 @@ const ModalProduct = (props: Props) => {
     </TouchableOpacity>
   );
 
+  const renderButtonAdd = () => {
+    const item =
+      products && products.length > 0
+        ? products.find(element => element.id === product?.id)
+        : undefined;
+
+    return (
+      <View
+        style={{
+          flex: 1,
+        }}>
+        <ButtonComponent
+          disable={item ? true : false}
+          disableColor="#B7B7B7"
+          icon={
+            item && (
+              <FontAwesome5Icon
+                name="check"
+                size={18}
+                color={appColors.white}
+              />
+            )
+          }
+          text={item ? 'Added' : 'Add to List'}
+          onPress={
+            onAddToList
+              ? () => {
+                  onAddToList();
+                  handleCloseModal();
+                }
+              : () => console.log('add to list not yet')
+          }
+          textColor={item ? appColors.white : appColors.text}
+        />
+      </View>
+    );
+  };
+
   return (
     <Portal>
       <Modalize
         onClose={onClose}
+        handlePosition="inside"
         ref={modalRef}
         adjustToContentHeight
-        handleStyle={{backgroundColor: 'transparent'}}>
-        <View style={{backgroundColor: appColors.bgColor}}>
+        FooterComponent={
+          <View
+            style={{
+              backgroundColor: appColors.white,
+              padding: 16,
+            }}>
+            <RowComponent>
+              <RowComponent
+                styles={{
+                  flex: 1,
+                }}>
+                <RowComponent>
+                  {count && count > 1 && (
+                    <Button
+                      icon={<MinusSquare size={22} color={appColors.text2} />}
+                      onPress={() => setCount(count - 1)}
+                    />
+                  )}
+
+                  <TextComponent
+                    styles={{paddingHorizontal: 8}}
+                    text={`${count} pcs`}
+                    flex={0}
+                    size={14}
+                    color={appColors.text2}
+                  />
+                  <Button
+                    icon={<AddSquare size={22} color={appColors.text2} />}
+                    onPress={() => setCount(count ? count + 1 : 1)}
+                  />
+                </RowComponent>
+              </RowComponent>
+              {renderButtonAdd()}
+            </RowComponent>
+          </View>
+        }
+        handleStyle={{backgroundColor: 'transparent'}}
+        modalStyle={{backgroundColor: appColors.bgColor, height: 'auto'}}
+        scrollViewProps={{showsVerticalScrollIndicator: false}}>
+        <View style={{backgroundColor: appColors.bgColor, flex: 1}}>
           {producDetail && producDetail.image && (
             <ImageBackground
               source={{
@@ -450,64 +530,6 @@ const ModalProduct = (props: Props) => {
               )}
             </SectionComponent>
           </View>
-        </View>
-        <View
-          style={{
-            backgroundColor: appColors.white,
-            padding: 16,
-          }}>
-          <RowComponent>
-            <RowComponent
-              styles={{
-                flex: 1,
-              }}>
-              <RowComponent>
-                {count && count > 1 && (
-                  <Button
-                    icon={<MinusSquare size={22} color={appColors.text2} />}
-                    onPress={() => setCount(count - 1)}
-                  />
-                )}
-
-                <TextComponent
-                  styles={{paddingHorizontal: 8}}
-                  text={`${count} pcs`}
-                  flex={0}
-                  size={14}
-                  color={appColors.text2}
-                />
-                <Button
-                  icon={<AddSquare size={22} color={appColors.text2} />}
-                  onPress={() => setCount(count ? count + 1 : 1)}
-                />
-              </RowComponent>
-            </RowComponent>
-            <View
-              style={{
-                flex: 1,
-              }}>
-              <ButtonComponent
-                disable={
-                  product && products.find(element => element.id === product.id)
-                    ? true
-                    : false
-                }
-                text={
-                  product && products.find(element => element.id === product.id)
-                    ? 'Added'
-                    : 'Add to List'
-                }
-                onPress={
-                  onAddToList
-                    ? () => {
-                        onAddToList();
-                        handleCloseModal();
-                      }
-                    : () => console.log('add to list not yet')
-                }
-              />
-            </View>
-          </RowComponent>
         </View>
       </Modalize>
       <ModalFoodScoreInfo

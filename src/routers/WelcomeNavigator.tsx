@@ -7,6 +7,7 @@ import {
   ChooseDiet,
   ChooseDislike,
   ChooseStore,
+  HomeCarousels,
   HomeLoginScreen,
   HomeScan,
   LoginScreen,
@@ -38,6 +39,7 @@ const WelcomeNavigator = () => {
       <WelcomeStack.Screen name="ChangePassword" component={ChangePassword} />
       <WelcomeStack.Screen name="HomeScan" component={HomeScan} />
       <WelcomeStack.Screen name="BarCodeScreen" component={BarCodeScreen} />
+      <WelcomeStack.Screen name="HomeCarousels" component={HomeCarousels} />
     </WelcomeStack.Navigator>
   );
 };

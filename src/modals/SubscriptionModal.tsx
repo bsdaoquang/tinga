@@ -139,7 +139,7 @@ const SubscriptionModal = (props: Props) => {
 
     return item ? (
       <CardContent
-        onPress={handleSetSubscriptionDate}
+        onPress={() => (!isWellCome ? handleSetSubscriptionDate() : undefined)}
         color={appColors.text}
         styles={{padding: 0, alignItems: 'center', marginBottom: 16}}>
         {!isWellCome && (
@@ -222,7 +222,7 @@ const SubscriptionModal = (props: Props) => {
 
     return item ? (
       <CardContent
-        onPress={handleSetSubscriptionDate}
+        onPress={() => (!isWellCome ? handleSetSubscriptionDate : undefined)}
         styles={{
           flex: 1,
           width: '100%',

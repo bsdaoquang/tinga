@@ -33,6 +33,7 @@ const BarCodeScreen = ({navigation}: any) => {
   const [product, setProduct] = useState<Product>();
   const [showError, setShowError] = useState(false);
   const [isVisibleModalResult, setIsVisibleModalResult] = useState(false);
+
   const renderQrCode = (
     <QRCodeScanner
       cameraStyle={{
@@ -58,6 +59,7 @@ const BarCodeScreen = ({navigation}: any) => {
   const [QRCodeCotainer, setQRCodeCotainer] = useState(renderQrCode);
 
   const groceriesList = useSelector(groceriesSelector);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -242,14 +244,13 @@ const BarCodeScreen = ({navigation}: any) => {
         onAddToList={() => {
           dispatch(addGroceries(product));
         }}
-        products={groceriesList}
+        products={groceriesList ?? []}
       />
 
       <ModalResultScan
         isVisible={isVisibleModalResult}
         onClose={() => setIsVisibleModalResult(false)}
         count={groceriesList.length}
-        onSaveUser={() => handleSaveUser(dispatch)}
       />
     </View>
   );

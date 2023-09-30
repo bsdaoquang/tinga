@@ -22,11 +22,10 @@ interface Props {
   isVisible: boolean;
   onClose: () => void;
   count: number;
-  onSaveUser: () => void;
 }
 
 const ModalResultScan = (props: Props) => {
-  const {isVisible, onClose, count, onSaveUser} = props;
+  const {isVisible, onClose, count} = props;
   const navigation: any = useNavigation();
 
   const groceriesList = useSelector(groceriesSelector);
@@ -59,21 +58,6 @@ const ModalResultScan = (props: Props) => {
         }}>
         <RowComponent justify="flex-start">
           <TextComponent text={item.name} flex={0} />
-          {/* <AntDesign
-            name="swap"
-            size={20}
-            color={appColors.gray4}
-            style={{marginHorizontal: 4}}
-          />
-          <TextComponent
-            text={`White Bread`}
-            flex={1}
-            line={1}
-            styles={{
-              textDecorationColor: appColors.text,
-              textDecorationLine: 'line-through',
-            }}
-          /> */}
         </RowComponent>
         <RowComponent justify="flex-start">
           <RowComponent
@@ -130,7 +114,7 @@ const ModalResultScan = (props: Props) => {
 
   const handleCloseModalAndSaveUser = () => {
     onClose();
-    onSaveUser();
+    navigation.navigate('HomeCarousels');
   };
 
   return (
