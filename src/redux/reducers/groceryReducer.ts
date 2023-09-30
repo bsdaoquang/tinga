@@ -7,7 +7,11 @@ const grocerySlice = createSlice({
   },
   reducers: {
     addGroceries: (state, action) => {
-      state.groceries = action.payload;
+      const items: any = state.groceries;
+      const item = action.payload;
+
+      items.push(item);
+      state.groceries = items;
     },
   },
 });

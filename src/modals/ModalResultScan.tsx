@@ -12,34 +12,45 @@ import {
 import {appColors} from '../constants/appColors';
 import {global} from '../styles/global';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {groceriesSelector} from '../redux/reducers/groceryReducer';
+import {Product} from '../Models/Product';
+import FastImage from 'react-native-fast-image';
+import {handleSaveUser} from '../utils/handleSaveUser';
 
 interface Props {
   isVisible: boolean;
   onClose: () => void;
   count: number;
+  onSaveUser: () => void;
 }
 
 const ModalResultScan = (props: Props) => {
-  const {isVisible, onClose, count} = props;
+  const {isVisible, onClose, count, onSaveUser} = props;
   const navigation: any = useNavigation();
+
+  const groceriesList = useSelector(groceriesSelector);
+
   const handleClose = () => {
     onClose();
   };
 
-  const renderItemSelected = (item: any) => (
+  const renderItemSelected = (item: Product, index: number) => (
     <RowComponent
+      key={`item${item.id}${index}`}
       styles={{
         paddingVertical: 8,
       }}>
-      <Image
+      <FastImage
         source={{
-          uri: 'https://s3-alpha-sig.figma.com/img/0949/c4f3/9f08eaf9572c1baf96c42c3a212ccb1d?Expires=1695600000&Signature=Lg1zOVGWIh-PObTZ~1emXensFTTJhm4mMd-MEaUH9Uzm3WkG~D46kmA6Q6OqdarLpSTtfLOy1gqdgja40gXnsWHqhABJpIWh6oLvlwHw5s3j~FylcAxldq6RyclYck-yzX0jHNzpMDPwl2t--2G11Ns9fGyAfVrE1~x5S85d1acRYh9i-6uCS1Na5DADtO0HN2eDJ5Had7g05llBicXHzuRlin0Hd8kKDWCI-vH9UWHVjG42fS63Z-zr1~rrHx~l8CdUHQBZWYbnN8DlZ8qAGr0VSKFu0Yvzo1GNFYIYYkUgSCegvTmj9CIuqASlRx2s5NtDymYai4uqfuDEMqemLQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
+          uri: item.image,
         }}
         style={{
           width: 40,
           height: 40,
           borderRadius: 100,
         }}
+        resizeMode={FastImage.resizeMode.cover}
       />
       <View
         style={{
@@ -47,8 +58,8 @@ const ModalResultScan = (props: Props) => {
           paddingHorizontal: 12,
         }}>
         <RowComponent justify="flex-start">
-          <TextComponent text={`Gluten-Free Bread`} flex={0} />
-          <AntDesign
+          <TextComponent text={item.name} flex={0} />
+          {/* <AntDesign
             name="swap"
             size={20}
             color={appColors.gray4}
@@ -62,7 +73,7 @@ const ModalResultScan = (props: Props) => {
               textDecorationColor: appColors.text,
               textDecorationLine: 'line-through',
             }}
-          />
+          /> */}
         </RowComponent>
         <RowComponent justify="flex-start">
           <RowComponent
@@ -117,6 +128,11 @@ const ModalResultScan = (props: Props) => {
     );
   };
 
+  const handleCloseModalAndSaveUser = () => {
+    onClose();
+    onSaveUser();
+  };
+
   return (
     <Modal visible={isVisible} transparent animationType="slide">
       <View style={[global.modalContainer]}>
@@ -130,14 +146,7 @@ const ModalResultScan = (props: Props) => {
             }}>
             <ButtonComponent
               text="I’m Done "
-              onPress={() =>
-                navigation.navigate('Home', {
-                  screen: 'HomeScreen',
-                  params: {
-                    isResultScan: true,
-                  },
-                })
-              }
+              onPress={handleCloseModalAndSaveUser}
               styles={{marginVertical: 8}}
             />
             <ButtonComponent
@@ -151,8 +160,8 @@ const ModalResultScan = (props: Props) => {
 
           <FlatList
             style={{height: 250}}
-            data={Array.from({length: 5})}
-            renderItem={({item}) => renderItemSelected(item)}
+            data={groceriesList ?? []}
+            renderItem={({item, index}) => renderItemSelected(item, index)}
           />
         </View>
       </View>

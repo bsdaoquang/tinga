@@ -19,6 +19,12 @@ import {ModalProduct} from '../../../modals';
 import ModalResultScan from '../../../modals/ModalResultScan';
 import ModalizeProducDetail from '../../../modals/ModalizeProducDetail';
 import {showToast} from '../../../utils/showToast';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addGroceries,
+  groceriesSelector,
+} from '../../../redux/reducers/groceryReducer';
+import {handleSaveUser} from '../../../utils/handleSaveUser';
 
 const BarCodeScreen = ({navigation}: any) => {
   const [codeDetail, setCodeDetail] = useState('');
@@ -26,7 +32,6 @@ const BarCodeScreen = ({navigation}: any) => {
   const [product, setProduct] = useState<Product>();
   const [showError, setShowError] = useState(false);
   const [isVisibleModalResult, setIsVisibleModalResult] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
   const renderQrCode = (
     <QRCodeScanner
       cameraStyle={{
@@ -50,6 +55,9 @@ const BarCodeScreen = ({navigation}: any) => {
   );
 
   const [QRCodeCotainer, setQRCodeCotainer] = useState(renderQrCode);
+
+  const groceriesList = useSelector(groceriesSelector);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     requestPermision();
@@ -80,7 +88,6 @@ const BarCodeScreen = ({navigation}: any) => {
         if (res.length > 0) {
           setProduct(res[0]);
           setShowProduct(true);
-          setProducts([...products, res[0]]);
         } else {
           setProduct(undefined);
           setShowError(true);
@@ -145,7 +152,7 @@ const BarCodeScreen = ({navigation}: any) => {
           />
           <View>
             <TextComponent
-              text={`${products.length}/5`}
+              text={`${groceriesList.length}/5`}
               styles={{
                 backgroundColor: appColors.white,
                 paddingVertical: 4,
@@ -156,7 +163,7 @@ const BarCodeScreen = ({navigation}: any) => {
               size={20}
             />
           </View>
-          {products.length === 1 && (
+          {groceriesList.length === 1 && (
             <View
               style={{
                 position: 'absolute',
@@ -170,7 +177,7 @@ const BarCodeScreen = ({navigation}: any) => {
               <TextComponent text="You scanned your first item!" flex={1} />
             </View>
           )}
-          {products.length >= 5 && (
+          {groceriesList.length >= 5 && (
             <View
               style={{
                 position: 'absolute',
@@ -233,14 +240,15 @@ const BarCodeScreen = ({navigation}: any) => {
         }}
         product={product}
         onAddToList={() => {
-          console.log(product);
+          dispatch(addGroceries(product));
         }}
       />
 
       <ModalResultScan
         isVisible={isVisibleModalResult}
         onClose={() => setIsVisibleModalResult(false)}
-        count={products.length}
+        count={groceriesList.length}
+        onSaveUser={() => handleSaveUser(dispatch)}
       />
     </View>
   );

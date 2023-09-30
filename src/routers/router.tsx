@@ -8,6 +8,8 @@ import WelcomeNavigator from './WelcomeNavigator';
 const Router = () => {
   const auth = useSelector(authSelector);
 
+  // console.log(auth);
+
   return (
     <NavigationContainer>
       {auth.id ? <MainNavigator /> : <WelcomeNavigator />}
