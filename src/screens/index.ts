@@ -9,7 +9,6 @@ import VerifyEmail from './auth/VerifyEmail';
 import CategoryDetail from './explores/CategoryDetail';
 import ExploreScreen from './explores/ExploreScreen';
 import GroceryScreen from './grocyries/GroceryScreen';
-import ProductDetail from './grocyries/ProductDetail';
 import ImproveScore from './grocyries/YourListScore';
 import HomeScreen from './homes/HomeScreen';
 import BarCodeScreen from './homes/ScranOnboarding/BarCodeScreen';
@@ -47,7 +46,6 @@ export {
   ListScores,
   ImproveScore,
   ShopingHistory,
-  ProductDetail,
   ReferralScreen,
   CategoryDetail,
   HomeLoginScreen,

@@ -23,6 +23,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   addGroceries,
   groceriesSelector,
+  removeList,
 } from '../../../redux/reducers/groceryReducer';
 import {handleSaveUser} from '../../../utils/handleSaveUser';
 
@@ -61,7 +62,6 @@ const BarCodeScreen = ({navigation}: any) => {
 
   useEffect(() => {
     requestPermision();
-    // setQRCodeCotainer(renderQrCode);
   }, []);
 
   useEffect(() => {
@@ -242,6 +242,7 @@ const BarCodeScreen = ({navigation}: any) => {
         onAddToList={() => {
           dispatch(addGroceries(product));
         }}
+        products={groceriesList}
       />
 
       <ModalResultScan

@@ -31,6 +31,7 @@ import {fontFamilys} from '../../constants/fontFamily';
 import {LoadingModal, ModalInfoScore} from '../../modals';
 import {addAuth} from '../../redux/reducers/authReducer';
 import {global} from '../../styles/global';
+import {removeList} from '../../redux/reducers/groceryReducer';
 
 const ProfileScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
@@ -110,6 +111,7 @@ const ProfileScreen = ({navigation}: any) => {
 
       await authenticationAPI.HandleAuth(api, {}, 'post').then(async res => {
         dispatch(addAuth({}));
+        dispatch(removeList);
         await AsyncStorage.removeItem(appInfos.localDataName.userData);
         setIsLoading(false);
       });

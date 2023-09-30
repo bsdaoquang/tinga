@@ -11,7 +11,6 @@ import {
   FlatList,
   Image,
   ImageBackground,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -22,6 +21,7 @@ import {Portal} from 'react-native-portalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Product, ProductDetail} from '../Models/Product';
+import handleGetData from '../apis/productAPI';
 import {HeartBold} from '../assets/svg';
 import {
   Button,
@@ -36,20 +36,19 @@ import {
 import {appColors} from '../constants/appColors';
 import {fontFamilys} from '../constants/fontFamily';
 import {global} from '../styles/global';
-import ModalFoodScoreInfo from './ModalFoodScoreInfo';
 import {showToast} from '../utils/showToast';
-import handleGetData from '../apis/productAPI';
+import ModalFoodScoreInfo from './ModalFoodScoreInfo';
 
 interface Props {
   visible: boolean;
   onClose: () => void;
   product?: Product;
-  products?: Product[];
   onAddToList?: () => void;
+  products: Product[];
 }
 
 const ModalProduct = (props: Props) => {
-  const {visible, onClose, product, onAddToList} = props;
+  const {visible, onClose, product, onAddToList, products} = props;
   const [isLike, setIsLike] = useState(false);
   const [count, setCount] = useState(1);
   const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] =
@@ -488,7 +487,16 @@ const ModalProduct = (props: Props) => {
                 flex: 1,
               }}>
               <ButtonComponent
-                text="Add to List"
+                disable={
+                  product && products.find(element => element.id === product.id)
+                    ? true
+                    : false
+                }
+                text={
+                  product && products.find(element => element.id === product.id)
+                    ? 'Added'
+                    : 'Add to List'
+                }
                 onPress={
                   onAddToList
                     ? () => {

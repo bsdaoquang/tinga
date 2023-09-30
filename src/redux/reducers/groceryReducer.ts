@@ -13,10 +13,13 @@ const grocerySlice = createSlice({
       items.push(item);
       state.groceries = items;
     },
+    removeList: state => {
+      state.groceries = [];
+    },
   },
 });
 
 export const groceryReducer = grocerySlice.reducer;
-export const {addGroceries} = grocerySlice.actions;
+export const {addGroceries, removeList} = grocerySlice.actions;
 //selector
 export const groceriesSelector = (state: any) => state.groceryReducer.groceries;
