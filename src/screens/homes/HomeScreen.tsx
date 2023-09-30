@@ -61,9 +61,9 @@ const HomeScreen = ({navigation, route}: any) => {
   }, []);
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   setIsvisibleModalOffer(true);
-    // }, 1500);
+    setTimeout(() => {
+      setIsvisibleModalOffer(true);
+    }, 1500);
   }, []);
 
   useEffect(() => {

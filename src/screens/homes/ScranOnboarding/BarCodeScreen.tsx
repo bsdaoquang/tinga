@@ -116,9 +116,11 @@ const BarCodeScreen = ({navigation}: any) => {
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           console.log('Đã được cấp quyền');
+
           setQRCodeCotainer(renderQrCode);
         } else {
           console.log('Yêu cầu bị từ chối');
+          navigation.navigate('HomeCarousels');
         }
       } catch (error) {
         console.log(error);

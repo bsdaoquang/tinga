@@ -305,7 +305,10 @@ const SubscriptionModal = (props: Props) => {
         <SectionComponent>
           <RowComponent justify="flex-end">
             <Button
-              onPress={onClose}
+              onPress={() => {
+                onClose();
+                navigation.navigate('HomeScan');
+              }}
               icon={
                 <AntDesign name="close" size={22} color={appColors.gray2} />
               }
