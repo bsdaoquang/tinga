@@ -2,10 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Gift} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {Alert, TouchableOpacity, View} from 'react-native';
-import Swiper from 'react-native-swiper';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {VideoModel} from '../../Models/VideoModel';
 import dashboardAPI from '../../apis/dashboardAPI';
@@ -16,17 +14,14 @@ import {
   ButtonIcon,
   CardContent,
   Container,
-  CustomIcon,
   RowComponent,
   SectionComponent,
   SpaceComponent,
   TabbarComponent,
-  TextComponent,
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {appInfos} from '../../constants/appInfos';
-import {fontFamilys} from '../../constants/fontFamily';
 import {
   ModalFeedback,
   ModalOffer,
@@ -34,12 +29,12 @@ import {
   SubscriptionModal,
 } from '../../modals';
 import {addAuth, authSelector} from '../../redux/reducers/authReducer';
-import {global} from '../../styles/global';
 import {showToast} from '../../utils/showToast';
 import CategoriesList from './components/CategoriesList';
 import Promotions from './components/Promotions';
-import VideoPlayer from './components/VideoPlayer';
 import VideoComponent from './components/VideoComponent';
+import {groceriesSelector} from '../../redux/reducers/groceryReducer';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 const HomeScreen = ({navigation, route}: any) => {
   const isResultScan = route.params ? route.params.isResultScan : false;
@@ -51,6 +46,8 @@ const HomeScreen = ({navigation, route}: any) => {
   const [videos, setVideos] = useState<VideoModel[]>([]);
 
   const auth = useSelector(authSelector);
+  const groceriesList = useSelector(groceriesSelector);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -58,9 +55,9 @@ const HomeScreen = ({navigation, route}: any) => {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      !auth.premium_till && setIsVisibleModalSubcriber(true);
-    }, 1500);
+    // setTimeout(() => {
+    //   setIsvisibleModalOffer(true);
+    // }, 1500);
   }, []);
 
   useEffect(() => {
@@ -110,16 +107,16 @@ const HomeScreen = ({navigation, route}: any) => {
         <SectionComponent styles={{paddingTop: 26}}>
           <RowComponent>
             <TingaLogo width={28} height={28} />
-
             <SpaceComponent width={8} />
             <TouchableOpacity
-              style={{flex: 1}}
+              style={{flex: 1, paddingRight: 12}}
               onPress={() => navigation.navigate('Profile')}>
               <TitleComponent
-                text={`Hi, ${auth.first_name} ${auth.last_name}`}
+                line={1}
+                text={`Hi, ${auth.first_name} ${auth.last_name} fsfafsfafsfas`}
                 size={28}
                 color={appColors.white}
-                height={28}
+                height={30}
               />
             </TouchableOpacity>
             <ButtonIcon
@@ -138,7 +135,77 @@ const HomeScreen = ({navigation, route}: any) => {
             paddingBottom: 12,
             paddingHorizontal: 0,
           }}>
-          <Swiper
+          <CardContent styles={{margin: 16, paddingVertical: 23}}>
+            <TitleComponent
+              size={20}
+              text="Start your Gluten-free shopping experience"
+            />
+            <SpaceComponent height={20} />
+            {groceriesList.length > 0 ? (
+              <RowComponent justify="space-around">
+                <ButtonComponent
+                  styles={{paddingVertical: 10}}
+                  icon={
+                    <View
+                      style={{
+                        backgroundColor: 'rgba(65, 57, 62, 0.50);',
+                        // width: 24,
+                        // height: 24,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 60,
+                        padding: 4,
+                      }}>
+                      <Ionicons name="add" size={22} color={appColors.white} />
+                    </View>
+                  }
+                  onPress={() => navigation.navigate('Grocery List')}
+                  text="NEW LIST"
+                  color={appColors.primary1}
+                  textColor={appColors.white}
+                />
+                <RowComponent
+                  onPress={() => navigation.navigate('ShopingHistory')}>
+                  <Octicons
+                    color={appColors.primary1}
+                    size={22}
+                    name="history"
+                  />
+                  <SpaceComponent width={8} />
+                  <TitleComponent
+                    text="VIEW HISTORY"
+                    color={appColors.primary1}
+                    flex={0}
+                  />
+                </RowComponent>
+              </RowComponent>
+            ) : (
+              <>
+                <ButtonComponent
+                  styles={{paddingVertical: 10}}
+                  icon={
+                    <View
+                      style={{
+                        backgroundColor: 'rgba(65, 57, 62, 0.50);',
+                        // width: 24,
+                        // height: 24,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 60,
+                        padding: 4,
+                      }}>
+                      <Ionicons name="add" size={22} color={appColors.white} />
+                    </View>
+                  }
+                  onPress={() => navigation.navigate('Grocery List')}
+                  text="NEW LIST"
+                  color={appColors.primary1}
+                  textColor={appColors.white}
+                />
+              </>
+            )}
+          </CardContent>
+          {/* <Swiper
             activeDotColor="#13917B"
             activeDotStyle={{
               width: 32,
@@ -240,12 +307,12 @@ const HomeScreen = ({navigation, route}: any) => {
                 </TouchableOpacity>
               </RowComponent>
             </CardContent>
-          </Swiper>
+          </Swiper> */}
 
           <View style={{paddingHorizontal: 16}}>
             <RowComponent>
               <CardContent
-                onPress={() => {}}
+                onPress={() => navigation.navigate('Explore')}
                 styles={{flex: 1, paddingHorizontal: 10}}>
                 <RowComponent>
                   <EvilIcons
@@ -312,8 +379,8 @@ const HomeScreen = ({navigation, route}: any) => {
         isVisible={isvisibleModalOffer}
         onClose={() => {
           setIsvisibleModalOffer(false);
-          setIsVisibleModalSubcriber(true);
         }}
+        onView={() => setIsVisibleModalSubcriber(true)}
       />
 
       <SubscriptionModal

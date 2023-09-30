@@ -13,10 +13,11 @@ import {global} from '../styles/global';
 interface Props {
   isVisible: boolean;
   onClose: () => void;
+  onView: () => void;
 }
 
 const ModalOffer = (props: Props) => {
-  const {isVisible, onClose} = props;
+  const {isVisible, onClose, onView} = props;
 
   const handleClose = () => {
     onClose();
@@ -50,7 +51,7 @@ const ModalOffer = (props: Props) => {
                 ]}
               />
             </RowComponent>
-            <ButtonComponent text="View Offer" onPress={handleClose} />
+            <ButtonComponent text="View Offer" onPress={onView} />
           </View>
         </View>
       </View>

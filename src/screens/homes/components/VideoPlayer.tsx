@@ -3,6 +3,7 @@ import {Image, View} from 'react-native';
 import {VideoModel} from '../../../Models/VideoModel';
 import {appSize} from '../../../constants/appSize';
 import YoutubePlayer from 'react-native-youtube-iframe';
+import {Container} from '../../../components';
 
 const VideoPlayer = ({route, navigation}: any) => {
   const {video}: {video: VideoModel} = route.params;
@@ -17,11 +18,13 @@ const VideoPlayer = ({route, navigation}: any) => {
   }, []);
 
   return (
-    <YoutubePlayer
-      videoId={`${video.code}`}
-      contentScale={1}
-      height={appSize.height}
-    />
+    <Container back title={video.name}>
+      <YoutubePlayer
+        videoId={`${video.code}`}
+        contentScale={1}
+        height={appSize.height}
+      />
+    </Container>
   );
 };
 

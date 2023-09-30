@@ -114,11 +114,11 @@ const GroceryScreen = ({navigation}: any) => {
               onPress={() => setIsAddToList(true)}
             />
             <RowComponent onPress={() => navigation.navigate('ShopingHistory')}>
-              <Octicons color={appColors.primary} size={22} name="history" />
+              <Octicons color={appColors.primary1} size={22} name="history" />
               <SpaceComponent width={8} />
               <TitleComponent
                 text="VIEW HISTORY"
-                color={appColors.primary}
+                color={appColors.primary1}
                 flex={0}
               />
             </RowComponent>
