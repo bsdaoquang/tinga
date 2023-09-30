@@ -27,11 +27,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {global} from '../../../styles/global';
 import {PERMISSIONS, check} from 'react-native-permissions';
 import {TourGuideZone, useTourGuideController} from 'rn-tourguide';
+import {shopingListSelector} from '../../../redux/reducers/shopingListReducer';
 
 const HomeCarousels = () => {
   const [isPermission, setIsPermission] = useState(false);
 
   const groceriesList = useSelector(groceriesSelector);
+  const shopingList = useSelector(shopingListSelector);
+
   const navigation: any = useNavigation();
 
   const {canStart, start, stop} = useTourGuideController();
@@ -54,7 +57,7 @@ const HomeCarousels = () => {
     });
   };
 
-  return 1 > 2 ? (
+  return shopingList.length > 0 ? (
     <CardContent styles={{margin: 16, paddingVertical: 23}}>
       <TitleComponent
         size={20}

@@ -21,6 +21,8 @@ import {fontFamilys} from '../../../constants/fontFamily';
 import {global} from '../../../styles/global';
 import {showToast} from '../../../utils/showToast';
 import ProductItem from './ProductItem';
+import {useDispatch} from 'react-redux';
+import {addList} from '../../../redux/reducers/shopingListReducer';
 
 const AddToList = () => {
   const [store, setStore] = useState('all');
@@ -37,11 +39,9 @@ const AddToList = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigation: any = useNavigation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // getAllProducts();
-    // console.log(products);
-    // get all store
     setProducts([
       {
         category: 'Produce',
@@ -315,30 +315,22 @@ const AddToList = () => {
     setIsShowScoreCard(directionScroll === 'up' ? true : false);
   }, [directionScroll]);
 
-  const handleAddProduct = (item: Product, count: number) => {
-    const items: any[] = [...productSelected];
-    items.push({
-      ...item,
-      count,
-    });
+  const handleAddProduct = (item: Product) => {
+    const items: any[] = productSelected;
 
-    setProductSelected(items);
-  };
-
-  const handleRemoveItem = (item: Product) => {
-    const items = productSelected;
     const index = productSelected.findIndex(element => element.id === item.id);
 
     if (index !== -1) {
       items.splice(index, 1);
-
-      setProductSelected([...items]);
+    } else {
+      items.push({
+        ...item,
+        count: 1,
+      });
     }
-  };
 
-  useEffect(() => {
-    console.log(productSelected);
-  }, [productSelected]);
+    setProductSelected([...items]);
+  };
 
   const storeData = [
     {id: 'wallmart', title: 'Wallmart', totalItem: 3, totalPayment: 14.5},
@@ -395,6 +387,17 @@ const AddToList = () => {
       />
     </TouchableOpacity>
   );
+
+  const handleSelectAllProducts = () => {
+    products.forEach(item => {
+      const data = item.data;
+
+      data.length > 0 &&
+        data.forEach(itemProduc => {
+          handleAddProduct(itemProduc);
+        });
+    });
+  };
 
   return (
     <>
@@ -528,7 +531,10 @@ const AddToList = () => {
             <RowComponent
               justify="flex-end"
               styles={{paddingHorizontal: 16, marginBottom: 12}}>
-              <Button text="Sellec All" onPress={() => {}} />
+              <Button
+                text={'Sellec All'}
+                onPress={() => handleSelectAllProducts()}
+              />
             </RowComponent>
           }
           onScroll={event => {
@@ -542,8 +548,7 @@ const AddToList = () => {
           renderItem={({item}) => (
             <ProductItem
               item={item}
-              onSelecteItem={(count: number) => handleAddProduct(item, count)}
-              onRemoveItem={() => handleRemoveItem(item)}
+              onSelecteItem={() => handleAddProduct(item)}
               isSelected={
                 productSelected.find(element => element.id === item.id)
                   ? true
@@ -580,11 +585,16 @@ const AddToList = () => {
         </View>
         <View style={{flex: 1}}>
           <ButtonComponent
+            disable={productSelected.length === 0}
             color="#13917B"
             fontStyles={{fontFamily: fontFamilys.bold, fontSize: 14}}
             textColor={appColors.white}
             text="COMPLETE MY LIST"
-            onPress={() => {}}
+            onPress={() => {
+              dispatch(addList(productSelected));
+              setProductSelected([]);
+              navigation.navigate('ShopingHistory');
+            }}
           />
         </View>
       </RowComponent>

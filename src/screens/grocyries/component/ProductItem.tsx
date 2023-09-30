@@ -14,15 +14,14 @@ import {AddSquare, MinusSquare} from 'iconsax-react-native';
 
 interface Props {
   item: Product;
-  onSelecteItem: (count: number) => void;
-  onRemoveItem: () => void;
+  onSelecteItem: () => void;
   isSelected: boolean;
 }
 
 const ProductItem = (props: Props) => {
   const [count, setCount] = useState(1);
 
-  const {item, onSelecteItem, onRemoveItem, isSelected} = props;
+  const {item, onSelecteItem, isSelected} = props;
 
   let color = isSelected ? appColors.gray : appColors.text;
 
@@ -36,7 +35,7 @@ const ProductItem = (props: Props) => {
       />
       <ImageProduct imageUrl={item.image} />
       <TouchableOpacity
-        onPress={() => (isSelected ? onRemoveItem() : onSelecteItem(count))}
+        onPress={onSelecteItem}
         style={{flex: 1, paddingHorizontal: 12}}>
         <TextComponent
           line={1}

@@ -25,20 +25,19 @@ const GroceryScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
   const [isAddToList, setIsAddToList] = useState(false);
   const [isVisibleModalEdit, setIsVisibleModalEdit] = useState(false);
-  const [productSelected, setProductSelected] = useState<Product[]>([]);
 
-  const onPressModal = (id: string) => {
-    switch (id) {
-      case 'swap':
-        navigation.navigate('ImproveScore', {products: productSelected});
-        break;
+  // const onPressModal = (id: string) => {
+  //   switch (id) {
+  //     case 'swap':
+  //       navigation.navigate('ImproveScore', {products: productSelected});
+  //       break;
 
-      case 'edit':
-        break;
-    }
+  //     case 'edit':
+  //       break;
+  //   }
 
-    setIsVisibleModalEdit(false);
-  };
+  //   setIsVisibleModalEdit(false);
+  // };
   return (
     <Container>
       <SectionComponent>
@@ -132,11 +131,11 @@ const GroceryScreen = ({navigation}: any) => {
         visible={isVisibleModalInfo}
         onClose={() => setIsVisibleModalInfo(false)}
       />
-      <ModalizeEditShopList
+      {/* <ModalizeEditShopList
         visible={isVisibleModalEdit}
         onClose={() => setIsVisibleModalEdit(false)}
         onPress={(id: string) => onPressModal(id)}
-      />
+      /> */}
     </Container>
   );
 };
