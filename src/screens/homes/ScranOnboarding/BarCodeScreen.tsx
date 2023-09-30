@@ -120,7 +120,7 @@ const BarCodeScreen = ({navigation}: any) => {
           setQRCodeCotainer(renderQrCode);
         } else {
           console.log('Yêu cầu bị từ chối');
-          navigation.navigate('HomeCarousels');
+          handleSaveUser(dispatch);
         }
       } catch (error) {
         console.log(error);

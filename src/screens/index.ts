@@ -10,7 +10,6 @@ import CategoryDetail from './explores/CategoryDetail';
 import ExploreScreen from './explores/ExploreScreen';
 import GroceryScreen from './grocyries/GroceryScreen';
 import ImproveScore from './grocyries/YourListScore';
-import HomeCarousels from './homes/HomeCarousels';
 import HomeScreen from './homes/HomeScreen';
 import BarCodeScreen from './homes/ScranOnboarding/BarCodeScreen';
 import HomeScan from './homes/ScranOnboarding/HomeScan';
@@ -61,5 +60,4 @@ export {
   TipsScreens,
   TipDetail,
   ChangePassword,
-  HomeCarousels,
 };

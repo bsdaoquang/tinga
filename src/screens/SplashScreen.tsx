@@ -16,7 +16,6 @@ const SplashScreen = () => {
 
   const getUserData = async () => {
     const res = await AsyncStorage.getItem(appInfos.localDataName.userData);
-
     res && dispatch(addAuth(JSON.parse(res)));
   };
 

@@ -113,8 +113,9 @@ const ModalResultScan = (props: Props) => {
   };
 
   const handleCloseModalAndSaveUser = () => {
-    onClose();
-    navigation.navigate('HomeCarousels');
+    console.log('Close');
+    // onClose();
+    // navigation.navigate('HomeCarousels');
   };
 
   return (
