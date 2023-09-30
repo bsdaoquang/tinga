@@ -25,16 +25,18 @@ import LoadingModal from './LoadingModal';
 import {useDispatch, useSelector} from 'react-redux';
 import {addAuth, authSelector} from '../redux/reducers/authReducer';
 import handleGetData from '../apis/productAPI';
+import {handleSaveUser} from '../utils/handleSaveUser';
 
 interface Props {
   isVisible: boolean;
   onClose: () => void;
+  isWellCome?: boolean;
 }
 
 const date = new Date();
 
 const SubscriptionModal = (props: Props) => {
-  const {isVisible, onClose} = props;
+  const {isVisible, onClose, isWellCome} = props;
 
   const [subscriptionsPlan, setSubscriptionsPlan] = useState<Subscription[]>(
     [],
@@ -44,7 +46,7 @@ const SubscriptionModal = (props: Props) => {
 
   const auth = useSelector(authSelector);
   const dispatch = useDispatch();
-
+  const navigation: any = useNavigation();
   useEffect(() => {
     getSubscriptionsPlan();
   }, []);
@@ -118,6 +120,10 @@ const SubscriptionModal = (props: Props) => {
           setIsUpdating(false);
 
           onClose();
+
+          if (isWellCome) {
+            navigation.navigate('HomeScan');
+          }
         });
     } catch (error) {
       setIsUpdating(false);
@@ -136,13 +142,15 @@ const SubscriptionModal = (props: Props) => {
         onPress={handleSetSubscriptionDate}
         color={appColors.text}
         styles={{padding: 0, alignItems: 'center', marginBottom: 16}}>
-        <TextComponent
-          text="LIMITED-TIME OFFER"
-          color={appColors.white}
-          font={fontFamilys.semiBold}
-          size={12}
-          styles={{paddingVertical: 2}}
-        />
+        {!isWellCome && (
+          <TextComponent
+            text="LIMITED-TIME OFFER"
+            color={appColors.white}
+            font={fontFamilys.semiBold}
+            size={12}
+            styles={{paddingVertical: 2}}
+          />
+        )}
         <View
           style={{
             flex: 1,
@@ -159,9 +167,13 @@ const SubscriptionModal = (props: Props) => {
               size={12}
               color={appColors.white}
               font={fontFamilys.semiBold}
-              text={`${Math.floor(
-                100 - (item.offer_price / item.price) * 100,
-              ).toFixed(0)}% OFF`}
+              text={
+                isWellCome
+                  ? 'BEST VALUE'
+                  : `${Math.floor(
+                      100 - (item.offer_price / item.price) * 100,
+                    ).toFixed(0)}% OFF`
+              }
               flex={0}
               styles={[
                 {
@@ -174,26 +186,23 @@ const SubscriptionModal = (props: Props) => {
             />
           </RowComponent>
           <SpaceComponent height={8} />
-          <RowComponent
-            onPress={() => {}}
-            justify="flex-start"
-            styles={{alignItems: 'flex-end'}}>
-            <TitleComponent
-              text={`$${item.offer_price.toFixed(2)}`}
-              flex={0}
-              size={20}
-              height={22}
-              color={appColors.white}
-            />
+          <RowComponent onPress={() => {}} justify="flex-start">
             <TextComponent
-              text={` $${item.price.toFixed(2)}`}
-              color={appColors.white}
-              size={14}
+              text={`$${isWellCome ? '89.99' : item.offer_price.toFixed(2)}`}
               flex={0}
-              styles={{
-                textDecorationLine: 'line-through',
-              }}
+              color={appColors.white}
             />
+            {!isWellCome && (
+              <TextComponent
+                text={` $${item.price.toFixed(2)}`}
+                color={appColors.white}
+                flex={0}
+                styles={{
+                  textDecorationLine: 'line-through',
+                }}
+              />
+            )}
+
             <TextComponent
               text={` after ${item.trial_days} day free trial`}
               color={appColors.white}
@@ -225,46 +234,48 @@ const SubscriptionModal = (props: Props) => {
         color={appColors.white}>
         <RowComponent>
           <TitleComponent text={item.name} color={appColors.text} />
-          <TextComponent
-            size={12}
-            color={appColors.text}
-            font={fontFamilys.semiBold}
-            text={`${Math.floor(
-              100 - (item.offer_price / item.price) * 100,
-            ).toFixed(0)}% OFF`}
-            flex={0}
-            styles={[
-              {
-                backgroundColor: appColors.primary,
-                paddingHorizontal: 6,
-                paddingVertical: 2,
-                borderRadius: 3,
-                opacity: 0.5,
-              },
-            ]}
-          />
+          {!isWellCome && (
+            <TextComponent
+              size={12}
+              color={appColors.text}
+              font={fontFamilys.semiBold}
+              text={`${Math.floor(
+                100 - (item.offer_price / item.price) * 100,
+              ).toFixed(0)}% OFF`}
+              flex={0}
+              styles={[
+                {
+                  backgroundColor: appColors.primary,
+                  paddingHorizontal: 6,
+                  paddingVertical: 2,
+                  borderRadius: 3,
+                  opacity: 0.5,
+                },
+              ]}
+            />
+          )}
         </RowComponent>
         <SpaceComponent height={8} />
         <RowComponent
           onPress={() => {}}
           justify="flex-start"
           styles={{alignItems: 'flex-end'}}>
-          <TitleComponent
-            text={`$${item.offer_price}`}
-            flex={0}
-            size={20}
-            height={22}
-            color={appColors.text}
-          />
           <TextComponent
-            text={` $${item.price}`}
-            color={appColors.text}
-            size={14}
+            text={`$${isWellCome ? '8.99' : item.offer_price}`}
             flex={0}
-            styles={{
-              textDecorationLine: 'line-through',
-            }}
+            color={appColors.text}
           />
+          {!isWellCome && (
+            <TextComponent
+              text={` $${item.price}`}
+              color={appColors.text}
+              size={14}
+              flex={0}
+              styles={{
+                textDecorationLine: 'line-through',
+              }}
+            />
+          )}
           <TextComponent
             text={` after ${item.trial_days} day free trial`}
             color={appColors.text}

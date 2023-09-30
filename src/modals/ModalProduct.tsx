@@ -45,10 +45,11 @@ interface Props {
   onClose: () => void;
   product?: Product;
   products?: Product[];
+  onAddToList?: () => void;
 }
 
 const ModalProduct = (props: Props) => {
-  const {visible, onClose, product} = props;
+  const {visible, onClose, product, onAddToList} = props;
   const [isLike, setIsLike] = useState(false);
   const [count, setCount] = useState(1);
   const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] =
@@ -486,7 +487,17 @@ const ModalProduct = (props: Props) => {
               style={{
                 flex: 1,
               }}>
-              <ButtonComponent text="Add to List" onPress={() => {}} />
+              <ButtonComponent
+                text="Add to List"
+                onPress={
+                  onAddToList
+                    ? () => {
+                        onAddToList();
+                        handleCloseModal();
+                      }
+                    : () => console.log('add to list not yet')
+                }
+              />
             </View>
           </RowComponent>
         </View>

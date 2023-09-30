@@ -232,6 +232,9 @@ const BarCodeScreen = ({navigation}: any) => {
           setShowProduct(false);
         }}
         product={product}
+        onAddToList={() => {
+          console.log(product);
+        }}
       />
 
       <ModalResultScan

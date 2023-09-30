@@ -128,6 +128,7 @@ const ChooseStore = ({navigation}: any) => {
       <SubscriptionModal
         isVisible={isVisibleModalSubcribe}
         onClose={() => setIsVisibleModalSubcribe(false)}
+        isWellCome
       />
     </Container>
   );

@@ -1,12 +1,14 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {
+  BarCodeScreen,
   ChangePassword,
   ChooseAllergy,
   ChooseDiet,
   ChooseDislike,
   ChooseStore,
   HomeLoginScreen,
+  HomeScan,
   LoginScreen,
   ResetPassword,
   SignUpScreen,
@@ -34,6 +36,8 @@ const WelcomeNavigator = () => {
       <WelcomeStack.Screen name="ChooseStore" component={ChooseStore} />
       <WelcomeStack.Screen name="WebviewScreen" component={WebviewScreen} />
       <WelcomeStack.Screen name="ChangePassword" component={ChangePassword} />
+      <WelcomeStack.Screen name="HomeScan" component={HomeScan} />
+      <WelcomeStack.Screen name="BarCodeScreen" component={BarCodeScreen} />
     </WelcomeStack.Navigator>
   );
 };
