@@ -3,5 +3,6 @@ export const appInfos = {
   localDataName: {
     accessToken: 'accessToken',
     userData: 'userData',
+    scanlist: 'scanlist',
   },
 };

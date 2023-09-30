@@ -16,6 +16,8 @@ import {appColors} from '../constants/appColors';
 import {groceriesSelector} from '../redux/reducers/groceryReducer';
 import {global} from '../styles/global';
 import {handleSaveUser} from '../utils/handleSaveUser';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appInfos} from '../constants/appInfos';
 
 interface Props {
   isVisible: boolean;
@@ -125,9 +127,14 @@ const ModalResultScan = (props: Props) => {
             }}>
             <ButtonComponent
               text="I’m Done "
-              onPress={() => {
+              onPress={async () => {
                 handleSaveUser(dispatch);
                 onClose();
+
+                await AsyncStorage.setItem(
+                  appInfos.localDataName.scanlist,
+                  JSON.stringify(groceriesList),
+                );
               }}
               styles={{marginVertical: 8}}
             />

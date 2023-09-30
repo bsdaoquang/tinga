@@ -36,8 +36,6 @@ const HomeCarousels = () => {
 
   const {canStart, start, stop} = useTourGuideController();
 
-  console.log(groceriesList);
-
   useEffect(() => {
     !isPermission && groceriesList.length === 0 && canStart && start();
   }, [canStart, isPermission]);
@@ -179,7 +177,7 @@ const HomeCarousels = () => {
         <TextComponent text="" flex={0} />
         <SpaceComponent height={16} />
         <ButtonComponent
-          onPress={() => navigation.navigate('ShopingHistory')}
+          onPress={() => navigation.navigate('Grocery List')}
           text="START LIST"
           color={appColors.success}
           textColor={appColors.white}
@@ -196,7 +194,7 @@ const HomeCarousels = () => {
         <SpaceComponent height={16} />
         <RowComponent justify="space-between">
           <ButtonComponent
-            onPress={() => {}}
+            onPress={() => navigation.navigate('Grocery List')}
             styles={{paddingVertical: 12}}
             flex={1}
             textColor={appColors.white}
@@ -211,6 +209,7 @@ const HomeCarousels = () => {
           />
 
           <TouchableOpacity
+            onPress={() => navigation.navigate('ShopingHistory')}
             style={[
               global.row,
               {flex: 1, justifyContent: 'center', alignItems: 'center'},

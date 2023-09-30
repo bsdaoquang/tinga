@@ -6,17 +6,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appInfos} from '../constants/appInfos';
 import {useDispatch} from 'react-redux';
 import {addAuth} from '../redux/reducers/authReducer';
+import {addGroceries} from '../redux/reducers/groceryReducer';
 
 const SplashScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     getUserData();
+    getScanlist();
   }, []);
 
   const getUserData = async () => {
     const res = await AsyncStorage.getItem(appInfos.localDataName.userData);
     res && dispatch(addAuth(JSON.parse(res)));
+  };
+  const getScanlist = async () => {
+    const res = await AsyncStorage.getItem(appInfos.localDataName.scanlist);
+    res && dispatch(addGroceries(JSON.parse(res)));
   };
 
   return (
