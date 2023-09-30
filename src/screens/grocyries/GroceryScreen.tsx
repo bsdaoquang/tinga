@@ -18,10 +18,27 @@ import {appColors} from '../../constants/appColors';
 import {appSize} from '../../constants/appSize';
 import ModalizeInfoGrocery from '../../modals/ModalizeInfoGrocery';
 import AddToList from './component/AddToList';
+import {ModalizeEditShopList} from '../../modals';
+import {Product} from '../../Models/Product';
 
 const GroceryScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
   const [isAddToList, setIsAddToList] = useState(false);
+  const [isVisibleModalEdit, setIsVisibleModalEdit] = useState(false);
+  const [productSelected, setProductSelected] = useState<Product[]>([]);
+
+  const onPressModal = (id: string) => {
+    switch (id) {
+      case 'swap':
+        navigation.navigate('ImproveScore', {products: productSelected});
+        break;
+
+      case 'edit':
+        break;
+    }
+
+    setIsVisibleModalEdit(false);
+  };
   return (
     <Container>
       <SectionComponent>
@@ -30,7 +47,7 @@ const GroceryScreen = ({navigation}: any) => {
             icon={
               <Feather name="more-vertical" size={24} color={appColors.gray5} />
             }
-            onPress={() => {}}
+            onPress={() => setIsVisibleModalEdit(true)}
           />
         </RowComponent>
         <RowComponent justify="flex-start">
@@ -114,6 +131,11 @@ const GroceryScreen = ({navigation}: any) => {
       <ModalizeInfoGrocery
         visible={isVisibleModalInfo}
         onClose={() => setIsVisibleModalInfo(false)}
+      />
+      <ModalizeEditShopList
+        visible={isVisibleModalEdit}
+        onClose={() => setIsVisibleModalEdit(false)}
+        onPress={(id: string) => onPressModal(id)}
       />
     </Container>
   );

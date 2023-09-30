@@ -16,7 +16,7 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
-import {ModalFoodScoreInfo, ModalInfoScore} from '../../modals';
+import {ModalInfoScore} from '../../modals';
 
 const YourListScore = ({navigation, route}: any) => {
   const {products}: {products: Product[]} = route.params;

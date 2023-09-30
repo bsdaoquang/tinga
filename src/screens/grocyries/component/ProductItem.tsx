@@ -16,21 +16,13 @@ interface Props {
   item: Product;
   onSelecteItem: (count: number) => void;
   onRemoveItem: () => void;
+  isSelected: boolean;
 }
 
 const ProductItem = (props: Props) => {
-  const [isSelected, setIsSelected] = useState(false);
   const [count, setCount] = useState(1);
 
-  const {item, onSelecteItem, onRemoveItem} = props;
-
-  useEffect(() => {
-    if (isSelected) {
-      onSelecteItem(count);
-    } else {
-      onRemoveItem();
-    }
-  }, [isSelected]);
+  const {item, onSelecteItem, onRemoveItem, isSelected} = props;
 
   let color = isSelected ? appColors.gray : appColors.text;
 
@@ -41,11 +33,10 @@ const ProductItem = (props: Props) => {
         lineWidth={1.0}
         tintColors={{true: appColors.success1, false: appColors.gray}}
         value={isSelected}
-        onChange={() => setIsSelected(!isSelected)}
       />
-      <ImageProduct imageUrl={item.imageUrl} />
+      <ImageProduct imageUrl={item.image} />
       <TouchableOpacity
-        onPress={() => setIsSelected(!isSelected)}
+        onPress={() => (isSelected ? onRemoveItem() : onSelecteItem(count))}
         style={{flex: 1, paddingHorizontal: 12}}>
         <TextComponent
           line={1}
@@ -54,12 +45,12 @@ const ProductItem = (props: Props) => {
             textDecorationColor: appColors.gray,
             textDecorationLine: isSelected ? 'line-through' : 'none',
           }}
-          text={item.title}
+          text={item.name}
           size={14}
         />
         <TextComponent
           line={1}
-          text={`$${item.price.toFixed(2)}`}
+          text={`$${item.price}`}
           size={12}
           color={appColors.gray4}
         />
