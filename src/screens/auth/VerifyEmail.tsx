@@ -37,6 +37,10 @@ const VerifyEmail = ({navigation, route}: any) => {
 
   useEffect(() => {
     ref1.current?.focus();
+
+    setTimeout(() => {
+      setIsDisable(false);
+    }, 5 * 60 * 1000);
   }, []);
 
   useEffect(() => {
@@ -99,7 +103,7 @@ const VerifyEmail = ({navigation, route}: any) => {
 
   const resendEmailVeryfied = async () => {
     const api = `/resend_otp_code`;
-
+    setIsLoading(true);
     try {
       await authenticationAPI
         .HandleAuth(api, {email}, 'post')
@@ -109,9 +113,11 @@ const VerifyEmail = ({navigation, route}: any) => {
           } else {
             Alert.alert('Error', 'Can not send email for you!');
           }
+          setIsLoading(false);
         });
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 

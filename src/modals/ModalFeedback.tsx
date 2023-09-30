@@ -54,7 +54,7 @@ const ModalFeedback = (props: Props) => {
           {isLoading ? (
             <ActivityIndicator color={appColors.gray} />
           ) : isSeended ? (
-            <>
+            <View style={{paddingVertical: 80}}>
               <TitleComponent
                 height={26}
                 text="Thank you for your feedback."
@@ -63,7 +63,7 @@ const ModalFeedback = (props: Props) => {
                 styles={{textAlign: 'center', marginBottom: 24}}
               />
               <ButtonComponent onPress={handleClose} text="Close" />
-            </>
+            </View>
           ) : (
             <>
               <View style={global.center}>
@@ -83,7 +83,7 @@ const ModalFeedback = (props: Props) => {
                 value={contentFeedback}
                 onChange={val => setContentFeedback(val)}
                 isMultible
-                rows={4}
+                rows={6}
               />
 
               <ButtonComponent

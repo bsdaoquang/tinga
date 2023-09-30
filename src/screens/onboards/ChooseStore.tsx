@@ -17,12 +17,14 @@ import {
 import {appColors} from '../../constants/appColors';
 import {handleSaveUser} from '../../utils/handleSaveUser';
 import RenderChooseValue from './components/RenderChooseValue';
+import {SubscriptionModal} from '../../modals';
 
 const ChooseStore = ({navigation}: any) => {
   const [selected, setSelected] = useState<number[]>([]);
   const [choosese, setChoosese] = useState<UserChoose[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isVisibleModalSubcribe, setIsVisibleModalSubcribe] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -58,8 +60,7 @@ const ChooseStore = ({navigation}: any) => {
         .handleUser(api, data, 'post', true)
         .then((res: any) => {
           if (res && res.success) {
-            handleSaveUser(dispatch);
-            // setIsVisibleModalSubcribe(true);
+            setIsVisibleModalSubcribe(true);
             setIsUpdating(false);
           } else {
             console.log('Can not update');
@@ -124,10 +125,10 @@ const ChooseStore = ({navigation}: any) => {
           }
         />
       </SectionComponent>
-      {/* <SubscriptionModal
+      <SubscriptionModal
         isVisible={isVisibleModalSubcribe}
         onClose={() => setIsVisibleModalSubcribe(false)}
-      /> */}
+      />
     </Container>
   );
 };

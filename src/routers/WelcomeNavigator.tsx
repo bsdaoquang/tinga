@@ -23,7 +23,6 @@ const WelcomeNavigator = () => {
         headerShown: false,
       }}>
       <WelcomeStack.Screen name="WelcomeScreen" component={Welcome} />
-      {/* <WelcomeStack.Screen name="WelcomeScreen" component={ChooseAllergy} /> */}
       <WelcomeStack.Screen name="LoginScreen" component={LoginScreen} />
       <WelcomeStack.Screen name="ResetPassword" component={ResetPassword} />
       <WelcomeStack.Screen name="HomeLoginScreen" component={HomeLoginScreen} />

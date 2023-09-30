@@ -25,6 +25,7 @@ const SignUpScreen = ({navigation}: any) => {
   const [password, setPassword] = useState('');
   const [disable, setDisable] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorText, setErrorText] = useState('');
 
   const {
     handleCheckFirstname,
@@ -46,6 +47,7 @@ const SignUpScreen = ({navigation}: any) => {
       setDisable(false);
     } else {
       setDisable(true);
+      setErrorText('');
     }
   }, [email, password, firstname, lastname, helpText]);
 
@@ -63,8 +65,13 @@ const SignUpScreen = ({navigation}: any) => {
       await authenticationAPI
         .HandleAuth(api, data, 'post')
         .then(async (res: any) => {
-          navigation.navigate('VerifyEmail', {email, type: 'confirm'});
-          setIsLoading(false);
+          if (res.success) {
+            navigation.navigate('VerifyEmail', {email, type: 'confirm'});
+            setIsLoading(false);
+          } else {
+            setIsLoading(false);
+            setErrorText(res.message);
+          }
         });
     } catch (error) {
       console.log(error);
@@ -117,7 +124,11 @@ const SignUpScreen = ({navigation}: any) => {
           onEnd={() => handleCheckPass(password)}
           helpText={helpText?.paddword}
         />
+        {errorText && (
+          <TextComponent text={errorText} color={appColors.error} />
+        )}
       </SectionComponent>
+
       <SectionComponent>
         <ButtonComponent
           disable={isLoading ? isLoading : disable}
