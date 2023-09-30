@@ -110,7 +110,7 @@ const GroceryScreen = ({navigation}: any) => {
                   <Ionicons name="add" size={22} color={appColors.white} />
                 </View>
               }
-              color={appColors.primary}
+              color={appColors.primary1}
               onPress={() => setIsAddToList(true)}
             />
             <RowComponent onPress={() => navigation.navigate('ShopingHistory')}>

@@ -74,7 +74,7 @@ const ChooseDiet = ({navigation}: any) => {
       <SectionComponent flex={1}>
         <TextComponent text="Lifestyle Choices" size={12} flex={0} />
         <TitleComponent
-          text="Does your household have any other diet preferences? "
+          text="Which core diet would you like to follow?"
           flex={0}
           size={26}
         />

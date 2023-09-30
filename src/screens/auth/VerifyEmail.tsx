@@ -26,8 +26,9 @@ const VerifyEmail = ({navigation, route}: any) => {
   const [numsCode, setNumsCode] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [messageError, setMessageError] = useState('');
-
+  const [isDisable, setIsDisable] = useState(true);
   const [disable, setDisable] = useState(true);
+
   const ref1 = useRef<TextInput>(null);
   const ref2 = useRef<TextInput>(null);
   const ref3 = useRef<TextInput>(null);
@@ -268,10 +269,11 @@ const VerifyEmail = ({navigation, route}: any) => {
           ]}>
           If you don’t receive a code within 5 minutes, check your spam or{' '}
           <Text
+            disabled={isDisable}
             onPress={resendEmailVeryfied}
             style={{
               fontFamily: fontFamilys.bold,
-              color: appColors.primary,
+              color: isDisable ? appColors.gray : appColors.primary,
             }}>
             request to resend code
           </Text>

@@ -122,7 +122,7 @@ const LoginScreen = ({navigation}: any) => {
           icon={
             <Octicons name="arrow-right" size={20} color={appColors.text} />
           }
-          disable={isLoading}
+          disable={!email || !password || isLoading}
           fontStyles={{textAlign: 'center'}}
           onPress={handleLogin}
           styles={{
