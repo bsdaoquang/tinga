@@ -5,6 +5,7 @@ import Router from './src/routers/router';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Host} from 'react-native-portalize';
 import {SplashScreen} from './src/screens';
+import {TourGuideProvider} from 'rn-tourguide';
 
 const App = () => {
   const [isWelcome, setIsWelcome] = useState(true);
@@ -18,7 +19,20 @@ const App = () => {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <Provider store={store}>
-        <Host>{!isWelcome ? <Router /> : <SplashScreen />}</Host>
+        <Host>
+          {!isWelcome ? (
+            <TourGuideProvider
+              {...{borderRadius: 16}}
+              tooltipStyle={{
+                direction: 'ltr',
+                flexDirection: 'row',
+              }}>
+              <Router />
+            </TourGuideProvider>
+          ) : (
+            <SplashScreen />
+          )}
+        </Host>
       </Provider>
     </GestureHandlerRootView>
   );

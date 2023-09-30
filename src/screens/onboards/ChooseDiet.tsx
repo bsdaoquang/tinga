@@ -50,23 +50,23 @@ const ChooseDiet = ({navigation}: any) => {
 
     navigation.navigate('ChooseAllergy');
 
-    // try {
-    //   setIsUpdating(true);
-    //   await handleGetData
-    //     .handleUser(api, data, 'post', true)
-    //     .then((res: any) => {
-    //       if (res && res.success) {
-    //         navigation.navigate('ChooseAllergy');
-    //         setIsUpdating(false);
-    //       } else {
-    //         console.log('Can not update');
-    //         setIsUpdating(false);
-    //       }
-    //     });
-    // } catch (error) {
-    //   console.log(error);
-    //   setIsUpdating(false);
-    // }
+    try {
+      setIsUpdating(true);
+      await handleGetData
+        .handleUser(api, data, 'post', true)
+        .then((res: any) => {
+          if (res && res.success) {
+            navigation.navigate('ChooseAllergy');
+            setIsUpdating(false);
+          } else {
+            console.log('Can not update');
+            setIsUpdating(false);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+      setIsUpdating(false);
+    }
 
     //
   };

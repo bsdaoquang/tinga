@@ -26,12 +26,21 @@ import {fontFamilys} from '../../../constants/fontFamily';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {global} from '../../../styles/global';
 import {PERMISSIONS, check} from 'react-native-permissions';
+import {TourGuideZone, useTourGuideController} from 'rn-tourguide';
 
 const HomeCarousels = () => {
   const [isPermission, setIsPermission] = useState(false);
 
   const groceriesList = useSelector(groceriesSelector);
   const navigation: any = useNavigation();
+
+  const {canStart, start, stop} = useTourGuideController();
+
+  console.log(groceriesList);
+
+  useEffect(() => {
+    !isPermission && groceriesList.length === 0 && canStart && start();
+  }, [canStart, isPermission]);
 
   useEffect(() => {
     requestPermision();
@@ -41,6 +50,8 @@ const HomeCarousels = () => {
     check(PERMISSIONS.ANDROID.CAMERA).then(res => {
       if (res === 'granted') {
         setIsPermission(true);
+      } else {
+        setIsPermission(false);
       }
     });
   };
@@ -123,28 +134,42 @@ const HomeCarousels = () => {
       horizontal
       showsPagination
       style={{flex: 0, height: 230, paddingVertical: 16}}>
-      <CardContent styles={{marginHorizontal: 8}}>
-        <TitleComponent text="Step 1 - Reset Your Pantry" flex={0} size={20} />
-        <TextComponent
-          text="Scan to learn which foods match your dietary restrictions and what to swap."
-          flex={0}
-        />
-        <SpaceComponent height={16} />
-        <ButtonComponent
-          disable={groceriesList ? true : false}
-          onPress={() => navigation.navigate('BarCodeScreen')}
-          text="Scan my food"
-          icon={
-            <Ionicons
-              name="barcode-outline"
-              size={24}
-              color={appColors.white}
-            />
-          }
-          color={appColors.success}
-          textColor={appColors.white}
-        />
-      </CardContent>
+      <TourGuideZone
+        zone={1}
+        style={{paddingBottom: 30}}
+        borderRadius={16}
+        text="START HERE"
+        shape={'rectangle_and_keep'}>
+        <CardContent styles={{marginHorizontal: 8}}>
+          <TitleComponent
+            text="Step 1 - Reset Your Pantry"
+            flex={0}
+            size={20}
+          />
+          <TextComponent
+            text="Scan to learn which foods match your dietary restrictions and what to swap."
+            flex={0}
+          />
+          <SpaceComponent height={16} />
+          <ButtonComponent
+            disable={groceriesList.length > 0 ? true : false}
+            onPress={() => {
+              stop();
+              navigation.navigate('BarCodeScreen');
+            }}
+            text="Scan my food"
+            icon={
+              <Ionicons
+                name="barcode-outline"
+                size={24}
+                color={appColors.white}
+              />
+            }
+            color={appColors.success}
+            textColor={appColors.white}
+          />
+        </CardContent>
+      </TourGuideZone>
       <CardContent styles={{marginHorizontal: 8}}>
         <TitleComponent
           text="Step 2 - Create your first  grocery list"

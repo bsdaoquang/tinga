@@ -3,7 +3,6 @@ import {Gift} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {Alert, TouchableOpacity, View} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import {VideoModel} from '../../Models/VideoModel';
 import dashboardAPI from '../../apis/dashboardAPI';
@@ -14,12 +13,10 @@ import {
   ButtonIcon,
   CardContent,
   Container,
-  CustomIcon,
   RowComponent,
   SectionComponent,
   SpaceComponent,
   TabbarComponent,
-  TextComponent,
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
@@ -31,17 +28,12 @@ import {
   SubscriptionModal,
 } from '../../modals';
 import {addAuth, authSelector} from '../../redux/reducers/authReducer';
+import {groceriesSelector} from '../../redux/reducers/groceryReducer';
 import {showToast} from '../../utils/showToast';
 import CategoriesList from './components/CategoriesList';
+import HomeCarousels from './components/HomeCarousels';
 import Promotions from './components/Promotions';
 import VideoComponent from './components/VideoComponent';
-import {groceriesSelector} from '../../redux/reducers/groceryReducer';
-import Octicons from 'react-native-vector-icons/Octicons';
-import Swiper from 'react-native-swiper';
-import {fontFamilys} from '../../constants/fontFamily';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {global} from '../../styles/global';
-import HomeCarousels from './components/HomeCarousels';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -51,7 +43,6 @@ const HomeScreen = ({navigation, route}: any) => {
   const [videos, setVideos] = useState<VideoModel[]>([]);
 
   const auth = useSelector(authSelector);
-  const groceriesList = useSelector(groceriesSelector);
 
   const dispatch = useDispatch();
 

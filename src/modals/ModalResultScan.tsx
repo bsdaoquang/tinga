@@ -1,8 +1,11 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {FlatList, Image, Modal, View} from 'react-native';
+import {FlatList, Modal, View} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useDispatch, useSelector} from 'react-redux';
+import {Product} from '../Models/Product';
 import {
-  Button,
   ButtonComponent,
   RowComponent,
   SpaceComponent,
@@ -10,12 +13,8 @@ import {
   TitleComponent,
 } from '../components';
 import {appColors} from '../constants/appColors';
-import {global} from '../styles/global';
-import {useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
 import {groceriesSelector} from '../redux/reducers/groceryReducer';
-import {Product} from '../Models/Product';
-import FastImage from 'react-native-fast-image';
+import {global} from '../styles/global';
 import {handleSaveUser} from '../utils/handleSaveUser';
 
 interface Props {
@@ -27,6 +26,7 @@ interface Props {
 const ModalResultScan = (props: Props) => {
   const {isVisible, onClose, count} = props;
   const navigation: any = useNavigation();
+  const dispatch = useDispatch();
 
   const groceriesList = useSelector(groceriesSelector);
 
@@ -93,7 +93,7 @@ const ModalResultScan = (props: Props) => {
         text =
           'You’re already putting in the work towards meeting your dietary goals';
         break;
-      case count < 5:
+      case count > 5:
         title = 'Excellent!';
         text = 'That’s a big head-start towards your dietary goals';
         break;
@@ -112,12 +112,6 @@ const ModalResultScan = (props: Props) => {
     );
   };
 
-  const handleCloseModalAndSaveUser = () => {
-    console.log('Close');
-    // onClose();
-    // navigation.navigate('HomeCarousels');
-  };
-
   return (
     <Modal visible={isVisible} transparent animationType="slide">
       <View style={[global.modalContainer]}>
@@ -131,7 +125,10 @@ const ModalResultScan = (props: Props) => {
             }}>
             <ButtonComponent
               text="I’m Done "
-              onPress={handleCloseModalAndSaveUser}
+              onPress={() => {
+                handleSaveUser(dispatch);
+                onClose();
+              }}
               styles={{marginVertical: 8}}
             />
             <ButtonComponent

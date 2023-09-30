@@ -1,6 +1,7 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {
+  BarCodeScreen,
   ContactDietitian,
   ContactSupport,
   HomeScreen,
@@ -25,6 +26,7 @@ const HomeNavigator = () => {
       <HomeStack.Screen name="ContactSupport" component={ContactSupport} />
       <HomeStack.Screen name="ContactDietitian" component={ContactDietitian} />
       <HomeStack.Screen name="VideoPlayer" component={VideoPlayer} />
+      <HomeStack.Screen name="BarCodeScreen" component={BarCodeScreen} />
     </HomeStack.Navigator>
   );
 };

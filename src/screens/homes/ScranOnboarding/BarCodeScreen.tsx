@@ -251,7 +251,10 @@ const BarCodeScreen = ({navigation}: any) => {
 
       <ModalResultScan
         isVisible={isVisibleModalResult}
-        onClose={() => setIsVisibleModalResult(false)}
+        onClose={() => {
+          setIsVisibleModalResult(false);
+          navigation.goBack();
+        }}
         count={groceriesList.length}
       />
     </View>
