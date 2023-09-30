@@ -227,6 +227,7 @@ const ModalProduct = (props: Props) => {
         handlePosition="inside"
         ref={modalRef}
         adjustToContentHeight
+        disableScrollIfPossible={false}
         FooterComponent={
           <View
             style={{
@@ -266,7 +267,7 @@ const ModalProduct = (props: Props) => {
         handleStyle={{backgroundColor: 'transparent'}}
         modalStyle={{backgroundColor: appColors.bgColor, height: 'auto'}}
         scrollViewProps={{showsVerticalScrollIndicator: false}}>
-        <View style={{backgroundColor: appColors.bgColor, flex: 1}}>
+        <ScrollView style={{backgroundColor: appColors.bgColor, flex: 1}}>
           {producDetail && producDetail.image && (
             <ImageBackground
               source={{
@@ -530,7 +531,7 @@ const ModalProduct = (props: Props) => {
               )}
             </SectionComponent>
           </View>
-        </View>
+        </ScrollView>
       </Modalize>
       <ModalFoodScoreInfo
         visible={isShowModalFoodScoreInfo}
