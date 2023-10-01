@@ -151,12 +151,14 @@ const YourListScore = ({navigation, route}: any) => {
             fontStyles={{fontSize: 14, color: appColors.primary}}
           />
         </RowComponent>
-        {products && products.length > 0 && (
+        {products && products.length > 0 ? (
           <RowComponent justify="space-between">
             {products.map(item => (
               <ProductItemComponent item={item} key={item.id} />
             ))}
           </RowComponent>
+        ) : (
+          <TextComponent text="Not product selected" />
         )}
       </SectionComponent>
 

@@ -11,28 +11,41 @@ import CheckBox from '@react-native-community/checkbox';
 import {global} from '../../../styles/global';
 import {appColors} from '../../../constants/appColors';
 import {AddSquare, MinusSquare} from 'iconsax-react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 interface Props {
   item: Product;
   onSelecteItem: () => void;
   isSelected: boolean;
+  isEdit?: boolean;
+  handleRemoveItem?: () => void;
 }
 
 const ProductItem = (props: Props) => {
   const [count, setCount] = useState(1);
 
-  const {item, onSelecteItem, isSelected} = props;
+  const {item, onSelecteItem, isSelected, isEdit, handleRemoveItem} = props;
 
   let color = isSelected ? appColors.gray : appColors.text;
 
   return (
     <RowComponent
       styles={{marginBottom: 16, marginTop: 8, paddingHorizontal: 16}}>
-      <CheckBox
-        lineWidth={1.0}
-        tintColors={{true: appColors.success1, false: appColors.gray}}
-        value={isSelected}
-      />
+      {isEdit ? (
+        <Button
+          onPress={() =>
+            isEdit && handleRemoveItem ? handleRemoveItem() : undefined
+          }
+          icon={<AntDesign name="close" size={20} color={appColors.text} />}
+        />
+      ) : (
+        <CheckBox
+          lineWidth={1.0}
+          tintColors={{true: appColors.success1, false: appColors.gray}}
+          value={isSelected}
+        />
+      )}
+
       <ImageProduct imageUrl={item.image} />
       <TouchableOpacity
         onPress={onSelecteItem}

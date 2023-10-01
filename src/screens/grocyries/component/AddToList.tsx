@@ -29,7 +29,14 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appInfos} from '../../../constants/appInfos';
 
-const AddToList = () => {
+interface Props {
+  isEdit: boolean;
+  selectedItems: (items: Product[]) => void;
+}
+
+const AddToList = (props: Props) => {
+  const {isEdit, selectedItems} = props;
+
   const [store, setStore] = useState('all');
   const [directionScroll, setDirectionScroll] = useState('up');
   const [isShowScoreCard, setIsShowScoreCard] = useState(true);
@@ -329,6 +336,10 @@ const AddToList = () => {
   }, [shopingList]);
 
   useEffect(() => {
+    selectedItems(productSelected);
+  }, [productSelected]);
+
+  useEffect(() => {
     setIsShowScoreCard(directionScroll === 'up' ? true : false);
   }, [directionScroll]);
 
@@ -422,6 +433,8 @@ const AddToList = () => {
     setProductSelected([]);
     navigation.navigate('ShopingHistory');
   };
+
+  const onRemoveItemFromList = (item: Product) => {};
 
   return (
     <>
@@ -571,6 +584,8 @@ const AddToList = () => {
           keyExtractor={(item, index) => `product${item.id + index}`}
           renderItem={({item}) => (
             <ProductItem
+              isEdit={isEdit}
+              handleRemoveItem={() => onRemoveItemFromList(item)}
               item={item}
               onSelecteItem={() => handleAddProduct(item)}
               isSelected={

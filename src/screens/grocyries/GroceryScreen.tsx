@@ -25,19 +25,22 @@ const GroceryScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
   const [isAddToList, setIsAddToList] = useState(false);
   const [isVisibleModalEdit, setIsVisibleModalEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [productsSelected, setProductsSelected] = useState<Product[]>([]);
 
-  // const onPressModal = (id: string) => {
-  //   switch (id) {
-  //     case 'swap':
-  //       navigation.navigate('ImproveScore', {products: productSelected});
-  //       break;
+  const onPressModal = (id: string) => {
+    switch (id) {
+      case 'swap':
+        navigation.navigate('ImproveScore', {products: productsSelected});
+        break;
 
-  //     case 'edit':
-  //       break;
-  //   }
+      case 'edit':
+        setIsEdit(!isEdit);
+        break;
+    }
 
-  //   setIsVisibleModalEdit(false);
-  // };
+    setIsVisibleModalEdit(false);
+  };
   return (
     <Container>
       <SectionComponent>
@@ -46,7 +49,9 @@ const GroceryScreen = ({navigation}: any) => {
             icon={
               <Feather name="more-vertical" size={24} color={appColors.gray5} />
             }
-            onPress={() => setIsVisibleModalEdit(true)}
+            onPress={() => {
+              setIsVisibleModalEdit(true);
+            }}
           />
         </RowComponent>
         <RowComponent justify="flex-start">
@@ -99,8 +104,6 @@ const GroceryScreen = ({navigation}: any) => {
                 <View
                   style={{
                     backgroundColor: 'rgba(65, 57, 62, 0.50);',
-                    // width: 24,
-                    // height: 24,
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 60,
@@ -124,18 +127,21 @@ const GroceryScreen = ({navigation}: any) => {
           </SectionComponent>
         </>
       ) : (
-        <AddToList />
+        <AddToList
+          isEdit={isEdit}
+          selectedItems={vals => setProductsSelected(vals)}
+        />
       )}
 
       <ModalizeInfoGrocery
         visible={isVisibleModalInfo}
         onClose={() => setIsVisibleModalInfo(false)}
       />
-      {/* <ModalizeEditShopList
+      <ModalizeEditShopList
         visible={isVisibleModalEdit}
         onClose={() => setIsVisibleModalEdit(false)}
         onPress={(id: string) => onPressModal(id)}
-      /> */}
+      />
     </Container>
   );
 };

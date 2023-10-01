@@ -1,29 +1,25 @@
-import {
-  View,
-  Text,
-  Image,
-  ImageBackground,
-  StatusBar,
-  ScrollView,
-  ActivityIndicator,
-} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {appSize} from '../../constants/appSize';
+import {
+  ActivityIndicator,
+  ImageBackground,
+  ScrollView,
+  View,
+} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   Button,
   ButtonComponent,
   CardContent,
-  Container,
   RowComponent,
   SectionComponent,
   SpaceComponent,
   TextComponent,
   TitleComponent,
 } from '../../components';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {appColors} from '../../constants/appColors';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
 
 const ReferralScreen = ({navigation}: any) => {
@@ -33,24 +29,24 @@ const ReferralScreen = ({navigation}: any) => {
   const [isCheckMail, setIsCheckMail] = useState(false);
 
   useEffect(() => {
-    // setIsLoading(true);
-    // setTimeout(() => {
-    //   setRewards({
-    //     title: '$10 Gift Card',
-    //     description:
-    //       'Congratulations! You’ve earned a gift card to spend at a store of your choice.',
-    //     isRedeem: false,
-    //   });
-    //   setIsLoading(false);
-    // }, 1500);
+    setIsLoading(true);
+    setTimeout(() => {
+      setRewards({
+        title: '$10 Gift Card',
+        description:
+          'Congratulations! You’ve earned a gift card to spend at a store of your choice.',
+        isRedeem: false,
+      });
+      setIsLoading(false);
+    }, 1500);
   }, []);
 
   const handleCheckMail = () => {
-    // setIsCheckMail(true);
-    // setTimeout(() => {
-    //   setRewards({...rewards, isRedeem: true});
-    //   setIsCheckMail(false);
-    // }, 2000);
+    setIsCheckMail(true);
+    setTimeout(() => {
+      setRewards({...rewards, isRedeem: true});
+      setIsCheckMail(false);
+    }, 2000);
   };
 
   const renderReward = () => (
@@ -146,7 +142,7 @@ const ReferralScreen = ({navigation}: any) => {
 
           <Button
             text="Ontario Only. Terms Apply"
-            onPress={() => {}}
+            onPress={() => navigation.navigate('ReferralTerms')}
             fontStyles={{flex: 1}}
           />
         </SectionComponent>

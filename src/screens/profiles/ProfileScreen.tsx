@@ -154,19 +154,19 @@ const ProfileScreen = ({navigation}: any) => {
       isPrimary: true,
       onPress: () => navigation.navigate('ReferralScreen'),
     },
-    {
-      id: '7',
-      title: 'New Additions',
-      icon: (
-        <MaterialCommunityIcons name="hexagon" color={'#FFD97D'} size={16} />
-      ),
-    },
-    {
-      id: '8',
-      title: 'Shopping History',
-      icon: <MaterialCommunityIcons name="water" color={'#99CDDC'} size={18} />,
-      onPress: () => navigation.navigate('ShopingHistory'),
-    },
+    // {
+    //   id: '7',
+    //   title: 'New Additions',
+    //   icon: (
+    //     <MaterialCommunityIcons name="hexagon" color={'#FFD97D'} size={16} />
+    //   ),
+    // },
+    // {
+    //   id: '8',
+    //   title: 'Shopping History',
+    //   icon: <MaterialCommunityIcons name="water" color={'#99CDDC'} size={18} />,
+    //   onPress: () => navigation.navigate('ShopingHistory'),
+    // },
   ];
 
   const contactsMenu: ListMenuItem[] = [

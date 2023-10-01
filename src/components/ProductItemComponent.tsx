@@ -12,6 +12,7 @@ import {Product} from '../Models/Product';
 import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
 import {ModalProduct} from '../modals';
+import FastImage from 'react-native-fast-image';
 
 interface Props {
   item: Product;
@@ -30,22 +31,27 @@ const ProductItemComponent = (props: Props) => {
         isShadow
         color={appColors.white}
         styles={[
-          {padding: 0, width: (appSize.width - 48) / 2, marginBottom: 12},
+          {
+            padding: 0,
+            width: (appSize.width - 48) / 2,
+            marginBottom: 12,
+          },
+
           styles,
         ]}
         key={`${item.id}`}>
         {item.image ? (
-          <Image
+          <FastImage
             source={{
               uri: item.image,
             }}
             style={{
               width: '100%',
               height: 96,
-              resizeMode: 'contain',
               borderTopLeftRadius: 8,
               borderTopRightRadius: 8,
             }}
+            resizeMode={FastImage.resizeMode.contain}
           />
         ) : (
           <View
@@ -74,7 +80,12 @@ const ProductItemComponent = (props: Props) => {
         />
         <View style={{padding: 10}}>
           <TextComponent text={`$ ${item.price}`} size={12} />
-          <TextComponent text={item.name} size={12} line={2} />
+          <TextComponent
+            text={item.name}
+            size={12}
+            line={2}
+            styles={{minHeight: 30}}
+          />
           <SpaceComponent height={8} />
           <RowComponent justify="flex-start">
             <Location size={14} color={appColors.gray} />
@@ -93,6 +104,7 @@ const ProductItemComponent = (props: Props) => {
         visible={isVisibileModalProduct}
         onClose={() => setIsVisibileModalProduct(false)}
         product={item}
+        products={[]}
       />
     </>
   );

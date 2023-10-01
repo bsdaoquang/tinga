@@ -27,6 +27,7 @@ import ListScoreTrend from './profiles/ListScoreTrend';
 import ListScores from './profiles/ListScores';
 import ProfileScreen from './profiles/ProfileScreen';
 import ReferralScreen from './profiles/ReferralScreen';
+import ReferralTerms from './profiles/ReferralTerms';
 import ShopingHistory from './profiles/ShopingHistory';
 
 export {
@@ -59,5 +60,6 @@ export {
   VideosScreen,
   TipsScreens,
   TipDetail,
+  ReferralTerms,
   ChangePassword,
 };

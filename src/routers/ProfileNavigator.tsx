@@ -6,6 +6,7 @@ import {
   ListScoreTrend,
   ListScores,
   ProfileScreen,
+  ReferralTerms,
   ShopingHistory,
 } from '../screens';
 
@@ -20,6 +21,7 @@ const ProfileNavigator = () => {
       <ProfileStack.Screen name="ListScoreTrend" component={ListScoreTrend} />
       <ProfileStack.Screen name="ListScores" component={ListScores} />
       <ProfileStack.Screen name="ContactSupport" component={ContactSupport} />
+      <ProfileStack.Screen name="ReferralTerms" component={ReferralTerms} />
       <ProfileStack.Screen
         name="ContactDietitian"
         component={ContactDietitian}
