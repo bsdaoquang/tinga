@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   ImageBackground,
   ScrollView,
+  Share,
   View,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -21,6 +22,7 @@ import {
 import {appColors} from '../../constants/appColors';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
+import {onShare} from '../../utils/onShare';
 
 const ReferralScreen = ({navigation}: any) => {
   const [rewards, setRewards] = useState<any>();
@@ -147,7 +149,10 @@ const ReferralScreen = ({navigation}: any) => {
           />
         </SectionComponent>
         <SectionComponent>
-          <ButtonComponent text="Share with friends" onPress={() => {}} />
+          <ButtonComponent
+            text="Share with friends"
+            onPress={() => onShare()}
+          />
           <SpaceComponent height={10} />
           <ButtonComponent
             text={isCoping ? 'Copied!' : 'Copy Link'}
