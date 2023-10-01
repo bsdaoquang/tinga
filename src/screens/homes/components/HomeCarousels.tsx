@@ -64,7 +64,7 @@ const HomeCarousels = () => {
         text="Start your Gluten-free shopping experience"
       />
       <SpaceComponent height={20} />
-      {groceriesList.length > 0 ? (
+      {shopingList.length > 0 ? (
         <RowComponent justify="space-around">
           <ButtonComponent
             styles={{paddingVertical: 10}}

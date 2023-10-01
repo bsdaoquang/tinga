@@ -7,6 +7,7 @@ import {appInfos} from '../constants/appInfos';
 import {useDispatch} from 'react-redux';
 import {addAuth} from '../redux/reducers/authReducer';
 import {addGroceries} from '../redux/reducers/groceryReducer';
+import {addList} from '../redux/reducers/shopingListReducer';
 
 const SplashScreen = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const SplashScreen = () => {
   useEffect(() => {
     getUserData();
     getScanlist();
+    getShopingList();
   }, []);
 
   const getUserData = async () => {
@@ -23,6 +25,14 @@ const SplashScreen = () => {
   const getScanlist = async () => {
     const res = await AsyncStorage.getItem(appInfos.localDataName.scanlist);
     res && dispatch(addGroceries(JSON.parse(res)));
+  };
+  const getShopingList = async () => {
+    const res = await AsyncStorage.getItem(appInfos.localDataName.shopingList);
+    const items = res ? JSON.parse(res) : [];
+
+    if (items.length > 0) {
+      items.forEach((item: any) => dispatch(addList(item)));
+    }
   };
 
   return (

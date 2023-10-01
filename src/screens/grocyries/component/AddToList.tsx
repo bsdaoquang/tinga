@@ -21,8 +21,13 @@ import {fontFamilys} from '../../../constants/fontFamily';
 import {global} from '../../../styles/global';
 import {showToast} from '../../../utils/showToast';
 import ProductItem from './ProductItem';
-import {useDispatch} from 'react-redux';
-import {addList} from '../../../redux/reducers/shopingListReducer';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addList,
+  shopingListSelector,
+} from '../../../redux/reducers/shopingListReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appInfos} from '../../../constants/appInfos';
 
 const AddToList = () => {
   const [store, setStore] = useState('all');
@@ -35,11 +40,12 @@ const AddToList = () => {
     }[]
   >([]);
   const [productSelected, setProductSelected] = useState<Product[]>([]);
-  const [isVisibleModalEdit, setIsVisibleModalEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const navigation: any = useNavigation();
   const dispatch = useDispatch();
+
+  const shopingList = useSelector(shopingListSelector);
 
   useEffect(() => {
     setProducts([
@@ -312,6 +318,17 @@ const AddToList = () => {
   }, []);
 
   useEffect(() => {
+    const saveToLocal = async () => {
+      await AsyncStorage.setItem(
+        appInfos.localDataName.shopingList,
+        JSON.stringify(shopingList),
+      );
+    };
+
+    saveToLocal();
+  }, [shopingList]);
+
+  useEffect(() => {
     setIsShowScoreCard(directionScroll === 'up' ? true : false);
   }, [directionScroll]);
 
@@ -397,6 +414,13 @@ const AddToList = () => {
           handleAddProduct(itemProduc);
         });
     });
+  };
+
+  const handleAddProductToList = async () => {
+    dispatch(addList(productSelected));
+
+    setProductSelected([]);
+    navigation.navigate('ShopingHistory');
   };
 
   return (
@@ -590,11 +614,7 @@ const AddToList = () => {
             fontStyles={{fontFamily: fontFamilys.bold, fontSize: 14}}
             textColor={appColors.white}
             text="COMPLETE MY LIST"
-            onPress={() => {
-              dispatch(addList(productSelected));
-              setProductSelected([]);
-              navigation.navigate('ShopingHistory');
-            }}
+            onPress={handleAddProductToList}
           />
         </View>
       </RowComponent>

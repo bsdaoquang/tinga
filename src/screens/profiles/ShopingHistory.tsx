@@ -28,8 +28,15 @@ const ShopingHistory = ({navigation}: any) => {
     data: Product[];
   }[] = useSelector(shopingListSelector);
 
-  const renderCardHistory = (item: {date: number; data: Product[]}) => (
-    <CardContent color={appColors.white} isShadow styles={{marginBottom: 16}}>
+  const renderCardHistory = (
+    item: {date: number; data: Product[]},
+    index: number,
+  ) => (
+    <CardContent
+      color={appColors.white}
+      isShadow
+      styles={{marginBottom: 16}}
+      key={`shoping${index}`}>
       <RowComponent onPress={() => {}}>
         <TextComponent
           text={DateTime.getDateString(new Date(item.date).toISOString())}
@@ -69,7 +76,7 @@ const ShopingHistory = ({navigation}: any) => {
       <SectionComponent>
         <TitleComponent text="Grocery List History" size={32} />
         <SpaceComponent height={12} />
-        {data.map(item => renderCardHistory(item))}
+        {data.map((item, index) => renderCardHistory(item, index))}
       </SectionComponent>
     </Container>
   );

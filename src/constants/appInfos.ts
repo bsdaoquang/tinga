@@ -4,5 +4,6 @@ export const appInfos = {
     accessToken: 'accessToken',
     userData: 'userData',
     scanlist: 'scanlist',
+    shopingList: 'shopingList',
   },
 };
