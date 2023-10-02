@@ -7,6 +7,7 @@ import {
   HomeScreen,
   TipDetail,
   TipsScreens,
+  VerifyEmail,
   VideosScreen,
 } from '../screens';
 import VideoPlayer from '../screens/homes/components/VideoPlayer';
