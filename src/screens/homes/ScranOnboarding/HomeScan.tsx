@@ -1,6 +1,6 @@
 import {ArrowLeft} from 'iconsax-react-native';
-import React from 'react';
-import {Image} from 'react-native';
+import React, {useEffect} from 'react';
+import {Image, PermissionsAndroid, Platform} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   Button,
@@ -13,8 +13,39 @@ import {
 import {appColors} from '../../../constants/appColors';
 import {appSize} from '../../../constants/appSize';
 import {fontFamilys} from '../../../constants/fontFamily';
+import {useDispatch} from 'react-redux';
+import {handleSaveUser} from '../../../utils/handleSaveUser';
 
 const HomeScan = ({navigation}: any) => {
+  useEffect(() => {
+    requestPermision();
+  }, []);
+
+  const dispatch = useDispatch();
+  const requestPermision = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: 'RequestAuth',
+            message: 'Please allow camera permission to scan QR code',
+            buttonNeutral: 'Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'Agree',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          navigation.back();
+        } else {
+          console.log('Yêu cầu bị từ chối');
+          handleSaveUser(dispatch);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <>
       <Container

@@ -1,4 +1,5 @@
 {
   "name": "tinga",
-  "displayName": "tinga"
+  "displayName": "tinga",
+  "updates": {"checkAutomatically": "ON_ERROR_RECOVERY"}
 }

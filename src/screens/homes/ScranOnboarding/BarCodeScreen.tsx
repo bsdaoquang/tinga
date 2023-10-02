@@ -115,9 +115,7 @@ const BarCodeScreen = ({navigation}: any) => {
           },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('Đã được cấp quyền');
-
-          setQRCodeCotainer(renderQrCode);
+          navigation.back();
         } else {
           console.log('Yêu cầu bị từ chối');
           handleSaveUser(dispatch);
@@ -129,7 +127,7 @@ const BarCodeScreen = ({navigation}: any) => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <>
       {QRCodeCotainer}
       <LinearGradient
         style={{
@@ -257,7 +255,7 @@ const BarCodeScreen = ({navigation}: any) => {
         }}
         count={groceriesList.length}
       />
-    </View>
+    </>
   );
 };
 
