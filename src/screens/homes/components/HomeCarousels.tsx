@@ -57,7 +57,7 @@ const HomeCarousels = () => {
     });
   };
 
-  return shopingList.length > 0 ? (
+  return shopingList.length > 0 && groceriesList.length >= 5 ? (
     <CardContent styles={{margin: 16, paddingVertical: 23}}>
       <TitleComponent
         size={20}
@@ -153,10 +153,10 @@ const HomeCarousels = () => {
           />
           <SpaceComponent height={16} />
           <ButtonComponent
-            disable={groceriesList.length > 0 ? true : false}
+            disable={groceriesList.length >= 5 ? true : false}
             onPress={() => {
               stop();
-              navigation.navigate('BarCodeScreen');
+              navigation.navigate('HomeScan');
             }}
             text="Scan my food"
             icon={

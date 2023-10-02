@@ -22,8 +22,8 @@ const MainNavigator = () => {
       <Stack.Screen name="ImproveScore" component={ImproveScore} />
       <Stack.Screen name="ReferralScreen" component={ReferralScreen} />
       <Stack.Screen name="WebviewScreen" component={WebviewScreen} />
-      {/* <Stack.Screen name="HomeScan" component={HomeScan} />
-      <Stack.Screen name="BarCodeScreen" component={BarCodeScreen} /> */}
+      <Stack.Screen name="HomeScan" component={HomeScan} />
+      <Stack.Screen name="BarCodeScreen" component={BarCodeScreen} />
     </Stack.Navigator>
   );
 };
