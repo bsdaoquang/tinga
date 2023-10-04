@@ -15,6 +15,7 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {LoadingModal} from '../../modals';
+import {fontFamilys} from '../../constants/fontFamily';
 
 const ChooseDiet = ({navigation}: any) => {
   const [selected, setSelected] = useState<number[]>([]);
@@ -74,7 +75,7 @@ const ChooseDiet = ({navigation}: any) => {
   return (
     <Container back>
       <SectionComponent flex={1}>
-        <TextComponent text="Lifestyle Choices" size={12} flex={0} />
+        <TextComponent text="Dietary Preferences" size={12} flex={0} />
         <TitleComponent
           text="Which core diet would you like to follow?"
           flex={0}
@@ -98,7 +99,15 @@ const ChooseDiet = ({navigation}: any) => {
                 },
               ]}
               key={item.id}>
-              <TextComponent text={item.name} flex={0} />
+              <TextComponent
+                text={item.name}
+                flex={0}
+                font={
+                  selected.includes(item.id)
+                    ? fontFamilys.bold
+                    : fontFamilys.medium
+                }
+              />
             </TouchableOpacity>
           ))
         ) : (

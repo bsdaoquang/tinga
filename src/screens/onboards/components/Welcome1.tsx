@@ -16,7 +16,7 @@ const Welcome1 = () => {
             flex={0}
           />
           <TitleComponent
-            text="Tell Tinga how you & your household eats"
+            text={`Tell Tinga how you &\nyour household eats`}
             size={26}
             color={appColors.white}
             flex={1}

@@ -1,11 +1,13 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Platform,
-  PermissionsAndroid,
-} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
+import {TouchableOpacity, View} from 'react-native';
+import {PERMISSIONS, check} from 'react-native-permissions';
+import Swiper from 'react-native-swiper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Octicons from 'react-native-vector-icons/Octicons';
+import {useSelector} from 'react-redux';
+import {TourGuideZone, useTourGuideController} from 'rn-tourguide';
 import {
   ButtonComponent,
   CardContent,
@@ -15,19 +17,11 @@ import {
   TextComponent,
   TitleComponent,
 } from '../../../components';
-import {useSelector} from 'react-redux';
-import {groceriesSelector} from '../../../redux/reducers/groceryReducer';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {appColors} from '../../../constants/appColors';
-import {useNavigation} from '@react-navigation/native';
-import Octicons from 'react-native-vector-icons/Octicons';
-import Swiper from 'react-native-swiper';
 import {fontFamilys} from '../../../constants/fontFamily';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {global} from '../../../styles/global';
-import {PERMISSIONS, check} from 'react-native-permissions';
-import {TourGuideZone, useTourGuideController} from 'rn-tourguide';
+import {groceriesSelector} from '../../../redux/reducers/groceryReducer';
 import {shopingListSelector} from '../../../redux/reducers/shopingListReducer';
+import {global} from '../../../styles/global';
 
 const HomeCarousels = () => {
   const [isPermission, setIsPermission] = useState(false);
@@ -156,7 +150,7 @@ const HomeCarousels = () => {
             disable={groceriesList.length >= 5 ? true : false}
             onPress={() => {
               stop();
-              navigation.navigate('HomeScan');
+              navigation.navigate('BarCodeScreen');
             }}
             text="Scan my food"
             icon={
@@ -173,7 +167,7 @@ const HomeCarousels = () => {
       </TourGuideZone>
       <CardContent styles={{marginHorizontal: 8}}>
         <TitleComponent
-          text="Step 2 - Create your first  grocery list"
+          text={'Step 2 - Create your first\ngrocery list'}
           flex={0}
           size={20}
         />

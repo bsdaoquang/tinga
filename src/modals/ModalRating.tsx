@@ -36,7 +36,7 @@ const ModalRating = (props: Props) => {
           </RowComponent>
 
           <TitleComponent
-            text="How are you liking Tinga so far?"
+            text={`How are you liking\nTinga so far?`}
             size={22}
             styles={{textAlign: 'center'}}
             flex={0}

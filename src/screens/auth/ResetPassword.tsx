@@ -13,7 +13,8 @@ import {
 import {appColors} from '../../constants/appColors';
 import useAuth from '../../hooks/useAuth';
 import {LoadingModal} from '../../modals';
-import {Image} from 'react-native';
+import {Image, View} from 'react-native';
+import {showToast} from '../../utils/showToast';
 
 const ResetPassword = ({navigation}: any) => {
   const [email, setEmail] = useState('');
@@ -35,11 +36,16 @@ const ResetPassword = ({navigation}: any) => {
           .then(async (res: any) => {
             if (res.success && res.code === 200) {
               navigation.navigate('VerifyEmail', {type: 'resetPass', email});
+            } else {
+              setErrorMessage(
+                'Can not recover your password, please check your email again',
+              );
             }
             setIsLoading(false);
           });
       } catch (error) {
         console.log(error);
+        showToast(JSON.stringify(error));
         setIsLoading(false);
       }
     } else {
@@ -48,7 +54,7 @@ const ResetPassword = ({navigation}: any) => {
   };
 
   return (
-    <Container back isScroll>
+    <Container back isScroll isFlex>
       <SectionComponent
         styles={{
           marginTop: 40,
@@ -59,8 +65,7 @@ const ResetPassword = ({navigation}: any) => {
         />
       </SectionComponent>
       <SectionComponent
-        flex={1}
-        styles={{justifyContent: 'center', marginTop: '25%'}}>
+        styles={{flex: 1, justifyContent: 'center', marginTop: -108}}>
         <InputComponent
           value={email}
           placeholder="Email address*"
@@ -79,6 +84,7 @@ const ResetPassword = ({navigation}: any) => {
             size={12}
             color={appColors.danger}
             flex={0}
+            styles={{marginBottom: 12}}
           />
         )}
 

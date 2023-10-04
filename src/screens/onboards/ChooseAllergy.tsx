@@ -101,7 +101,7 @@ const ChooseAllergy = ({navigation}: any) => {
       <SectionComponent flex={1}>
         <TextComponent text="Allergens" size={12} flex={0} />
         <TitleComponent
-          text="Does your household have any allergies or restrictions?"
+          text={`Does your household\nhave any allergies or\nrestrictions?`}
           flex={0}
           size={26}
         />

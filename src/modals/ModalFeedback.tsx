@@ -57,7 +57,7 @@ const ModalFeedback = (props: Props) => {
             <View style={{paddingVertical: 80}}>
               <TitleComponent
                 height={26}
-                text="Thank you for your feedback."
+                text={`Thank you for\nyour feedback.`}
                 flex={0}
                 size={22}
                 styles={{textAlign: 'center', marginBottom: 24}}

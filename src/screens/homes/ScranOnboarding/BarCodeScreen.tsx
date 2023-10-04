@@ -251,8 +251,9 @@ const BarCodeScreen = ({navigation}: any) => {
         isVisible={isVisibleModalResult}
         onClose={() => {
           setIsVisibleModalResult(false);
-          navigation.goBack();
+          navigation.navigate('HomeScreen');
         }}
+        onKeepScan={() => setIsVisibleModalResult(false)}
         count={groceriesList.length}
       />
     </>

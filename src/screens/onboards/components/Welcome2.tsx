@@ -9,7 +9,7 @@ const Welcome2 = () => {
       <RowComponent styles={{alignItems: 'flex-start', paddingHorizontal: 16}}>
         <TitleComponent text="2. " size={26} color={appColors.white} flex={0} />
         <TitleComponent
-          text="Search, discover & swap for healthier, diet-compatible options"
+          text={`Search, scan and\nswap for healthier,\ndiet-compatible options`}
           size={26}
           color={appColors.white}
           flex={1}

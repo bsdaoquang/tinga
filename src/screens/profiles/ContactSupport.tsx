@@ -12,6 +12,7 @@ import {
 import {appColors} from '../../constants/appColors';
 import {Sms, User} from 'iconsax-react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
+import ModalizeFilter from '../../modals/ModalizeFilter';
 
 const ContactSupport = () => {
   const [firstName, setFirstName] = useState('');
@@ -51,10 +52,10 @@ const ContactSupport = () => {
           rows={5}
         />
 
-        <TextComponent
+        {/* <TextComponent
           text="*Please note standard fees may apply for dietitian support"
           color={appColors.gray}
-        />
+        /> */}
       </SectionComponent>
       <SectionComponent>
         <ButtonComponent

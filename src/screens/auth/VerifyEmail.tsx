@@ -8,6 +8,7 @@ import {
   Container,
   RowComponent,
   SectionComponent,
+  SpaceComponent,
   TextComponent,
   TitleComponent,
 } from '../../components';
@@ -129,7 +130,9 @@ const VerifyEmail = ({navigation, route}: any) => {
             type === 'confirm' ? 'Verify your email' : 'Reset your password'
           }
           size={26}
+          height={44}
         />
+        <SpaceComponent height={20} />
         <TextComponent
           text={
             type === 'confirm'

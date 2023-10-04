@@ -32,10 +32,12 @@ import {LoadingModal, ModalInfoScore} from '../../modals';
 import {addAuth} from '../../redux/reducers/authReducer';
 import {global} from '../../styles/global';
 import {removeList} from '../../redux/reducers/groceryReducer';
+import ModalizeFilter from '../../modals/ModalizeFilter';
 
 const ProfileScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isVisibleModalFillter, setIsVisibleModalFillter] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -129,23 +131,27 @@ const ProfileScreen = ({navigation}: any) => {
     },
     {
       id: '2',
-      title: 'My Allergies',
+      title: 'My Filters',
       icon: <Circle1 color={appColors.success1} />,
+      onPress: () => setIsVisibleModalFillter(true),
     },
     {
       id: '3',
-      title: 'Prefered Diets',
-      icon: <Ionicons name="square-sharp" color={'#B69475'} size={16} />,
+      title: 'My Favourites',
+      icon: <Ionicons name="heart" color={'#F45A5B'} size={16} />,
     },
     {
       id: '4',
-      title: 'List of Favourites',
-      icon: <Circle2 />,
+      title: 'Grocery List History',
+      icon: <MaterialCommunityIcons name="water" color={'#99CDDC'} size={22} />,
+      onPress: () => navigation.navigate('ShopingHistory'),
     },
     {
       id: '5',
-      title: 'List of Stores',
-      icon: <Circle3 />,
+      title: 'My Added Products',
+      icon: (
+        <MaterialCommunityIcons name="hexagon" color={'#FFD97D'} size={16} />
+      ),
     },
     {
       id: '6',
@@ -186,6 +192,7 @@ const ProfileScreen = ({navigation}: any) => {
     {
       id: 'info1',
       title: 'FAQ',
+      onPress: () => Linking.openURL('https://tinga.ca/faq.html'),
     },
     {
       id: 'info2',
@@ -380,6 +387,10 @@ const ProfileScreen = ({navigation}: any) => {
       />
 
       <LoadingModal visible={isLoading} />
+      <ModalizeFilter
+        visible={isVisibleModalFillter}
+        onClose={() => setIsVisibleModalFillter(false)}
+      />
     </Container>
   );
 };

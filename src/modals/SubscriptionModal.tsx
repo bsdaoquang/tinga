@@ -1,6 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {Image, Modal, ScrollView, Text, View} from 'react-native';
+import {
+  Image,
+  Modal,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Subscription} from '../Models/Subscription';
@@ -89,10 +96,10 @@ const SubscriptionModal = (props: Props) => {
   };
 
   const descriptions = [
-    'Build health-scored grocery lists tailored to your dietary needs',
-    'Discover & swap for healthier options',
+    'Build health-scored grocery lists tailored\nto your dietary needs',
+    'Scan & swap for healthier options',
     'Simplified nutritional information ',
-    'Access to a resource library to help you reach your goals',
+    'Access to a resource library to help you\nreach your goals',
   ];
 
   const handleSetSubscriptionDate = async () => {
@@ -344,7 +351,7 @@ const SubscriptionModal = (props: Props) => {
         </SectionComponent>
         {subscriptionsPlan.length > 0 ? (
           <>
-            <SectionComponent styles={{marginTop: 80}}>
+            <SectionComponent styles={{marginTop: 50}}>
               {renderAnnualOffer()}
 
               {renderMonthOffer()}
@@ -356,6 +363,29 @@ const SubscriptionModal = (props: Props) => {
                 color={appColors.success1}
                 textColor={appColors.text}
               />
+
+              <RowComponent styles={{marginVertical: 20}}>
+                <TouchableOpacity>
+                  <TextComponent
+                    font={fontFamilys.bold}
+                    color="#32645B"
+                    text="Restore Purchase "
+                  />
+                </TouchableOpacity>
+                <TextComponent
+                  font={fontFamilys.bold}
+                  color="#32645B"
+                  text="•"
+                  flex={0}
+                />
+                <TouchableOpacity>
+                  <TextComponent
+                    font={fontFamilys.bold}
+                    color="#32645B"
+                    text=" Terms & Conditions"
+                  />
+                </TouchableOpacity>
+              </RowComponent>
             </SectionComponent>
           </>
         ) : (

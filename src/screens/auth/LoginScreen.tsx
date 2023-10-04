@@ -70,7 +70,7 @@ const LoginScreen = ({navigation}: any) => {
   };
 
   return (
-    <Container back isScroll>
+    <Container back isScroll isFlex>
       <SectionComponent
         styles={{
           marginTop: 40,
@@ -81,7 +81,8 @@ const LoginScreen = ({navigation}: any) => {
         />
       </SectionComponent>
 
-      <SectionComponent flex={1} styles={{justifyContent: 'center'}}>
+      <SectionComponent
+        styles={{flex: 1, justifyContent: 'center', marginTop: -108}}>
         <TitleComponent text="Login" size={26} flex={0} />
         <SpaceComponent height={22} />
         <InputComponent
@@ -134,7 +135,7 @@ const LoginScreen = ({navigation}: any) => {
         />
       </SectionComponent>
 
-      <SectionComponent styles={{marginVertical: 20}}>
+      <SectionComponent styles={{marginBottom: 20}}>
         <RowComponent>
           <TextComponent text="You have not an account? " flex={0} />
           <Button

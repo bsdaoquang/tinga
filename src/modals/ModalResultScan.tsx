@@ -22,12 +22,12 @@ import {appInfos} from '../constants/appInfos';
 interface Props {
   isVisible: boolean;
   onClose: () => void;
+  onKeepScan: () => void;
   count: number;
 }
 
 const ModalResultScan = (props: Props) => {
-  const {isVisible, onClose, count} = props;
-  const navigation: any = useNavigation();
+  const {isVisible, onClose, count, onKeepScan} = props;
   const dispatch = useDispatch();
 
   const groceriesList = useSelector(groceriesSelector);
@@ -140,7 +140,7 @@ const ModalResultScan = (props: Props) => {
             />
             <ButtonComponent
               text="Keep Scanning"
-              onPress={handleClose}
+              onPress={onKeepScan}
               color={'#13917B'}
               textColor={appColors.white}
               styles={{marginVertical: 8}}

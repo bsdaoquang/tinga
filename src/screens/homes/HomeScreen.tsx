@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Gift} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {Alert, TouchableOpacity, View} from 'react-native';
+import {Alert, StatusBar, TouchableOpacity, View} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {VideoModel} from '../../Models/VideoModel';
@@ -17,6 +17,7 @@ import {
   SectionComponent,
   SpaceComponent,
   TabbarComponent,
+  TextComponent,
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
@@ -34,6 +35,8 @@ import CategoriesList from './components/CategoriesList';
 import HomeCarousels from './components/HomeCarousels';
 import Promotions from './components/Promotions';
 import VideoComponent from './components/VideoComponent';
+import {shopingListSelector} from '../../redux/reducers/shopingListReducer';
+import {fontFamilys} from '../../constants/fontFamily';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -43,22 +46,28 @@ const HomeScreen = ({navigation, route}: any) => {
   const [videos, setVideos] = useState<VideoModel[]>([]);
 
   const auth = useSelector(authSelector);
+  const groceriesList = useSelector(groceriesSelector);
+  const shopingList = useSelector(shopingListSelector);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     handleGetAndUpdateProfile();
-  }, []);
 
-  useEffect(() => {
-    // setTimeout(() => {
-    //   setIsvisibleModalOffer(true);
-    // }, 1500);
-  }, []);
+    if (!auth.premium_till) {
+      setTimeout(() => {
+        setIsvisibleModalOffer(true);
+      }, 1500);
+    }
 
-  useEffect(() => {
     getVideos();
   }, []);
+
+  useEffect(() => {
+    groceriesList.length === 5 &&
+      !isvisibleModalOffer &&
+      setIsVisibleModalRating(true);
+  }, [groceriesList]);
 
   const getVideos = async () => {
     const api = `/videos`;
@@ -78,7 +87,7 @@ const HomeScreen = ({navigation, route}: any) => {
 
     try {
       await handleGetData.handleUser(api).then(async (res: any) => {
-        const data = {...auth, ...res, permium_till: res.permium_till};
+        const data = {...auth, ...res, premium_till: res.premium_till};
 
         dispatch(addAuth(data));
 
@@ -97,10 +106,39 @@ const HomeScreen = ({navigation, route}: any) => {
     <>
       <Container
         isScroll
-        barStyle={'light-content'}
-        backgroundColor={appColors.primary}
+        backgroundColor={auth.premium_till ? appColors.primary : appColors.text}
         top={32}>
-        <SectionComponent styles={{paddingTop: 26}}>
+        <StatusBar barStyle={'light-content'} translucent />
+        {!auth.premium_till && (
+          <RowComponent styles={{paddingBottom: 6, paddingTop: 12}}>
+            <TextComponent
+              color={appColors.white}
+              font={fontFamilys.semiBold}
+              size={12}
+              flex={0}
+              text="You have Tinga Basic. "
+            />
+            <TouchableOpacity>
+              <TextComponent
+                color={appColors.white}
+                font={fontFamilys.semiBold}
+                size={12}
+                flex={0}
+                styles={{
+                  textDecorationLine: 'underline',
+                  textDecorationColor: appColors.white,
+                }}
+                text="Get Tinga Premium"
+              />
+            </TouchableOpacity>
+          </RowComponent>
+        )}
+        <SectionComponent
+          styles={{
+            paddingBottom: 46,
+            paddingTop: !auth.premium_till ? 16 : 26,
+            backgroundColor: appColors.primary,
+          }}>
           <RowComponent>
             <TingaLogo width={28} height={28} />
             <SpaceComponent width={8} />
@@ -117,7 +155,7 @@ const HomeScreen = ({navigation, route}: any) => {
             </TouchableOpacity>
             <ButtonIcon
               icon={<Gift color={appColors.error} size={18} variant="Bold" />}
-              onPress={() => setIsVisibleModalRating(true)}
+              onPress={() => navigation.navigate('ReferralScreen')}
             />
           </RowComponent>
         </SectionComponent>
@@ -127,7 +165,7 @@ const HomeScreen = ({navigation, route}: any) => {
             backgroundColor: appColors.white,
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
-            // marginTop: 12,
+            marginTop: -26,
             paddingBottom: 12,
             paddingHorizontal: 0,
           }}>

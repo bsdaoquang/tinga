@@ -162,7 +162,7 @@ const HomeLoginScreen = ({navigation}: any) => {
           <TextComponent
             flex={0}
             styles={{textAlign: 'center'}}
-            text="Create an account to change the way you shop with Tinga – your personalised nutrition assistant"
+            text={`Create an account to change the way you shop\nwith Tinga – your personalised nutrition assistant`}
           />
         </SectionComponent>
         <SectionComponent styles={{paddingHorizontal: 28}}>

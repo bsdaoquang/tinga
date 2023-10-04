@@ -3,8 +3,9 @@ import {ListMenuItem} from '../Models/ListMenuItem';
 import {appColors} from '../constants/appColors';
 import RowComponent from './RowComponent';
 import TextComponent from './TextComponent';
-import {ArrowRight, ArrowRight2} from 'iconsax-react-native';
+import {ArrowRight, ArrowRight2, Icon} from 'iconsax-react-native';
 import {fontFamilys} from '../constants/fontFamily';
+import {View} from 'react-native';
 interface Props {
   item: ListMenuItem;
   onPress: () => void;
@@ -22,7 +23,19 @@ const ListItemComponent = (props: Props) => {
         borderBottomWidth: isHideBorder ? 0 : 0.5,
         padding: 18,
       }}>
-      {item.icon && item.icon}
+      {item.icon && (
+        <View
+          style={{
+            // backgroundColor: 'coral',
+            width: 20,
+            height: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          {item.icon}
+        </View>
+      )}
+
       <TextComponent
         text={item.title}
         font={item.isPrimary ? fontFamilys.bold : fontFamilys.medium}
