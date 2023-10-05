@@ -15,6 +15,7 @@ import useAuth from '../../hooks/useAuth';
 import {LoadingModal} from '../../modals';
 import {Image, View} from 'react-native';
 import {showToast} from '../../utils/showToast';
+import {appSize} from '../../constants/appSize';
 
 const ResetPassword = ({navigation}: any) => {
   const [email, setEmail] = useState('');
@@ -54,7 +55,7 @@ const ResetPassword = ({navigation}: any) => {
   };
 
   return (
-    <Container back isScroll isFlex>
+    <Container back isScroll>
       <SectionComponent
         styles={{
           marginTop: 40,
@@ -64,8 +65,7 @@ const ResetPassword = ({navigation}: any) => {
           style={{width: 175, height: 68, resizeMode: 'contain'}}
         />
       </SectionComponent>
-      <SectionComponent
-        styles={{flex: 1, justifyContent: 'center', marginTop: -108}}>
+      <SectionComponent styles={{paddingTop: '25%'}}>
         <InputComponent
           value={email}
           placeholder="Email address*"
