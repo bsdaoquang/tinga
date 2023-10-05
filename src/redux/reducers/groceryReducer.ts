@@ -6,12 +6,17 @@ const grocerySlice = createSlice({
     groceries: [],
   },
   reducers: {
+    addLocalData: (state, action) => {
+      state.groceries = action.payload;
+    },
     addGroceries: (state, action) => {
       const items: any = state.groceries;
-      const item = action.payload;
 
-      items.push(item);
-      state.groceries = items;
+      const item = action.payload;
+      if (item) {
+        items.push(item);
+        state.groceries = items;
+      }
     },
     removeList: state => {
       state.groceries = [];
@@ -20,6 +25,6 @@ const grocerySlice = createSlice({
 });
 
 export const groceryReducer = grocerySlice.reducer;
-export const {addGroceries, removeList} = grocerySlice.actions;
+export const {addGroceries, removeList, addLocalData} = grocerySlice.actions;
 //selector
 export const groceriesSelector = (state: any) => state.groceryReducer.groceries;

@@ -4,5 +4,6 @@ import {addAuth} from '../redux/reducers/authReducer';
 
 export const handleSaveUser = async (dispatch: any) => {
   const res = await AsyncStorage.getItem(appInfos.localDataName.userData);
+
   res && dispatch(addAuth(JSON.parse(res)));
 };

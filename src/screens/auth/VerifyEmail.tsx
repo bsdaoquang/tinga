@@ -18,6 +18,8 @@ import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
 import {LoadingModal} from '../../modals';
 import {global} from '../../styles/global';
+import {AlertDetail} from '../../Models/AlertDetail';
+import ModalAlert from '../../modals/ModalAlert';
 
 const VerifyEmail = ({navigation, route}: any) => {
   const {email, type}: {email: string; type: 'confirm' | 'resetPass'} =
@@ -29,6 +31,8 @@ const VerifyEmail = ({navigation, route}: any) => {
   const [messageError, setMessageError] = useState('');
   const [isDisable, setIsDisable] = useState(true);
   const [disable, setDisable] = useState(true);
+  const [isVisibleModalAlert, setIsVisibleModalAlert] = useState(false);
+  const [alertDetail, setAlertDetail] = useState<AlertDetail>();
 
   const ref1 = useRef<TextInput>(null);
   const ref2 = useRef<TextInput>(null);
@@ -110,9 +114,23 @@ const VerifyEmail = ({navigation, route}: any) => {
         .HandleAuth(api, {email}, 'post')
         .then((res: any) => {
           if (res.success) {
-            Alert.alert('Email verify code sended', res.message);
+            setAlertDetail({
+              title: 'Success',
+              mess: `Email verify code sended', ${res.message}`,
+              onOK: () => {
+                setIsVisibleModalAlert(false);
+              },
+            });
+            setIsVisibleModalAlert(true);
           } else {
-            Alert.alert('Error', 'Can not send email for you!');
+            setAlertDetail({
+              title: 'Error',
+              mess: `Can not send email for you!`,
+              onOK: () => {
+                setIsVisibleModalAlert(false);
+              },
+            });
+            setIsVisibleModalAlert(true);
           }
           setIsLoading(false);
         });
@@ -289,6 +307,18 @@ const VerifyEmail = ({navigation, route}: any) => {
         </Text>
       </SectionComponent>
       <LoadingModal visible={isLoading} />
+      {isVisibleModalAlert && alertDetail && (
+        <ModalAlert
+          title={alertDetail.title}
+          mess={alertDetail.mess}
+          onOK={alertDetail.onOK}
+          isVisible={isVisibleModalAlert}
+          onClose={() => {
+            setIsVisibleModalAlert(false);
+            setAlertDetail(undefined);
+          }}
+        />
+      )}
     </Container>
   );
 };

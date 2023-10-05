@@ -4,9 +4,13 @@ import {appColors} from '../constants/appColors';
 import {global} from '../styles/global';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appInfos} from '../constants/appInfos';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {addAuth} from '../redux/reducers/authReducer';
-import {addGroceries} from '../redux/reducers/groceryReducer';
+import {
+  addGroceries,
+  addLocalData,
+  groceriesSelector,
+} from '../redux/reducers/groceryReducer';
 import {addList} from '../redux/reducers/shopingListReducer';
 
 const SplashScreen = () => {
@@ -23,8 +27,17 @@ const SplashScreen = () => {
     res && dispatch(addAuth(JSON.parse(res)));
   };
   const getScanlist = async () => {
+    // await AsyncStorage.removeItem(appInfos.localDataName.scanlist);
+
     const res = await AsyncStorage.getItem(appInfos.localDataName.scanlist);
-    res && dispatch(addGroceries(JSON.parse(res)));
+
+    if (res && JSON.parse(res).length > 0) {
+      const data = JSON.parse(res);
+
+      dispatch(addLocalData(data));
+    } else {
+      console.log('Data not found');
+    }
   };
   const getShopingList = async () => {
     const res = await AsyncStorage.getItem(appInfos.localDataName.shopingList);

@@ -15,11 +15,14 @@ import {appSize} from '../../../constants/appSize';
 import {fontFamilys} from '../../../constants/fontFamily';
 import {useDispatch} from 'react-redux';
 import {handleSaveUser} from '../../../utils/handleSaveUser';
+import {useNavigation} from '@react-navigation/native';
 
-const HomeScan = ({navigation}: any) => {
+const HomeScan = ({route}: any) => {
   useEffect(() => {
     requestPermision();
   }, []);
+
+  const navigation: any = useNavigation();
 
   const dispatch = useDispatch();
   const requestPermision = async () => {
@@ -36,7 +39,7 @@ const HomeScan = ({navigation}: any) => {
           },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          navigation.back();
+          console.log('Đã được cấp quyền');
         } else {
           console.log('Yêu cầu bị từ chối');
           handleSaveUser(dispatch);
@@ -50,17 +53,28 @@ const HomeScan = ({navigation}: any) => {
     <>
       <Container
         backgroundColor="#263238"
-        left={<ArrowLeft size={20} color={appColors.white} />}
+        left={
+          <Button
+            icon={<ArrowLeft size={20} color={appColors.white} />}
+            onPress={() => navigation.goBack()}
+          />
+        }
         right={
           <Button
             text="Skip"
-            onPress={() =>
-              navigation.navigate('Home', {
-                screen: 'HomeScreen',
-                params: {
-                  isResultScan: false,
-                },
-              })
+            onPress={
+              route.params
+                ? () => {
+                    handleSaveUser(dispatch);
+                    navigation.goBack();
+                  }
+                : () =>
+                    navigation.navigate('Home', {
+                      screen: 'HomeScreen',
+                      params: {
+                        isResultScan: false,
+                      },
+                    })
             }
             textColor={appColors.white6}
           />

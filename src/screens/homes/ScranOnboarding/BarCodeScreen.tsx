@@ -3,6 +3,7 @@ import {PermissionsAndroid, Platform, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useDispatch, useSelector} from 'react-redux';
 import {Product} from '../../../Models/Product';
 import handleGetData from '../../../apis/productAPI';
 import {
@@ -18,14 +19,12 @@ import {appSize} from '../../../constants/appSize';
 import {ModalProduct} from '../../../modals';
 import ModalResultScan from '../../../modals/ModalResultScan';
 import ModalizeProducDetail from '../../../modals/ModalizeProducDetail';
-import {showToast} from '../../../utils/showToast';
-import {useDispatch, useSelector} from 'react-redux';
 import {
   addGroceries,
   groceriesSelector,
-  removeList,
 } from '../../../redux/reducers/groceryReducer';
 import {handleSaveUser} from '../../../utils/handleSaveUser';
+import {showToast} from '../../../utils/showToast';
 
 const BarCodeScreen = ({navigation}: any) => {
   const [codeDetail, setCodeDetail] = useState('');
@@ -115,7 +114,7 @@ const BarCodeScreen = ({navigation}: any) => {
           },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          navigation.back();
+          console.log('Permission granted');
         } else {
           console.log('Yêu cầu bị từ chối');
           handleSaveUser(dispatch);
@@ -242,7 +241,7 @@ const BarCodeScreen = ({navigation}: any) => {
         }}
         product={product}
         onAddToList={() => {
-          dispatch(addGroceries(product));
+          product && dispatch(addGroceries(product));
         }}
         products={groceriesList ?? []}
       />

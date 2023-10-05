@@ -33,6 +33,8 @@ import {LoadingModal} from '../../modals';
 import {HandleLogin} from '../../utils/HandleLogin';
 import {showToast} from '../../utils/showToast';
 import TermsText from './components/TermsText';
+import {AlertDetail} from '../../Models/AlertDetail';
+import ModalAlert from '../../modals/ModalAlert';
 
 GoogleSignin.configure({
   webClientId:
@@ -41,6 +43,8 @@ GoogleSignin.configure({
 
 const HomeLoginScreen = ({navigation}: any) => {
   const [isLogin, setIsLogin] = useState(false);
+  const [isVisibleModalAlert, setIsVisibleModalAlert] = useState(false);
+  const [modalAlertDetail, setModalAlertDetail] = useState<AlertDetail>();
 
   const dispatch = useDispatch();
 
@@ -117,12 +121,13 @@ const HomeLoginScreen = ({navigation}: any) => {
             );
             setIsLogin(false);
           } else {
-            Alert.alert('Error', res.message, [
-              {
-                text: 'OK',
-                onPress: async () => await GoogleSignin.signOut(),
-              },
-            ]);
+            setModalAlertDetail({
+              title: 'Error',
+              mess: res.message,
+              onOK: async () => await GoogleSignin.signOut(),
+            });
+            setIsVisibleModalAlert(true);
+
             setIsLogin(false);
           }
         });
@@ -222,6 +227,18 @@ const HomeLoginScreen = ({navigation}: any) => {
         </SectionComponent>
       </View>
       <LoadingModal visible={isLogin} />
+      {isVisibleModalAlert && modalAlertDetail && (
+        <ModalAlert
+          title={modalAlertDetail.title}
+          mess={modalAlertDetail.mess}
+          onOK={modalAlertDetail.onOK}
+          isVisible={isVisibleModalAlert}
+          onClose={() => {
+            setIsVisibleModalAlert(false);
+            setModalAlertDetail(undefined);
+          }}
+        />
+      )}
     </>
   );
 };

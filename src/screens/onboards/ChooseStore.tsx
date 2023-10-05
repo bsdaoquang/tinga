@@ -25,6 +25,7 @@ const ChooseStore = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isVisibleModalSubcribe, setIsVisibleModalSubcribe] = useState(false);
+  const [isWellCome, setIsWellCome] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -60,6 +61,7 @@ const ChooseStore = ({navigation}: any) => {
         .handleUser(api, data, 'post', true)
         .then((res: any) => {
           if (res && res.success) {
+            setIsWellCome(true);
             setIsVisibleModalSubcribe(true);
             setIsUpdating(false);
           } else {
@@ -129,8 +131,11 @@ const ChooseStore = ({navigation}: any) => {
       </SectionComponent>
       <SubscriptionModal
         isVisible={isVisibleModalSubcribe}
-        onClose={() => setIsVisibleModalSubcribe(false)}
-        isWellCome
+        onClose={() => {
+          setIsWellCome(false);
+          setIsVisibleModalSubcribe(false);
+        }}
+        isWellCome={isWellCome}
       />
     </Container>
   );

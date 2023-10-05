@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import React, {useState} from 'react';
-import {Alert, Image, Linking, Text, View} from 'react-native';
+import {Image, Linking, Text, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -10,7 +10,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {useDispatch} from 'react-redux';
 import {ListMenuItem} from '../../Models/ListMenuItem';
 import authenticationAPI from '../../apis/authAPI';
-import {Circle1, Circle2, Circle3} from '../../assets/svg';
+import {Circle1} from '../../assets/svg';
 import {
   Button,
   CardContent,
@@ -29,15 +29,19 @@ import {appInfos} from '../../constants/appInfos';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
 import {LoadingModal, ModalInfoScore} from '../../modals';
-import {addAuth} from '../../redux/reducers/authReducer';
-import {global} from '../../styles/global';
-import {removeList} from '../../redux/reducers/groceryReducer';
 import ModalizeFilter from '../../modals/ModalizeFilter';
+import {addAuth} from '../../redux/reducers/authReducer';
+import {removeList} from '../../redux/reducers/groceryReducer';
+import {global} from '../../styles/global';
+import {AlertDetail} from '../../Models/AlertDetail';
+import ModalAlert from '../../modals/ModalAlert';
 
 const ProfileScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isVisibleModalFillter, setIsVisibleModalFillter] = useState(false);
+  const [isVisibleModalAlert, setIsVisibleModalAlert] = useState(false);
+  const [alertDetail, setAlertDetail] = useState<AlertDetail>();
 
   const dispatch = useDispatch();
 
@@ -94,14 +98,23 @@ const ProfileScreen = ({navigation}: any) => {
   );
 
   const handleLogout = () => {
-    Alert.alert('Logout', 'Do you want logout?', [
-      {
-        text: 'Cancel',
-        style: 'cancel',
-        onPress: () => console.log('Cancel'),
+    setAlertDetail({
+      title: 'Logout',
+      mess: 'Do you want logout?',
+      onOK: () => {
+        onLogout();
+        setIsVisibleModalAlert(false);
       },
-      {text: 'Logout', style: 'destructive', onPress: onLogout},
-    ]);
+    });
+    setIsVisibleModalAlert(true);
+    // Alert.alert('Logout', 'Do you want logout?', [
+    //   {
+    //     text: 'Cancel',
+    //     style: 'cancel',
+    //     onPress: () => console.log('Cancel'),
+    //   },
+    //   {text: 'Logout', style: 'destructive', onPress: onLogout},
+    // ]);
   };
 
   const onLogout = async () => {
@@ -391,6 +404,19 @@ const ProfileScreen = ({navigation}: any) => {
         visible={isVisibleModalFillter}
         onClose={() => setIsVisibleModalFillter(false)}
       />
+
+      {isVisibleModalAlert && alertDetail && (
+        <ModalAlert
+          title={alertDetail.title}
+          mess={alertDetail.mess}
+          onOK={alertDetail.onOK}
+          isVisible={isVisibleModalAlert}
+          onClose={() => {
+            setIsVisibleModalAlert(false);
+            setAlertDetail(undefined);
+          }}
+        />
+      )}
     </Container>
   );
 };

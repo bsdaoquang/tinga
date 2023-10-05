@@ -1,5 +1,6 @@
 import {Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
+import {Image} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 import {useDispatch} from 'react-redux';
 import authenticationAPI from '../../apis/authAPI';
@@ -13,9 +14,8 @@ import {
 import {appColors} from '../../constants/appColors';
 import useAuth from '../../hooks/useAuth';
 import {LoadingModal} from '../../modals';
-import {Image, View} from 'react-native';
+import ModalAlert from '../../modals/ModalAlert';
 import {showToast} from '../../utils/showToast';
-import {appSize} from '../../constants/appSize';
 
 const ResetPassword = ({navigation}: any) => {
   const [email, setEmail] = useState('');
@@ -23,7 +23,6 @@ const ResetPassword = ({navigation}: any) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const {handleCheckEmail, helpText} = useAuth(navigation);
-  const dispatch = useDispatch();
 
   const handleResetPassword = async () => {
     if (email) {

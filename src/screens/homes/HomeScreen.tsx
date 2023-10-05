@@ -29,7 +29,11 @@ import {
   SubscriptionModal,
 } from '../../modals';
 import {addAuth, authSelector} from '../../redux/reducers/authReducer';
-import {groceriesSelector} from '../../redux/reducers/groceryReducer';
+import {
+  addGroceries,
+  groceriesSelector,
+  removeList,
+} from '../../redux/reducers/groceryReducer';
 import {showToast} from '../../utils/showToast';
 import CategoriesList from './components/CategoriesList';
 import HomeCarousels from './components/HomeCarousels';
@@ -37,6 +41,9 @@ import Promotions from './components/Promotions';
 import VideoComponent from './components/VideoComponent';
 import {shopingListSelector} from '../../redux/reducers/shopingListReducer';
 import {fontFamilys} from '../../constants/fontFamily';
+import {useIsFocused} from '@react-navigation/native';
+import {AlertDetail} from '../../Models/AlertDetail';
+import ModalAlert from '../../modals/ModalAlert';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -44,10 +51,13 @@ const HomeScreen = ({navigation, route}: any) => {
   const [isVisibleModalRating, setIsVisibleModalRating] = useState(false);
   const [isVisibleModalFeedback, setIsVisibleModalFeedback] = useState(false);
   const [videos, setVideos] = useState<VideoModel[]>([]);
+  const [isVisibleModalAlert, setIsVisibleModalAlert] = useState(false);
+  const [alertDetail, setAlertDetail] = useState<AlertDetail>();
 
   const auth = useSelector(authSelector);
   const groceriesList = useSelector(groceriesSelector);
   const shopingList = useSelector(shopingListSelector);
+  const isFocused = useIsFocused();
 
   const dispatch = useDispatch();
 
@@ -63,8 +73,8 @@ const HomeScreen = ({navigation, route}: any) => {
   }, []);
 
   useEffect(() => {
-    groceriesList.length === 5 && setIsVisibleModalRating(true);
-  }, [groceriesList]);
+    groceriesList.length >= 5 && setIsVisibleModalRating(true);
+  }, []);
 
   const getVideos = async () => {
     const api = `/videos`;
@@ -251,7 +261,16 @@ const HomeScreen = ({navigation, route}: any) => {
       />
 
       <ModalRating
-        onRating={() => Alert.alert('Rating', 'Will be show rating library!')}
+        onRating={() => {
+          setAlertDetail({
+            title: 'Rating',
+            mess: 'Will be show rating library!',
+            onOK: () => {
+              setIsVisibleModalAlert(false);
+            },
+          });
+          setIsVisibleModalAlert(true);
+        }}
         onFeedback={() => {
           setIsVisibleModalRating(false);
           setIsVisibleModalFeedback(true);
@@ -264,6 +283,19 @@ const HomeScreen = ({navigation, route}: any) => {
         isVisible={isVisibleModalFeedback}
         onClose={() => setIsVisibleModalFeedback(false)}
       />
+
+      {isVisibleModalAlert && alertDetail && (
+        <ModalAlert
+          title={alertDetail.title}
+          mess={alertDetail.mess}
+          onOK={alertDetail.onOK}
+          isVisible={isVisibleModalAlert}
+          onClose={() => {
+            setIsVisibleModalAlert(false);
+            setAlertDetail(undefined);
+          }}
+        />
+      )}
     </>
   );
 };

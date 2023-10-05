@@ -127,6 +127,10 @@ const SubscriptionModal = (props: Props) => {
           setIsUpdating(false);
 
           onClose();
+
+          if (isWellCome) {
+            navigation.navigate('HomeScan', {isWellCome});
+          }
         });
     } catch (error) {
       setIsUpdating(false);
@@ -309,7 +313,10 @@ const SubscriptionModal = (props: Props) => {
           <RowComponent justify="flex-end">
             <Button
               onPress={() => {
-                onClose();
+                // onClose();
+                if (isWellCome) {
+                  navigation.navigate('HomeScan', {isWellCome});
+                }
               }}
               icon={
                 <AntDesign name="close" size={22} color={appColors.gray2} />
