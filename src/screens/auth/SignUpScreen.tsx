@@ -42,7 +42,8 @@ const SignUpScreen = ({navigation}: any) => {
       firstname &&
       lastname &&
       !helpText?.email &&
-      !helpText?.paddword
+      !helpText?.paddword &&
+      password.length >= 6
     ) {
       setDisable(false);
     } else {
