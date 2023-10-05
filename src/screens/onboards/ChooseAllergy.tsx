@@ -123,7 +123,7 @@ const ChooseAllergy = ({navigation}: any) => {
       </SectionComponent>
       <SectionComponent styles={{marginVertical: 20}}>
         <ButtonComponent
-          disable={selected.length === 0 || isUpdating}
+          // disable={selected.length === 0 || isUpdating}
           textColor={appColors.text}
           color={appColors.success1}
           fontStyles={{textAlign: 'center'}}

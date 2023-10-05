@@ -150,7 +150,7 @@ const HomeCarousels = () => {
             disable={groceriesList.length >= 5 ? true : false}
             onPress={() => {
               stop();
-              navigation.navigate('BarCodeScreen');
+              navigation.navigate('HomeScan');
             }}
             text="Scan my food"
             icon={

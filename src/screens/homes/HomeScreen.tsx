@@ -59,14 +59,11 @@ const HomeScreen = ({navigation, route}: any) => {
         setIsvisibleModalOffer(true);
       }, 1500);
     }
-
     getVideos();
   }, []);
 
   useEffect(() => {
-    groceriesList.length === 5 &&
-      !isvisibleModalOffer &&
-      setIsVisibleModalRating(true);
+    groceriesList.length === 5 && setIsVisibleModalRating(true);
   }, [groceriesList]);
 
   const getVideos = async () => {
@@ -109,6 +106,7 @@ const HomeScreen = ({navigation, route}: any) => {
         backgroundColor={auth.premium_till ? appColors.primary : appColors.text}
         top={32}>
         <StatusBar barStyle={'light-content'} translucent />
+
         {!auth.premium_till && (
           <RowComponent styles={{paddingBottom: 6, paddingTop: 12}}>
             <TextComponent
@@ -241,7 +239,10 @@ const HomeScreen = ({navigation, route}: any) => {
         onClose={() => {
           setIsvisibleModalOffer(false);
         }}
-        onView={() => setIsVisibleModalSubcriber(true)}
+        onView={() => {
+          setIsVisibleModalSubcriber(true);
+          setIsvisibleModalOffer(false);
+        }}
       />
 
       <SubscriptionModal

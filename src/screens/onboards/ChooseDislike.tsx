@@ -154,7 +154,7 @@ const ChooseDislike = ({navigation, route}: any) => {
       </SectionComponent>
       <SectionComponent styles={{}}>
         <ButtonComponent
-          disable={selected.length === 0 || isUpdating}
+          // disable={selected.length === 0 || isUpdating}
           textColor={appColors.text}
           color={appColors.success1}
           fontStyles={{textAlign: 'center'}}

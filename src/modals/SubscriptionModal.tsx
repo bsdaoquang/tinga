@@ -127,10 +127,6 @@ const SubscriptionModal = (props: Props) => {
           setIsUpdating(false);
 
           onClose();
-
-          if (isWellCome) {
-            navigation.navigate('HomeScan');
-          }
         });
     } catch (error) {
       setIsUpdating(false);
@@ -314,7 +310,6 @@ const SubscriptionModal = (props: Props) => {
             <Button
               onPress={() => {
                 onClose();
-                navigation.navigate('HomeScan');
               }}
               icon={
                 <AntDesign name="close" size={22} color={appColors.gray2} />
