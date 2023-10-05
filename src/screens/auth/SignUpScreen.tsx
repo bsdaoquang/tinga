@@ -82,7 +82,7 @@ const SignUpScreen = ({navigation}: any) => {
   return (
     <Container back isScroll>
       <SectionComponent>
-        <TitleComponent text="Welcome to Tinga" size={26} />
+        <TitleComponent text="Welcome to Tinga" size={26} height={44} />
         <TextComponent
           text="Create an account to start learning how to shop smarter for your dietary needs."
           font={fontFamilys.medium}

@@ -163,7 +163,12 @@ const HomeLoginScreen = ({navigation}: any) => {
             alignItems: 'center',
             width: '100%',
           }}>
-          <TitleComponent text="Welcome to Tinga" size={32} flex={0} />
+          <TitleComponent
+            text="Welcome to Tinga"
+            size={32}
+            height={44}
+            flex={0}
+          />
           <TextComponent
             flex={0}
             styles={{textAlign: 'center'}}
@@ -222,7 +227,7 @@ const HomeLoginScreen = ({navigation}: any) => {
           </RowComponent>
 
           <SpaceComponent height={16} />
-          <TermsText text="By continuing you agree with our " />
+          <TermsText text="By continuing you agree with our " isBreak />
           <SpaceComponent height={16} />
         </SectionComponent>
       </View>
