@@ -386,7 +386,7 @@ const ModalizeFilter = (props: Props) => {
                     }}
                   />
                 </RowComponent>
-                {isShowDiets
+                {/* {isShowDiets
                   ? diets.map(item =>
                       renderButton({
                         id: item.id,
@@ -408,7 +408,7 @@ const ModalizeFilter = (props: Props) => {
                       isRight: true,
                       isSelected: true,
                       onPress: () => setIsShowDiets(true),
-                    })}
+                    })} */}
               </View>
               <View style={{marginTop: 20}}>
                 <RowComponent

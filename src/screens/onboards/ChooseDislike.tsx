@@ -31,28 +31,48 @@ const ChooseDislike = ({navigation, route}: any) => {
     handleGetAllgery();
   }, []);
 
+  // console.log(allergy_ids);
+
+  useEffect(() => {
+    if (choosese.length > 0) {
+      const items: number[] = [];
+
+      choosese.forEach(item => {
+        if (item.is_selected && item.is_selected === 'Yes') {
+          items.push(item.id);
+        }
+      });
+      setSelected(items);
+    }
+  }, [choosese]);
+
   const handleGetAllgery = async () => {
     const api = `/dislikeItems`;
     const data = new FormData();
 
-    data.append('allergy_ids', allergy_ids ? `${allergy_ids}` : '[]');
-    data.append('prefrence', '3');
+    data.append('allergy_ids', allergy_ids.toString());
+    data.append('prefrence', 3);
 
     try {
       setIsLoading(true);
-      await handleGetData.handleProduct(api, data, 'post').then((res: any) => {
-        const items: any[] = [];
-
-        for (const i in res) {
-          items.push({
-            id: parseInt(i),
-            name: res[i],
-          });
-        }
-
-        setChoosese(items);
-        setIsLoading(false);
-      });
+      await handleGetData
+        .handleProduct(api, data, 'post', true)
+        .then((res: any) => {
+          const items: UserChoose[] = [];
+          if (res.length > 0) {
+            res.forEach((item: any, index: number) => {
+              // console.log(item.is_selected);
+              item.name &&
+                items.push({
+                  id: index,
+                  code: `item${index}`,
+                  ...item,
+                });
+            });
+          }
+          setChoosese(items);
+          setIsLoading(false);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -60,18 +80,14 @@ const ChooseDislike = ({navigation, route}: any) => {
 
   const handleContinue = async () => {
     const api = `/dislikes`;
-
     const items: string[] = [];
-
     selected.forEach(id => {
       const item = choosese.find(element => element.id === id);
-
       item && items.push(item.name);
     });
 
     const data = new FormData();
     data.append('dislikes', JSON.stringify(items));
-
     try {
       setIsUpdating(true);
       await handleGetData
@@ -89,20 +105,16 @@ const ChooseDislike = ({navigation, route}: any) => {
       console.log(error);
       setIsUpdating(false);
     }
-
-    //
   };
 
   const handleSelectedItem = (id: number) => {
     const items = [...selected];
     const index = selected.findIndex(element => element === id);
-
     if (index === -1) {
       items.push(id);
     } else {
       items.splice(index, 1);
     }
-
     setSelected(items);
   };
 

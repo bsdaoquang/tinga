@@ -6,6 +6,7 @@ export interface UserChoose {
   deleted_on?: any;
   created_at?: string;
   updated_at?: string;
+  is_selected?: 'Yes' | 'No';
 }
 
 export interface UserSelected {
