@@ -227,7 +227,7 @@ const HomeLoginScreen = ({navigation}: any) => {
           </RowComponent>
 
           <SpaceComponent height={16} />
-          <TermsText text="By continuing you agree with our " isBreak />
+          <TermsText text="By continuing you agree with our " />
           <SpaceComponent height={16} />
         </SectionComponent>
       </View>

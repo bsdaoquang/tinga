@@ -107,7 +107,9 @@ const SignUpScreen = ({navigation}: any) => {
           value={email}
           placeholder="Email address*"
           affix={<Sms size={20} color={appColors.gray} />}
-          onChange={val => setEmail(val)}
+          onChange={val => {
+            setEmail(val);
+          }}
           type="email-address"
           autoComplete="email"
           isCapitalize="none"
@@ -117,12 +119,17 @@ const SignUpScreen = ({navigation}: any) => {
         <InputComponent
           value={password}
           placeholder="Password*"
-          onChange={val => setPassword(val)}
+          onChange={val => {
+            handleCheckPass(val);
+            setPassword(val);
+          }}
           isSecure
           show={isShowPass}
           isCapitalize="none"
-          setIsShowPass={() => setIsShowPass(!isShowPass)}
-          onEnd={() => handleCheckPass(password)}
+          setIsShowPass={() => {
+            setIsShowPass(!isShowPass);
+          }}
+          // onEnd={() => handleCheckPass(password)}
           helpText={helpText?.paddword}
         />
         {errorText && (

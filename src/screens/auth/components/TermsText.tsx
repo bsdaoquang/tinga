@@ -17,23 +17,14 @@ const TermsText = ({text, isBreak}: {text: string; isBreak?: boolean}) => {
           textSize={12}
         />
         <TextComponent text={` and `} flex={0} size={12} />
-        {!isBreak && (
-          <Button
-            text="Privacy Policy."
-            onPress={() => Linking.openURL('https://tinga.ca/privacy.html')}
-            textColor={appColors.primary}
-            textSize={12}
-          />
-        )}
-      </RowComponent>
-      {isBreak && (
+
         <Button
           text="Privacy Policy."
           onPress={() => Linking.openURL('https://tinga.ca/privacy.html')}
           textColor={appColors.primary}
           textSize={12}
         />
-      )}
+      </RowComponent>
     </>
   );
 };

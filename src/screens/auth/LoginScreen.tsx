@@ -98,12 +98,14 @@ const LoginScreen = ({navigation}: any) => {
         <InputComponent
           value={password}
           placeholder="Password*"
-          onChange={val => setPassword(val)}
+          onChange={val => {
+            setPassword(val);
+            handleCheckPass(password);
+          }}
           isSecure
           show={isShowPass}
           isCapitalize="none"
           setIsShowPass={() => setIsShowPass(!isShowPass)}
-          onEnd={() => handleCheckPass(password)}
           helpText={helpText?.paddword}
         />
         {errorMessage && (
@@ -122,7 +124,7 @@ const LoginScreen = ({navigation}: any) => {
           icon={
             <Octicons name="arrow-right" size={20} color={appColors.text} />
           }
-          disable={!email || !password || isLoading}
+          disable={!email || !password || isLoading || password.length < 6}
           fontStyles={{textAlign: 'center'}}
           onPress={handleLogin}
           styles={{
