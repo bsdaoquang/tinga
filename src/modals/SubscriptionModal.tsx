@@ -2,6 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   Image,
+  Linking,
   Modal,
   ScrollView,
   Text,
@@ -129,7 +130,7 @@ const SubscriptionModal = (props: Props) => {
           onClose();
 
           if (isWellCome) {
-            navigation.navigate('HomeScan', {isWellCome});
+            navigation.navigate('HomeScanWellCome');
           }
         });
     } catch (error) {
@@ -367,7 +368,7 @@ const SubscriptionModal = (props: Props) => {
               />
 
               <RowComponent styles={{marginVertical: 20}}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => showToast('In comming')}>
                   <TextComponent
                     font={fontFamilys.bold}
                     color="#32645B"
@@ -380,7 +381,10 @@ const SubscriptionModal = (props: Props) => {
                   text="•"
                   flex={0}
                 />
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    Linking.openURL('https://tinga.ca/terms.html')
+                  }>
                   <TextComponent
                     font={fontFamilys.bold}
                     color="#32645B"

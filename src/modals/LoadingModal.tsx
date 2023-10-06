@@ -3,6 +3,8 @@ import React from 'react';
 import {appColors} from '../constants/appColors';
 import {global} from '../styles/global';
 import {TextComponent} from '../components';
+import {appInfos} from '../constants/appInfos';
+import {appSize} from '../constants/appSize';
 
 interface Props {
   visible: boolean;
@@ -12,7 +14,11 @@ interface Props {
 const LoadingModal = (props: Props) => {
   const {visible, mess} = props;
   return (
-    <Modal visible={visible} transparent animationType="slide">
+    <Modal
+      visible={visible}
+      transparent
+      animationType="slide"
+      statusBarTranslucent>
       <View
         style={[
           global.container,
@@ -20,6 +26,7 @@ const LoadingModal = (props: Props) => {
             backgroundColor: 'rgba(0,0,0,0.4)',
             justifyContent: 'center',
             alignItems: 'center',
+            height: appSize.height,
           },
         ]}>
         <ActivityIndicator color={appColors.white} size={32} />

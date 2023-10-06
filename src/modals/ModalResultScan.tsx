@@ -13,11 +13,15 @@ import {
   TitleComponent,
 } from '../components';
 import {appColors} from '../constants/appColors';
-import {groceriesSelector} from '../redux/reducers/groceryReducer';
+import {
+  addLocalData,
+  groceriesSelector,
+} from '../redux/reducers/groceryReducer';
 import {global} from '../styles/global';
 import {handleSaveUser} from '../utils/handleSaveUser';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appInfos} from '../constants/appInfos';
+import {appSize} from '../constants/appSize';
 
 interface Props {
   isVisible: boolean;
@@ -29,12 +33,8 @@ interface Props {
 const ModalResultScan = (props: Props) => {
   const {isVisible, onClose, count, onKeepScan} = props;
   const dispatch = useDispatch();
-
+  const navigation: any = useNavigation();
   const groceriesList = useSelector(groceriesSelector);
-
-  const handleClose = () => {
-    onClose();
-  };
 
   const renderItemSelected = (item: Product, index: number) => (
     <RowComponent
@@ -115,8 +115,12 @@ const ModalResultScan = (props: Props) => {
   };
 
   return (
-    <Modal visible={isVisible} transparent animationType="slide">
-      <View style={[global.modalContainer]}>
+    <Modal
+      visible={isVisible}
+      statusBarTranslucent
+      transparent
+      animationType="slide">
+      <View style={[global.modalContainer, {height: appSize.height}]}>
         <View style={[global.modalContent]}>
           {renderResultCount()}
           <View
@@ -128,13 +132,7 @@ const ModalResultScan = (props: Props) => {
             <ButtonComponent
               text="I’m Done "
               onPress={async () => {
-                handleSaveUser(dispatch);
                 onClose();
-
-                await AsyncStorage.setItem(
-                  appInfos.localDataName.scanlist,
-                  JSON.stringify(groceriesList),
-                );
               }}
               styles={{marginVertical: 8}}
             />

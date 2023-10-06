@@ -31,7 +31,7 @@ import {fontFamilys} from '../../constants/fontFamily';
 import {LoadingModal, ModalInfoScore} from '../../modals';
 import ModalizeFilter from '../../modals/ModalizeFilter';
 import {addAuth} from '../../redux/reducers/authReducer';
-import {removeList} from '../../redux/reducers/groceryReducer';
+import {addLocalData, removeList} from '../../redux/reducers/groceryReducer';
 import {global} from '../../styles/global';
 import {AlertDetail} from '../../Models/AlertDetail';
 import ModalAlert from '../../modals/ModalAlert';
@@ -107,14 +107,6 @@ const ProfileScreen = ({navigation}: any) => {
       },
     });
     setIsVisibleModalAlert(true);
-    // Alert.alert('Logout', 'Do you want logout?', [
-    //   {
-    //     text: 'Cancel',
-    //     style: 'cancel',
-    //     onPress: () => console.log('Cancel'),
-    //   },
-    //   {text: 'Logout', style: 'destructive', onPress: onLogout},
-    // ]);
   };
 
   const onLogout = async () => {
@@ -125,9 +117,8 @@ const ProfileScreen = ({navigation}: any) => {
       await GoogleSignin.signOut().then(() => console.log('Logouted'));
 
       await authenticationAPI.HandleAuth(api, {}, 'post').then(async res => {
-        dispatch(addAuth({}));
-        dispatch(removeList);
         await AsyncStorage.removeItem(appInfos.localDataName.userData);
+        dispatch(addAuth({}));
         setIsLoading(false);
       });
     } catch (error) {
