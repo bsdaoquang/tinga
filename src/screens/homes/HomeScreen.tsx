@@ -158,7 +158,7 @@ const HomeScreen = ({navigation, route}: any) => {
               onPress={() => navigation.navigate('Profile')}>
               <TitleComponent
                 line={1}
-                text={`Hi, ${auth.first_name} ${auth.last_name}`}
+                text={`Hi, ${auth.first_name}`}
                 size={28}
                 color={appColors.white}
                 height={30}
