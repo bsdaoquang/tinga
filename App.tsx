@@ -41,7 +41,7 @@ const App = () => {
                 flexDirection: 'row',
               }}
               labels={{
-                finish: ' ',
+                finish: 'Close',
               }}>
               <Router />
             </TourGuideProvider>
