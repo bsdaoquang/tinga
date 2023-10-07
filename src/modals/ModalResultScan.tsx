@@ -137,6 +137,7 @@ const ModalResultScan = (props: Props) => {
               styles={{marginVertical: 8}}
             />
             <ButtonComponent
+              disable={groceriesList.length >= 5}
               text="Keep Scanning"
               onPress={onKeepScan}
               color={'#13917B'}

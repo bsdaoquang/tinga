@@ -316,7 +316,7 @@ const SubscriptionModal = (props: Props) => {
               onPress={() => {
                 // onClose();
                 if (isWellCome) {
-                  navigation.navigate('HomeScan', {isWellCome});
+                  navigation.navigate('HomeScanWellCome');
                 }
               }}
               icon={
