@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "buildAPK": "npx react-native run-android --mode=release",
-    "test": "jest"
+    "test": "jest",
+    "android-code-push": "appcenter codepush release-react -a bsdaoquang-gmail.com/Tinga-Android -d Production"
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.2.2",
@@ -27,6 +28,7 @@
     "react-native": "0.72.5",
     "react-native-camera": "^4.2.1",
     "react-native-chart-kit": "^6.12.0",
+    "react-native-code-push": "^8.1.0",
     "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.12.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
