@@ -35,8 +35,8 @@ const HomeCarousels = () => {
   const {canStart, start, stop} = useTourGuideController();
 
   useEffect(() => {
-    canStart && start();
-    // !isPermission && groceriesList.length === 0 && canStart && start();
+    // canStart && start();
+    !isPermission && groceriesList.length === 0 && canStart && start();
   }, [canStart, isPermission]);
 
   useEffect(() => {
