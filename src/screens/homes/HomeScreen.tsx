@@ -1,9 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useIsFocused} from '@react-navigation/native';
 import {Gift} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {Alert, StatusBar, TouchableOpacity, View} from 'react-native';
+import {StatusBar, TouchableOpacity, View} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {useDispatch, useSelector} from 'react-redux';
+import {AlertDetail} from '../../Models/AlertDetail';
 import {VideoModel} from '../../Models/VideoModel';
 import dashboardAPI from '../../apis/dashboardAPI';
 import handleGetData from '../../apis/productAPI';
@@ -22,28 +24,27 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {appInfos} from '../../constants/appInfos';
+import {fontFamilys} from '../../constants/fontFamily';
 import {
   ModalFeedback,
   ModalOffer,
   ModalRating,
   SubscriptionModal,
 } from '../../modals';
+import ModalAlert from '../../modals/ModalAlert';
 import {addAuth, authSelector} from '../../redux/reducers/authReducer';
 import {
-  addGroceries,
+  addLocalData,
   groceriesSelector,
-  removeList,
 } from '../../redux/reducers/groceryReducer';
+import {shopingListSelector} from '../../redux/reducers/shopingListReducer';
 import {showToast} from '../../utils/showToast';
 import CategoriesList from './components/CategoriesList';
 import HomeCarousels from './components/HomeCarousels';
 import Promotions from './components/Promotions';
 import VideoComponent from './components/VideoComponent';
-import {shopingListSelector} from '../../redux/reducers/shopingListReducer';
-import {fontFamilys} from '../../constants/fontFamily';
-import {useIsFocused} from '@react-navigation/native';
-import {AlertDetail} from '../../Models/AlertDetail';
-import ModalAlert from '../../modals/ModalAlert';
+import {PERMISSIONS, check} from 'react-native-permissions';
+import {useTourGuideController} from 'rn-tourguide';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -91,7 +92,6 @@ const HomeScreen = ({navigation, route}: any) => {
 
   const handleGetAndUpdateProfile = async () => {
     const api = `/getUserProfile`;
-
     try {
       await handleGetData.handleUser(api).then(async (res: any) => {
         const data = {...auth, ...res, premium_till: res.premium_till};
@@ -109,9 +109,12 @@ const HomeScreen = ({navigation, route}: any) => {
     }
   };
 
+  const {stop} = useTourGuideController();
+
   return (
     <>
       <Container
+        onScroll={() => stop()}
         isScroll
         backgroundColor={auth.premium_till ? appColors.primary : appColors.text}
         top={32}>

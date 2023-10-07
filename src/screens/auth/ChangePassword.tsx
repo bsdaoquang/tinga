@@ -69,9 +69,7 @@ const LoginScreen = ({route, navigation}: any) => {
         />
       </SectionComponent>
 
-      <SectionComponent
-        flex={1}
-        styles={{justifyContent: 'center', paddingTop: '15%'}}>
+      <SectionComponent flex={1} styles={{justifyContent: 'center'}}>
         <TitleComponent text="Enter a new  password" size={26} flex={0} />
         <SpaceComponent height={22} />
         <InputComponent

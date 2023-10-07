@@ -28,6 +28,7 @@ const HomeCarousels = () => {
 
   const groceriesList = useSelector(groceriesSelector);
   const shopingList = useSelector(shopingListSelector);
+  const [isGuideStart, setIsGuideStart] = useState(false);
 
   const navigation: any = useNavigation();
 
@@ -46,7 +47,7 @@ const HomeCarousels = () => {
       if (res === 'granted') {
         setIsPermission(true);
       } else {
-        setIsPermission(false);
+        setIsGuideStart(false);
       }
     });
   };
@@ -119,6 +120,7 @@ const HomeCarousels = () => {
     </CardContent>
   ) : (
     <Swiper
+      scrollEnabled={!isGuideStart}
       activeDotColor="#13917B"
       activeDotStyle={{
         width: 32,
@@ -142,7 +144,7 @@ const HomeCarousels = () => {
             size={20}
           />
           <TextComponent
-            text="Scan to learn which foods match your dietary restrictions and what to swap."
+            text={`Scan to learn which foods match your\ndietary restrictions and what to swap.`}
             flex={0}
           />
           <SpaceComponent height={16} />

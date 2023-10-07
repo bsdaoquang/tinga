@@ -140,6 +140,14 @@ const VerifyEmail = ({navigation, route}: any) => {
     }
   };
 
+  const handleClearCode = (key: string) => {
+    if (key === 'Backspace') {
+      setCode('');
+      setNumsCode([]);
+      ref1.current?.focus();
+    }
+  };
+
   return (
     <Container back isScroll>
       <SectionComponent>
@@ -154,7 +162,7 @@ const VerifyEmail = ({navigation, route}: any) => {
         <TextComponent
           text={
             type === 'confirm'
-              ? `Check your email. We’ve sent a code to ${email}`
+              ? `Email Verification code has been sent on your mail. Please check your mailbox.`
               : `Check your email.  We’ve sent a code to ${email}.  To reset your password please enter the code`
           }
           font={fontFamilys.medium}
@@ -184,6 +192,7 @@ const VerifyEmail = ({navigation, route}: any) => {
             }}
             maxLength={1}
             keyboardType="number-pad"
+            onKeyPress={key => handleClearCode(key.nativeEvent.key)}
           />
           <TextInput
             placeholder="-"
@@ -204,6 +213,7 @@ const VerifyEmail = ({navigation, route}: any) => {
               val && ref3.current?.focus();
             }}
             keyboardType="number-pad"
+            onKeyPress={key => handleClearCode(key.nativeEvent.key)}
           />
           <TextInput
             placeholder="-"
@@ -224,6 +234,7 @@ const VerifyEmail = ({navigation, route}: any) => {
               val && ref4.current?.focus();
             }}
             keyboardType="number-pad"
+            onKeyPress={key => handleClearCode(key.nativeEvent.key)}
           />
           <TextInput
             placeholder="-"
@@ -244,6 +255,7 @@ const VerifyEmail = ({navigation, route}: any) => {
               val && ref5.current?.focus();
             }}
             keyboardType="number-pad"
+            onKeyPress={key => handleClearCode(key.nativeEvent.key)}
           />
           <TextInput
             placeholder="-"
@@ -261,6 +273,7 @@ const VerifyEmail = ({navigation, route}: any) => {
             value={numsCode[4]}
             onChangeText={val => handleSetNumCode(val, 4)}
             keyboardType="number-pad"
+            onKeyPress={key => handleClearCode(key.nativeEvent.key)}
           />
         </RowComponent>
       </SectionComponent>
