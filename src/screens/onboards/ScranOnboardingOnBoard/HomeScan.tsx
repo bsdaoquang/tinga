@@ -16,6 +16,7 @@ import {fontFamilys} from '../../../constants/fontFamily';
 import {useDispatch} from 'react-redux';
 import {handleSaveUser} from '../../../utils/handleSaveUser';
 import {useNavigation} from '@react-navigation/native';
+import {PERMISSIONS, check} from 'react-native-permissions';
 
 const HomeScan = () => {
   useEffect(() => {
@@ -30,18 +31,12 @@ const HomeScan = () => {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.CAMERA,
-          {
-            title: 'RequestAuth',
-            message: 'Please allow camera permission to scan QR code',
-            buttonNeutral: 'Later',
-            buttonNegative: 'Cancel',
-            buttonPositive: 'Agree',
-          },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           console.log('Đã được cấp quyền');
         } else {
           console.log('Yêu cầu bị từ chối');
+
           handleSaveUser(dispatch);
         }
       } catch (error) {

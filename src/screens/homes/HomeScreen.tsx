@@ -5,6 +5,7 @@ import React, {useEffect, useState} from 'react';
 import {StatusBar, TouchableOpacity, View} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {useDispatch, useSelector} from 'react-redux';
+import {useTourGuideController} from 'rn-tourguide';
 import {AlertDetail} from '../../Models/AlertDetail';
 import {VideoModel} from '../../Models/VideoModel';
 import dashboardAPI from '../../apis/dashboardAPI';
@@ -33,18 +34,13 @@ import {
 } from '../../modals';
 import ModalAlert from '../../modals/ModalAlert';
 import {addAuth, authSelector} from '../../redux/reducers/authReducer';
-import {
-  addLocalData,
-  groceriesSelector,
-} from '../../redux/reducers/groceryReducer';
+import {groceriesSelector} from '../../redux/reducers/groceryReducer';
 import {shopingListSelector} from '../../redux/reducers/shopingListReducer';
 import {showToast} from '../../utils/showToast';
 import CategoriesList from './components/CategoriesList';
 import HomeCarousels from './components/HomeCarousels';
 import Promotions from './components/Promotions';
 import VideoComponent from './components/VideoComponent';
-import {PERMISSIONS, check} from 'react-native-permissions';
-import {useTourGuideController} from 'rn-tourguide';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);

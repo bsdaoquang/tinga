@@ -119,6 +119,7 @@ const VerifyEmail = ({navigation, route}: any) => {
               mess: `Email verify code sended', ${res.message}`,
               onOK: () => {
                 setIsVisibleModalAlert(false);
+                handleClearCode('Backspace');
               },
             });
             setIsVisibleModalAlert(true);
@@ -128,10 +129,12 @@ const VerifyEmail = ({navigation, route}: any) => {
               mess: `Can not send email for you!`,
               onOK: () => {
                 setIsVisibleModalAlert(false);
+                handleClearCode('Backspace');
               },
             });
             setIsVisibleModalAlert(true);
           }
+          setMessageError('');
           setIsLoading(false);
         });
     } catch (error) {
