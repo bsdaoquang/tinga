@@ -6,11 +6,24 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Host} from 'react-native-portalize';
 import {SplashScreen} from './src/screens';
 import {TourGuideProvider} from 'rn-tourguide';
+import codePush from 'react-native-code-push';
+
+let codePushOptions = {checkFrequency: codePush.CheckFrequency.MANUAL};
 
 const App = () => {
   const [isWelcome, setIsWelcome] = useState(true);
 
   useEffect(() => {
+    codePush.sync({
+      updateDialog: {
+        title: 'Update',
+        optionalInstallButtonLabel: 'Install',
+        optionalIgnoreButtonLabel: 'Cancel',
+        optionalUpdateMessage: 'New version available, please update',
+      },
+      installMode: codePush.InstallMode.IMMEDIATE,
+    });
+
     setTimeout(() => {
       setIsWelcome(false);
     }, 1000);
@@ -38,4 +51,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default codePush(codePushOptions)(App);
