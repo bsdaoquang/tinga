@@ -71,13 +71,13 @@ const HomeScan = () => {
             color={`${appColors.white6}`}
           />
           <TitleComponent
-            text="In addition, there is no API for the"
+            text="Scan at least 5 pantry items"
             flex={1}
             size={26}
             color={`${appColors.white}`}
           />
           <TextComponent
-            text="Scan 5 barcodes in your pantry to learn which foods match your dietary restrictions and discover Tinga swaps."
+            text={`Scan 5 barcodes in your pantry to learn\nwhich foods match your dietary\nrestrictions and discover Tinga swaps.`}
             flex={1}
             size={18}
             font={fontFamilys.regular}

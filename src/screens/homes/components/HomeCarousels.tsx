@@ -35,7 +35,7 @@ const HomeCarousels = () => {
   const {canStart, start, stop} = useTourGuideController();
 
   useEffect(() => {
-    !isPermission && groceriesList.length === 0 && canStart && start();
+    (!isPermission || groceriesList.length === 0) && canStart && start();
   }, [canStart, isPermission]);
 
   useEffect(() => {
@@ -132,7 +132,7 @@ const HomeCarousels = () => {
       showsPagination
       style={{flex: 0, height: 230, paddingVertical: 16}}>
       <TourGuideZone
-        zone={1}
+        zone={0}
         style={{paddingBottom: 30}}
         borderRadius={16}
         text="START HERE"

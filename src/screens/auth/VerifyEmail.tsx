@@ -109,6 +109,7 @@ const VerifyEmail = ({navigation, route}: any) => {
   const resendEmailVeryfied = async () => {
     const api = `/resend_otp_code`;
     setIsLoading(true);
+
     try {
       await authenticationAPI
         .HandleAuth(api, {email}, 'post')
@@ -116,7 +117,7 @@ const VerifyEmail = ({navigation, route}: any) => {
           if (res.success) {
             setAlertDetail({
               title: 'Success',
-              mess: `Email verify code sended', ${res.message}`,
+              mess: `Email Verification code has been sent on your mail. Please check your mailbox.`,
               onOK: () => {
                 setIsVisibleModalAlert(false);
                 handleClearCode('Backspace');
@@ -165,7 +166,7 @@ const VerifyEmail = ({navigation, route}: any) => {
         <TextComponent
           text={
             type === 'confirm'
-              ? `Email Verification code has been sent on your mail. Please check your mailbox.`
+              ? `Check your email. We’ve sent a code to ${email}`
               : `Check your email.  We’ve sent a code to ${email}.  To reset your password please enter the code`
           }
           font={fontFamilys.medium}

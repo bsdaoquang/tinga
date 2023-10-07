@@ -34,7 +34,10 @@ import {
 } from '../../modals';
 import ModalAlert from '../../modals/ModalAlert';
 import {addAuth, authSelector} from '../../redux/reducers/authReducer';
-import {groceriesSelector} from '../../redux/reducers/groceryReducer';
+import {
+  addLocalData,
+  groceriesSelector,
+} from '../../redux/reducers/groceryReducer';
 import {shopingListSelector} from '../../redux/reducers/shopingListReducer';
 import {showToast} from '../../utils/showToast';
 import CategoriesList from './components/CategoriesList';
@@ -60,7 +63,6 @@ const HomeScreen = ({navigation, route}: any) => {
 
   useEffect(() => {
     handleGetAndUpdateProfile();
-
     if (!auth.premium_till) {
       setTimeout(() => {
         setIsvisibleModalOffer(true);

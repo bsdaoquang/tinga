@@ -39,6 +39,9 @@ const App = () => {
               tooltipStyle={{
                 direction: 'ltr',
                 flexDirection: 'row',
+              }}
+              labels={{
+                finish: ' ',
               }}>
               <Router />
             </TourGuideProvider>
