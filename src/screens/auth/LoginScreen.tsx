@@ -105,6 +105,7 @@ const LoginScreen = ({navigation}: any) => {
 
           <InputComponent
             value={password}
+            max={8}
             placeholder="Password*"
             onChange={val => {
               setPassword(val);

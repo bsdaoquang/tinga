@@ -41,6 +41,7 @@ interface Props {
   inputStyles?: StyleProp<TextStyle>;
   isMultible?: boolean;
   rows?: number;
+  max?: number;
   autoComplete?:
     | 'birthdate-day'
     | 'birthdate-full'
@@ -114,6 +115,7 @@ export const InputComponent = (props: Props) => {
     rows,
     ref,
     readOnly,
+    max,
   } = props;
 
   return (
@@ -146,6 +148,7 @@ export const InputComponent = (props: Props) => {
           secureTextEntry={isSecure ? !show : false}
           placeholderTextColor={appColors.gray}
           keyboardType={type ? type : 'default'}
+          maxLength={max}
           readOnly={readOnly}
           style={[
             {

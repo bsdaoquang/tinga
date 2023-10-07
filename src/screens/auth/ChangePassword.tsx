@@ -16,6 +16,7 @@ import {appColors} from '../../constants/appColors';
 import useAuth from '../../hooks/useAuth';
 import {LoadingModal} from '../../modals';
 import {showToast} from '../../utils/showToast';
+import {ChangePassword} from '..';
 
 const LoginScreen = ({route, navigation}: any) => {
   const {code, currentEmail} = route.params;
@@ -87,13 +88,17 @@ const LoginScreen = ({route, navigation}: any) => {
         <InputComponent
           value={password}
           placeholder="Password*"
-          onChange={val => setPassword(val)}
+          onChange={val => {
+            ChangePassword(val);
+            setPassword(val);
+          }}
           isSecure
           show={isShowPass}
           isCapitalize="none"
           setIsShowPass={() => setIsShowPass(!isShowPass)}
           onEnd={() => handleCheckPass(password)}
           helpText={helpText?.paddword}
+          max={8}
         />
         {errorMessage && (
           <TextComponent

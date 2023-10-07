@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Validation } from "../utils/validations";
+import {useState} from 'react';
+import {Validation} from '../utils/validations';
 
 export interface HelpText {
   email?: string;
@@ -9,8 +9,8 @@ export interface HelpText {
 }
 
 export interface SignUpForm {
-  firstname: string,
-  lastname: string,
+  firstname: string;
+  lastname: string;
   email: string;
   password: string;
 }
@@ -20,15 +20,13 @@ const useAuth = (navigation: any) => {
     email: '',
     paddword: '',
     firstname: '',
-    lastname: ''
+    lastname: '',
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = ({
-    firstname, lastname, email, password
-  }: SignUpForm) => {
+  const handleLogin = ({firstname, lastname, email, password}: SignUpForm) => {
     setIsLoading(true);
-    navigation.navigate('VerifyEmail', { email, type: 'confirm' });
+    navigation.navigate('VerifyEmail', {email, type: 'confirm'});
     setIsLoading(false);
   };
 
@@ -36,32 +34,28 @@ const useAuth = (navigation: any) => {
     if (!value) {
       setHelpText({
         ...helpText,
-        firstname: 'Please enter your first name!'
+        firstname: 'Please enter your first name!',
       });
     } else {
       setHelpText({
         ...helpText,
-        firstname: ''
+        firstname: '',
       });
     }
-
-
   };
 
   const handleCheckLastname = (value: string) => {
     if (!value) {
       setHelpText({
         ...helpText,
-        lastname: 'Please enter your last name!'
+        lastname: 'Please enter your last name!',
       });
     } else {
       setHelpText({
         ...helpText,
-        lastname: ''
+        lastname: '',
       });
     }
-
-
   };
 
   const handleCheckEmail = (email: string) => {
@@ -69,9 +63,9 @@ const useAuth = (navigation: any) => {
       const isValid = Validation.email(email);
 
       if (!isValid) {
-        setHelpText({ ...helpText, email: 'Please enter a valid email address' });
+        setHelpText({...helpText, email: 'Please enter a valid email address'});
       } else {
-        setHelpText({ ...helpText, email: '' });
+        setHelpText({...helpText, email: ''});
       }
     } else {
       setHelpText({
@@ -89,7 +83,7 @@ const useAuth = (navigation: any) => {
           paddword: 'Password must be at least 6 characters',
         });
       } else {
-        setHelpText({ ...helpText, paddword: '' });
+        setHelpText({...helpText, paddword: ''});
       }
     } else {
       setHelpText({
@@ -106,7 +100,7 @@ const useAuth = (navigation: any) => {
     handleCheckLastname,
     handleCheckEmail,
     handleCheckPass,
-    handleLogin
+    handleLogin,
   };
 };
 
