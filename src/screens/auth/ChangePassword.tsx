@@ -89,8 +89,8 @@ const LoginScreen = ({route, navigation}: any) => {
           value={password}
           placeholder="Password*"
           onChange={val => {
-            handleCheckPass(val);
             setPassword(val);
+            handleCheckPass(val);
           }}
           isSecure
           show={isShowPass}
