@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {PERMISSIONS, check} from 'react-native-permissions';
@@ -29,15 +29,20 @@ const HomeCarousels = () => {
   const groceriesList = useSelector(groceriesSelector);
   const shopingList = useSelector(shopingListSelector);
   const [isGuideStart, setIsGuideStart] = useState(false);
+  const isFocused = useIsFocused();
 
   const navigation: any = useNavigation();
 
   const {canStart, start, stop} = useTourGuideController();
 
   useEffect(() => {
-    // canStart && start();
-    !isPermission && groceriesList.length === 0 && canStart && start();
-  }, [canStart, isPermission]);
+    if (isFocused) {
+      // canStart && start();
+      !isPermission && groceriesList.length === 0 && canStart && start();
+    } else {
+      stop();
+    }
+  }, [canStart, isPermission, isFocused]);
 
   useEffect(() => {
     requestPermision();

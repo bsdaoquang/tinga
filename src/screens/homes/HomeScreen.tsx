@@ -72,7 +72,10 @@ const HomeScreen = ({navigation, route}: any) => {
   }, []);
 
   useEffect(() => {
-    groceriesList.length >= 5 && setIsVisibleModalRating(true);
+    groceriesList.length >= 5 &&
+      setTimeout(() => {
+        // setIsVisibleModalRating(true);
+      }, 3000);
   }, []);
 
   const getVideos = async () => {
