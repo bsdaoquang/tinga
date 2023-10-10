@@ -104,21 +104,20 @@ const SubscriptionModal = (props: Props) => {
     'Access to a resource library to help you\nreach your goals',
   ];
 
-  const handleSetSubscriptionDate = async () => {
-    setIsUpdating(true);
+  const handleSetSubscriptionDate = async (time?: string) => {
+    // setIsUpdating(true);
     const api = `/setSubscriptionDate`;
-    const premium_till = `${date.getFullYear()}-${add0toNumber(
-      date.getMonth(),
-    )}-${add0toNumber(date.getDate())} ${add0toNumber(
-      date.getHours(),
-    )}:${add0toNumber(date.getMinutes())}:${add0toNumber(date.getSeconds())}`;
 
     try {
       await subscriptionAPI
         .HandleSubscription(
           api,
           {
-            premium_till,
+            premium_till: time
+              ? time
+              : new Date(
+                  new Date().getTime() + 7 * 24 * 60 * 60 * 1000,
+                ).toISOString(),
           },
           'post',
         )
@@ -379,7 +378,7 @@ const SubscriptionModal = (props: Props) => {
             <SectionComponent>
               <ButtonComponent
                 text="Try free and subscribe"
-                onPress={handleSetSubscriptionDate}
+                onPress={() => handleSetSubscriptionDate()}
                 color={appColors.success1}
                 textColor={appColors.text}
               />
@@ -439,6 +438,7 @@ const SubscriptionModal = (props: Props) => {
           setPermiumItem(undefined);
         }}
         permiumItem={permiumItem}
+        onSubcription={time => handleSetSubscriptionDate(time)}
       />
     </Modal>
   );

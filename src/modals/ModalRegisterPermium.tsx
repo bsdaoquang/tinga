@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Modal, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {Subscription} from '../Models/Subscription';
 import {
   Button,
   ButtonComponent,
@@ -8,19 +9,40 @@ import {
   TitleComponent,
 } from '../components';
 import {appColors} from '../constants/appColors';
-import {global} from '../styles/global';
 import {fontFamilys} from '../constants/fontFamily';
+import {global} from '../styles/global';
 
 interface Props {
   isVisible: boolean;
   onClose: () => void;
-  permiumItem: any;
+  permiumItem?: Subscription;
+  onSubcription: (time: string) => void;
 }
 
+const date = new Date();
+const timeInDay = 24 * 60 * 60 * 1000;
+
 const ModalRegisterPermium = (props: Props) => {
-  const {isVisible, onClose, permiumItem} = props;
+  const {isVisible, onClose, permiumItem, onSubcription} = props;
+
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  // console.log(permiumItem);
 
   const handleClose = () => {
+    onClose();
+  };
+
+  const handleSetSubscriptionDate = async (isTransactionFailed: boolean) => {
+    setIsUpdating(true);
+    const api = `/setSubscriptionDate`;
+
+    const tillDate =
+      date.getTime() +
+      (isTransactionFailed ? 7 : permiumItem ? permiumItem.trial_days : 7) *
+        timeInDay;
+
+    onSubcription(new Date(tillDate).toISOString());
     onClose();
   };
   return (
@@ -55,16 +77,16 @@ const ModalRegisterPermium = (props: Props) => {
           >
             <ButtonComponent
               text="Successful Transaction"
-              onPress={() => {}}
+              onPress={() => handleSetSubscriptionDate(false)}
               fontStyles={{fontSize: 22}}
               styles={{
-                paddingVertical: 12,
+                paddingVertical: 14,
               }}
             />
             <ButtonComponent
               outline
               text="Failed Transaction"
-              onPress={() => {}}
+              onPress={() => handleSetSubscriptionDate(true)}
               fontStyles={{fontSize: 22}}
               styles={{
                 paddingVertical: 12,
