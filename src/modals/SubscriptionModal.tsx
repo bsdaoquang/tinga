@@ -11,7 +11,9 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useDispatch, useSelector} from 'react-redux';
 import {Subscription} from '../Models/Subscription';
+import handleGetData from '../apis/productAPI';
 import subscriptionAPI from '../apis/subscriptionAPI';
 import {
   Button,
@@ -26,14 +28,12 @@ import {
 } from '../components';
 import {appColors} from '../constants/appColors';
 import {fontFamilys} from '../constants/fontFamily';
+import {addAuth, authSelector} from '../redux/reducers/authReducer';
 import {global} from '../styles/global';
 import {add0toNumber} from '../utils/add0toNumber';
 import {showToast} from '../utils/showToast';
 import LoadingModal from './LoadingModal';
-import {useDispatch, useSelector} from 'react-redux';
-import {addAuth, authSelector} from '../redux/reducers/authReducer';
-import handleGetData from '../apis/productAPI';
-import {handleSaveUser} from '../utils/handleSaveUser';
+import ModalRegisterPermium from './ModalRegisterPermium';
 
 interface Props {
   isVisible: boolean;
@@ -45,12 +45,13 @@ const date = new Date();
 
 const SubscriptionModal = (props: Props) => {
   const {isVisible, onClose, isWellCome} = props;
-
+  const [isVisibleModalRegister, setIsVisibleModalRegister] = useState(false);
   const [subscriptionsPlan, setSubscriptionsPlan] = useState<Subscription[]>(
     [],
   );
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [permiumItem, setPermiumItem] = useState<Subscription>();
 
   const auth = useSelector(authSelector);
   const dispatch = useDispatch();
@@ -75,8 +76,8 @@ const SubscriptionModal = (props: Props) => {
           );
         }
       });
-    } catch (error: any) {
-      showToast(error.message);
+    } catch (error) {
+      showToast(JSON.stringify(error));
     }
   };
 
@@ -88,9 +89,9 @@ const SubscriptionModal = (props: Props) => {
         setSubscriptionsPlan(res);
         setIsLoading(false);
       });
-    } catch (error: any) {
+    } catch (error) {
       setIsLoading(false);
-      showToast(error.message);
+      showToast(JSON.stringify(error));
       console.log(error);
       console.log(`Can not get subscription plans ${error}`);
     }
@@ -147,9 +148,14 @@ const SubscriptionModal = (props: Props) => {
 
     return item ? (
       <CardContent
-        onPress={() => (!isWellCome ? handleSetSubscriptionDate() : undefined)}
+        onPress={() => {
+          setPermiumItem(item);
+          setIsVisibleModalRegister(true);
+        }}
+        // onPress={() => (!isWellCome ? handleSetSubscriptionDate() : undefined)}
         color={appColors.text}
-        styles={{padding: 0, alignItems: 'center', marginBottom: 16}}>
+        styles={{padding: 0, alignItems: 'center', marginBottom: 16}}
+      >
         {!isWellCome && (
           <TextComponent
             text="LIMITED-TIME OFFER"
@@ -168,7 +174,8 @@ const SubscriptionModal = (props: Props) => {
             margin: 0,
             backgroundColor: '#13917B',
             borderRadius: 8,
-          }}>
+          }}
+        >
           <RowComponent>
             <TitleComponent text={item.name} color={appColors.white} />
             <TextComponent
@@ -230,7 +237,11 @@ const SubscriptionModal = (props: Props) => {
 
     return item ? (
       <CardContent
-        onPress={() => (!isWellCome ? handleSetSubscriptionDate : undefined)}
+        onPress={() => {
+          setPermiumItem(item);
+          setIsVisibleModalRegister(true);
+        }}
+        // onPress={() => (!isWellCome ? handleSetSubscriptionDate() : undefined)}
         styles={{
           flex: 1,
           width: '100%',
@@ -239,7 +250,8 @@ const SubscriptionModal = (props: Props) => {
           borderWidth: 2,
           borderColor: '#EEF3DC',
         }}
-        color={appColors.white}>
+        color={appColors.white}
+      >
         <RowComponent>
           <TitleComponent text={item.name} color={appColors.text} />
           {!isWellCome && (
@@ -267,7 +279,8 @@ const SubscriptionModal = (props: Props) => {
         <RowComponent
           onPress={() => {}}
           justify="flex-start"
-          styles={{alignItems: 'flex-end'}}>
+          styles={{alignItems: 'flex-end'}}
+        >
           <TextComponent
             text={`$${isWellCome ? '8.99' : item.offer_price}`}
             flex={0}
@@ -302,14 +315,16 @@ const SubscriptionModal = (props: Props) => {
       style={{
         flex: 1,
         backgroundColor: appColors.white,
-      }}>
+      }}
+    >
       <ScrollView
         style={[
           {
             flex: 1,
             paddingTop: 48,
           },
-        ]}>
+        ]}
+      >
         <SectionComponent>
           <RowComponent justify="flex-end">
             <Button
@@ -333,7 +348,8 @@ const SubscriptionModal = (props: Props) => {
                 fontSize: 36,
                 lineHeight: 32.5,
               },
-            ]}>
+            ]}
+          >
             Try Tinga for free,{' '}
             <Text style={{fontSize: 24}}>cancel anytime.</Text>
           </Text>
@@ -345,7 +361,8 @@ const SubscriptionModal = (props: Props) => {
                 alignItems: 'flex-start',
                 marginBottom: 8,
               }}
-              key={`desc${index}`}>
+              key={`desc${index}`}
+            >
               <FontAwesome name="check" color={appColors.success1} size={28} />
               <SpaceComponent width={12} />
               <TextComponent text={desc} />
@@ -382,9 +399,8 @@ const SubscriptionModal = (props: Props) => {
                   flex={0}
                 />
                 <TouchableOpacity
-                  onPress={() =>
-                    Linking.openURL('https://tinga.ca/terms.html')
-                  }>
+                  onPress={() => Linking.openURL('https://tinga.ca/terms.html')}
+                >
                   <TextComponent
                     font={fontFamilys.bold}
                     color="#32645B"
@@ -416,6 +432,14 @@ const SubscriptionModal = (props: Props) => {
       />
 
       <LoadingModal visible={isUpdating} />
+      <ModalRegisterPermium
+        isVisible={isVisibleModalRegister}
+        onClose={() => {
+          setIsVisibleModalRegister(false);
+          setPermiumItem(undefined);
+        }}
+        permiumItem={permiumItem}
+      />
     </Modal>
   );
 };
