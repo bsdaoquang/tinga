@@ -1,24 +1,22 @@
-const monthNames =[
-  'January',
-  'February',
-  'March',
-  'April',
+const monthNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
   'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-]
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
 
 export class DateTime {
   static getDateString = (date: string) => {
-    const d = new Date(date)
+    const d = new Date(date);
 
-    return `${d.getDate()} ${monthNames[d.getMonth() + 1]} ${d.getFullYear()}`
+    return `${d.getDate()} ${monthNames[d.getMonth() + 1]} ${d.getFullYear()}`;
   };
-
-  
 }

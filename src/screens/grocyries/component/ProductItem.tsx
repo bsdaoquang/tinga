@@ -30,7 +30,8 @@ const ProductItem = (props: Props) => {
 
   return (
     <RowComponent
-      styles={{marginBottom: 16, marginTop: 8, paddingHorizontal: 16}}>
+      styles={{marginBottom: 16, marginTop: 8, paddingHorizontal: 16}}
+    >
       {isEdit ? (
         <Button
           onPress={() =>
@@ -40,6 +41,7 @@ const ProductItem = (props: Props) => {
         />
       ) : (
         <CheckBox
+          disabled
           lineWidth={1.0}
           tintColors={{true: appColors.success1, false: appColors.gray}}
           value={isSelected}
@@ -49,7 +51,8 @@ const ProductItem = (props: Props) => {
       <ImageProduct imageUrl={item.image} />
       <TouchableOpacity
         onPress={onSelecteItem}
-        style={{flex: 1, paddingHorizontal: 12}}>
+        style={{flex: 1, paddingHorizontal: 12}}
+      >
         <TextComponent
           line={1}
           color={color}

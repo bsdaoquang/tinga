@@ -1,17 +1,13 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect} from 'react';
 import {ActivityIndicator, Image, View} from 'react-native';
+import {useDispatch} from 'react-redux';
 import {appColors} from '../constants/appColors';
-import {global} from '../styles/global';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appInfos} from '../constants/appInfos';
-import {useDispatch, useSelector} from 'react-redux';
 import {addAuth} from '../redux/reducers/authReducer';
-import {
-  addGroceries,
-  addLocalData,
-  groceriesSelector,
-} from '../redux/reducers/groceryReducer';
+import {addLocalData} from '../redux/reducers/groceryReducer';
 import {addList} from '../redux/reducers/shopingListReducer';
+import {global} from '../styles/global';
 
 const SplashScreen = () => {
   const dispatch = useDispatch();
@@ -44,7 +40,9 @@ const SplashScreen = () => {
     const items = res ? JSON.parse(res) : [];
 
     if (items.length > 0) {
-      items.forEach((item: any) => dispatch(addList(item)));
+      items.forEach((item: any) => {
+        item.date && item.data > 0 && dispatch(addList(item));
+      });
     }
   };
 
@@ -56,7 +54,8 @@ const SplashScreen = () => {
           justifyContent: 'center',
           alignItems: 'center',
         },
-      ]}>
+      ]}
+    >
       <Image
         source={require('../assets/images/TingaLogo.png')}
         style={{width: 175, height: 68, resizeMode: 'contain'}}

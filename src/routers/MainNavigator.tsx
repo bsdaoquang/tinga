@@ -2,6 +2,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {
   BarCodeScreen,
+  HistoryListDetail,
   HomeScan,
   ImproveScore,
   MyFavourites,
@@ -28,6 +29,7 @@ const MainNavigator = () => {
       <Stack.Screen name="HomeScan" component={HomeScan} />
       <Stack.Screen name="BarCodeScreen" component={BarCodeScreen} />
       <Stack.Screen name="MyFavourites" component={MyFavourites} />
+      <Stack.Screen name="HistoryListDetail" component={HistoryListDetail} />
       <Stack.Screen
         name="PersionalInfomation"
         component={PersionalInfomation}
