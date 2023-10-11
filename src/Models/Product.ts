@@ -27,3 +27,14 @@ export interface ProductDetail {
   shopname: string;
   image: string;
 }
+
+export interface HistoryProduc {
+  created_on: number;
+  id: number;
+  image: string;
+  name: string;
+  old_price: string;
+  price: string;
+  qty: number;
+  shopname: string;
+}

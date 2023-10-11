@@ -1,8 +1,8 @@
 import {ArrowRight2} from 'iconsax-react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, View} from 'react-native';
-import {useSelector} from 'react-redux';
-import {Product} from '../../Models/Product';
+import {HistoryProduc} from '../../Models/Product';
+import handleGetData from '../../apis/productAPI';
 import {
   Button,
   CardContent,
@@ -15,17 +15,62 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {shopingListSelector} from '../../redux/reducers/shopingListReducer';
 import {DateTime} from '../../utils/DateTime';
 
 const ShopingHistory = ({navigation}: any) => {
-  const data: {
-    date: number;
-    data: Product[];
-  }[] = useSelector(shopingListSelector);
+  const [historiesList, setHistoriesList] = useState<HistoryProduc[]>([]);
+  const [dataHistories, setDataHistories] = useState<
+    {
+      date: string;
+      data: HistoryProduc[];
+    }[]
+  >([]);
+
+  useEffect(() => {
+    getHistoriesListOfProduct();
+  }, []);
+
+  useEffect(() => {
+    const dataList: {date: string; data: HistoryProduc[]}[] = [];
+    if (historiesList.length > 0) {
+      historiesList.forEach(item => {
+        const date = DateTime.getDateString(
+          new Date(item.created_on).toISOString(),
+        );
+
+        const index = dataList.findIndex(element => element.date === date);
+
+        index === -1 &&
+          dataList.push({
+            date,
+            data: historiesList.filter(
+              element =>
+                DateTime.getDateString(
+                  new Date(element.created_on).toISOString(),
+                ) === date,
+            ),
+          });
+      });
+    }
+
+    setDataHistories(dataList);
+  }, [historiesList]);
+
+  const getHistoriesListOfProduct = async () => {
+    const api = `/listOfProducts`;
+
+    await handleGetData
+      .handleProduct(api, {}, 'post')
+      .then((res: any) => {
+        setHistoriesList(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   const renderCardHistory = (
-    item: {date: number; data: Product[]},
+    item: {date: string; data: HistoryProduc[]},
     index: number,
   ) => (
     <CardContent
@@ -33,12 +78,13 @@ const ShopingHistory = ({navigation}: any) => {
       isShadow
       styles={{marginBottom: 16}}
       key={`shoping${index}`}>
-      <RowComponent onPress={() => {}}>
-        <TextComponent
-          text={DateTime.getDateString(new Date(item.date).toISOString())}
-        />
+      <RowComponent
+        onPress={() => navigation.navigate('HistoryListDetail', {items: item})}>
+        <TextComponent text={item.date} />
         <Button
-          onPress={() => {}}
+          onPress={() =>
+            navigation.navigate('HistoryListDetail', {items: item})
+          }
           icon={<ArrowRight2 size={18} color={appColors.gray} />}
         />
       </RowComponent>
@@ -77,7 +123,7 @@ const ShopingHistory = ({navigation}: any) => {
       <SectionComponent>
         <TitleComponent text="Grocery List History" size={32} />
         <SpaceComponent height={12} />
-        {data.map((item, index) => renderCardHistory(item, index))}
+        {dataHistories.map((item, index) => renderCardHistory(item, index))}
       </SectionComponent>
     </Container>
   );

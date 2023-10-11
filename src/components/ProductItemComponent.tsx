@@ -13,6 +13,7 @@ import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
 import {ModalProduct} from '../modals';
 import FastImage from 'react-native-fast-image';
+import {HandleProduct} from '../utils/HandleProduct';
 
 interface Props {
   item: Product;
@@ -105,6 +106,9 @@ const ProductItemComponent = (props: Props) => {
         onClose={() => setIsVisibileModalProduct(false)}
         product={item}
         products={[]}
+        onAddToList={async (count: number) =>
+          await HandleProduct.addToList(item, count)
+        }
       />
     </>
   );

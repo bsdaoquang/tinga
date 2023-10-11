@@ -103,7 +103,7 @@ const ModalizeFilter = (props: Props) => {
     try {
       await profileAPI.HandleUser(api).then((res: any) => {
         setuserChoices(res);
-        console.log(res);
+        // console.log(res);
       });
     } catch (error) {
       showToast(`user choice not found`);

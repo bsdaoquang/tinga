@@ -21,6 +21,7 @@ import {global} from '../../../styles/global';
 import {showToast} from '../../../utils/showToast';
 import {fontFamilys} from '../../../constants/fontFamily';
 import ModalizeFilter from '../../../modals/ModalizeFilter';
+import {HandleProduct} from '../../../utils/HandleProduct';
 
 interface Props {
   category_id: number;
@@ -209,12 +210,15 @@ const SearchFilterComponent = (props: Props) => {
 
       <ModalProduct
         product={product}
-        products={products}
+        products={[]}
         visible={isVisibleModalProduct}
         onClose={() => {
           setIsVisibleModalProduct(false);
           setProduct(undefined);
         }}
+        onAddToList={async (count: number) =>
+          product ? await HandleProduct.addToList(product, count) : undefined
+        }
       />
 
       <ModalizeFilter
