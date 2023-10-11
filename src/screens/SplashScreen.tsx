@@ -6,7 +6,7 @@ import {appColors} from '../constants/appColors';
 import {appInfos} from '../constants/appInfos';
 import {addAuth} from '../redux/reducers/authReducer';
 import {addLocalData} from '../redux/reducers/groceryReducer';
-import {addList} from '../redux/reducers/shopingListReducer';
+import {addFromLocal, addList} from '../redux/reducers/shopingListReducer';
 import {global} from '../styles/global';
 
 const SplashScreen = () => {
@@ -40,9 +40,8 @@ const SplashScreen = () => {
     const items = res ? JSON.parse(res) : [];
 
     if (items.length > 0) {
-      items.forEach((item: any) => {
-        item.date && item.data > 0 && dispatch(addList(item));
-      });
+      console.log(items);
+      // dispatch(addFromLocal(items));
     }
   };
 
@@ -54,8 +53,7 @@ const SplashScreen = () => {
           justifyContent: 'center',
           alignItems: 'center',
         },
-      ]}
-    >
+      ]}>
       <Image
         source={require('../assets/images/TingaLogo.png')}
         style={{width: 175, height: 68, resizeMode: 'contain'}}

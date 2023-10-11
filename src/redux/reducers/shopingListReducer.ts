@@ -34,12 +34,17 @@ const shopSlice = createSlice({
         date: Date.now(),
         data: action.payload,
       });
+
+      state.shopingList = items;
+    },
+    addFromLocal: (state, action) => {
+      state.shopingList = action.payload;
     },
   },
 });
 
 export const shopingListReducer = shopSlice.reducer;
-export const {addList} = shopSlice.actions;
+export const {addList, addFromLocal} = shopSlice.actions;
 //selector
 export const shopingListSelector = (state: any) =>
   state.shopingListReducer.shopingList;

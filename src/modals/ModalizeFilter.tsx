@@ -50,7 +50,7 @@ const ModalizeFilter = (props: Props) => {
   const [selected, setSelected] = useState<{
     allergies: number[];
     shops: number[];
-    disLikes: number[];
+    disLikes: string[];
   }>({
     allergies: [],
     shops: [],
@@ -68,9 +68,20 @@ const ModalizeFilter = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    handleUpdateAllergires();
-    handleUpdateDislike();
-    handleUpdateStore();
+    if (userChoices) {
+      setSelected({
+        allergies: userChoices.allergies,
+        disLikes: userChoices.dislikes,
+        shops: userChoices.shops,
+      });
+    }
+  }, [userChoices]);
+
+  useEffect(() => {
+    // handleUpdateAllergires();
+    // handleUpdateDislike();
+    // handleUpdateStore();
+    // console.log(selected);
   }, [selected]);
 
   useEffect(() => {
@@ -113,28 +124,25 @@ const ModalizeFilter = (props: Props) => {
     }
   };
 
-  const allergy_ids = ['2'];
-
   const getDislikes = async () => {
     const api = `/dislikeItems`;
     const data = new FormData();
+    const ids: number[] = [];
 
-    data.append('allergy_ids', allergy_ids ? `${allergy_ids}` : '[]');
-    data.append('prefrence', '3');
+    if (userChoices?.allergies && userChoices.allergies.length > 0) {
+      userChoices.allergies.forEach(item => ids.push(item.id));
+    }
 
+    data.append('allergy_ids', ids.toString());
+    data.append('prefrence', 3);
+    // console.log(data);
     try {
-      await handleGetData.handleProduct(api, data, 'post').then((res: any) => {
-        const items: any[] = [];
-
-        for (const i in res) {
-          items.push({
-            id: parseInt(i),
-            name: res[i],
-          });
-        }
-
-        setDisLikes(items);
-      });
+      await handleGetData
+        .handleProduct(api, data, 'post', true)
+        .then((res: any) => {
+          // console.log(res);
+          setDisLikes(res);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -196,16 +204,10 @@ const ModalizeFilter = (props: Props) => {
     //
   };
 
-  const handleUpdateDislike = async () => {
+  // console.log(disLikes);
+
+  const handleUpdateDislike = async (items: string[]) => {
     const api = `/dislikes`;
-
-    const items: string[] = [];
-
-    selected.disLikes.forEach(id => {
-      const item = disLikes.find(element => element.id === id);
-
-      item && items.push(item.name);
-    });
 
     const data = new FormData();
     data.append('dislikes', JSON.stringify(items));
@@ -231,11 +233,11 @@ const ModalizeFilter = (props: Props) => {
     //
   };
 
-  const handleUpdateAllergires = async () => {
+  const handleUpdateAllergires = async (ids: number[]) => {
     const api = `/allergies`;
 
     const data = new FormData();
-    data.append('allergies', JSON.stringify(selected.allergies));
+    data.append('allergies', JSON.stringify(ids));
 
     try {
       setIsUpdating(true);
@@ -244,6 +246,7 @@ const ModalizeFilter = (props: Props) => {
         .then((res: any) => {
           if (res && res.success) {
             getUserChoices();
+            getDislikes();
             setIsUpdating(false);
           } else {
             console.log('Can not update');
@@ -254,15 +257,13 @@ const ModalizeFilter = (props: Props) => {
       console.log(error);
       setIsUpdating(false);
     }
-
-    //
   };
 
-  const handleUpdateStore = async () => {
+  const handleUpdateStore = async (ids: number[]) => {
     const api = `/shops`;
 
     const data = new FormData();
-    data.append('shop', JSON.stringify(selected.shops));
+    data.append('shop', JSON.stringify(ids));
 
     try {
       setIsUpdating(true);
@@ -285,22 +286,39 @@ const ModalizeFilter = (props: Props) => {
     //
   };
 
-  const handleSelectedItem = (
-    id: number,
-    key: 'allergies' | 'shops' | 'disLikes',
+  const handleSelectedItem = async (
+    val: any,
+    key: 'allergies' | 'shops' | 'dislikes',
   ) => {
-    const items: any = selected;
-    if (items[`${key}`].includes(id)) {
-      const index = items[`${key}`].findIndex((element: any) => element === id);
+    const items: any[] = [];
 
-      items[`${key}`].splice(index, 1);
-    } else {
-      items[`${key}`].push(id);
+    const data: any = userChoices;
+
+    if (data[`${key}`].length > 0) {
+      data[`${key}`].forEach((item: any) => {
+        items.push(key === 'dislikes' ? item.allergy_dislike : item.id);
+      });
     }
 
-    setSelected({
-      ...items,
-    });
+    if (items.includes(val)) {
+      const index = items.findIndex((element: any) => element === val);
+
+      items.splice(index, 1);
+    } else {
+      items.push(val);
+    }
+
+    switch (key) {
+      case 'allergies':
+        await handleUpdateAllergires(items);
+        break;
+      case 'dislikes':
+        handleUpdateDislike(items);
+        break;
+      case 'shops':
+        handleUpdateStore(items);
+        break;
+    }
   };
 
   const renderButton = ({
@@ -321,7 +339,7 @@ const ModalizeFilter = (props: Props) => {
     return (
       <TouchableOpacity
         onPress={onPress}
-        key={`item${id}`}
+        key={`itemdislike${id}`}
         style={[
           localStyles.button,
           global.shadow,
@@ -331,8 +349,7 @@ const ModalizeFilter = (props: Props) => {
             paddingVertical: isDiet ? 16 : 8,
             borderRadius: isDiet ? 14 : 8,
           },
-        ]}
-      >
+        ]}>
         <TextComponent
           font={isSelected ? fontFamilys.bold : fontFamilys.regular}
           flex={isRight ? 1 : 0}
@@ -351,14 +368,12 @@ const ModalizeFilter = (props: Props) => {
           onClose={onClose}
           ref={modalRef}
           adjustToContentHeight
-          handlePosition="inside"
-        >
+          handlePosition="inside">
           <View
             style={{
               padding: 12,
               paddingBottom: 40,
-            }}
-          >
+            }}>
             <RowComponent justify="flex-end" onPress={handleCloseModal}>
               <AntDesign name="close" color={appColors.gray} size={22} />
             </RowComponent>
@@ -417,8 +432,7 @@ const ModalizeFilter = (props: Props) => {
                 <RowComponent
                   justify="flex-start"
                   styles={{marginBottom: 8}}
-                  onPress={() => setIsShowAllergy(!isShowAllergy)}
-                >
+                  onPress={() => setIsShowAllergy(!isShowAllergy)}>
                   <RowComponent styles={{flex: 1}} justify="flex-start">
                     <TextComponent
                       size={16}
@@ -472,15 +486,18 @@ const ModalizeFilter = (props: Props) => {
                   </RowComponent>
                 ) : (
                   <RowComponent justify="flex-start">
-                    {userChoices?.allergies.map(item =>
-                      renderButton({
-                        id: item.id,
-                        text: item.name,
-                        isRight: false,
-                        isSelected: true,
-                        onPress: () => handleSelectedItem(item.id, 'allergies'),
-                      }),
-                    )}
+                    {userChoices &&
+                      userChoices?.allergies.length > 0 &&
+                      userChoices?.allergies.map(item =>
+                        renderButton({
+                          id: item.id,
+                          text: item.name,
+                          isRight: false,
+                          isSelected: true,
+                          onPress: () =>
+                            handleSelectedItem(item.id, 'allergies'),
+                        }),
+                      )}
                   </RowComponent>
                 )}
               </View>
@@ -488,8 +505,7 @@ const ModalizeFilter = (props: Props) => {
                 <RowComponent
                   justify="space-between"
                   styles={{marginBottom: 8}}
-                  onPress={() => setIsShowDislike(!isShowDislike)}
-                >
+                  onPress={() => setIsShowDislike(!isShowDislike)}>
                   <TextComponent
                     size={16}
                     text="Dislikes"
@@ -510,29 +526,36 @@ const ModalizeFilter = (props: Props) => {
                 </RowComponent>
                 {isShowDislike ? (
                   <RowComponent justify="flex-start">
-                    {disLikes.map(item =>
-                      renderButton({
-                        id: item.id,
-                        text: item.name,
-                        isRight: false,
-                        isSelected: userChoices?.dislikes.find(
-                          element => element.id === item.id,
-                        )
-                          ? true
-                          : false,
-                        onPress: () => handleSelectedItem(item.id, 'disLikes'),
-                      }),
+                    {disLikes.map(
+                      (item, index) =>
+                        item.name &&
+                        renderButton({
+                          id: index,
+                          text: item.name,
+                          isRight: false,
+                          isSelected:
+                            item.is_selected === 'Yes'
+                              ? true
+                              : userChoices?.dislikes.find(
+                                  (element: any) =>
+                                    element.allergy_dislike === item.name,
+                                )
+                              ? true
+                              : false,
+                          onPress: () =>
+                            handleSelectedItem(item.name, 'dislikes'),
+                        }),
                     )}
                   </RowComponent>
                 ) : (
                   <RowComponent justify="flex-start">
-                    {userChoices?.dislikes.map(item =>
+                    {userChoices?.dislikes.map((item: any) =>
                       renderButton({
                         id: item.id,
                         text: item.allergy_dislike,
                         isRight: false,
                         isSelected: true,
-                        onPress: () => handleSelectedItem(item.id, 'disLikes'),
+                        onPress: () => handleSelectedItem(item.id, 'dislikes'),
                       }),
                     )}
                   </RowComponent>
@@ -542,8 +565,7 @@ const ModalizeFilter = (props: Props) => {
                 <RowComponent
                   justify="flex-start"
                   styles={{marginBottom: 8}}
-                  onPress={() => setIsShowShop(!isShowShop)}
-                >
+                  onPress={() => setIsShowShop(!isShowShop)}>
                   <TextComponent
                     size={16}
                     text="Grocery Stores"

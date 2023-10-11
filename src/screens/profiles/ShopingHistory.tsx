@@ -1,5 +1,5 @@
 import {ArrowRight2} from 'iconsax-react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import {FlatList, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {Product} from '../../Models/Product';
@@ -32,8 +32,7 @@ const ShopingHistory = ({navigation}: any) => {
       color={appColors.white}
       isShadow
       styles={{marginBottom: 16}}
-      key={`shoping${index}`}
-    >
+      key={`shoping${index}`}>
       <RowComponent onPress={() => {}}>
         <TextComponent
           text={DateTime.getDateString(new Date(item.date).toISOString())}
@@ -55,8 +54,7 @@ const ShopingHistory = ({navigation}: any) => {
               alignItems: 'center',
               borderRadius: 100,
               marginRight: 6,
-            }}
-          >
+            }}>
             <TextComponent text="👍" size={16} flex={0} />
           </View>
         }

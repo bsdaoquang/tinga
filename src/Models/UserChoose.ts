@@ -12,7 +12,7 @@ export interface UserChoose {
 export interface UserSelected {
   allergies: any[];
   diets: Diet[];
-  dislikes: Dislike[];
+  dislikes: string[];
   shops: any[];
 }
 
