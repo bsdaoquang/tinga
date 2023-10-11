@@ -41,6 +41,12 @@ import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
 import {appSize} from '../constants/appSize';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addfavourites,
+  favouritesSelector,
+  removeItem,
+} from '../redux/reducers/favouritReducer';
 
 interface Props {
   visible: boolean;
@@ -54,11 +60,15 @@ const ModalProduct = (props: Props) => {
   const {visible, onClose, product, onAddToList, products} = props;
   const [isLike, setIsLike] = useState(false);
   const [count, setCount] = useState(1);
-  const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] =
-    useState(false);
+  const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] = useState(
+    false,
+  );
   const [producDetail, setProducDetail] = useState<ProductDetail>();
   const [isShowDesc, setIsShowDesc] = useState(false);
   const [isShowIngre, setIsShowIngre] = useState(false);
+
+  const dispatch = useDispatch();
+  const favouritesList = useSelector(favouritesSelector);
 
   useEffect(() => {
     visible && modalRef.current?.open();
@@ -130,7 +140,8 @@ const ModalProduct = (props: Props) => {
           backgroundColor: appColors.white,
           justifyContent: 'center',
           alignItems: 'center',
-        }}>
+        }}
+      >
         <RowComponent styles={{alignItems: 'flex-end'}}>
           <View
             style={{
@@ -146,7 +157,8 @@ const ModalProduct = (props: Props) => {
             style={[
               global.text,
               {flex: 0, lineHeight: 16, fontFamily: fontFamilys.bold},
-            ]}>
+            ]}
+          >
             {value ? (value * 1).toFixed(1) : 0}
             <Text style={{fontSize: 8}}>{item.unit}</Text>
           </Text>
@@ -177,7 +189,8 @@ const ModalProduct = (props: Props) => {
           elevation: 4,
         },
       ]}
-      key={`cat${index}`}>
+      key={`cat${index}`}
+    >
       <TextComponent text={item} flex={0} size={14} color={appColors.primary} />
     </TouchableOpacity>
   );
@@ -192,7 +205,8 @@ const ModalProduct = (props: Props) => {
       <View
         style={{
           flex: 1,
-        }}>
+        }}
+      >
         <ButtonComponent
           disable={item ? true : false}
           disableColor="#B7B7B7"
@@ -233,12 +247,14 @@ const ModalProduct = (props: Props) => {
             style={{
               backgroundColor: appColors.white,
               padding: 16,
-            }}>
+            }}
+          >
             <RowComponent>
               <RowComponent
                 styles={{
                   flex: 1,
-                }}>
+                }}
+              >
                 <RowComponent>
                   {count && count > 1 && (
                     <Button
@@ -266,7 +282,8 @@ const ModalProduct = (props: Props) => {
         }
         handleStyle={{backgroundColor: 'transparent'}}
         modalStyle={{backgroundColor: appColors.bgColor, height: 'auto'}}
-        scrollViewProps={{showsVerticalScrollIndicator: false}}>
+        scrollViewProps={{showsVerticalScrollIndicator: false}}
+      >
         <ScrollView style={{backgroundColor: appColors.bgColor, flex: 1}}>
           {producDetail && producDetail.image && (
             <ImageBackground
@@ -281,13 +298,16 @@ const ModalProduct = (props: Props) => {
               }}
               imageStyle={{
                 resizeMode: 'cover',
-              }}>
+              }}
+            >
               <LinearGradient
                 style={{height: 180, width: '100%'}}
-                colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0)']}>
+                colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0)']}
+              >
                 <RowComponent
                   justify="space-between"
-                  styles={{padding: 16, paddingTop: 20}}>
+                  styles={{padding: 16, paddingTop: 20}}
+                >
                   <Button
                     icon={
                       <AntDesign
@@ -299,9 +319,17 @@ const ModalProduct = (props: Props) => {
                     onPress={handleCloseModal}
                   />
                   <Button
-                    onPress={() => setIsLike(!isLike)}
+                    onPress={() =>
+                      favouritesList.find(
+                        (element: Product) => element.id === producDetail.id,
+                      )
+                        ? dispatch(removeItem(producDetail))
+                        : dispatch(addfavourites(producDetail))
+                    }
                     icon={
-                      isLike ? (
+                      favouritesList.find(
+                        (element: Product) => element.id === producDetail.id,
+                      ) ? (
                         <HeartBold width={24} height={24} />
                       ) : (
                         <Heart
@@ -322,7 +350,8 @@ const ModalProduct = (props: Props) => {
                       borderRadius: 100,
                       paddingVertical: 8,
                       paddingHorizontal: 12,
-                    }}>
+                    }}
+                  >
                     <Location size={14} color={appColors.white} />
                     <SpaceComponent width={4} />
                     <TextComponent
@@ -339,7 +368,8 @@ const ModalProduct = (props: Props) => {
                       borderRadius: 100,
                       paddingVertical: 8,
                       paddingHorizontal: 12,
-                    }}>
+                    }}
+                  >
                     <TextComponent
                       text="1 / 25"
                       color={appColors.white}
@@ -384,7 +414,8 @@ const ModalProduct = (props: Props) => {
                       alignItems: 'center',
                       borderRadius: 100,
                       marginRight: 6,
-                    }}>
+                    }}
+                  >
                     <TextComponent text="👍" size={20} flex={0} />
                   </View>
                   <Button
@@ -418,7 +449,8 @@ const ModalProduct = (props: Props) => {
                 styles={{
                   alignItems: 'flex-start',
                   paddingTop: 12,
-                }}>
+                }}
+              >
                 <Image
                   source={require('../assets/images/TingaLogo.png')}
                   style={{

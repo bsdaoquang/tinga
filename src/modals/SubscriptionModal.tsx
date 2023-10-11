@@ -200,7 +200,7 @@ const SubscriptionModal = (props: Props) => {
             />
           </RowComponent>
           <SpaceComponent height={8} />
-          <RowComponent onPress={() => {}} justify="flex-start">
+          <RowComponent justify="flex-start">
             <TextComponent
               text={`$${isWellCome ? '89.99' : item.offer_price.toFixed(2)}`}
               flex={0}
@@ -275,11 +275,7 @@ const SubscriptionModal = (props: Props) => {
           )}
         </RowComponent>
         <SpaceComponent height={8} />
-        <RowComponent
-          onPress={() => {}}
-          justify="flex-start"
-          styles={{alignItems: 'flex-end'}}
-        >
+        <RowComponent justify="flex-start" styles={{alignItems: 'flex-end'}}>
           <TextComponent
             text={`$${isWellCome ? '8.99' : item.offer_price}`}
             flex={0}

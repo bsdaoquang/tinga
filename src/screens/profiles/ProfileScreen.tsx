@@ -143,6 +143,7 @@ const ProfileScreen = ({navigation}: any) => {
       id: '3',
       title: 'My Favourites',
       icon: <Ionicons name="heart" color={'#F45A5B'} size={16} />,
+      onPress: () => navigation.navigate('MyFavourites'),
     },
     {
       id: '4',

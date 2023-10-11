@@ -4,6 +4,7 @@ import {
   BarCodeScreen,
   HomeScan,
   ImproveScore,
+  MyFavourites,
   PersionalInfomation,
   ReferralScreen,
   ShopingHistory,
@@ -26,6 +27,7 @@ const MainNavigator = () => {
       <Stack.Screen name="WebviewScreen" component={WebviewScreen} />
       <Stack.Screen name="HomeScan" component={HomeScan} />
       <Stack.Screen name="BarCodeScreen" component={BarCodeScreen} />
+      <Stack.Screen name="MyFavourites" component={MyFavourites} />
       <Stack.Screen
         name="PersionalInfomation"
         component={PersionalInfomation}
