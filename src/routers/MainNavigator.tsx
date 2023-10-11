@@ -4,6 +4,7 @@ import {
   BarCodeScreen,
   HomeScan,
   ImproveScore,
+  PersionalInfomation,
   ReferralScreen,
   ShopingHistory,
   WebviewScreen,
@@ -16,7 +17,8 @@ const MainNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-      }}>
+      }}
+    >
       <Stack.Screen name="HomeRoot" component={TabNavigator} />
       <Stack.Screen name="ShopingHistory" component={ShopingHistory} />
       <Stack.Screen name="ImproveScore" component={ImproveScore} />
@@ -24,6 +26,10 @@ const MainNavigator = () => {
       <Stack.Screen name="WebviewScreen" component={WebviewScreen} />
       <Stack.Screen name="HomeScan" component={HomeScan} />
       <Stack.Screen name="BarCodeScreen" component={BarCodeScreen} />
+      <Stack.Screen
+        name="PersionalInfomation"
+        component={PersionalInfomation}
+      />
     </Stack.Navigator>
   );
 };

@@ -25,6 +25,7 @@ import ContactDietitian from './profiles/ContactDietitian';
 import ContactSupport from './profiles/ContactSupport';
 import ListScoreTrend from './profiles/ListScoreTrend';
 import ListScores from './profiles/ListScores';
+import PersionalInfomation from './profiles/PersionalInfomation';
 import ProfileScreen from './profiles/ProfileScreen';
 import ReferralScreen from './profiles/ReferralScreen';
 import ReferralTerms from './profiles/ReferralTerms';
@@ -62,4 +63,5 @@ export {
   TipDetail,
   ReferralTerms,
   ChangePassword,
+  PersionalInfomation,
 };
