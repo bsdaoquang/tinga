@@ -7,7 +7,7 @@ const favouritesSlice = createSlice({
     favourites: [],
   },
   reducers: {
-    addLocalData: (state, action) => {
+    addLocalDataFavorites: (state, action) => {
       state.favourites = action.payload;
     },
     addfavourites: (state, action) => {
@@ -39,12 +39,8 @@ const favouritesSlice = createSlice({
 });
 
 export const favouritesReducer = favouritesSlice.reducer;
-export const {
-  addfavourites,
-  removeList,
-  addLocalData,
-  removeItem,
-} = favouritesSlice.actions;
+export const {addfavourites, removeList, addLocalDataFavorites, removeItem} =
+  favouritesSlice.actions;
 //selector
 export const favouritesSelector = (state: any) =>
   state.favouritesReducer.favourites;

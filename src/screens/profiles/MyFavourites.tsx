@@ -1,5 +1,5 @@
 import {View, Text, FlatList} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ButtonComponent,
   Container,
@@ -11,9 +11,28 @@ import {
 } from '../../components';
 import {useSelector} from 'react-redux';
 import {favouritesSelector} from '../../redux/reducers/favouritReducer';
+import handleGetData from '../../apis/productAPI';
+import {Product} from '../../Models/Product';
 
 const MyFavourites = ({navigation}: any) => {
-  const favouritesList = useSelector(favouritesSelector);
+  const [favouritesList, setFavouritesList] = useState<Product[]>([]);
+
+  useEffect(() => {
+    getFavouritesList();
+  }, []);
+
+  const getFavouritesList = async () => {
+    const api = `/listOfFavourites`;
+
+    await handleGetData
+      .handleProduct(api, {}, 'post')
+      .then((res: any) => {
+        setFavouritesList(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   return (
     <Container back>
@@ -26,8 +45,7 @@ const MyFavourites = ({navigation}: any) => {
             ListHeaderComponent={
               <RowComponent
                 justify="flex-start"
-                styles={{marginVertical: 12, paddingHorizontal: 16}}
-              >
+                styles={{marginVertical: 12, paddingHorizontal: 16}}>
                 <ButtonComponent
                   text="Products"
                   onPress={() => {}}

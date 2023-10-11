@@ -228,6 +228,24 @@ const ModalProduct = (props: Props) => {
     );
   };
 
+  const handleAddFavoritesItem = async () => {
+    dispatch(addfavourites(producDetail));
+
+    const api = `/addToFavourite`;
+
+    await handleGetData
+      .handleProduct(
+        api,
+        {
+          product_id: producDetail?.id,
+        },
+        'post',
+      )
+      .then(() => {
+        showToast('Added');
+      });
+  };
+
   return (
     <Portal>
       <Modalize
@@ -315,7 +333,7 @@ const ModalProduct = (props: Props) => {
                         (element: Product) => element.id === producDetail.id,
                       )
                         ? dispatch(removeItem(producDetail))
-                        : dispatch(addfavourites(producDetail))
+                        : handleAddFavoritesItem()
                     }
                     icon={
                       favouritesList.find(

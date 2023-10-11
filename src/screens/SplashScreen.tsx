@@ -8,6 +8,11 @@ import {addAuth} from '../redux/reducers/authReducer';
 import {addLocalData} from '../redux/reducers/groceryReducer';
 import {addFromLocal, addList} from '../redux/reducers/shopingListReducer';
 import {global} from '../styles/global';
+import handleGetData from '../apis/productAPI';
+import {
+  addLocalDataFavorites,
+  addfavourites,
+} from '../redux/reducers/favouritReducer';
 
 const SplashScreen = () => {
   const dispatch = useDispatch();
@@ -16,6 +21,7 @@ const SplashScreen = () => {
     getUserData();
     getScanlist();
     getShopingList();
+    getFavouritesList();
   }, []);
 
   const getUserData = async () => {
@@ -43,6 +49,19 @@ const SplashScreen = () => {
       console.log(items);
       // dispatch(addFromLocal(items));
     }
+  };
+
+  const getFavouritesList = async () => {
+    const api = `/listOfFavourites`;
+
+    await handleGetData
+      .handleProduct(api, {}, 'post')
+      .then((res: any) => {
+        dispatch(addLocalDataFavorites(res));
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   return (
