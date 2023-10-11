@@ -87,6 +87,7 @@ const ChooseDislike = ({navigation, route}: any) => {
     });
 
     const data = new FormData();
+    // console.log(items);
     data.append('dislikes', JSON.stringify(items));
     try {
       setIsUpdating(true);
