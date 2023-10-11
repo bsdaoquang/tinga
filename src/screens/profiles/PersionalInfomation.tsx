@@ -18,17 +18,19 @@ import {fontFamilys} from '../../constants/fontFamily';
 import {LoadingModal} from '../../modals';
 import {addAuth, authSelector} from '../../redux/reducers/authReducer';
 import {showToast} from '../../utils/showToast';
+import ModalUpdatePhoto from '../../modals/ModalUpdatePhoto';
+import FastImage from 'react-native-fast-image';
 
 const PersionalInfomation = ({navigation}: any) => {
   const [profileDetail, setProfileDetail] = useState({
     first_name: '',
     last_name: '',
-    phone: '',
   });
   const [isUpdating, setIsUpdating] = useState(false);
   const [isVisibleModalUpdatePhoto, setIsVisibleModalUpdatePhoto] = useState(
     false,
   );
+  const [imageFile, setImageFile] = useState<any>();
 
   const auth = useSelector(authSelector);
   const dispatch = useDispatch();
@@ -38,17 +40,23 @@ const PersionalInfomation = ({navigation}: any) => {
       setProfileDetail({
         first_name: auth.first_name,
         last_name: auth.last_name,
-        phone: auth.phone,
       });
   }, [auth]);
 
   const handleUpdateProfile = async () => {
     const api = `/save`;
     setIsUpdating(true);
-    const data = {...profileDetail, phone: profileDetail.phone ?? ''};
+    const data = new FormData();
+
+    data.append('first_name', profileDetail.first_name);
+    data.append('last_name', profileDetail.last_name);
+
+    if (imageFile) {
+      data.append('image', imageFile);
+    }
 
     await handleGetData
-      .handleAuth(api, data, 'post')
+      .handleAuth(api, data, 'post', true)
       .then((res: any) => {
         if (res.success) {
           showToast(res.message);
@@ -97,16 +105,27 @@ const PersionalInfomation = ({navigation}: any) => {
               marginVertical: 20,
             }}
           >
+            {imageFile && (
+              <FastImage
+                source={{uri: imageFile.uri}}
+                style={{
+                  width: 150,
+                  height: 150,
+                  borderRadius: 100,
+                  marginBottom: 20,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+            )}
             <RowComponent
               styles={{
                 marginBottom: 20,
                 width: '100%',
                 justifyContent: 'flex-start',
-                backgroundColor: 'red',
               }}
             >
               <Button
-                styles={{flex: 0, backgroundColor: 'coral'}}
+                styles={{flex: 0}}
                 text="Edit Photo"
                 onPress={() => setIsVisibleModalUpdatePhoto(true)}
                 textColor={appColors.success1}
@@ -144,21 +163,6 @@ const PersionalInfomation = ({navigation}: any) => {
                 width: '100%',
               }}
             />
-            <InputComponent
-              // label="Phone number"
-              placeholder="Phone number"
-              value={profileDetail.phone}
-              onChange={val =>
-                setProfileDetail({
-                  ...profileDetail,
-                  phone: val,
-                })
-              }
-              clear
-              styles={{
-                width: '100%',
-              }}
-            />
           </View>
           <ButtonComponent
             text="Save change"
@@ -173,6 +177,11 @@ const PersionalInfomation = ({navigation}: any) => {
           />
         </SectionComponent>
         <LoadingModal visible={isUpdating} />
+        <ModalUpdatePhoto
+          onSelectedFile={(file: any) => setImageFile(file)}
+          isVisible={isVisibleModalUpdatePhoto}
+          onClose={() => setIsVisibleModalUpdatePhoto(false)}
+        />
       </Container>
     </KeyboardAvoidingView>
   );
