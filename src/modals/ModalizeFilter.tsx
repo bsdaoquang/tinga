@@ -389,6 +389,29 @@ const ModalizeFilter = (props: Props) => {
                     }}
                   />
                 </RowComponent>
+                {isShowDiets
+                  ? diets.map(item =>
+                      renderButton({
+                        id: item.id,
+                        isDiet: true,
+                        text: item.name,
+                        isRight: false,
+                        isSelected: userChoices?.diets.find(
+                          element => element.id === item.id,
+                        )
+                          ? true
+                          : false,
+                        onPress: () => handleUpdateDietChoice(item.id),
+                      }),
+                    )
+                  : renderButton({
+                      id: 1,
+                      isDiet: true,
+                      text: userChoices?.diets[0].name ?? '',
+                      isRight: true,
+                      isSelected: true,
+                      onPress: () => setIsShowDiets(true),
+                    })}
               </View>
               <View style={{marginTop: 20}}>
                 <RowComponent
