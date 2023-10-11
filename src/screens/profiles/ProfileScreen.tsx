@@ -8,6 +8,7 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch} from 'react-redux';
+import {AlertDetail} from '../../Models/AlertDetail';
 import {ListMenuItem} from '../../Models/ListMenuItem';
 import authenticationAPI from '../../apis/authAPI';
 import {Circle1} from '../../assets/svg';
@@ -29,12 +30,10 @@ import {appInfos} from '../../constants/appInfos';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
 import {LoadingModal, ModalInfoScore} from '../../modals';
+import ModalAlert from '../../modals/ModalAlert';
 import ModalizeFilter from '../../modals/ModalizeFilter';
 import {addAuth} from '../../redux/reducers/authReducer';
-import {addLocalData, removeList} from '../../redux/reducers/groceryReducer';
 import {global} from '../../styles/global';
-import {AlertDetail} from '../../Models/AlertDetail';
-import ModalAlert from '../../modals/ModalAlert';
 
 const ProfileScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);

@@ -21,7 +21,7 @@ import {showToast} from '../../utils/showToast';
 import ModalUpdatePhoto from '../../modals/ModalUpdatePhoto';
 import FastImage from 'react-native-fast-image';
 
-const PersionalInfomation = ({navigation}: any) => {
+const PersionalInfomation = ({navigation, route}: any) => {
   const [profileDetail, setProfileDetail] = useState({
     first_name: '',
     last_name: '',
@@ -31,16 +31,20 @@ const PersionalInfomation = ({navigation}: any) => {
     false,
   );
   const [imageFile, setImageFile] = useState<any>();
+  const [imageUrl, setImageUrl] = useState('');
 
   const auth = useSelector(authSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    auth &&
+    if (auth) {
       setProfileDetail({
         first_name: auth.first_name,
         last_name: auth.last_name,
       });
+
+      setImageUrl(auth.url);
+    }
   }, [auth]);
 
   const handleUpdateProfile = async () => {
@@ -105,9 +109,9 @@ const PersionalInfomation = ({navigation}: any) => {
               marginVertical: 20,
             }}
           >
-            {imageFile && (
+            {imageUrl && (
               <FastImage
-                source={{uri: imageFile.uri}}
+                source={{uri: imageUrl}}
                 style={{
                   width: 150,
                   height: 150,
@@ -178,7 +182,10 @@ const PersionalInfomation = ({navigation}: any) => {
         </SectionComponent>
         <LoadingModal visible={isUpdating} />
         <ModalUpdatePhoto
-          onSelectedFile={(file: any) => setImageFile(file)}
+          onSelectedFile={(file: any) => {
+            setImageFile(file);
+            setImageUrl(file.uri);
+          }}
           isVisible={isVisibleModalUpdatePhoto}
           onClose={() => setIsVisibleModalUpdatePhoto(false)}
         />
