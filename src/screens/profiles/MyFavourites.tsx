@@ -22,21 +22,23 @@ const MyFavourites = ({navigation}: any) => {
       </SectionComponent>
       {favouritesList.length > 0 ? (
         <>
-          <RowComponent
-            justify="flex-start"
-            styles={{marginVertical: 12, paddingHorizontal: 16}}
-          >
-            <ButtonComponent
-              text="Products"
-              onPress={() => {}}
-              styles={{
-                paddingVertical: 9,
-                paddingHorizontal: 12,
-                borderRadius: 100,
-              }}
-            />
-          </RowComponent>
           <FlatList
+            ListHeaderComponent={
+              <RowComponent
+                justify="flex-start"
+                styles={{marginVertical: 12, paddingHorizontal: 16}}
+              >
+                <ButtonComponent
+                  text="Products"
+                  onPress={() => {}}
+                  styles={{
+                    paddingVertical: 9,
+                    paddingHorizontal: 12,
+                    borderRadius: 100,
+                  }}
+                />
+              </RowComponent>
+            }
             numColumns={2}
             horizontal={false}
             showsVerticalScrollIndicator={false}
@@ -47,7 +49,9 @@ const MyFavourites = ({navigation}: any) => {
           />
         </>
       ) : (
-        <TextComponent text="Favourites list items not found" />
+        <SectionComponent>
+          <TextComponent text="Favourites list items not found" />
+        </SectionComponent>
       )}
     </Container>
   );

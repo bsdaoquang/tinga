@@ -1,18 +1,16 @@
-import {View, Text, ScrollView, FlatList, Animated} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
+import {FlatList, View} from 'react-native';
+import {Tip} from '../../../Models/TipModel';
+import dashboardAPI from '../../../apis/dashboardAPI';
 import {
   CardContent,
-  SectionComponent,
   TabbarComponent,
   TextComponent,
   TitleComponent,
 } from '../../../components';
-import {appColors, listColors} from '../../../constants/appColors';
-import {global} from '../../../styles/global';
-import {Tip} from '../../../Models/TipModel';
+import {appColors} from '../../../constants/appColors';
 import {showToast} from '../../../utils/showToast';
-import dashboardAPI from '../../../apis/dashboardAPI';
-import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   title: string;
@@ -71,7 +69,8 @@ const CategoriesList = ({title, url}: Props) => {
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 16,
-      }}>
+      }}
+    >
       <TitleComponent
         text={item.title}
         flex={0}
@@ -123,7 +122,8 @@ const CategoriesList = ({title, url}: Props) => {
           flex: 1,
           marginTop: 4,
           alignItems: 'center',
-        }}>
+        }}
+      >
         {renderDotsView(tips, indexItem)}
       </View>
     </View>
