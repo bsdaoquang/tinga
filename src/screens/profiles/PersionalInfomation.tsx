@@ -1,10 +1,12 @@
 import {View, Text, KeyboardAvoidingView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
+  Button,
   ButtonComponent,
   ButtonIcon,
   Container,
   InputComponent,
+  RowComponent,
   SectionComponent,
   TitleComponent,
 } from '../../components';
@@ -16,6 +18,8 @@ import {showToast} from '../../utils/showToast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appInfos} from '../../constants/appInfos';
 import {LoadingModal} from '../../modals';
+import {appColors} from '../../constants/appColors';
+import {fontFamilys} from '../../constants/fontFamily';
 
 const PersionalInfomation = ({navigation}: any) => {
   const [profileDetail, setProfileDetail] = useState({
@@ -24,6 +28,9 @@ const PersionalInfomation = ({navigation}: any) => {
     phone: '',
   });
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isVisibleModalUpdatePhoto, setIsVisibleModalUpdatePhoto] = useState(
+    false,
+  );
 
   const auth = useSelector(authSelector);
   const dispatch = useDispatch();
@@ -92,6 +99,25 @@ const PersionalInfomation = ({navigation}: any) => {
               marginVertical: 20,
             }}
           >
+            <RowComponent
+              styles={{
+                marginBottom: 20,
+                width: '100%',
+                justifyContent: 'flex-start',
+                backgroundColor: 'red',
+              }}
+            >
+              <Button
+                styles={{flex: 0, backgroundColor: 'coral'}}
+                text="Edit Photo"
+                onPress={() => setIsVisibleModalUpdatePhoto(true)}
+                textColor={appColors.success1}
+                fontStyles={{
+                  fontFamily: fontFamilys.bold,
+                  fontSize: 18,
+                }}
+              />
+            </RowComponent>
             <InputComponent
               placeholder="First name"
               value={profileDetail.first_name}
