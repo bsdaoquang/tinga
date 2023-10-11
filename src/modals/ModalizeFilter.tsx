@@ -331,7 +331,8 @@ const ModalizeFilter = (props: Props) => {
             paddingVertical: isDiet ? 16 : 8,
             borderRadius: isDiet ? 14 : 8,
           },
-        ]}>
+        ]}
+      >
         <TextComponent
           font={isSelected ? fontFamilys.bold : fontFamilys.regular}
           flex={isRight ? 1 : 0}
@@ -350,12 +351,14 @@ const ModalizeFilter = (props: Props) => {
           onClose={onClose}
           ref={modalRef}
           adjustToContentHeight
-          handlePosition="inside">
+          handlePosition="inside"
+        >
           <View
             style={{
               padding: 12,
               paddingBottom: 40,
-            }}>
+            }}
+          >
             <RowComponent justify="flex-end" onPress={handleCloseModal}>
               <AntDesign name="close" color={appColors.gray} size={22} />
             </RowComponent>
@@ -386,35 +389,13 @@ const ModalizeFilter = (props: Props) => {
                     }}
                   />
                 </RowComponent>
-                {/* {isShowDiets
-                  ? diets.map(item =>
-                      renderButton({
-                        id: item.id,
-                        isDiet: true,
-                        text: item.name,
-                        isRight: false,
-                        isSelected: userChoices?.diets.find(
-                          element => element.id === item.id,
-                        )
-                          ? true
-                          : false,
-                        onPress: () => handleUpdateDietChoice(item.id),
-                      }),
-                    )
-                  : renderButton({
-                      id: 1,
-                      isDiet: true,
-                      text: userChoices?.diets[0].name ?? '',
-                      isRight: true,
-                      isSelected: true,
-                      onPress: () => setIsShowDiets(true),
-                    })} */}
               </View>
               <View style={{marginTop: 20}}>
                 <RowComponent
                   justify="flex-start"
                   styles={{marginBottom: 8}}
-                  onPress={() => setIsShowAllergy(!isShowAllergy)}>
+                  onPress={() => setIsShowAllergy(!isShowAllergy)}
+                >
                   <RowComponent styles={{flex: 1}} justify="flex-start">
                     <TextComponent
                       size={16}
@@ -447,7 +428,7 @@ const ModalizeFilter = (props: Props) => {
                         <ArrowDown2 size={20} color={appColors.text} />
                       )
                     }
-                    onPress={() => {}}
+                    onPress={() => setIsShowAllergy(!isShowAllergy)}
                   />
                 </RowComponent>
                 {isShowAllergy ? (
@@ -482,13 +463,13 @@ const ModalizeFilter = (props: Props) => {
               </View>
               <View style={{marginTop: 20}}>
                 <RowComponent
-                  justify="flex-start"
+                  justify="space-between"
                   styles={{marginBottom: 8}}
-                  onPress={() => setIsShowDislike(!isShowDislike)}>
+                  onPress={() => setIsShowDislike(!isShowDislike)}
+                >
                   <TextComponent
                     size={16}
                     text="Dislikes"
-                    flex={0}
                     color="#41393E"
                     font={fontFamilys.medium}
                   />
@@ -501,7 +482,7 @@ const ModalizeFilter = (props: Props) => {
                         <ArrowDown2 size={20} color={appColors.text} />
                       )
                     }
-                    onPress={() => {}}
+                    onPress={() => setIsShowDislike(!isShowDislike)}
                   />
                 </RowComponent>
                 {isShowDislike ? (
@@ -538,11 +519,11 @@ const ModalizeFilter = (props: Props) => {
                 <RowComponent
                   justify="flex-start"
                   styles={{marginBottom: 8}}
-                  onPress={() => setIsShowShop(!isShowShop)}>
+                  onPress={() => setIsShowShop(!isShowShop)}
+                >
                   <TextComponent
                     size={16}
                     text="Grocery Stores"
-                    flex={0}
                     color="#41393E"
                     font={fontFamilys.medium}
                   />
@@ -555,7 +536,7 @@ const ModalizeFilter = (props: Props) => {
                         <ArrowDown2 size={20} color={appColors.text} />
                       )
                     }
-                    onPress={() => {}}
+                    onPress={() => setIsShowShop(!isShowShop)}
                   />
                 </RowComponent>
                 {isShowShop ? (
