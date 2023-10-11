@@ -1,25 +1,23 @@
-import {View, Text, KeyboardAvoidingView} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
+import {KeyboardAvoidingView, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import handleGetData from '../../apis/productAPI';
 import {
   Button,
   ButtonComponent,
-  ButtonIcon,
   Container,
   InputComponent,
   RowComponent,
   SectionComponent,
   TitleComponent,
 } from '../../components';
-import {useDispatch, useSelector} from 'react-redux';
-import {addAuth, authSelector} from '../../redux/reducers/authReducer';
-import {appSize} from '../../constants/appSize';
-import handleGetData from '../../apis/productAPI';
-import {showToast} from '../../utils/showToast';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {appInfos} from '../../constants/appInfos';
-import {LoadingModal} from '../../modals';
 import {appColors} from '../../constants/appColors';
+import {appInfos} from '../../constants/appInfos';
 import {fontFamilys} from '../../constants/fontFamily';
+import {LoadingModal} from '../../modals';
+import {addAuth, authSelector} from '../../redux/reducers/authReducer';
+import {showToast} from '../../utils/showToast';
 
 const PersionalInfomation = ({navigation}: any) => {
   const [profileDetail, setProfileDetail] = useState({
