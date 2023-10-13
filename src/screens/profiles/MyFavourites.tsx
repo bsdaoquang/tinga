@@ -5,6 +5,7 @@ import handleGetData from '../../apis/productAPI';
 import {
   ButtonComponent,
   Container,
+  LoadingComponent,
   ProductItemComponent,
   RowComponent,
   SectionComponent,
@@ -15,6 +16,7 @@ import {appColors} from '../../constants/appColors';
 
 const MyFavourites = ({navigation}: any) => {
   const [favouritesList, setFavouritesList] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getFavouritesList();
@@ -22,14 +24,16 @@ const MyFavourites = ({navigation}: any) => {
 
   const getFavouritesList = async () => {
     const api = `/listOfFavourites`;
-
+    setIsLoading(true);
     await handleGetData
       .handleProduct(api, {}, 'post')
       .then((res: any) => {
         setFavouritesList(res);
+        setIsLoading(false);
       })
       .catch(error => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
@@ -66,13 +70,18 @@ const MyFavourites = ({navigation}: any) => {
           />
         </>
       ) : (
-        <SectionComponent>
-          <TextComponent
-            flex={0}
-            color={appColors.text2}
-            text="Opps.. You don't have any shopping history. Start you first shopping trip now!"
-          />
-        </SectionComponent>
+        <LoadingComponent
+          isLoading={isLoading}
+          value={favouritesList.length}
+          message={`Opps.. You don't have any shopping history. Start you first shopping trip now!`}
+        />
+        // <SectionComponent>
+        //   <TextComponent
+        //     flex={0}
+        //     color={appColors.text2}
+        //     text="Opps.. You don't have any shopping history. Start you first shopping trip now!"
+        //   />
+        // </SectionComponent>
       )}
     </Container>
   );

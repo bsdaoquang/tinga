@@ -22,9 +22,9 @@ import {Portal} from 'react-native-portalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch} from 'react-redux';
 import {Product, ProductDetail} from '../Models/Product';
 import handleGetData from '../apis/productAPI';
-import {HeartBold} from '../assets/svg';
 import {
   Button,
   ButtonComponent,
@@ -37,16 +37,11 @@ import {
 } from '../components';
 import {appColors} from '../constants/appColors';
 import {fontFamilys} from '../constants/fontFamily';
+import {addfavourites} from '../redux/reducers/favouritReducer';
 import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
-import {appSize} from '../constants/appSize';
-import {useDispatch, useSelector} from 'react-redux';
-import {
-  addfavourites,
-  favouritesSelector,
-  removeItem,
-} from '../redux/reducers/favouritReducer';
+import {HeartBold} from '../assets/svg';
 
 interface Props {
   visible: boolean;
@@ -64,9 +59,13 @@ const ModalProduct = (props: Props) => {
   const [producDetail, setProducDetail] = useState<ProductDetail>();
   const [isShowDesc, setIsShowDesc] = useState(false);
   const [isShowIngre, setIsShowIngre] = useState(false);
+  const [favouritesList, setFavouritesList] = useState<Product[]>([]);
 
   const dispatch = useDispatch();
-  const favouritesList = useSelector(favouritesSelector);
+
+  useEffect(() => {
+    getFavouritesList();
+  }, [visible]);
 
   useEffect(() => {
     visible ? modalRef.current?.open() : modalRef.current?.close();
@@ -119,6 +118,19 @@ const ModalProduct = (props: Props) => {
       unit: 'g',
     },
   ];
+
+  const getFavouritesList = async () => {
+    const api = `/listOfFavourites`;
+
+    await handleGetData
+      .handleProduct(api, {}, 'post')
+      .then((res: any) => {
+        setFavouritesList(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   const renderProductIngredient = (item: {title: string; unit: string}) => {
     const productIngre: any = producDetail;
@@ -229,8 +241,6 @@ const ModalProduct = (props: Props) => {
   };
 
   const handleAddFavoritesItem = async () => {
-    dispatch(addfavourites(producDetail));
-
     const api = `/addToFavourite`;
 
     await handleGetData
@@ -243,6 +253,25 @@ const ModalProduct = (props: Props) => {
       )
       .then(() => {
         showToast('Added');
+        getFavouritesList();
+      });
+  };
+
+  const handleRemoveFavoritesItem = async () => {
+    const api = `/removeFavourites`;
+
+    await handleGetData
+      .handleProduct(
+        api,
+        {
+          id: producDetail?.id,
+        },
+        'post',
+      )
+      .then(res => {
+        console.log(res);
+        showToast('Removed');
+        getFavouritesList();
       });
   };
 
@@ -332,7 +361,8 @@ const ModalProduct = (props: Props) => {
                       favouritesList.find(
                         (element: Product) => element.id === producDetail.id,
                       )
-                        ? dispatch(removeItem(producDetail))
+                        ? // ? dispatch(removeItem(producDetail))
+                          handleRemoveFavoritesItem()
                         : handleAddFavoritesItem()
                     }
                     icon={
