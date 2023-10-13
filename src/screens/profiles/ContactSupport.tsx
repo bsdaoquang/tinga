@@ -14,12 +14,16 @@ import {
 import {appColors} from '../../constants/appColors';
 import {showToast} from '../../utils/showToast';
 import {LoadingModal} from '../../modals';
+import ModalAlert from '../../modals/ModalAlert';
+import {AlertDetail} from '../../Models/AlertDetail';
 
 const ContactSupport = ({navigation}: any) => {
   const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [content, setContent] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const [isVisibleModalCustom, setIsVisibleModalCustom] = useState(false);
+  const [alertDetail, setAlertDetail] = useState<AlertDetail>();
 
   const handleSendSupport = async () => {
     const data = {
@@ -35,17 +39,23 @@ const ContactSupport = ({navigation}: any) => {
         setIsSending(false);
 
         if (res.success) {
-          Alert.alert(
-            'Hi there!',
-            `Thank you for getting in touch. We're working on your inquiry, and we will try to get back to you within 1-2 bussiness days. \n\nThanks!\nYour friendly Dietitian`,
-            [
-              {
-                text: 'OK',
-                onPress: () => navigation.goBack(),
-                style: 'default',
-              },
-            ],
-          );
+          setAlertDetail({
+            title: 'Hi there!',
+            mess: `Thank you for getting in touch. We're working on your inquiry, and we will try to get back to you within 1-2 bussiness days. \n\nThanks!\nYour friendly Dietitian`,
+            onOK: () => navigation.goBack(),
+          });
+          setIsVisibleModalCustom(true);
+          // Alert.alert(
+          //   'Hi there!',
+          //   `Thank you for getting in touch. We're working on your inquiry, and we will try to get back to you within 1-2 bussiness days. \n\nThanks!\nYour friendly Dietitian`,
+          //   [
+          //     {
+          //       text: 'OK',
+          //       onPress: () => navigation.goBack(),
+          //       style: 'default',
+          //     },
+          //   ],
+          // );
         }
       });
     } catch (error) {
@@ -115,6 +125,18 @@ const ContactSupport = ({navigation}: any) => {
         </SectionComponent>
 
         <LoadingModal visible={isSending} mess="Sending..." />
+        {isVisibleModalCustom && alertDetail && (
+          <ModalAlert
+            title={alertDetail.title}
+            mess={alertDetail.mess}
+            onOK={alertDetail.onOK}
+            isVisible={isVisibleModalCustom}
+            onClose={() => {
+              setIsVisibleModalCustom(false);
+              setAlertDetail(undefined);
+            }}
+          />
+        )}
       </Container>
     </KeyboardAvoidingView>
   );

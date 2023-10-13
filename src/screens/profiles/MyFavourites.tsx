@@ -1,5 +1,7 @@
-import {View, Text, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {FlatList} from 'react-native';
+import {Product} from '../../Models/Product';
+import handleGetData from '../../apis/productAPI';
 import {
   ButtonComponent,
   Container,
@@ -9,10 +11,7 @@ import {
   TextComponent,
   TitleComponent,
 } from '../../components';
-import {useSelector} from 'react-redux';
-import {favouritesSelector} from '../../redux/reducers/favouritReducer';
-import handleGetData from '../../apis/productAPI';
-import {Product} from '../../Models/Product';
+import {appColors} from '../../constants/appColors';
 
 const MyFavourites = ({navigation}: any) => {
   const [favouritesList, setFavouritesList] = useState<Product[]>([]);
@@ -47,7 +46,7 @@ const MyFavourites = ({navigation}: any) => {
                 justify="flex-start"
                 styles={{marginVertical: 12, paddingHorizontal: 16}}>
                 <ButtonComponent
-                  text="Products"
+                  text={`Products ${favouritesList.length}`}
                   onPress={() => {}}
                   styles={{
                     paddingVertical: 9,
@@ -68,7 +67,11 @@ const MyFavourites = ({navigation}: any) => {
         </>
       ) : (
         <SectionComponent>
-          <TextComponent text="Favourites list items not found" />
+          <TextComponent
+            flex={0}
+            color={appColors.text2}
+            text="Opps.. You don't have any shopping history. Start you first shopping trip now!"
+          />
         </SectionComponent>
       )}
     </Container>

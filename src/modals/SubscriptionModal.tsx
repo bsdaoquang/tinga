@@ -104,23 +104,22 @@ const SubscriptionModal = (props: Props) => {
     'Access to a resource library to help you\nreach your goals',
   ];
 
-  const handleSetSubscriptionDate = async (time?: string) => {
-    // setIsUpdating(true);
+  const handleSetSubscriptionDate = async (isFree: boolean) => {
+    setIsUpdating(true);
     const api = `/setSubscriptionDate`;
 
     try {
+      const itemPlan = isFree
+        ? subscriptionsPlan.find(element => element.price === 0)
+        : permiumItem;
+
+      const data = {
+        subscription_id: itemPlan?.id,
+        uuid: auth.id,
+      };
+
       await subscriptionAPI
-        .HandleSubscription(
-          api,
-          {
-            premium_till: time
-              ? time
-              : new Date(
-                  new Date().getTime() + 7 * 24 * 60 * 60 * 1000,
-                ).toISOString(),
-          },
-          'post',
-        )
+        .HandleSubscription(api, data, 'post')
         .then(async (res: any) => {
           await getUserProfile();
 
@@ -153,8 +152,7 @@ const SubscriptionModal = (props: Props) => {
         }}
         // onPress={() => (!isWellCome ? handleSetSubscriptionDate() : undefined)}
         color={appColors.text}
-        styles={{padding: 0, alignItems: 'center', marginBottom: 16}}
-      >
+        styles={{padding: 0, alignItems: 'center', marginBottom: 16}}>
         {!isWellCome && (
           <TextComponent
             text="LIMITED-TIME OFFER"
@@ -173,8 +171,7 @@ const SubscriptionModal = (props: Props) => {
             margin: 0,
             backgroundColor: '#13917B',
             borderRadius: 8,
-          }}
-        >
+          }}>
           <RowComponent>
             <TitleComponent text={item.name} color={appColors.white} />
             <TextComponent
@@ -249,8 +246,7 @@ const SubscriptionModal = (props: Props) => {
           borderWidth: 2,
           borderColor: '#EEF3DC',
         }}
-        color={appColors.white}
-      >
+        color={appColors.white}>
         <RowComponent>
           <TitleComponent text={item.name} color={appColors.text} />
           {!isWellCome && (
@@ -310,16 +306,14 @@ const SubscriptionModal = (props: Props) => {
       style={{
         flex: 1,
         backgroundColor: appColors.white,
-      }}
-    >
+      }}>
       <ScrollView
         style={[
           {
             flex: 1,
             paddingTop: 48,
           },
-        ]}
-      >
+        ]}>
         <SectionComponent>
           <RowComponent justify="flex-end">
             <Button
@@ -343,8 +337,7 @@ const SubscriptionModal = (props: Props) => {
                 fontSize: 36,
                 lineHeight: 32.5,
               },
-            ]}
-          >
+            ]}>
             Try Tinga for free,{' '}
             <Text style={{fontSize: 24}}>cancel anytime.</Text>
           </Text>
@@ -356,8 +349,7 @@ const SubscriptionModal = (props: Props) => {
                 alignItems: 'flex-start',
                 marginBottom: 8,
               }}
-              key={`desc${index}`}
-            >
+              key={`desc${index}`}>
               <FontAwesome name="check" color={appColors.success1} size={28} />
               <SpaceComponent width={12} />
               <TextComponent text={desc} />
@@ -374,7 +366,7 @@ const SubscriptionModal = (props: Props) => {
             <SectionComponent>
               <ButtonComponent
                 text="Try free and subscribe"
-                onPress={() => handleSetSubscriptionDate()}
+                onPress={() => handleSetSubscriptionDate(true)}
                 color={appColors.success1}
                 textColor={appColors.text}
               />
@@ -394,8 +386,9 @@ const SubscriptionModal = (props: Props) => {
                   flex={0}
                 />
                 <TouchableOpacity
-                  onPress={() => Linking.openURL('https://tinga.ca/terms.html')}
-                >
+                  onPress={() =>
+                    Linking.openURL('https://tinga.ca/terms.html')
+                  }>
                   <TextComponent
                     font={fontFamilys.bold}
                     color="#32645B"
@@ -434,7 +427,7 @@ const SubscriptionModal = (props: Props) => {
           setPermiumItem(undefined);
         }}
         permiumItem={permiumItem}
-        onSubcription={time => handleSetSubscriptionDate(time)}
+        onSubcription={isFree => handleSetSubscriptionDate(isFree)}
       />
     </Modal>
   );

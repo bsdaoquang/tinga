@@ -20,8 +20,6 @@ const SplashScreen = () => {
   useEffect(() => {
     getUserData();
     getScanlist();
-    getShopingList();
-    getFavouritesList();
   }, []);
 
   const getUserData = async () => {
@@ -40,28 +38,6 @@ const SplashScreen = () => {
     } else {
       console.log('Data not found');
     }
-  };
-  const getShopingList = async () => {
-    const res = await AsyncStorage.getItem(appInfos.localDataName.shopingList);
-    const items = res ? JSON.parse(res) : [];
-
-    if (items.length > 0) {
-      console.log(items);
-      // dispatch(addFromLocal(items));
-    }
-  };
-
-  const getFavouritesList = async () => {
-    const api = `/listOfFavourites`;
-
-    await handleGetData
-      .handleProduct(api, {}, 'post')
-      .then((res: any) => {
-        dispatch(addLocalDataFavorites(res));
-      })
-      .catch(error => {
-        console.log(error);
-      });
   };
 
   return (

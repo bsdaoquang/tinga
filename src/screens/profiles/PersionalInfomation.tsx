@@ -27,9 +27,8 @@ const PersionalInfomation = ({navigation, route}: any) => {
     last_name: '',
   });
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isVisibleModalUpdatePhoto, setIsVisibleModalUpdatePhoto] = useState(
-    false,
-  );
+  const [isVisibleModalUpdatePhoto, setIsVisibleModalUpdatePhoto] =
+    useState(false);
   const [imageFile, setImageFile] = useState<any>();
   const [imageUrl, setImageUrl] = useState('');
 
@@ -100,15 +99,14 @@ const PersionalInfomation = ({navigation, route}: any) => {
     <KeyboardAvoidingView style={{flex: 1}}>
       <Container back isFlex isScroll>
         <SectionComponent styles={{flex: 1}}>
-          <TitleComponent text={`Persional\nInfomation`} size={28} flex={0} />
+          <TitleComponent text={`Personal\nInfomation`} size={28} flex={0} />
           <View
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               marginVertical: 20,
-            }}
-          >
+            }}>
             {imageUrl && (
               <FastImage
                 source={{uri: imageUrl}}
@@ -126,8 +124,7 @@ const PersionalInfomation = ({navigation, route}: any) => {
                 marginBottom: 20,
                 width: '100%',
                 justifyContent: 'flex-start',
-              }}
-            >
+              }}>
               <Button
                 styles={{flex: 0}}
                 text="Edit Photo"

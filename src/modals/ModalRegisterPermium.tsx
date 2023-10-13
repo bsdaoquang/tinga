@@ -16,7 +16,7 @@ interface Props {
   isVisible: boolean;
   onClose: () => void;
   permiumItem?: Subscription;
-  onSubcription: (time: string) => void;
+  onSubcription: (isFree: boolean) => void;
 }
 
 const date = new Date();
@@ -33,18 +33,6 @@ const ModalRegisterPermium = (props: Props) => {
     onClose();
   };
 
-  const handleSetSubscriptionDate = async (isTransactionFailed: boolean) => {
-    setIsUpdating(true);
-    const api = `/setSubscriptionDate`;
-
-    const tillDate =
-      date.getTime() +
-      (isTransactionFailed ? 7 : permiumItem ? permiumItem.trial_days : 7) *
-        timeInDay;
-
-    onSubcription(new Date(tillDate).toISOString());
-    onClose();
-  };
   return (
     <Modal visible={isVisible} transparent animationType="slide">
       <View style={[global.modalContainer]}>
@@ -73,11 +61,10 @@ const ModalRegisterPermium = (props: Props) => {
             style={{
               // paddingHorizontal: 20,
               marginVertical: 20,
-            }}
-          >
+            }}>
             <ButtonComponent
               text="Successful Transaction"
-              onPress={() => handleSetSubscriptionDate(false)}
+              onPress={() => onSubcription(false)}
               fontStyles={{fontSize: 22}}
               styles={{
                 paddingVertical: 14,
@@ -86,7 +73,7 @@ const ModalRegisterPermium = (props: Props) => {
             <ButtonComponent
               outline
               text="Failed Transaction"
-              onPress={() => handleSetSubscriptionDate(true)}
+              onPress={() => onSubcription(true)}
               fontStyles={{fontSize: 22}}
               styles={{
                 paddingVertical: 12,

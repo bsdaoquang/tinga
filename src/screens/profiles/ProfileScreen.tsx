@@ -7,7 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {AlertDetail} from '../../Models/AlertDetail';
 import {ListMenuItem} from '../../Models/ListMenuItem';
 import authenticationAPI from '../../apis/authAPI';
@@ -32,7 +32,7 @@ import {fontFamilys} from '../../constants/fontFamily';
 import {LoadingModal, ModalInfoScore} from '../../modals';
 import ModalAlert from '../../modals/ModalAlert';
 import ModalizeFilter from '../../modals/ModalizeFilter';
-import {addAuth} from '../../redux/reducers/authReducer';
+import {addAuth, authSelector} from '../../redux/reducers/authReducer';
 import {global} from '../../styles/global';
 
 const ProfileScreen = ({navigation}: any) => {
@@ -43,6 +43,7 @@ const ProfileScreen = ({navigation}: any) => {
   const [alertDetail, setAlertDetail] = useState<AlertDetail>();
 
   const dispatch = useDispatch();
+  const auth = useSelector(authSelector);
 
   const demodatachart = [
     {
@@ -165,19 +166,6 @@ const ProfileScreen = ({navigation}: any) => {
       isPrimary: true,
       onPress: () => navigation.navigate('ReferralScreen'),
     },
-    // {
-    //   id: '7',
-    //   title: 'New Additions',
-    //   icon: (
-    //     <MaterialCommunityIcons name="hexagon" color={'#FFD97D'} size={16} />
-    //   ),
-    // },
-    // {
-    //   id: '8',
-    //   title: 'Shopping History',
-    //   icon: <MaterialCommunityIcons name="water" color={'#99CDDC'} size={18} />,
-    //   onPress: () => navigation.navigate('ShopingHistory'),
-    // },
   ];
 
   const contactsMenu: ListMenuItem[] = [
@@ -221,12 +209,16 @@ const ProfileScreen = ({navigation}: any) => {
         <RowComponent>
           <TitleComponent text="Profile" size={28} />
           <Image
-            source={require('../../assets/images/profileIcon.png')}
+            source={
+              auth.url
+                ? {uri: auth.url}
+                : require('../../assets/images/profileIcon.png')
+            }
             style={{
               width: 48,
               height: 48,
               borderRadius: 100,
-              resizeMode: 'contain',
+              resizeMode: 'cover',
             }}
           />
         </RowComponent>
@@ -254,8 +246,7 @@ const ProfileScreen = ({navigation}: any) => {
           onPress={() => navigation.navigate('ListScoreTrend')}
           color={appColors.white}
           isShadow
-          styles={{paddingHorizontal: 37}}
-        >
+          styles={{paddingHorizontal: 37}}>
           <View style={global.center}>
             <ChartPieItem
               total={80}
@@ -273,8 +264,7 @@ const ProfileScreen = ({navigation}: any) => {
                     fontFamily: fontFamilys.bold,
                     flex: 0,
                   },
-                ]}
-              >
+                ]}>
                 {' '}
                 6pt{' '}
                 <Text style={{fontFamily: fontFamilys.regular}}>
@@ -304,8 +294,7 @@ const ProfileScreen = ({navigation}: any) => {
               key={`dataChart${index}`}
               isShadow
               color={appColors.white}
-              styles={{width: (appSize.width - (32 + 12 * 2)) / 3}}
-            >
+              styles={{width: (appSize.width - (32 + 12 * 2)) / 3}}>
               <ChartPieItem
                 data={item.data}
                 key={item.id}
@@ -326,8 +315,7 @@ const ProfileScreen = ({navigation}: any) => {
         />
         <CardContent
           styles={{padding: 0, marginTop: 16}}
-          color={appColors.white}
-        >
+          color={appColors.white}>
           {settings.map((item, index) => (
             <ListItemComponent
               key={item.id}
@@ -349,8 +337,7 @@ const ProfileScreen = ({navigation}: any) => {
         />
         <CardContent
           styles={{padding: 0, marginTop: 16}}
-          color={appColors.white}
-        >
+          color={appColors.white}>
           {contactsMenu.map((item, index) => (
             <ListItemComponent
               key={`contact${index}`}
@@ -372,8 +359,7 @@ const ProfileScreen = ({navigation}: any) => {
         />
         <CardContent
           styles={{padding: 0, marginTop: 16}}
-          color={appColors.white}
-        >
+          color={appColors.white}>
           {infosMenu.map((item, index) => (
             <ListItemComponent
               key={item.id}

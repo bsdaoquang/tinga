@@ -368,7 +368,9 @@ const ModalizeFilter = (props: Props) => {
         <Modalize
           onClose={onClose}
           ref={modalRef}
-          adjustToContentHeight
+          // adjustToContentHeight
+          scrollViewProps={{showsVerticalScrollIndicator: false}}
+          disableScrollIfPossible={false}
           handlePosition="inside">
           <View
             style={{
@@ -380,29 +382,43 @@ const ModalizeFilter = (props: Props) => {
             </RowComponent>
 
             <TitleComponent text="Filters" size={20} />
-            <ScrollView>
+            <View>
               <View style={{marginTop: 20}}>
-                <RowComponent justify="flex-start" styles={{marginBottom: 8}}>
-                  <TextComponent
-                    size={16}
-                    text="Diet"
-                    flex={0}
-                    color="#41393E"
-                    font={fontFamilys.medium}
-                  />
-                  <SpaceComponent width={8} />
+                <RowComponent>
+                  <RowComponent
+                    justify="flex-start"
+                    styles={{marginBottom: 8, flex: 1}}>
+                    <TextComponent
+                      size={16}
+                      text="Diet"
+                      flex={0}
+                      color="#41393E"
+                      font={fontFamilys.medium}
+                    />
+                    <SpaceComponent width={8} />
+                    <Button
+                      icon={
+                        <MaterialIcons
+                          name="info-outline"
+                          size={20}
+                          color={'#9F9F9F'}
+                        />
+                      }
+                      onPress={() => {
+                        setTypeInfo('diet');
+                        setIsVisibleModalInfoDiet(true);
+                      }}
+                    />
+                  </RowComponent>
                   <Button
                     icon={
-                      <MaterialIcons
-                        name="info-outline"
-                        size={20}
-                        color={'#9F9F9F'}
-                      />
+                      isShowDiets ? (
+                        <ArrowUp2 size={20} color={appColors.text} />
+                      ) : (
+                        <ArrowDown2 size={20} color={appColors.text} />
+                      )
                     }
-                    onPress={() => {
-                      setTypeInfo('diet');
-                      setIsVisibleModalInfoDiet(true);
-                    }}
+                    onPress={() => setIsShowDiets(!isShowDiets)}
                   />
                 </RowComponent>
                 {isShowDiets
@@ -424,7 +440,7 @@ const ModalizeFilter = (props: Props) => {
                       id: 1,
                       isDiet: true,
                       text: userChoices?.diets[0].name ?? '',
-                      isRight: true,
+                      isRight: false,
                       isSelected: true,
                       onPress: () => setIsShowDiets(true),
                     })}
@@ -615,7 +631,7 @@ const ModalizeFilter = (props: Props) => {
                   </RowComponent>
                 )}
               </View>
-            </ScrollView>
+            </View>
             <RowComponent justify="space-around">
               <Button
                 text="Clear all"
