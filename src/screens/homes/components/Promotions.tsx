@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {FlatList} from 'react-native';
+import {FlatList, Image} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   ButtonComponent,
@@ -21,7 +21,7 @@ const Promotions = () => {
       id: '1',
       title: 'Refer and Earn Rewards',
       detail: 'Get $10',
-      description: 'when you share Tinga with your friends & family*',
+      description: `when you share Tinga with your\nfriends & family*`,
       buttonText: 'Lear more',
       note: '*Ts & Cs apply',
       imageUrl: '',
@@ -35,6 +35,7 @@ const Promotions = () => {
       styles={{
         width: appSize.width - 32,
         marginRight: 16,
+        zIndex: 1,
       }}>
       <TextComponent text={item.title} color={'#FFFFFFBF'} />
       <RowComponent>
@@ -53,8 +54,20 @@ const Promotions = () => {
         styles={{marginVertical: 8}}
         fontStyles={{textTransform: 'uppercase'}}
       />
-
       <TextComponent text={item.note} color={appColors.white} />
+      <Image
+        source={require('../../../assets/images/Logo.png')}
+        style={{
+          width: 150,
+          zIndex: 0,
+          height: 150,
+          resizeMode: 'contain',
+          position: 'absolute',
+          right: 0,
+          bottom: -2,
+          borderRadius: 12,
+        }}
+      />
     </CardContent>
   );
 
