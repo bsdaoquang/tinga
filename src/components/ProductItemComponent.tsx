@@ -18,12 +18,13 @@ import {HandleProduct} from '../utils/HandleProduct';
 interface Props {
   item: Product;
   styles?: StyleProp<ViewStyle>;
+  onReload?: () => void;
 }
 
 const ProductItemComponent = (props: Props) => {
   const [isVisibileModalProduct, setIsVisibileModalProduct] = useState(false);
 
-  const {item, styles} = props;
+  const {item, styles, onReload} = props;
 
   return (
     <>
@@ -103,7 +104,10 @@ const ProductItemComponent = (props: Props) => {
       </CardContent>
       <ModalProduct
         visible={isVisibileModalProduct}
-        onClose={() => setIsVisibileModalProduct(false)}
+        onClose={() => {
+          setIsVisibileModalProduct(false);
+          onReload && onReload();
+        }}
         product={item}
         products={[]}
         onAddToList={async (count: number) =>

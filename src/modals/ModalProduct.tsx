@@ -49,10 +49,11 @@ interface Props {
   product?: Product;
   onAddToList?: (count: number) => void;
   products: Product[];
+  onReload?: () => void;
 }
 
 const ModalProduct = (props: Props) => {
-  const {visible, onClose, product, onAddToList, products} = props;
+  const {visible, onClose, product, onAddToList, products, onReload} = props;
   const [count, setCount] = useState(1);
   const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] =
     useState(false);
@@ -65,7 +66,7 @@ const ModalProduct = (props: Props) => {
 
   useEffect(() => {
     getFavouritesList();
-  }, [visible]);
+  }, []);
 
   useEffect(() => {
     visible ? modalRef.current?.open() : modalRef.current?.close();
@@ -125,7 +126,7 @@ const ModalProduct = (props: Props) => {
     await handleGetData
       .handleProduct(api, {}, 'post')
       .then((res: any) => {
-        setFavouritesList(res);
+        res.length > 0 && setFavouritesList(res);
       })
       .catch(error => {
         console.log(error);
@@ -240,36 +241,62 @@ const ModalProduct = (props: Props) => {
     );
   };
 
-  const handleAddFavoritesItem = async () => {
-    const api = `/addToFavourite`;
-
-    await handleGetData
-      .handleProduct(
-        api,
-        {
-          product_id: producDetail?.id,
-        },
-        'post',
+  const renderFavouriestButton = () => {
+    const item = favouritesList.find(
+      (element: Product) => element.id === producDetail?.id,
+    );
+    return (
+      producDetail && (
+        <Button
+          onPress={() =>
+            item ? handleRemoveFavoritesItem(item) : handleAddFavoritesItem()
+          }
+          icon={
+            item ? (
+              <HeartBold width={24} height={24} />
+            ) : (
+              <Heart variant="Bold" color={appColors.white} size={24} />
+            )
+          }
+        />
       )
-      .then(() => {
-        showToast('Added');
-        getFavouritesList();
-      });
+    );
   };
 
-  const handleRemoveFavoritesItem = async () => {
+  // console.log(favouritesList);
+
+  const handleAddFavoritesItem = async () => {
+    if (producDetail) {
+      const api = `/addToFavourite`;
+
+      await handleGetData
+        .handleProduct(
+          api,
+          {
+            product_id: producDetail?.id,
+          },
+          'post',
+        )
+        .then(res => {
+          console.log(res);
+          showToast('Added');
+          getFavouritesList();
+        });
+    }
+  };
+
+  const handleRemoveFavoritesItem = async (item: Product) => {
     const api = `/removeFavourites`;
 
     await handleGetData
       .handleProduct(
         api,
         {
-          id: producDetail?.id,
+          id: item.id,
         },
         'post',
       )
       .then(res => {
-        console.log(res);
         showToast('Removed');
         getFavouritesList();
       });
@@ -281,6 +308,7 @@ const ModalProduct = (props: Props) => {
         onClose={() => {
           onClose();
           setCount(1);
+          onReload && onReload();
         }}
         handlePosition="inside"
         ref={modalRef}
@@ -356,29 +384,7 @@ const ModalProduct = (props: Props) => {
                     }
                     onPress={handleCloseModal}
                   />
-                  <Button
-                    onPress={() =>
-                      favouritesList.find(
-                        (element: Product) => element.id === producDetail.id,
-                      )
-                        ? // ? dispatch(removeItem(producDetail))
-                          handleRemoveFavoritesItem()
-                        : handleAddFavoritesItem()
-                    }
-                    icon={
-                      favouritesList.find(
-                        (element: Product) => element.id === producDetail.id,
-                      ) ? (
-                        <HeartBold width={24} height={24} />
-                      ) : (
-                        <Heart
-                          variant="Bold"
-                          color={appColors.white}
-                          size={24}
-                        />
-                      )
-                    }
-                  />
+                  {renderFavouriestButton()}
                 </RowComponent>
                 <View style={{flex: 1}} />
                 <RowComponent justify="space-between" styles={{padding: 16}}>

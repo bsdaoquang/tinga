@@ -9,10 +9,8 @@ import {
   ProductItemComponent,
   RowComponent,
   SectionComponent,
-  TextComponent,
   TitleComponent,
 } from '../../components';
-import {appColors} from '../../constants/appColors';
 
 const MyFavourites = ({navigation}: any) => {
   const [favouritesList, setFavouritesList] = useState<Product[]>([]);
@@ -20,7 +18,7 @@ const MyFavourites = ({navigation}: any) => {
 
   useEffect(() => {
     getFavouritesList();
-  }, []);
+  }, [navigation]);
 
   const getFavouritesList = async () => {
     const api = `/listOfFavourites`;
@@ -65,7 +63,11 @@ const MyFavourites = ({navigation}: any) => {
             showsVerticalScrollIndicator={false}
             data={favouritesList}
             renderItem={({item, index}) => (
-              <ProductItemComponent item={item} styles={{marginLeft: 16}} />
+              <ProductItemComponent
+                onReload={getFavouritesList}
+                item={item}
+                styles={{marginLeft: 16}}
+              />
             )}
           />
         </>
@@ -75,13 +77,6 @@ const MyFavourites = ({navigation}: any) => {
           value={favouritesList.length}
           message={`Opps.. You don't have any shopping history. Start you first shopping trip now!`}
         />
-        // <SectionComponent>
-        //   <TextComponent
-        //     flex={0}
-        //     color={appColors.text2}
-        //     text="Opps.. You don't have any shopping history. Start you first shopping trip now!"
-        //   />
-        // </SectionComponent>
       )}
     </Container>
   );
