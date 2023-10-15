@@ -78,13 +78,6 @@ const ModalizeFilter = (props: Props) => {
   }, [userChoices]);
 
   useEffect(() => {
-    // handleUpdateAllergires();
-    // handleUpdateDislike();
-    // handleUpdateStore();
-    // console.log(selected);
-  }, [selected]);
-
-  useEffect(() => {
     if (visible) {
       modalRef.current?.open();
     } else {
@@ -322,6 +315,12 @@ const ModalizeFilter = (props: Props) => {
     }
   };
 
+  const handleClearAll = () => {
+    handleUpdateAllergires([]);
+    handleUpdateDislike([]);
+    handleUpdateStore([]);
+  };
+
   const renderButton = ({
     id,
     text,
@@ -371,16 +370,46 @@ const ModalizeFilter = (props: Props) => {
           // adjustToContentHeight
           scrollViewProps={{showsVerticalScrollIndicator: false}}
           disableScrollIfPossible={false}
-          handlePosition="inside">
+          handlePosition="inside"
+          HeaderComponent={
+            <RowComponent
+              styles={{
+                padding: 16,
+              }}
+              justify="flex-end"
+              onPress={handleCloseModal}>
+              <AntDesign name="close" color={appColors.gray} size={22} />
+            </RowComponent>
+          }
+          FooterComponent={
+            <RowComponent justify="space-around" styles={{paddingVertical: 12}}>
+              <Button
+                text="Clear all"
+                onPress={() => {
+                  setSelected({
+                    allergies: [],
+                    shops: [],
+                    disLikes: [],
+                  });
+                  handleClearAll();
+                }}
+              />
+              <ButtonComponent
+                text="Show 300+ results"
+                onPress={() => {
+                  setIsShowAllergy(true);
+                  setIsShowDiets(true);
+                  setIsShowDislike(true);
+                  setIsShowShop(true);
+                }}
+              />
+            </RowComponent>
+          }>
           <View
             style={{
               padding: 12,
               paddingBottom: 40,
             }}>
-            <RowComponent justify="flex-end" onPress={handleCloseModal}>
-              <AntDesign name="close" color={appColors.gray} size={22} />
-            </RowComponent>
-
             <TitleComponent text="Filters" size={20} />
             <View>
               <View style={{marginTop: 20}}>
@@ -632,27 +661,6 @@ const ModalizeFilter = (props: Props) => {
                 )}
               </View>
             </View>
-            <RowComponent justify="space-around">
-              <Button
-                text="Clear all"
-                onPress={() => {
-                  setSelected({
-                    allergies: [],
-                    shops: [],
-                    disLikes: [],
-                  });
-                }}
-              />
-              <ButtonComponent
-                text="Show 300+ results"
-                onPress={() => {
-                  setIsShowAllergy(true);
-                  setIsShowDiets(true);
-                  setIsShowDislike(true);
-                  setIsShowShop(true);
-                }}
-              />
-            </RowComponent>
           </View>
           <LoadingModal visible={isUpdating} mess="Updating..." />
         </Modalize>
