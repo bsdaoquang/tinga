@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useIsFocused} from '@react-navigation/native';
 import {Gift} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {StatusBar, TouchableOpacity, View} from 'react-native';
@@ -34,16 +33,12 @@ import {
 } from '../../modals';
 import ModalAlert from '../../modals/ModalAlert';
 import {addAuth, authSelector} from '../../redux/reducers/authReducer';
-import {
-  addLocalData,
-  groceriesSelector,
-} from '../../redux/reducers/groceryReducer';
-import {shopingListSelector} from '../../redux/reducers/shopingListReducer';
 import {showToast} from '../../utils/showToast';
 import CategoriesList from './components/CategoriesList';
 import HomeCarousels from './components/HomeCarousels';
 import Promotions from './components/Promotions';
 import VideoComponent from './components/VideoComponent';
+import {HistoryProduc} from '../../Models/Product';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -53,11 +48,9 @@ const HomeScreen = ({navigation, route}: any) => {
   const [videos, setVideos] = useState<VideoModel[]>([]);
   const [isVisibleModalAlert, setIsVisibleModalAlert] = useState(false);
   const [alertDetail, setAlertDetail] = useState<AlertDetail>();
+  const [historiesList, setHistoriesList] = useState<HistoryProduc[]>([]);
 
   const auth = useSelector(authSelector);
-  const groceriesList = useSelector(groceriesSelector);
-  const shopingList = useSelector(shopingListSelector);
-  const isFocused = useIsFocused();
 
   const dispatch = useDispatch();
 
@@ -69,10 +62,11 @@ const HomeScreen = ({navigation, route}: any) => {
       }, 1500);
     }
     getVideos();
+    getHistoriesListOfProduct();
   }, []);
 
   useEffect(() => {
-    groceriesList.length >= 5 &&
+    historiesList.length >= 5 &&
       setTimeout(() => {
         setIsVisibleModalRating(true);
       }, 3000);
@@ -90,7 +84,18 @@ const HomeScreen = ({navigation, route}: any) => {
       showToast('Can not get videos');
     }
   };
+  const getHistoriesListOfProduct = async () => {
+    const api = `/listOfProducts`;
 
+    await handleGetData
+      .handleProduct(api, {}, 'post')
+      .then((res: any) => {
+        setHistoriesList(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
   const handleGetAndUpdateProfile = async () => {
     const api = `/getUserProfile`;
     try {

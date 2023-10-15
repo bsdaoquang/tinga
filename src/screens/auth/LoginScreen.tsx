@@ -32,7 +32,7 @@ const LoginScreen = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const {handleCheckEmail, handleCheckPass, helpText} = useAuth(navigation);
+  const {handleCheckEmail, helpText} = useAuth(navigation);
   const dispatch = useDispatch();
 
   const handleLogin = async () => {
@@ -109,7 +109,7 @@ const LoginScreen = ({navigation}: any) => {
             placeholder="Password*"
             onChange={val => {
               setPassword(val);
-              handleCheckPass(password);
+              // handleCheckPass(password);
             }}
             isSecure
             show={isShowPass}
@@ -133,7 +133,7 @@ const LoginScreen = ({navigation}: any) => {
             icon={
               <Octicons name="arrow-right" size={20} color={appColors.text} />
             }
-            disable={!email || !password || isLoading || password.length < 6}
+            disable={!email || !password || isLoading}
             fontStyles={{textAlign: 'center'}}
             onPress={handleLogin}
             styles={{

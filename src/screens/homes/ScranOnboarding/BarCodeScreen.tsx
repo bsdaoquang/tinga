@@ -25,6 +25,7 @@ import {
 } from '../../../redux/reducers/groceryReducer';
 import {handleSaveUser} from '../../../utils/handleSaveUser';
 import {showToast} from '../../../utils/showToast';
+import {HandleProduct} from '../../../utils/HandleProduct';
 
 const BarCodeScreen = ({navigation}: any) => {
   const [codeDetail, setCodeDetail] = useState('');
@@ -240,9 +241,9 @@ const BarCodeScreen = ({navigation}: any) => {
           setShowProduct(false);
         }}
         product={product}
-        onAddToList={() => {
-          product && dispatch(addGroceries(product));
-        }}
+        onAddToList={async (count: number) =>
+          product && (await HandleProduct.addToList(product, count))
+        }
         products={groceriesList ?? []}
       />
 

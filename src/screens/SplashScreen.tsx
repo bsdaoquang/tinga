@@ -19,7 +19,7 @@ const SplashScreen = () => {
 
   useEffect(() => {
     getUserData();
-    getScanlist();
+    // getScanlist();
   }, []);
 
   const getUserData = async () => {

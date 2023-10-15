@@ -6,8 +6,9 @@ import Swiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
-import {useSelector} from 'react-redux';
 import {TourGuideZone, useTourGuideController} from 'rn-tourguide';
+import {HistoryProduc} from '../../../Models/Product';
+import handleGetData from '../../../apis/productAPI';
 import {
   ButtonComponent,
   CardContent,
@@ -19,15 +20,11 @@ import {
 } from '../../../components';
 import {appColors} from '../../../constants/appColors';
 import {fontFamilys} from '../../../constants/fontFamily';
-import {groceriesSelector} from '../../../redux/reducers/groceryReducer';
-import {shopingListSelector} from '../../../redux/reducers/shopingListReducer';
 import {global} from '../../../styles/global';
 
 const HomeCarousels = () => {
   const [isPermission, setIsPermission] = useState(false);
-
-  const groceriesList = useSelector(groceriesSelector);
-  const shopingList = useSelector(shopingListSelector);
+  const [historiesList, setHistoriesList] = useState<HistoryProduc[]>([]);
   const [isGuideStart, setIsGuideStart] = useState(false);
   const isFocused = useIsFocused();
 
@@ -36,9 +33,13 @@ const HomeCarousels = () => {
   const {canStart, start, stop} = useTourGuideController();
 
   useEffect(() => {
+    getHistoriesListOfProduct();
+  }, []);
+
+  useEffect(() => {
     if (isFocused) {
       // canStart && start();
-      !isPermission && groceriesList.length === 0 && canStart && start();
+      !isPermission && historiesList.length === 0 && canStart && start();
     } else {
       stop();
     }
@@ -58,14 +59,27 @@ const HomeCarousels = () => {
     });
   };
 
-  return shopingList.length > 0 && groceriesList.length >= 5 ? (
+  const getHistoriesListOfProduct = async () => {
+    const api = `/listOfProducts`;
+
+    await handleGetData
+      .handleProduct(api, {}, 'post')
+      .then((res: any) => {
+        setHistoriesList(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  return historiesList.length > 5 ? (
     <CardContent styles={{margin: 16, paddingVertical: 23}}>
       <TitleComponent
         size={20}
         text="Start your Gluten-free shopping experience"
       />
       <SpaceComponent height={20} />
-      {shopingList.length > 0 ? (
+      {historiesList.length > 0 ? (
         <RowComponent justify="space-around">
           <ButtonComponent
             styles={{paddingVertical: 10}}
@@ -73,8 +87,6 @@ const HomeCarousels = () => {
               <View
                 style={{
                   backgroundColor: 'rgba(65, 57, 62, 0.50);',
-                  // width: 24,
-                  // height: 24,
                   justifyContent: 'center',
                   alignItems: 'center',
                   borderRadius: 60,
@@ -88,6 +100,7 @@ const HomeCarousels = () => {
             color={appColors.primary1}
             textColor={appColors.white}
           />
+
           <RowComponent onPress={() => navigation.navigate('ShopingHistory')}>
             <Octicons color={appColors.primary1} size={22} name="history" />
             <SpaceComponent width={8} />
@@ -155,7 +168,7 @@ const HomeCarousels = () => {
           />
           <SpaceComponent height={16} />
           <ButtonComponent
-            disable={groceriesList.length >= 5 ? true : false}
+            disable={1 > 2 ? true : false}
             onPress={() => {
               stop();
               navigation.navigate('HomeScan');
@@ -212,21 +225,26 @@ const HomeCarousels = () => {
             font={fontFamilys.bold}
             text="NEW LIST"
           />
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ShopingHistory')}
-            style={[
-              global.row,
-              {flex: 1, justifyContent: 'center', alignItems: 'center'},
-            ]}>
-            <MaterialIcons name="history" size={22} color={appColors.success} />
-            <SpaceComponent width={4} />
-            <TitleComponent
-              text="VIEW HISTORY"
-              color={appColors.success}
-              flex={0}
-            />
-          </TouchableOpacity>
+          {historiesList.length > 0 && (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ShopingHistory')}
+              style={[
+                global.row,
+                {flex: 1, justifyContent: 'center', alignItems: 'center'},
+              ]}>
+              <MaterialIcons
+                name="history"
+                size={22}
+                color={appColors.success}
+              />
+              <SpaceComponent width={4} />
+              <TitleComponent
+                text="VIEW HISTORY"
+                color={appColors.success}
+                flex={0}
+              />
+            </TouchableOpacity>
+          )}
         </RowComponent>
       </CardContent>
     </Swiper>
