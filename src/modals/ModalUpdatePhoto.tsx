@@ -45,7 +45,7 @@ const ModalUpdatePhoto = (props: Props, avatarProps: AvatarProps) => {
           // console.log(image);
           const file = {
             uri: image.path,
-            name: image.filename ?? '',
+            name: 'image-' + image.modificationDate,
             type: image.mime,
             size: image.size,
           };

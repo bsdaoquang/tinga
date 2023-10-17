@@ -18,6 +18,8 @@ import handleGetData from '../../apis/productAPI';
 import ModalUpdatePhoto from '../../modals/ModalUpdatePhoto';
 import {Image, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import ModalLookup from '../../modals/ModalLookup';
+import {LoadingModal} from '../../modals';
 
 const AddNewProduct = ({navigation}: any) => {
   const [product, setProduct] = useState<{
@@ -26,7 +28,13 @@ const AddNewProduct = ({navigation}: any) => {
     ingredient_image: any;
     nutrition_image: any;
     barcode_image: any;
-  }>();
+  }>({
+    shop_id: '',
+    front_image: undefined,
+    ingredient_image: undefined,
+    nutrition_image: undefined,
+    barcode_image: undefined,
+  });
   const [shops, setShops] = useState<UserChoose[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [tagetImgage, setTagetImgage] = useState<
@@ -38,6 +46,10 @@ const AddNewProduct = ({navigation}: any) => {
   >('front_image');
   const [isVisibleModalUploadImage, setIsVisibleModalUploadImage] =
     useState(false);
+  const [shopSelected, setShopSelected] = useState<UserChoose>();
+  const [isVisibleModalChoiceStore, setIsVisibleModalChoiceStore] =
+    useState(false);
+  const [isCreating, setIsCreating] = useState(false);
 
   useEffect(() => {
     handleGetAllShops();
@@ -72,7 +84,8 @@ const AddNewProduct = ({navigation}: any) => {
   };
 
   const handleSelectedFile = (file: any) => {
-    const items: any = product;
+    // console.log(file, tagetImgage);
+    const items: any = {...product};
     items[`${tagetImgage}`] = file;
 
     setProduct(items);
@@ -106,7 +119,27 @@ const AddNewProduct = ({navigation}: any) => {
   ];
 
   const handleCreateNewProduct = async () => {
-    console.log(product);
+    const data = new FormData();
+
+    const itemSelected: any = product;
+    for (const i in product) {
+      data.append(i, itemSelected[i] ? itemSelected[i] : '');
+    }
+
+    data.append('shop_id', shopSelected?.id ?? '');
+
+    const api = `/addProduct`;
+    setIsCreating(true);
+    console.log(data);
+    try {
+      await handleGetData.handleUser(api, data, 'post', true).then(res => {
+        console.log(res);
+        setIsCreating(false);
+      });
+    } catch (error) {
+      console.log(error);
+      setIsCreating(false);
+    }
   };
 
   const renderButton = (item: {
@@ -118,9 +151,10 @@ const AddNewProduct = ({navigation}: any) => {
     label: string;
   }) => {
     const itemsProduct: any = product;
-    const itemProduct = itemsProduct[`${item.key}`];
+    const itemProduct =
+      itemsProduct && item.key ? itemsProduct[`${item.key}`] : undefined;
 
-    return itemProduct.uri ? (
+    return itemProduct && itemProduct.uri ? (
       <View
         key={item.key}
         style={{
@@ -204,6 +238,7 @@ const AddNewProduct = ({navigation}: any) => {
               {menuUpload.map(item => renderButton(item))}
               <RowComponent
                 onPress={() => {
+                  setIsVisibleModalChoiceStore(true);
                   // handleUploadFile(item.key);
                 }}
                 styles={[
@@ -219,13 +254,12 @@ const AddNewProduct = ({navigation}: any) => {
                   },
                 ]}>
                 <TextComponent
-                  text={'Store'}
+                  text={shopSelected ? shopSelected.name : 'Store'}
                   styles={{textAlign: 'center'}}
                   color={appColors.text2}
                   size={16}
                   font={fontFamilys.medium}
                 />
-                {/* <Ionicons name="camera" size={22} color={appColors.gray} /> */}
               </RowComponent>
             </SectionComponent>
           </>
@@ -240,6 +274,19 @@ const AddNewProduct = ({navigation}: any) => {
           }}
           onSelectedFile={file => handleSelectedFile(file)}
         />
+
+        <ModalLookup
+          values={shops}
+          selected={shopSelected}
+          visible={isVisibleModalChoiceStore}
+          onClose={() => {
+            setIsVisibleModalChoiceStore(false);
+          }}
+          onSelected={(val: UserChoose) => {
+            setShopSelected(val);
+            setIsVisibleModalChoiceStore(false);
+          }}
+        />
       </Container>
       <SectionComponent>
         <ButtonComponent
@@ -249,6 +296,8 @@ const AddNewProduct = ({navigation}: any) => {
           fontStyles={{textAlign: 'center'}}
         />
       </SectionComponent>
+
+      <LoadingModal visible={isCreating} />
     </>
   );
 };
