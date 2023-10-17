@@ -13,6 +13,7 @@ import {
 } from '../components';
 import {appColors} from '../constants/appColors';
 import {global} from '../styles/global';
+import ImageResizer from '@bam.tech/react-native-image-resizer';
 
 interface Props {
   isVisible: boolean;
@@ -41,9 +42,10 @@ const ModalUpdatePhoto = (props: Props, avatarProps: AvatarProps) => {
         cropping: true,
       })
         .then((image: ImageOrVideo) => {
+          // console.log(image);
           const file = {
             uri: image.path,
-            name: 'image',
+            name: image.filename ?? '',
             type: image.mime,
             size: image.size,
           };
@@ -59,16 +61,23 @@ const ModalUpdatePhoto = (props: Props, avatarProps: AvatarProps) => {
         if (result && result.assets) {
           const file = result.assets[0];
           if (file && file.uri) {
-            const newFile = {
-              uri: file.uri,
-              name: file.fileName ?? '',
-              type: file.type as string,
-              size: file.fileSize ?? 0,
-            };
+            ImageResizer.createResizedImage(file.uri, 500, 500, 'JPEG', 30, 0)
+              .then((newImage: any) => {
+                // console.log(newImage);
+                const newFile = {
+                  uri: newImage.uri,
+                  name: newImage.name ?? '',
+                  type: newImage.type as string,
+                  size: newImage.size ?? 0,
+                };
 
-            // handleUploadFile(newFile);
-            onSelectedFile(newFile);
-            onClose();
+                // console.log(newFile);
+                onSelectedFile(newFile);
+                // onClose();
+              })
+              .catch(error =>
+                console.log(`Can not resize this image: ${error}`),
+              );
           }
         }
       });
@@ -79,8 +88,7 @@ const ModalUpdatePhoto = (props: Props, avatarProps: AvatarProps) => {
       visible={isVisible}
       transparent
       animationType="slide"
-      statusBarTranslucent
-    >
+      statusBarTranslucent>
       <View style={[global.modalContainer]}>
         <View style={[global.modalContent]}>
           <RowComponent justify="flex-end">
@@ -94,16 +102,14 @@ const ModalUpdatePhoto = (props: Props, avatarProps: AvatarProps) => {
           <View style={{marginVertical: 20}}>
             <RowComponent
               styles={{paddingVertical: 12}}
-              onPress={() => handlePickerImage('camera')}
-            >
+              onPress={() => handlePickerImage('camera')}>
               <Ionicons name="camera" size={20} color={appColors.text} />
               <SpaceComponent width={8} />
               <TextComponent text="Camera" size={14} />
             </RowComponent>
             <RowComponent
               styles={{paddingVertical: 12}}
-              onPress={() => handlePickerImage('library')}
-            >
+              onPress={() => handlePickerImage('library')}>
               <Ionicons name="image" size={20} color={appColors.text} />
               <SpaceComponent width={8} />
               <TextComponent text="Image library" size={14} />

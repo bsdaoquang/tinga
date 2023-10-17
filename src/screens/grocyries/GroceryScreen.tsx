@@ -56,7 +56,7 @@ const GroceryScreen = ({navigation}: any) => {
         </RowComponent>
         <RowComponent justify="flex-start">
           <TitleComponent
-            text="Your Grocery List"
+            text="My Added Products"
             size={32}
             height={32}
             flex={0}
@@ -72,66 +72,53 @@ const GroceryScreen = ({navigation}: any) => {
           />
         </RowComponent>
       </SectionComponent>
-      {!isAddToList ? (
-        <>
-          <SectionComponent
-            styles={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <TextComponent
-              text="Your grocery list is currently empty."
-              size={16}
-              color={appColors.gray5}
-              height={28}
-              flex={0}
-            />
-            <TextComponent
-              height={28}
-              text="Add items to your list from the Explore tab."
-              size={16}
-              color={appColors.gray5}
-              flex={0}
-            />
 
-            <ButtonComponent
-              text="ADD TO LIST"
-              width={appSize.width - 32}
-              styles={{marginVertical: 20, paddingVertical: 10}}
-              textColor={appColors.white}
-              icon={
-                <View
-                  style={{
-                    backgroundColor: 'rgba(65, 57, 62, 0.50);',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 60,
-                    padding: 4,
-                  }}>
-                  <Ionicons name="add" size={22} color={appColors.white} />
-                </View>
-              }
+      <>
+        <SectionComponent
+          styles={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <TextComponent
+            text="You are not added any product to your list."
+            size={16}
+            color={appColors.gray5}
+            height={28}
+            flex={0}
+          />
+
+          <ButtonComponent
+            text="ADD NEW"
+            width={appSize.width - 32}
+            styles={{marginVertical: 20, paddingVertical: 10}}
+            textColor={appColors.white}
+            icon={
+              <View
+                style={{
+                  backgroundColor: 'rgba(65, 57, 62, 0.50);',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 60,
+                  padding: 4,
+                }}>
+                <Ionicons name="add" size={22} color={appColors.white} />
+              </View>
+            }
+            color={appColors.primary1}
+            onPress={() => navigation.navigate('AddNewScreen')}
+          />
+          <RowComponent onPress={() => navigation.navigate('ShopingHistory')}>
+            <Octicons color={appColors.primary1} size={22} name="history" />
+            <SpaceComponent width={8} />
+            <TitleComponent
+              text="VIEW LIST"
               color={appColors.primary1}
-              onPress={() => setIsAddToList(true)}
+              flex={0}
             />
-            <RowComponent onPress={() => navigation.navigate('ShopingHistory')}>
-              <Octicons color={appColors.primary1} size={22} name="history" />
-              <SpaceComponent width={8} />
-              <TitleComponent
-                text="VIEW HISTORY"
-                color={appColors.primary1}
-                flex={0}
-              />
-            </RowComponent>
-          </SectionComponent>
-        </>
-      ) : (
-        <AddToList
-          isEdit={isEdit}
-          selectedItems={vals => setProductsSelected(vals)}
-        />
-      )}
+          </RowComponent>
+        </SectionComponent>
+      </>
 
       <ModalizeInfoGrocery
         visible={isVisibleModalInfo}

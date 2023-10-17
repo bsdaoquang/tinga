@@ -12,6 +12,7 @@
     "android-code-push": "appcenter codepush release-react -a bsdaoquang-gmail.com/Tinga-Android -d Production"
   },
   "dependencies": {
+    "@bam.tech/react-native-image-resizer": "^3.0.7",
     "@invertase/react-native-apple-authentication": "^2.2.2",
     "@react-native-async-storage/async-storage": "^1.19.3",
     "@react-native-community/checkbox": "^0.5.16",

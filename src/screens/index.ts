@@ -8,6 +8,8 @@ import SignUpScreen from './auth/SignUpScreen';
 import VerifyEmail from './auth/VerifyEmail';
 import CategoryDetail from './explores/CategoryDetail';
 import ExploreScreen from './explores/ExploreScreen';
+import AddNewProduct from './grocyries/AddNewProduct';
+import AddNewScreen from './grocyries/AddNewScreen';
 import GroceryScreen from './grocyries/GroceryScreen';
 import HistoryListDetail from './grocyries/HistoryListDetail';
 import ImproveScore from './grocyries/YourListScore';
@@ -68,4 +70,6 @@ export {
   PersionalInfomation,
   MyFavourites,
   HistoryListDetail,
+  AddNewProduct,
+  AddNewScreen,
 };
