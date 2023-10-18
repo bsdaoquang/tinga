@@ -10,6 +10,7 @@ import {
   InputComponent,
   RowComponent,
   SectionComponent,
+  TextComponent,
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
@@ -20,6 +21,7 @@ import {addAuth, authSelector} from '../../redux/reducers/authReducer';
 import {showToast} from '../../utils/showToast';
 import ModalUpdatePhoto from '../../modals/ModalUpdatePhoto';
 import FastImage from 'react-native-fast-image';
+import {handleResizeImage} from '../../utils/handleResizeImage';
 
 const PersionalInfomation = ({navigation, route}: any) => {
   const [profileDetail, setProfileDetail] = useState({
@@ -27,8 +29,9 @@ const PersionalInfomation = ({navigation, route}: any) => {
     last_name: '',
   });
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isVisibleModalUpdatePhoto, setIsVisibleModalUpdatePhoto] =
-    useState(false);
+  const [isVisibleModalUpdatePhoto, setIsVisibleModalUpdatePhoto] = useState(
+    false,
+  );
   const [imageFile, setImageFile] = useState<any>();
   const [imageUrl, setImageUrl] = useState('');
 
@@ -48,30 +51,33 @@ const PersionalInfomation = ({navigation, route}: any) => {
 
   const handleUpdateProfile = async () => {
     const api = `/save`;
-    setIsUpdating(true);
     const data = new FormData();
 
-    data.append('first_name', profileDetail.first_name);
-    data.append('last_name', profileDetail.last_name);
+    console.log(await handleResizeImage(imageFile));
 
-    if (imageFile) {
-      data.append('image', imageFile);
-    }
+    // setIsUpdating(true);
 
-    await handleGetData
-      .handleAuth(api, data, 'post', true)
-      .then((res: any) => {
-        if (res.success) {
-          showToast(res.message);
-          handleGetAndUpdateProfile();
-        }
-        setIsUpdating(false);
-      })
-      .catch(error => {
-        setIsUpdating(false);
-        console.log(error);
-        showToast(JSON.stringify(error));
-      });
+    // data.append('first_name', profileDetail.first_name);
+    // data.append('last_name', profileDetail.last_name);
+
+    // if (imageFile) {
+    //   data.append('image', imageFile);
+    // }
+
+    // await handleGetData
+    //   .handleAuth(api, data, 'post', true)
+    //   .then((res: any) => {
+    //     if (res.success) {
+    //       showToast(res.message);
+    //       handleGetAndUpdateProfile();
+    //     }
+    //     setIsUpdating(false);
+    //   })
+    //   .catch(error => {
+    //     setIsUpdating(false);
+    //     console.log(error);
+    //     showToast(JSON.stringify(error));
+    //   });
   };
 
   const handleGetAndUpdateProfile = async () => {
@@ -106,25 +112,34 @@ const PersionalInfomation = ({navigation, route}: any) => {
               justifyContent: 'center',
               alignItems: 'center',
               marginVertical: 20,
-            }}>
+            }}
+          >
             {imageUrl && (
-              <FastImage
-                source={{uri: imageUrl}}
-                style={{
-                  width: 150,
-                  height: 150,
-                  borderRadius: 100,
-                  marginBottom: 20,
-                }}
-                resizeMode={FastImage.resizeMode.cover}
-              />
+              <>
+                <FastImage
+                  source={{uri: imageUrl}}
+                  style={{
+                    width: 150,
+                    height: 150,
+                    borderRadius: 100,
+                    marginBottom: 20,
+                  }}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+                <RowComponent
+                  onPress={() => setIsVisibleModalUpdatePhoto(true)}
+                >
+                  <TextComponent text="Update image" flex={0} />
+                </RowComponent>
+              </>
             )}
             <RowComponent
               styles={{
                 marginBottom: 20,
                 width: '100%',
                 justifyContent: 'flex-start',
-              }}>
+              }}
+            >
               <Button
                 styles={{flex: 0}}
                 text="Edit Photo"
@@ -177,7 +192,7 @@ const PersionalInfomation = ({navigation, route}: any) => {
             iconRight
           />
         </SectionComponent>
-        <LoadingModal visible={isUpdating} />
+        <LoadingModal visible={isUpdating} mess="Uploading..." />
         <ModalUpdatePhoto
           onSelectedFile={(file: any) => {
             setImageFile(file);

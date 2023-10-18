@@ -23,13 +23,11 @@ import {LoadingModal} from '../../modals';
 
 const AddNewProduct = ({navigation}: any) => {
   const [product, setProduct] = useState<{
-    shop_id: string;
     front_image: any;
     ingredient_image: any;
     nutrition_image: any;
     barcode_image: any;
   }>({
-    shop_id: '',
     front_image: undefined,
     ingredient_image: undefined,
     nutrition_image: undefined,
@@ -44,11 +42,13 @@ const AddNewProduct = ({navigation}: any) => {
     | 'barcode_image'
     | undefined
   >('front_image');
-  const [isVisibleModalUploadImage, setIsVisibleModalUploadImage] =
-    useState(false);
+  const [isVisibleModalUploadImage, setIsVisibleModalUploadImage] = useState(
+    false,
+  );
   const [shopSelected, setShopSelected] = useState<UserChoose>();
-  const [isVisibleModalChoiceStore, setIsVisibleModalChoiceStore] =
-    useState(false);
+  const [isVisibleModalChoiceStore, setIsVisibleModalChoiceStore] = useState(
+    false,
+  );
   const [isCreating, setIsCreating] = useState(false);
 
   useEffect(() => {
@@ -130,7 +130,7 @@ const AddNewProduct = ({navigation}: any) => {
 
     const api = `/addProduct`;
     setIsCreating(true);
-    console.log(data);
+
     try {
       await handleGetData.handleUser(api, data, 'post', true).then(res => {
         console.log(res);
@@ -159,7 +159,8 @@ const AddNewProduct = ({navigation}: any) => {
         key={item.key}
         style={{
           marginBottom: 20,
-        }}>
+        }}
+      >
         <View style={{width: 150}}>
           <Image
             source={{uri: itemProduct.uri}}
@@ -208,7 +209,8 @@ const AddNewProduct = ({navigation}: any) => {
             marginBottom: 20,
             paddingHorizontal: 12,
           },
-        ]}>
+        ]}
+      >
         <TextComponent
           styles={{textAlign: 'center'}}
           text={item.label}
@@ -252,7 +254,8 @@ const AddNewProduct = ({navigation}: any) => {
                     marginBottom: 20,
                     paddingHorizontal: 12,
                   },
-                ]}>
+                ]}
+              >
                 <TextComponent
                   text={shopSelected ? shopSelected.name : 'Store'}
                   styles={{textAlign: 'center'}}
