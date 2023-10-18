@@ -53,31 +53,31 @@ const PersionalInfomation = ({navigation, route}: any) => {
     const api = `/save`;
     const data = new FormData();
 
-    console.log(await handleResizeImage(imageFile));
+    const image = await handleResizeImage(imageFile);
 
-    // setIsUpdating(true);
+    setIsUpdating(true);
 
-    // data.append('first_name', profileDetail.first_name);
-    // data.append('last_name', profileDetail.last_name);
+    data.append('first_name', profileDetail.first_name);
+    data.append('last_name', profileDetail.last_name);
 
-    // if (imageFile) {
-    //   data.append('image', imageFile);
-    // }
+    if (imageFile) {
+      data.append('image', image);
+    }
 
-    // await handleGetData
-    //   .handleAuth(api, data, 'post', true)
-    //   .then((res: any) => {
-    //     if (res.success) {
-    //       showToast(res.message);
-    //       handleGetAndUpdateProfile();
-    //     }
-    //     setIsUpdating(false);
-    //   })
-    //   .catch(error => {
-    //     setIsUpdating(false);
-    //     console.log(error);
-    //     showToast(JSON.stringify(error));
-    //   });
+    await handleGetData
+      .handleAuth(api, data, 'post', true)
+      .then((res: any) => {
+        if (res.success) {
+          showToast(res.message);
+          handleGetAndUpdateProfile();
+        }
+        setIsUpdating(false);
+      })
+      .catch(error => {
+        setIsUpdating(false);
+        console.log(error);
+        showToast(JSON.stringify(error));
+      });
   };
 
   const handleGetAndUpdateProfile = async () => {

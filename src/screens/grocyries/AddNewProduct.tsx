@@ -20,6 +20,8 @@ import {Image, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ModalLookup from '../../modals/ModalLookup';
 import {LoadingModal} from '../../modals';
+import {handleResizeImage} from '../../utils/handleResizeImage';
+import {showToast} from '../../utils/showToast';
 
 const AddNewProduct = ({navigation}: any) => {
   const [product, setProduct] = useState<{
@@ -83,10 +85,10 @@ const AddNewProduct = ({navigation}: any) => {
     setIsVisibleModalUploadImage(true);
   };
 
-  const handleSelectedFile = (file: any) => {
+  const handleSelectedFile = async (file: any) => {
     // console.log(file, tagetImgage);
     const items: any = {...product};
-    items[`${tagetImgage}`] = file;
+    items[`${tagetImgage}`] = await handleResizeImage(file);
 
     setProduct(items);
     setTagetImgage(undefined);
@@ -132,10 +134,15 @@ const AddNewProduct = ({navigation}: any) => {
     setIsCreating(true);
 
     try {
-      await handleGetData.handleUser(api, data, 'post', true).then(res => {
-        console.log(res);
-        setIsCreating(false);
-      });
+      await handleGetData
+        .handleUser(api, data, 'post', true)
+        .then((res: any) => {
+          if (res.success && res.code === 200) {
+            showToast('Product added!');
+            navigation.goBack();
+          }
+          setIsCreating(false);
+        });
     } catch (error) {
       console.log(error);
       setIsCreating(false);

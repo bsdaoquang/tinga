@@ -13,7 +13,6 @@ import {
 } from '../components';
 import {appColors} from '../constants/appColors';
 import {global} from '../styles/global';
-import ImageResizer from '@bam.tech/react-native-image-resizer';
 
 interface Props {
   isVisible: boolean;

@@ -1,20 +1,19 @@
-export const handleResizeImage = async (file: any) => {
-  console.log(file);
-  // ImageResizer.createResizedImage(file.uri, 500, 500, 'PNG', 30, 0)
-  //   .then((newImage: any) => {
-  //     console.log(newImage);
-  // const newFile = {
-  //   uri: newImage.uri,
-  //   name: `image-${new Date().getTime()}`,
-  //   type: newImage.type as string,
-  //   size: newImage.size ?? 0,
-  // };
+import ImageResizer from '@bam.tech/react-native-image-resizer';
 
-  //     // console.log(newFile);
-  //     onSelectedFile(newFile);
-  //     // onClose();
-  //   })
-  //   .catch(error =>
-  //     console.log(`Can not resize this image: ${error}`),
-  //   );
+export const handleResizeImage = async (file: any) => {
+  const newImage = await ImageResizer.createResizedImage(
+    file.uri,
+    500,
+    500,
+    'PNG',
+    30,
+    0,
+  );
+
+  return {
+    uri: newImage.uri,
+    name: `image-${new Date().getTime()}`,
+    type: 'image/png',
+    size: newImage.size ?? 0,
+  };
 };
