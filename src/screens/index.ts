@@ -10,6 +10,8 @@ import CategoryDetail from './explores/CategoryDetail';
 import ExploreScreen from './explores/ExploreScreen';
 import AddNewProduct from './grocyries/AddNewProduct';
 import AddNewScreen from './grocyries/AddNewScreen';
+import CreatedItems from './grocyries/CreatedItems';
+import CreatedProductDetail from './grocyries/CreatedProductDetail';
 import GroceryScreen from './grocyries/GroceryScreen';
 import HistoryListDetail from './grocyries/HistoryListDetail';
 import ImproveScore from './grocyries/YourListScore';
@@ -72,4 +74,6 @@ export {
   HistoryListDetail,
   AddNewProduct,
   AddNewScreen,
+  CreatedItems,
+  CreatedProductDetail,
 };

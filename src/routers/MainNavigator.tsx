@@ -4,6 +4,7 @@ import {
   AddNewProduct,
   AddNewScreen,
   BarCodeScreen,
+  CreatedItems,
   HistoryListDetail,
   HomeScan,
   ImproveScore,
@@ -21,7 +22,8 @@ const MainNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-      }}>
+      }}
+    >
       <Stack.Screen name="HomeRoot" component={TabNavigator} />
       <Stack.Screen name="ShopingHistory" component={ShopingHistory} />
       <Stack.Screen name="ImproveScore" component={ImproveScore} />
@@ -33,6 +35,7 @@ const MainNavigator = () => {
       <Stack.Screen name="HistoryListDetail" component={HistoryListDetail} />
       <Stack.Screen name="AddNewProduct" component={AddNewProduct} />
       <Stack.Screen name="AddNewScreen" component={AddNewScreen} />
+      <Stack.Screen name="CreatedItems" component={CreatedItems} />
       <Stack.Screen
         name="PersionalInfomation"
         component={PersionalInfomation}

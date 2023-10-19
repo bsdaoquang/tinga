@@ -131,21 +131,25 @@ const AddNewProduct = ({navigation}: any) => {
     data.append('shop_id', shopSelected?.id ?? '');
 
     const api = `/addProduct`;
-    setIsCreating(true);
 
-    try {
-      await handleGetData
-        .handleUser(api, data, 'post', true)
-        .then((res: any) => {
-          if (res.success && res.code === 200) {
-            showToast('Product added!');
-            navigation.goBack();
-          }
-          setIsCreating(false);
-        });
-    } catch (error) {
-      console.log(error);
-      setIsCreating(false);
+    if (shopSelected && shopSelected.id) {
+      setIsCreating(true);
+      try {
+        await handleGetData
+          .handleUser(api, data, 'post', true)
+          .then((res: any) => {
+            if (res.success && res.code === 200) {
+              showToast('Product added!');
+              navigation.navigate('CreatedItems');
+            }
+            setIsCreating(false);
+          });
+      } catch (error) {
+        console.log(error);
+        setIsCreating(false);
+      }
+    } else {
+      showToast('Plesae choice shop!');
     }
   };
 

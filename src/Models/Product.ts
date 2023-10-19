@@ -38,3 +38,13 @@ export interface HistoryProduc {
   qty: number;
   shopname: string;
 }
+
+export interface AddProduct {
+  id: number;
+  shop_id: number;
+  display_name: string;
+  front_image: string;
+  ingredient_image: string;
+  nutrition_image: string;
+  barcode_image: string;
+}
