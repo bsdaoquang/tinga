@@ -86,7 +86,7 @@ const SubscriptionModal = (props: Props) => {
 
     try {
       await subscriptionAPI.HandleSubscription(api).then(async (res: any) => {
-        setSubscriptionsPlan(res);
+        setSubscriptionsPlan(res.subscriptions);
         setIsLoading(false);
       });
     } catch (error) {
@@ -152,7 +152,8 @@ const SubscriptionModal = (props: Props) => {
         }}
         // onPress={() => (!isWellCome ? handleSetSubscriptionDate() : undefined)}
         color={appColors.text}
-        styles={{padding: 0, alignItems: 'center', marginBottom: 16}}>
+        styles={{padding: 0, alignItems: 'center', marginBottom: 16}}
+      >
         {!isWellCome && (
           <TextComponent
             text="LIMITED-TIME OFFER"
@@ -171,7 +172,8 @@ const SubscriptionModal = (props: Props) => {
             margin: 0,
             backgroundColor: '#13917B',
             borderRadius: 8,
-          }}>
+          }}
+        >
           <RowComponent>
             <TitleComponent text={item.name} color={appColors.white} />
             <TextComponent
@@ -246,7 +248,8 @@ const SubscriptionModal = (props: Props) => {
           borderWidth: 2,
           borderColor: '#EEF3DC',
         }}
-        color={appColors.white}>
+        color={appColors.white}
+      >
         <RowComponent>
           <TitleComponent text={item.name} color={appColors.text} />
           {!isWellCome && (
@@ -306,14 +309,16 @@ const SubscriptionModal = (props: Props) => {
       style={{
         flex: 1,
         backgroundColor: appColors.white,
-      }}>
+      }}
+    >
       <ScrollView
         style={[
           {
             flex: 1,
             paddingTop: 48,
           },
-        ]}>
+        ]}
+      >
         <SectionComponent>
           <RowComponent justify="flex-end">
             <Button
@@ -337,7 +342,8 @@ const SubscriptionModal = (props: Props) => {
                 fontSize: 36,
                 lineHeight: 32.5,
               },
-            ]}>
+            ]}
+          >
             Try Tinga for free,{' '}
             <Text style={{fontSize: 24}}>cancel anytime.</Text>
           </Text>
@@ -349,7 +355,8 @@ const SubscriptionModal = (props: Props) => {
                 alignItems: 'flex-start',
                 marginBottom: 8,
               }}
-              key={`desc${index}`}>
+              key={`desc${index}`}
+            >
               <FontAwesome name="check" color={appColors.success1} size={28} />
               <SpaceComponent width={12} />
               <TextComponent text={desc} />
@@ -386,9 +393,8 @@ const SubscriptionModal = (props: Props) => {
                   flex={0}
                 />
                 <TouchableOpacity
-                  onPress={() =>
-                    Linking.openURL('https://tinga.ca/terms.html')
-                  }>
+                  onPress={() => Linking.openURL('https://tinga.ca/terms.html')}
+                >
                   <TextComponent
                     font={fontFamilys.bold}
                     color="#32645B"
