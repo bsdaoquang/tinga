@@ -99,16 +99,27 @@ const CategoriesList = ({title, url}: Props) => {
         />
       </View>
       {tips.length > 0 ? (
-        <FlatList
-          showsHorizontalScrollIndicator={false}
-          data={tips}
-          onScroll={event => {
-            const index = Math.floor(event.nativeEvent.contentOffset.x / 186);
-            setIndexItem(index);
-          }}
-          renderItem={({item}) => renderCardItem(item)}
-          horizontal
-        />
+        <>
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            data={tips}
+            onScroll={event => {
+              const index = Math.floor(event.nativeEvent.contentOffset.x / 186);
+              setIndexItem(index);
+            }}
+            renderItem={({item}) => renderCardItem(item)}
+            horizontal
+          />
+          <View
+            style={{
+              flex: 1,
+              marginTop: 4,
+              alignItems: 'center',
+            }}
+          >
+            {renderDotsView(tips, indexItem)}
+          </View>
+        </>
       ) : (
         <TextComponent
           text={`${title} not found`}
@@ -116,16 +127,6 @@ const CategoriesList = ({title, url}: Props) => {
           styles={{textAlign: 'center', marginTop: 8}}
         />
       )}
-
-      <View
-        style={{
-          flex: 1,
-          marginTop: 4,
-          alignItems: 'center',
-        }}
-      >
-        {renderDotsView(tips, indexItem)}
-      </View>
     </View>
   );
 };

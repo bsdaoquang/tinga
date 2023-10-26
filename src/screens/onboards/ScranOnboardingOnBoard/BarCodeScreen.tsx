@@ -27,6 +27,7 @@ import {handleSaveUser} from '../../../utils/handleSaveUser';
 import {showToast} from '../../../utils/showToast';
 import {appInfos} from '../../../constants/appInfos';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {HandleProduct} from '../../../utils/HandleProduct';
 
 const BarCodeScreen = ({navigation}: any) => {
   const [codeDetail, setCodeDetail] = useState('');
@@ -34,6 +35,7 @@ const BarCodeScreen = ({navigation}: any) => {
   const [product, setProduct] = useState<Product>();
   const [showError, setShowError] = useState(false);
   const [isVisibleModalResult, setIsVisibleModalResult] = useState(false);
+  const [groceriesList, setGroceriesList] = useState<Product[]>([]);
 
   const renderQrCode = (
     <QRCodeScanner
@@ -59,12 +61,13 @@ const BarCodeScreen = ({navigation}: any) => {
 
   const [QRCodeCotainer, setQRCodeCotainer] = useState(renderQrCode);
 
-  const groceriesList = useSelector(groceriesSelector);
+  // const groceriesList = useSelector(groceriesSelector);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     requestPermision();
+    getGroceriesList();
   }, []);
 
   useEffect(() => {
@@ -80,6 +83,17 @@ const BarCodeScreen = ({navigation}: any) => {
       setQRCodeCotainer(renderQrCode);
     }
   }, [showProduct, showError]);
+
+  const getGroceriesList = async () => {
+    const api = `/listOfProducts`;
+
+    await handleGetData
+      .handleProduct(api, undefined, 'post')
+      .then((res: any) => {
+        setGroceriesList(res);
+      })
+      .catch(error => console.log(error));
+  };
 
   const getProductDetail = async (id: string) => {
     const api = `/getProductByBarcode`;
@@ -137,12 +151,14 @@ const BarCodeScreen = ({navigation}: any) => {
           left: 0,
           right: 0,
         }}
-        colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0)']}>
+        colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0)']}
+      >
         <RowComponent
           styles={{
             paddingVertical: 42,
             paddingHorizontal: 16,
-          }}>
+          }}
+        >
           <Button
             icon={<AntDesign name="close" size={22} color={appColors.white} />}
             onPress={() => navigation.goBack()}
@@ -176,7 +192,8 @@ const BarCodeScreen = ({navigation}: any) => {
                 borderRadius: 12,
                 paddingVertical: 10,
                 paddingHorizontal: 12,
-              }}>
+              }}
+            >
               <TextComponent text="You scanned your first item!" flex={1} />
             </View>
           )}
@@ -190,7 +207,8 @@ const BarCodeScreen = ({navigation}: any) => {
                 borderRadius: 12,
                 paddingVertical: 10,
                 paddingHorizontal: 12,
-              }}>
+              }}
+            >
               <TextComponent
                 text="Well done! You’ve scanned 5 items"
                 flex={1}
@@ -212,7 +230,8 @@ const BarCodeScreen = ({navigation}: any) => {
           bottom: 24,
           right: 0,
           left: 0,
-        }}>
+        }}
+      >
         <RowComponent styles={{marginBottom: 24}}>
           <TextComponent
             text="Scanning for barcodes..."
@@ -242,9 +261,12 @@ const BarCodeScreen = ({navigation}: any) => {
           setShowProduct(false);
         }}
         product={product}
-        onAddToList={() => {
-          product && dispatch(addGroceries(product));
-        }}
+        onAddToList={async (count: number) =>
+          product &&
+          (await HandleProduct.addToList(product, count).then(() =>
+            getGroceriesList(),
+          ))
+        }
         products={groceriesList ?? []}
       />
 
@@ -260,6 +282,7 @@ const BarCodeScreen = ({navigation}: any) => {
             JSON.stringify(groceriesList),
           );
         }}
+        groceriesList={groceriesList}
         onKeepScan={() => setIsVisibleModalResult(false)}
         count={groceriesList.length}
       />

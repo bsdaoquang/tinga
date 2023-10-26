@@ -178,18 +178,17 @@ const SubscriptionModal = (props: Props) => {
           color={colorText}
           size={20}
         />
-        {!isWellCome && (
-          <TextComponent
-            text={` $${item.price.toFixed(2)}`}
-            color={colorText}
-            flex={0}
-            styles={{
-              marginLeft: 6,
-              textDecorationLine: 'line-through',
-            }}
-            size={14}
-          />
-        )}
+
+        <TextComponent
+          text={` $${item.price.toFixed(2)}`}
+          color={colorText}
+          flex={0}
+          styles={{
+            marginLeft: 6,
+            textDecorationLine: 'line-through',
+          }}
+          size={14}
+        />
 
         <TextComponent
           text={` after ${item.trial_days} day free trial`}
