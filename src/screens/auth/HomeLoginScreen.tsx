@@ -88,7 +88,7 @@ const HomeLoginScreen = ({navigation}: any) => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       handleSaveToDatabase(userInfo.user);
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
     }
   };
@@ -131,7 +131,7 @@ const HomeLoginScreen = ({navigation}: any) => {
             setIsLogin(false);
           }
         });
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
       setIsLogin(false);
     }
@@ -147,11 +147,13 @@ const HomeLoginScreen = ({navigation}: any) => {
           height: '100%',
           resizeMode: 'stretch',
           width: appSize.width,
-        }}>
+        }}
+      >
         <SectionComponent styles={{paddingTop: 32, position: 'absolute'}}>
           <TouchableOpacity
             style={{padding: 12}}
-            onPress={() => navigation.navigate('WelcomeScreen')}>
+            onPress={() => navigation.navigate('WelcomeScreen')}
+          >
             <AntDesign name="arrowleft" size={22} color={appColors.text} />
           </TouchableOpacity>
         </SectionComponent>
@@ -162,7 +164,8 @@ const HomeLoginScreen = ({navigation}: any) => {
           styles={{
             alignItems: 'center',
             width: '100%',
-          }}>
+          }}
+        >
           <TitleComponent
             text="Welcome to Tinga"
             size={32}
@@ -178,7 +181,7 @@ const HomeLoginScreen = ({navigation}: any) => {
         <SectionComponent styles={{paddingHorizontal: 28}}>
           <ButtonComponent
             icon={<FontAwesome name="apple" size={20} color={appColors.text} />}
-            text="Continue to Sign Up"
+            text="Continue with Apple"
             onPress={handleLoginWithAppleAccount}
             outline
             styles={{
@@ -191,7 +194,7 @@ const HomeLoginScreen = ({navigation}: any) => {
           />
           <ButtonComponent
             icon={<GoogleIcon width={20} />}
-            text="Continue to Sign Up"
+            text="Continue with Google"
             onPress={handleLoginWithGooleAccount}
             outline
             styles={{
@@ -219,7 +222,7 @@ const HomeLoginScreen = ({navigation}: any) => {
           <RowComponent styles={{marginTop: 12}}>
             <TextComponent text="Already have an account? " flex={0} />
             <Button
-              text="Login"
+              text="Log in"
               onPress={() => navigation.navigate('LoginScreen')}
               textColor={appColors.primary}
               fontStyles={{fontFamily: fontFamilys.bold}}

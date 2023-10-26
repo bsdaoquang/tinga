@@ -34,6 +34,7 @@ import {add0toNumber} from '../utils/add0toNumber';
 import {showToast} from '../utils/showToast';
 import LoadingModal from './LoadingModal';
 import ModalRegisterPermium from './ModalRegisterPermium';
+import {appSize} from '../constants/appSize';
 
 interface Props {
   isVisible: boolean;
@@ -86,7 +87,7 @@ const SubscriptionModal = (props: Props) => {
 
     try {
       await subscriptionAPI.HandleSubscription(api).then(async (res: any) => {
-        setSubscriptionsPlan(res.subscriptions);
+        setSubscriptionsPlan(res);
         setIsLoading(false);
       });
     } catch (error) {
@@ -97,12 +98,19 @@ const SubscriptionModal = (props: Props) => {
     }
   };
 
-  const descriptions = [
-    'Build health-scored grocery lists tailored\nto your dietary needs',
-    'Scan & swap for healthier options',
-    'Simplified nutritional information ',
-    'Access to a resource library to help you\nreach your goals',
-  ];
+  const descriptions = isWellCome
+    ? [
+        'Build health-scored grocery lists tailored\nto your dietary needs',
+        'Scan & swap for healthier options',
+        'Simplified nutritional information ',
+        'Access to a resource library to help you\nreach your goals',
+      ]
+    : [
+        'Build health-scored grocery lists tailored\nto your dietary needs',
+        'Discover  & swap for healthier options',
+        'Simplified nutritional information ',
+        'Access to a resource library to help you\nreach your goals',
+      ];
 
   const handleSetSubscriptionDate = async (isFree: boolean) => {
     setIsUpdating(true);
@@ -139,22 +147,73 @@ const SubscriptionModal = (props: Props) => {
     }
   };
 
-  const renderAnnualOffer = () => {
-    const item =
-      subscriptionsPlan.find(element => element.name === 'Annual') ||
-      subscriptionsPlan[1];
+  const renderSubscriptionItem = (item: Subscription) => {
+    const colorText =
+      item['color-code'] !== '#FFFFFF' ? appColors.white : appColors.text;
+    const textString = !isWellCome ? (
+      <RowComponent justify="flex-start" styles={{alignItems: 'flex-end'}}>
+        <TextComponent
+          text={`$${item.claim_price.toFixed(2)}`}
+          flex={0}
+          color={colorText}
+          size={20}
+        />
 
-    return item ? (
+        <TextComponent
+          text={` $${item.price.toFixed(2)}`}
+          color={colorText}
+          flex={0}
+          size={14}
+          styles={{
+            marginLeft: 6,
+            textDecorationLine: 'line-through',
+          }}
+        />
+      </RowComponent>
+    ) : (
+      <RowComponent justify="flex-start" styles={{alignItems: 'flex-end'}}>
+        <TextComponent
+          text={`$${item.offer_price.toFixed(2)}`}
+          flex={0}
+          color={colorText}
+          size={20}
+        />
+        {!isWellCome && (
+          <TextComponent
+            text={` $${item.price.toFixed(2)}`}
+            color={colorText}
+            flex={0}
+            styles={{
+              marginLeft: 6,
+              textDecorationLine: 'line-through',
+            }}
+            size={14}
+          />
+        )}
+
+        <TextComponent
+          text={` after ${item.trial_days} day free trial`}
+          color={colorText}
+          size={14}
+          flex={0}
+        />
+      </RowComponent>
+    );
+
+    const percent = isWellCome
+      ? Math.floor(100 - (item.offer_price / item.price) * 100).toFixed(0)
+      : Math.floor(100 - (item.claim_price / item.price) * 100).toFixed(0);
+    return (
       <CardContent
+        key={item.id}
         onPress={() => {
           setPermiumItem(item);
           setIsVisibleModalRegister(true);
         }}
-        // onPress={() => (!isWellCome ? handleSetSubscriptionDate() : undefined)}
         color={appColors.text}
         styles={{padding: 0, alignItems: 'center', marginBottom: 16}}
       >
-        {!isWellCome && (
+        {item.limitedperiod === '1' && (
           <TextComponent
             text="LIMITED-TIME OFFER"
             color={appColors.white}
@@ -170,27 +229,26 @@ const SubscriptionModal = (props: Props) => {
             padding: 12,
             marginBottom: 0,
             margin: 0,
-            backgroundColor: '#13917B',
+            backgroundColor: item[`color-code`],
             borderRadius: 8,
           }}
         >
           <RowComponent>
-            <TitleComponent text={item.name} color={appColors.white} />
+            <TitleComponent text={item.title} color={colorText} size={16} />
             <TextComponent
               size={12}
               color={appColors.white}
               font={fontFamilys.semiBold}
               text={
-                isWellCome
-                  ? 'BEST VALUE'
-                  : `${Math.floor(
-                      100 - (item.offer_price / item.price) * 100,
-                    ).toFixed(0)}% OFF`
+                item.limitedperiod !== '1' ? 'BEST VALUE' : `${percent}% OFF`
               }
               flex={0}
               styles={[
                 {
-                  backgroundColor: appColors.primary,
+                  backgroundColor:
+                    item['color-code'] === '#FFFFFF'
+                      ? '#32645B80'
+                      : appColors.primary,
                   paddingHorizontal: 6,
                   paddingVertical: 2,
                   borderRadius: 3,
@@ -199,123 +257,28 @@ const SubscriptionModal = (props: Props) => {
             />
           </RowComponent>
           <SpaceComponent height={8} />
-          <RowComponent justify="flex-start">
-            <TextComponent
-              text={`$${isWellCome ? '89.99' : item.offer_price.toFixed(2)}`}
-              flex={0}
-              color={appColors.white}
-            />
-            {!isWellCome && (
-              <TextComponent
-                text={` $${item.price.toFixed(2)}`}
-                color={appColors.white}
-                flex={0}
-                styles={{
-                  textDecorationLine: 'line-through',
-                }}
-              />
-            )}
-
-            <TextComponent
-              text={` after ${item.trial_days} day free trial`}
-              color={appColors.white}
-              size={14}
-              flex={0}
-            />
-          </RowComponent>
+          {textString}
         </View>
       </CardContent>
-    ) : null;
-  };
-
-  const renderMonthOffer = () => {
-    const item =
-      subscriptionsPlan.find(element => element.name === 'Monthly') ||
-      subscriptionsPlan[0];
-
-    return item ? (
-      <CardContent
-        onPress={() => {
-          setPermiumItem(item);
-          setIsVisibleModalRegister(true);
-        }}
-        // onPress={() => (!isWellCome ? handleSetSubscriptionDate() : undefined)}
-        styles={{
-          flex: 1,
-          width: '100%',
-          padding: 12,
-          marginBottom: 0,
-          borderWidth: 2,
-          borderColor: '#EEF3DC',
-        }}
-        color={appColors.white}
-      >
-        <RowComponent>
-          <TitleComponent text={item.name} color={appColors.text} />
-          {!isWellCome && (
-            <TextComponent
-              size={12}
-              color={appColors.text}
-              font={fontFamilys.semiBold}
-              text={`${Math.floor(
-                100 - (item.offer_price / item.price) * 100,
-              ).toFixed(0)}% OFF`}
-              flex={0}
-              styles={[
-                {
-                  backgroundColor: appColors.primary,
-                  paddingHorizontal: 6,
-                  paddingVertical: 2,
-                  borderRadius: 3,
-                  opacity: 0.5,
-                },
-              ]}
-            />
-          )}
-        </RowComponent>
-        <SpaceComponent height={8} />
-        <RowComponent justify="flex-start" styles={{alignItems: 'flex-end'}}>
-          <TextComponent
-            text={`$${isWellCome ? '8.99' : item.offer_price}`}
-            flex={0}
-            color={appColors.text}
-          />
-          {!isWellCome && (
-            <TextComponent
-              text={` $${item.price}`}
-              color={appColors.text}
-              size={14}
-              flex={0}
-              styles={{
-                textDecorationLine: 'line-through',
-              }}
-            />
-          )}
-          <TextComponent
-            text={` after ${item.trial_days} day free trial`}
-            color={appColors.text}
-            size={14}
-            flex={0}
-          />
-        </RowComponent>
-      </CardContent>
-    ) : null;
+    );
   };
 
   return (
     <Modal
       visible={isVisible}
+      statusBarTranslucent
       animationType="slide"
       style={{
         flex: 1,
+        height: appSize.height,
         backgroundColor: appColors.white,
       }}
     >
       <ScrollView
         style={[
           {
+            paddingTop: 32,
             flex: 1,
-            paddingTop: 48,
           },
         ]}
       >
@@ -323,7 +286,6 @@ const SubscriptionModal = (props: Props) => {
           <RowComponent justify="flex-end">
             <Button
               onPress={() => {
-                // onClose();
                 if (isWellCome) {
                   navigation.navigate('HomeScanWellCome');
                 }
@@ -344,8 +306,10 @@ const SubscriptionModal = (props: Props) => {
               },
             ]}
           >
-            Try Tinga for free,{' '}
-            <Text style={{fontSize: 24}}>cancel anytime.</Text>
+            {isWellCome ? `Try Tinga for free, \n` : `Tinga Premium \n`}
+            <Text style={{fontSize: 24}}>
+              {isWellCome ? 'cancel anytime.' : 'unlock all features'}
+            </Text>
           </Text>
           <SpaceComponent height={20} />
 
@@ -366,13 +330,11 @@ const SubscriptionModal = (props: Props) => {
         {subscriptionsPlan.length > 0 ? (
           <>
             <SectionComponent styles={{marginTop: 50}}>
-              {renderAnnualOffer()}
-
-              {renderMonthOffer()}
+              {subscriptionsPlan.map(item => renderSubscriptionItem(item))}
             </SectionComponent>
             <SectionComponent>
               <ButtonComponent
-                text="Try free and subscribe"
+                text={isWellCome ? 'Try free and subscribe' : 'Claim Offer'}
                 onPress={() => handleSetSubscriptionDate(true)}
                 color={appColors.success1}
                 textColor={appColors.text}

@@ -273,7 +273,7 @@ const HomeScreen = ({navigation, route}: any) => {
       />
 
       <SubscriptionModal
-        isVisible={true}
+        isVisible={isVisibleModalSubcriber}
         onClose={() => setIsVisibleModalSubcriber(false)}
       />
 

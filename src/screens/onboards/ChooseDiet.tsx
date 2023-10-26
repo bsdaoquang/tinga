@@ -98,7 +98,8 @@ const ChooseDiet = ({navigation}: any) => {
                   marginTop: 16,
                 },
               ]}
-              key={item.id}>
+              key={item.id}
+            >
               <TextComponent
                 text={item.name}
                 flex={0}
