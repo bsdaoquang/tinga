@@ -95,8 +95,6 @@ const ModalProduct = (props: Props) => {
     }
   };
 
-  console.log(products, product);
-
   const categories = ['Gluten Free', 'Vegan', 'Organic'];
 
   const productIngredients = [
