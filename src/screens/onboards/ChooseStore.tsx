@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useDispatch} from 'react-redux';
 import {UserChoose} from '../../Models/UserChoose';
 import handleGetData from '../../apis/productAPI';
 import {
@@ -15,9 +14,8 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {handleSaveUser} from '../../utils/handleSaveUser';
-import RenderChooseValue from './components/RenderChooseValue';
 import {SubscriptionModal} from '../../modals';
+import RenderChooseValue from './components/RenderChooseValue';
 
 const ChooseStore = ({navigation}: any) => {
   const [selected, setSelected] = useState<number[]>([]);
@@ -26,8 +24,6 @@ const ChooseStore = ({navigation}: any) => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [isVisibleModalSubcribe, setIsVisibleModalSubcribe] = useState(false);
   const [isWellCome, setIsWellCome] = useState(false);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     handleGetAllProducts();
@@ -95,7 +91,8 @@ const ChooseStore = ({navigation}: any) => {
       back
       right={
         <Button text="Skip" onPress={() => setIsVisibleModalSubcribe(true)} />
-      }>
+      }
+    >
       <SectionComponent flex={1}>
         <TextComponent text="Grocery Stores" size={12} flex={0} />
         <TitleComponent text="Where do you usually shop?" flex={0} size={26} />

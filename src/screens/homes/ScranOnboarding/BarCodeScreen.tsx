@@ -3,7 +3,7 @@ import {PermissionsAndroid, Platform, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {Product} from '../../../Models/Product';
 import handleGetData from '../../../apis/productAPI';
 import {
@@ -19,15 +19,9 @@ import {appSize} from '../../../constants/appSize';
 import {ModalProduct} from '../../../modals';
 import ModalResultScan from '../../../modals/ModalResultScan';
 import ModalizeProducDetail from '../../../modals/ModalizeProducDetail';
-import {
-  addGroceries,
-  groceriesSelector,
-} from '../../../redux/reducers/groceryReducer';
+import {HandleProduct} from '../../../utils/HandleProduct';
 import {handleSaveUser} from '../../../utils/handleSaveUser';
 import {showToast} from '../../../utils/showToast';
-import {appInfos} from '../../../constants/appInfos';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {HandleProduct} from '../../../utils/HandleProduct';
 
 const BarCodeScreen = ({navigation}: any) => {
   const [codeDetail, setCodeDetail] = useState('');
@@ -267,7 +261,7 @@ const BarCodeScreen = ({navigation}: any) => {
             getGroceriesList(),
           ))
         }
-        products={groceriesList ?? []}
+        products={groceriesList}
       />
 
       <ModalResultScan

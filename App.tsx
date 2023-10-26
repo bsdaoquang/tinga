@@ -4,6 +4,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Host} from 'react-native-portalize';
 import {Provider} from 'react-redux';
 import {TourGuideProvider, useTourGuideController} from 'rn-tourguide';
+import handleGetData from './src/apis/productAPI';
 import store from './src/redux/store';
 import Router from './src/routers/router';
 import {SplashScreen} from './src/screens';
@@ -25,10 +26,20 @@ const App = () => {
       installMode: codePush.InstallMode.IMMEDIATE,
     });
 
-    setTimeout(() => {
-      setIsWelcome(false);
-    }, 1000);
+    getProfile();
   }, []);
+
+  const getProfile = async () => {
+    const api = `/getUserProfile`;
+    try {
+      await handleGetData.handleUser(api).then((res: any) => {
+        setIsWelcome(false);
+      });
+    } catch (error) {
+      console.log(error);
+      setIsWelcome(false);
+    }
+  };
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>

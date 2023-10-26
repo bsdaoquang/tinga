@@ -1,7 +1,9 @@
+import {useNavigation} from '@react-navigation/native';
 import {ArrowLeft} from 'iconsax-react-native';
 import React, {useEffect} from 'react';
 import {Image, PermissionsAndroid, Platform} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useDispatch} from 'react-redux';
 import {
   Button,
   ButtonComponent,
@@ -13,10 +15,7 @@ import {
 import {appColors} from '../../../constants/appColors';
 import {appSize} from '../../../constants/appSize';
 import {fontFamilys} from '../../../constants/fontFamily';
-import {useDispatch} from 'react-redux';
 import {handleSaveUser} from '../../../utils/handleSaveUser';
-import {useNavigation} from '@react-navigation/native';
-import {PERMISSIONS, check} from 'react-native-permissions';
 
 const HomeScan = ({route}: any) => {
   useEffect(() => {
@@ -73,7 +72,8 @@ const HomeScan = ({route}: any) => {
             textColor={appColors.white6}
           />
         }
-        isScroll>
+        isScroll
+      >
         <SectionComponent>
           <TextComponent
             text="Reset your pantry"

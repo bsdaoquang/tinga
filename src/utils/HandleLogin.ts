@@ -1,17 +1,34 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import profileAPI from '../apis/userAPI';
+import {appInfos} from '../constants/appInfos';
 import {addAuth} from '../redux/reducers/authReducer';
 
 export class HandleLogin {
-  static handleCheckUserLoginAgain = async (
-    data: any,
-    navigation: any,
-    dispatch: any,
-  ) => {
-    const api = `/getUserChoice`;
+  static handleCheckUserLoginAgain = async (navigation: any, dispatch: any) => {
+    const api = `/getUserProfile`;
+    const apiChoces = '/getUserChoice';
+
+    const resLocal = await AsyncStorage.getItem(
+      appInfos.localDataName.userData,
+    );
+
     try {
-      await profileAPI.HandleUser(api).then((res: any) => {
+      const userData = resLocal ? JSON.parse(resLocal) : {};
+
+      await profileAPI.HandleUser(apiChoces).then(async (res: any) => {
         if (res.diets && res.diets.length > 0) {
-          dispatch(addAuth(data));
+          await profileAPI.HandleUser(api).then((res: any) => {
+            if (userData && res.id) {
+              dispatch(
+                addAuth({
+                  ...userData,
+                  ...res,
+                }),
+              );
+            } else {
+              dispatch(addAuth({}));
+            }
+          });
         } else {
           navigation.navigate('ChooseDiet');
         }

@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
@@ -13,7 +14,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useDispatch, useSelector} from 'react-redux';
 import {Subscription} from '../Models/Subscription';
-import handleGetData from '../apis/productAPI';
 import subscriptionAPI from '../apis/subscriptionAPI';
 import {
   Button,
@@ -27,14 +27,14 @@ import {
   TitleComponent,
 } from '../components';
 import {appColors} from '../constants/appColors';
+import {appInfos} from '../constants/appInfos';
+import {appSize} from '../constants/appSize';
 import {fontFamilys} from '../constants/fontFamily';
 import {addAuth, authSelector} from '../redux/reducers/authReducer';
 import {global} from '../styles/global';
-import {add0toNumber} from '../utils/add0toNumber';
 import {showToast} from '../utils/showToast';
 import LoadingModal from './LoadingModal';
 import ModalRegisterPermium from './ModalRegisterPermium';
-import {appSize} from '../constants/appSize';
 
 interface Props {
   isVisible: boolean;
@@ -55,32 +55,13 @@ const SubscriptionModal = (props: Props) => {
   const [permiumItem, setPermiumItem] = useState<Subscription>();
 
   const auth = useSelector(authSelector);
+
   const dispatch = useDispatch();
   const navigation: any = useNavigation();
+
   useEffect(() => {
     getSubscriptionsPlan();
   }, []);
-
-  const getUserProfile = async () => {
-    const api = `/getUserProfile`;
-
-    try {
-      await handleGetData.handleUser(api).then((res: any) => {
-        const still = res.premium_till;
-
-        if (still) {
-          dispatch(
-            addAuth({
-              ...auth,
-              premium_till: still,
-            }),
-          );
-        }
-      });
-    } catch (error) {
-      showToast(JSON.stringify(error));
-    }
-  };
 
   const getSubscriptionsPlan = async () => {
     const api = `/plans`;
@@ -112,38 +93,42 @@ const SubscriptionModal = (props: Props) => {
         'Access to a resource library to help you\nreach your goals',
       ];
 
-  const handleSetSubscriptionDate = async (isFree: boolean) => {
-    setIsUpdating(true);
-    const api = `/setSubscriptionDate`;
+  const handleSetSubscriptionDate = async (isFalseTransaction: boolean) => {
+    const res = await AsyncStorage.getItem(appInfos.localDataName.userData);
 
-    try {
-      const itemPlan = isFree
-        ? subscriptionsPlan.find(element => element.price === 0)
-        : permiumItem;
+    if (res) {
+      const userData = JSON.parse(res);
 
-      const data = {
-        subscription_id: itemPlan?.id,
-        uuid: auth.id,
-      };
+      if (!isFalseTransaction) {
+        setIsUpdating(true);
+        const api = `/setSubscriptionDate`;
 
-      await subscriptionAPI
-        .HandleSubscription(api, data, 'post')
-        .then(async (res: any) => {
-          await getUserProfile();
+        try {
+          const data = {
+            subscription_id: permiumItem?.id,
+            uuid: userData.id,
+          };
 
-          showToast(res.message);
+          await subscriptionAPI
+            .HandleSubscription(api, data, 'post')
+            .then(async (res: any) => {
+              showToast(res.message);
+              setIsUpdating(false);
+
+              onClose();
+
+              if (isWellCome) {
+                navigation.navigate('HomeScanWellCome');
+              }
+            });
+        } catch (error) {
           setIsUpdating(false);
-
-          onClose();
-
-          if (isWellCome) {
-            navigation.navigate('HomeScanWellCome');
-          }
-        });
-    } catch (error) {
-      setIsUpdating(false);
-      console.log(error);
-      console.log(`Can not add subscription still ${error}`);
+          console.log(error);
+          console.log(`Can not add subscription still ${error}`);
+        }
+      } else {
+        dispatch(addAuth(userData));
+      }
     }
   };
 
@@ -287,6 +272,8 @@ const SubscriptionModal = (props: Props) => {
               onPress={() => {
                 if (isWellCome) {
                   navigation.navigate('HomeScanWellCome');
+                } else {
+                  onClose();
                 }
               }}
               icon={
@@ -334,7 +321,7 @@ const SubscriptionModal = (props: Props) => {
             <SectionComponent>
               <ButtonComponent
                 text={isWellCome ? 'Try free and subscribe' : 'Claim Offer'}
-                onPress={() => handleSetSubscriptionDate(true)}
+                onPress={() => console.log(auth)}
                 color={appColors.success1}
                 textColor={appColors.text}
               />
@@ -394,7 +381,9 @@ const SubscriptionModal = (props: Props) => {
           setPermiumItem(undefined);
         }}
         permiumItem={permiumItem}
-        onSubcription={isFree => handleSetSubscriptionDate(isFree)}
+        onSubcription={isFalseTransaction =>
+          handleSetSubscriptionDate(isFalseTransaction)
+        }
       />
     </Modal>
   );

@@ -22,15 +22,16 @@ import {fontFamilys} from '../../constants/fontFamily';
 import useAuth from '../../hooks/useAuth';
 import {LoadingModal} from '../../modals';
 import {HandleLogin} from '../../utils/HandleLogin';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {appSize} from '../../constants/appSize';
+import {useNavigation} from '@react-navigation/native';
 
-const LoginScreen = ({navigation}: any) => {
+const LoginScreen = () => {
   const [isShowPass, setIsShowPass] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const navigation: any = useNavigation();
 
   const {handleCheckEmail, helpText} = useAuth(navigation);
   const dispatch = useDispatch();
@@ -50,11 +51,7 @@ const LoginScreen = ({navigation}: any) => {
                 appInfos.localDataName.userData,
                 JSON.stringify(res.data),
               ).then(() => {
-                HandleLogin.handleCheckUserLoginAgain(
-                  res.data,
-                  navigation,
-                  dispatch,
-                );
+                HandleLogin.handleCheckUserLoginAgain(navigation, dispatch);
               });
               setIsLoading(false);
             } else {
@@ -77,7 +74,8 @@ const LoginScreen = ({navigation}: any) => {
         <SectionComponent
           styles={{
             marginTop: 40,
-          }}>
+          }}
+        >
           <Image
             source={require('../../assets/images/TingaLogo.png')}
             style={{width: 175, height: 68, resizeMode: 'contain'}}
@@ -88,7 +86,8 @@ const LoginScreen = ({navigation}: any) => {
           styles={{
             flex: 1,
             justifyContent: 'center',
-          }}>
+          }}
+        >
           <TitleComponent text="Login" size={26} flex={0} />
           <SpaceComponent height={22} />
           <InputComponent

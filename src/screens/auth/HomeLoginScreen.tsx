@@ -113,11 +113,7 @@ const HomeLoginScreen = ({navigation}: any) => {
               appInfos.localDataName.userData,
               JSON.stringify(res.data),
             ).then(() =>
-              HandleLogin.handleCheckUserLoginAgain(
-                res.data,
-                navigation,
-                dispatch,
-              ),
+              HandleLogin.handleCheckUserLoginAgain(navigation, dispatch),
             );
             setIsLogin(false);
           } else {

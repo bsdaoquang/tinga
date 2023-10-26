@@ -51,7 +51,7 @@ const HomeScreen = ({navigation, route}: any) => {
   const [historiesList, setHistoriesList] = useState<HistoryProduc[]>([]);
 
   const auth = useSelector(authSelector);
-
+  // console.log(auth);
   const dispatch = useDispatch();
 
   useEffect(() => {

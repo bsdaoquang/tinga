@@ -46,7 +46,7 @@ const ModalRegisterPermium = (props: Props) => {
 
           <RowComponent>
             <TitleComponent
-              text={permiumItem ? permiumItem.name : ''}
+              text={permiumItem ? permiumItem.title : ''}
               size={28}
               flex={0}
             />
@@ -61,7 +61,8 @@ const ModalRegisterPermium = (props: Props) => {
             style={{
               // paddingHorizontal: 20,
               marginVertical: 20,
-            }}>
+            }}
+          >
             <ButtonComponent
               text="Successful Transaction"
               onPress={() => onSubcription(false)}
