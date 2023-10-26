@@ -321,7 +321,7 @@ const SubscriptionModal = (props: Props) => {
             <SectionComponent>
               <ButtonComponent
                 text={isWellCome ? 'Try free and subscribe' : 'Claim Offer'}
-                onPress={() => console.log(auth)}
+                onPress={() => handleSetSubscriptionDate(true)}
                 color={appColors.success1}
                 textColor={appColors.text}
               />

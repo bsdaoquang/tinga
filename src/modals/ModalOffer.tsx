@@ -23,7 +23,12 @@ const ModalOffer = (props: Props) => {
     onClose();
   };
   return (
-    <Modal visible={isVisible} transparent animationType="slide">
+    <Modal
+      visible={isVisible}
+      transparent
+      animationType="slide"
+      statusBarTranslucent
+    >
       <View style={[global.modalContainer]}>
         <View style={[global.modalContent]}>
           <RowComponent justify="flex-end">

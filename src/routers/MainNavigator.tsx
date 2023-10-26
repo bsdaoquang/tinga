@@ -1,5 +1,5 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   AddNewProduct,
   AddNewScreen,
@@ -15,9 +15,19 @@ import {
   WebviewScreen,
 } from '../screens';
 import TabNavigator from './TabNavigator';
+import {useNavigation} from '@react-navigation/native';
+import {HandleLogin} from '../utils/HandleLogin';
+import {useDispatch} from 'react-redux';
 
 const MainNavigator = () => {
   const Stack = createNativeStackNavigator();
+  const navigation: any = useNavigation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    HandleLogin.handleCheckUserLoginAgain(navigation, dispatch);
+  }, []);
+
   return (
     <Stack.Navigator
       screenOptions={{
