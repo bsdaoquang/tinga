@@ -21,8 +21,9 @@ import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Product, ProductDetail} from '../Models/Product';
 import handleGetData from '../apis/productAPI';
 import {HeartBold} from '../assets/svg';
@@ -38,9 +39,11 @@ import {
 } from '../components';
 import {appColors} from '../constants/appColors';
 import {fontFamilys} from '../constants/fontFamily';
+import {authSelector} from '../redux/reducers/authReducer';
 import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
+import {SubscriptionModal} from '.';
 
 interface Props {
   visible: boolean;
@@ -61,6 +64,9 @@ const ModalProduct = (props: Props) => {
   const [isShowDesc, setIsShowDesc] = useState(false);
   const [isShowIngre, setIsShowIngre] = useState(false);
   const [favouritesList, setFavouritesList] = useState<Product[]>([]);
+  const [isVisibleModalSubcriber, setIsVisibleModalSubcriber] = useState(false);
+
+  const auth = useSelector(authSelector);
 
   const dispatch = useDispatch();
 
@@ -456,23 +462,20 @@ const ModalProduct = (props: Props) => {
               )}
             </SectionComponent>
 
-            <FlatList
-              style={{paddingHorizontal: 16}}
-              ListHeaderComponent={
-                <>
-                  <View
-                    style={{
-                      width: 56,
-                      height: 56,
-                      backgroundColor: '#E6EECC',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 100,
-                      marginRight: 6,
-                    }}
-                  >
-                    <TextComponent text="👍" size={20} flex={0} />
-                  </View>
+            <RowComponent styles={{paddingLeft: 16}}>
+              <>
+                <View
+                  style={{
+                    width: 56,
+                    height: 56,
+                    backgroundColor: '#E6EECC',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 100,
+                    marginRight: 6,
+                  }}
+                >
+                  <TextComponent text="👍" size={20} flex={0} />
                   <Button
                     styles={{
                       position: 'absolute',
@@ -484,13 +487,65 @@ const ModalProduct = (props: Props) => {
                       <MaterialIcons name="info" size={20} color={'#9F9F9F'} />
                     }
                   />
-                </>
-              }
-              data={productIngredients}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              renderItem={({item}) => renderProductIngredient(item)}
-            />
+                </View>
+              </>
+
+              <View style={{flex: 1}}>
+                {auth.is_premium === 0 ? (
+                  <RowComponent
+                    styles={{
+                      alignItems: 'flex-start',
+                      justifyContent: 'flex-start',
+                      marginLeft: 12,
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: 24,
+                        height: 24,
+                        backgroundColor: appColors.primary,
+                        borderRadius: 100,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginRight: 8,
+                      }}
+                    >
+                      <Fontisto
+                        name="locked"
+                        size={14}
+                        color={appColors.white}
+                      />
+                    </View>
+                    <RowComponent
+                      styles={{
+                        flex: 1,
+                        flexWrap: 'nowrap',
+                        overflow: 'hidden',
+                        alignItems: 'flex-start',
+                        justifyContent: 'flex-start',
+                      }}
+                    >
+                      <TextComponent
+                        text="Upgrade to Premium "
+                        font={fontFamilys.bold}
+                        styles={{textDecorationLine: 'underline'}}
+                        flex={0}
+                      />
+                      <TextComponent
+                        text="for full food ratings"
+                        font={fontFamilys.bold}
+                        flex={0}
+                      />
+                    </RowComponent>
+                  </RowComponent>
+                ) : (
+                  productIngredients.map((item, index) =>
+                    renderProductIngredient(item),
+                  )
+                )}
+              </View>
+            </RowComponent>
+
             <FlatList
               style={{paddingHorizontal: 8, paddingBottom: 12}}
               data={categories}
@@ -531,6 +586,7 @@ const ModalProduct = (props: Props) => {
                 <RowComponent justify="space-between">
                   {Array.from({length: 2}).map((_item, index) => (
                     <ProductItemComponent
+                      isCheckPremium
                       item={product}
                       key={`item.id${index}`}
                     />
@@ -620,6 +676,7 @@ const ModalProduct = (props: Props) => {
           </View>
         </ScrollView>
       </Modalize>
+
       <ModalFoodScoreInfo
         visible={isShowModalFoodScoreInfo}
         onClose={() => setIsShowModalFoodScoreInfo(false)}

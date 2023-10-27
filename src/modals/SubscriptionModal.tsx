@@ -54,8 +54,6 @@ const SubscriptionModal = (props: Props) => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [permiumItem, setPermiumItem] = useState<Subscription>();
 
-  const auth = useSelector(authSelector);
-
   const dispatch = useDispatch();
   const navigation: any = useNavigation();
 

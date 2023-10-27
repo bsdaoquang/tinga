@@ -1,6 +1,13 @@
 import {Add, Location, Star1} from 'iconsax-react-native';
 import React, {useState} from 'react';
-import {Image, StyleProp, View, ViewStyle} from 'react-native';
+import {
+  Image,
+  StyleProp,
+  Touchable,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {
   Button,
   CardContent,
@@ -14,22 +21,32 @@ import {appSize} from '../constants/appSize';
 import {ModalProduct} from '../modals';
 import FastImage from 'react-native-fast-image';
 import {HandleProduct} from '../utils/HandleProduct';
+import {useSelector} from 'react-redux';
+import {authSelector} from '../redux/reducers/authReducer';
+import {BlurView} from '@react-native-community/blur';
+import LockPremiumComponent from './LockPremiumComponent';
 
 interface Props {
   item: Product;
   styles?: StyleProp<ViewStyle>;
   onReload?: () => void;
+  isCheckPremium?: boolean;
 }
 
 const ProductItemComponent = (props: Props) => {
   const [isVisibileModalProduct, setIsVisibileModalProduct] = useState(false);
 
-  const {item, styles, onReload} = props;
+  const {item, styles, onReload, isCheckPremium} = props;
+  const auth = useSelector(authSelector);
 
   return (
     <>
       <CardContent
-        onPress={() => setIsVisibileModalProduct(true)}
+        onPress={
+          isCheckPremium && auth.is_premium === 0
+            ? undefined
+            : () => setIsVisibileModalProduct(true)
+        }
         isShadow
         color={appColors.white}
         styles={[
@@ -41,7 +58,8 @@ const ProductItemComponent = (props: Props) => {
 
           styles,
         ]}
-        key={`${item.id}`}>
+        key={`${item.id}`}
+      >
         {item.image ? (
           <FastImage
             source={{
@@ -101,7 +119,27 @@ const ProductItemComponent = (props: Props) => {
             <Star1 size={14} color={appColors.gray} />
           </RowComponent>
         </View>
+        {isCheckPremium && auth.is_premium === 0 && (
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              flex: 0,
+              backgroundColor: appColors.white,
+              opacity: 0.92,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 8,
+            }}
+          >
+            <LockPremiumComponent sizeIcon={16} />
+          </View>
+        )}
       </CardContent>
+
       <ModalProduct
         visible={isVisibileModalProduct}
         onClose={() => {

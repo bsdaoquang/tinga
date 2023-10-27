@@ -15,8 +15,11 @@ const CategoryDetail = ({navigation, route}: any) => {
     category,
     subCategory,
     subSubCategory,
-  }: {category: Category; subCategory: Category; subSubCategory: Category} =
-    route.params;
+  }: {
+    category: Category;
+    subCategory: Category;
+    subSubCategory: Category;
+  } = route.params;
 
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +59,8 @@ const CategoryDetail = ({navigation, route}: any) => {
           : subCategory
           ? subCategory.name
           : category.name
-      }>
+      }
+    >
       {products.length > 0 ? (
         <FlatList
           numColumns={2}
