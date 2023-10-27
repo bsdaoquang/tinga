@@ -25,10 +25,6 @@ const timeInDay = 24 * 60 * 60 * 1000;
 const ModalRegisterPermium = (props: Props) => {
   const {isVisible, onClose, permiumItem, onSubcription} = props;
 
-  const [isUpdating, setIsUpdating] = useState(false);
-
-  // console.log(permiumItem);
-
   const handleClose = () => {
     onClose();
   };

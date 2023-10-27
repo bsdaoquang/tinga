@@ -63,6 +63,10 @@ const SubscriptionModal = (props: Props) => {
     getSubscriptionsPlan();
   }, []);
 
+  useEffect(() => {
+    setPermiumItem(subscriptionsPlan[0]);
+  }, [subscriptionsPlan]);
+
   const getSubscriptionsPlan = async () => {
     const api = `/plans`;
 
@@ -134,7 +138,10 @@ const SubscriptionModal = (props: Props) => {
 
   const renderSubscriptionItem = (item: Subscription) => {
     const colorText =
-      item['color-code'] !== '#FFFFFF' ? appColors.white : appColors.text;
+      permiumItem && permiumItem.id === item.id
+        ? appColors.white
+        : appColors.text;
+
     const textString = !isWellCome ? (
       <RowComponent justify="flex-start" styles={{alignItems: 'flex-end'}}>
         <TextComponent
@@ -192,7 +199,6 @@ const SubscriptionModal = (props: Props) => {
         key={item.id}
         onPress={() => {
           setPermiumItem(item);
-          setIsVisibleModalRegister(true);
         }}
         color={appColors.text}
         styles={{padding: 0, alignItems: 'center', marginBottom: 16}}
@@ -213,7 +219,10 @@ const SubscriptionModal = (props: Props) => {
             padding: 12,
             marginBottom: 0,
             margin: 0,
-            backgroundColor: item[`color-code`],
+            backgroundColor:
+              permiumItem && permiumItem.id === item.id
+                ? appColors.primary1
+                : appColors.white,
             borderRadius: 8,
           }}
         >
@@ -321,7 +330,7 @@ const SubscriptionModal = (props: Props) => {
             <SectionComponent>
               <ButtonComponent
                 text={isWellCome ? 'Try free and subscribe' : 'Claim Offer'}
-                onPress={() => handleSetSubscriptionDate(true)}
+                onPress={() => setIsVisibleModalRegister(true)}
                 color={appColors.success1}
                 textColor={appColors.text}
               />
@@ -378,7 +387,6 @@ const SubscriptionModal = (props: Props) => {
         isVisible={isVisibleModalRegister}
         onClose={() => {
           setIsVisibleModalRegister(false);
-          setPermiumItem(undefined);
         }}
         permiumItem={permiumItem}
         onSubcription={isFalseTransaction =>

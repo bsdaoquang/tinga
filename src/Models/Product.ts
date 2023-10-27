@@ -6,6 +6,7 @@ export interface Product {
   created_on: number;
   shopname: string;
   image: string;
+  product_id?: number;
 }
 
 export interface ProductDetail {

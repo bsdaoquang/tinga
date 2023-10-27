@@ -209,7 +209,7 @@ const ModalProduct = (props: Props) => {
   const renderButtonAdd = () => {
     const item =
       products && products.length > 0
-        ? products.find(element => element.id === product?.id)
+        ? products.find(element => element.product_id === product?.id)
         : undefined;
 
     return (

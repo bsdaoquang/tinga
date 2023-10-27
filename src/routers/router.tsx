@@ -45,6 +45,8 @@ const Router = () => {
 
             setIsWelcome(false);
           });
+        } else {
+          setIsWelcome(false);
         }
       });
     } catch (error) {
