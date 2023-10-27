@@ -11,7 +11,10 @@ import {
 } from '../../../components';
 import {appColors} from '../../../constants/appColors';
 import {showToast} from '../../../utils/showToast';
-
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import {useSelector} from 'react-redux';
+import {authSelector} from '../../../redux/reducers/authReducer';
+import LockPremiumComponent from '../../../components/LockPremiumComponent';
 interface Props {
   title: string;
   url: string;
@@ -22,6 +25,7 @@ const CategoriesList = ({title, url}: Props) => {
 
   const [tips, setTips] = useState<Tip[]>([]);
   const navigation: any = useNavigation();
+  const auth = useSelector(authSelector);
 
   useEffect(() => {
     getTips();
@@ -58,7 +62,11 @@ const CategoriesList = ({title, url}: Props) => {
 
   const renderCardItem = (item: Tip) => (
     <CardContent
-      onPress={() => navigation.navigate('TipDetail', {item})}
+      onPress={
+        auth.is_premium === 0
+          ? undefined
+          : () => navigation.navigate('TipDetail', {item})
+      }
       isShadow
       color={appColors.white}
       styles={{
@@ -71,6 +79,7 @@ const CategoriesList = ({title, url}: Props) => {
         marginBottom: 16,
       }}
     >
+      <LockPremiumComponent />
       <TitleComponent
         text={item.title}
         flex={0}

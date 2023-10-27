@@ -1,7 +1,6 @@
 import {Dimensions, Platform, StyleSheet} from 'react-native';
 import {appColors} from '../constants/appColors';
 import {fontFamilys} from '../constants/fontFamily';
-import {appSize} from '../constants/appSize';
 
 export const global = StyleSheet.create({
   container: {

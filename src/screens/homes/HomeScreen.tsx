@@ -50,8 +50,6 @@ const HomeScreen = ({navigation, route}: any) => {
 
   const auth = useSelector(authSelector);
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     if (auth.is_premium !== 1) {
       setTimeout(() => {
@@ -117,7 +115,7 @@ const HomeScreen = ({navigation, route}: any) => {
               flex={0}
               text="You have Tinga Basic. "
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setIsVisibleModalSubcriber(true)}>
               <TextComponent
                 color={appColors.white}
                 font={fontFamilys.semiBold}
