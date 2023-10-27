@@ -158,6 +158,10 @@ const ProfileScreen = ({navigation}: any) => {
       icon: (
         <MaterialCommunityIcons name="hexagon" color={'#FFD97D'} size={16} />
       ),
+      onPress: () =>
+        navigation.navigate('Grocery List', {
+          screen: 'GroceryScreen',
+        }),
     },
     {
       id: '6',
@@ -246,7 +250,8 @@ const ProfileScreen = ({navigation}: any) => {
           onPress={() => navigation.navigate('ListScoreTrend')}
           color={appColors.white}
           isShadow
-          styles={{paddingHorizontal: 37}}>
+          styles={{paddingHorizontal: 37}}
+        >
           <View style={global.center}>
             <ChartPieItem
               total={80}
@@ -264,7 +269,8 @@ const ProfileScreen = ({navigation}: any) => {
                     fontFamily: fontFamilys.bold,
                     flex: 0,
                   },
-                ]}>
+                ]}
+              >
                 {' '}
                 6pt{' '}
                 <Text style={{fontFamily: fontFamilys.regular}}>
@@ -294,7 +300,8 @@ const ProfileScreen = ({navigation}: any) => {
               key={`dataChart${index}`}
               isShadow
               color={appColors.white}
-              styles={{width: (appSize.width - (32 + 12 * 2)) / 3}}>
+              styles={{width: (appSize.width - (32 + 12 * 2)) / 3}}
+            >
               <ChartPieItem
                 data={item.data}
                 key={item.id}
@@ -315,7 +322,8 @@ const ProfileScreen = ({navigation}: any) => {
         />
         <CardContent
           styles={{padding: 0, marginTop: 16}}
-          color={appColors.white}>
+          color={appColors.white}
+        >
           {settings.map((item, index) => (
             <ListItemComponent
               key={item.id}
@@ -337,7 +345,8 @@ const ProfileScreen = ({navigation}: any) => {
         />
         <CardContent
           styles={{padding: 0, marginTop: 16}}
-          color={appColors.white}>
+          color={appColors.white}
+        >
           {contactsMenu.map((item, index) => (
             <ListItemComponent
               key={`contact${index}`}
@@ -359,7 +368,8 @@ const ProfileScreen = ({navigation}: any) => {
         />
         <CardContent
           styles={{padding: 0, marginTop: 16}}
-          color={appColors.white}>
+          color={appColors.white}
+        >
           {infosMenu.map((item, index) => (
             <ListItemComponent
               key={item.id}

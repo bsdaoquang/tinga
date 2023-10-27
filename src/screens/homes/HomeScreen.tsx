@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Gift} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {StatusBar, TouchableOpacity, View} from 'react-native';
@@ -6,6 +5,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTourGuideController} from 'rn-tourguide';
 import {AlertDetail} from '../../Models/AlertDetail';
+import {HistoryProduc} from '../../Models/Product';
 import {VideoModel} from '../../Models/VideoModel';
 import dashboardAPI from '../../apis/dashboardAPI';
 import handleGetData from '../../apis/productAPI';
@@ -23,7 +23,6 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {appInfos} from '../../constants/appInfos';
 import {fontFamilys} from '../../constants/fontFamily';
 import {
   ModalFeedback,
@@ -32,13 +31,12 @@ import {
   SubscriptionModal,
 } from '../../modals';
 import ModalAlert from '../../modals/ModalAlert';
-import {addAuth, authSelector} from '../../redux/reducers/authReducer';
+import {authSelector} from '../../redux/reducers/authReducer';
 import {showToast} from '../../utils/showToast';
 import CategoriesList from './components/CategoriesList';
 import HomeCarousels from './components/HomeCarousels';
 import Promotions from './components/Promotions';
 import VideoComponent from './components/VideoComponent';
-import {HistoryProduc} from '../../Models/Product';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -51,12 +49,11 @@ const HomeScreen = ({navigation, route}: any) => {
   const [historiesList, setHistoriesList] = useState<HistoryProduc[]>([]);
 
   const auth = useSelector(authSelector);
-  // console.log(auth);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    handleGetAndUpdateProfile();
-    if (!auth.premium_till || auth.premium_till === '0000-00-00 00:00:00') {
+    if (auth.is_premium !== 1) {
       setTimeout(() => {
         setIsvisibleModalOffer(true);
       }, 1500);
@@ -96,24 +93,6 @@ const HomeScreen = ({navigation, route}: any) => {
         console.log(error);
       });
   };
-  const handleGetAndUpdateProfile = async () => {
-    const api = `/getUserProfile`;
-    try {
-      await handleGetData.handleUser(api).then(async (res: any) => {
-        const data = {...auth, ...res, premium_till: res.premium_till};
-
-        dispatch(addAuth(data));
-
-        await AsyncStorage.setItem(
-          appInfos.localDataName.userData,
-          JSON.stringify(data),
-        );
-      });
-    } catch (error) {
-      // console.log(error.message);
-      showToast(`Can not get profile`);
-    }
-  };
 
   const {stop} = useTourGuideController();
 
@@ -122,12 +101,14 @@ const HomeScreen = ({navigation, route}: any) => {
       <Container
         onScroll={() => stop()}
         isScroll
-        backgroundColor={auth.premium_till ? appColors.primary : appColors.text}
+        backgroundColor={
+          auth.is_premium === 1 ? appColors.primary : appColors.text
+        }
         top={32}
       >
         <StatusBar barStyle={'light-content'} translucent />
 
-        {!auth.premium_till && (
+        {auth.is_premium === 0 && (
           <RowComponent styles={{paddingBottom: 6, paddingTop: 12}}>
             <TextComponent
               color={appColors.white}
@@ -154,7 +135,7 @@ const HomeScreen = ({navigation, route}: any) => {
         <SectionComponent
           styles={{
             paddingBottom: 46,
-            paddingTop: !auth.premium_till ? 16 : 26,
+            paddingTop: auth.is_premium === 0 ? 16 : 26,
             backgroundColor: appColors.primary,
           }}
         >
