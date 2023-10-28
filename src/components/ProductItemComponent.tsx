@@ -58,8 +58,7 @@ const ProductItemComponent = (props: Props) => {
 
           styles,
         ]}
-        key={`${item.id}`}
-      >
+        key={`${item.id}`}>
         {item.image ? (
           <FastImage
             source={{
@@ -133,8 +132,7 @@ const ProductItemComponent = (props: Props) => {
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 8,
-            }}
-          >
+            }}>
             <LockPremiumComponent sizeIcon={16} />
           </View>
         )}

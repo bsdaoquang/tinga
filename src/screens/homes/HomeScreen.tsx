@@ -102,8 +102,7 @@ const HomeScreen = ({navigation, route}: any) => {
         backgroundColor={
           auth.is_premium === 1 ? appColors.primary : appColors.text
         }
-        top={32}
-      >
+        top={32}>
         <StatusBar barStyle={'light-content'} translucent />
 
         {auth.is_premium === 0 && (
@@ -135,15 +134,13 @@ const HomeScreen = ({navigation, route}: any) => {
             paddingBottom: 46,
             paddingTop: auth.is_premium === 0 ? 16 : 26,
             backgroundColor: appColors.primary,
-          }}
-        >
+          }}>
           <RowComponent>
             <TingaLogo width={28} height={28} />
             <SpaceComponent width={8} />
             <TouchableOpacity
               style={{flex: 1, paddingRight: 12}}
-              onPress={() => navigation.navigate('Profile')}
-            >
+              onPress={() => navigation.navigate('Profile')}>
               <TitleComponent
                 line={1}
                 text={`Hi, ${auth.first_name}`}
@@ -167,15 +164,13 @@ const HomeScreen = ({navigation, route}: any) => {
             marginTop: -26,
             paddingBottom: 12,
             paddingHorizontal: 0,
-          }}
-        >
+          }}>
           <HomeCarousels />
           <View style={{paddingHorizontal: 16}}>
             <RowComponent>
               <CardContent
                 onPress={() => navigation.navigate('Explore')}
-                styles={{flex: 1, paddingHorizontal: 10}}
-              >
+                styles={{flex: 1, paddingHorizontal: 10}}>
                 <RowComponent>
                   <EvilIcons
                     name="search"
@@ -191,8 +186,7 @@ const HomeScreen = ({navigation, route}: any) => {
                 styles={{
                   flex: 1,
                   paddingHorizontal: 10,
-                }}
-              >
+                }}>
                 <RowComponent>
                   <Users width={24} />
                   <SpaceComponent width={4} />
@@ -214,15 +208,13 @@ const HomeScreen = ({navigation, route}: any) => {
           styles={{
             paddingHorizontal: 0,
             backgroundColor: appColors.white,
-          }}
-        >
+          }}>
           <CategoriesList title="Tips for you" url="/tipsForYou" />
           <CategoriesList title="Healthier Planning" url={'/healthiereating'} />
         </SectionComponent>
 
         <SectionComponent
-          styles={{backgroundColor: appColors.white, paddingBottom: 20}}
-        >
+          styles={{backgroundColor: appColors.white, paddingBottom: 20}}>
           <Promotions />
           <SpaceComponent height={24} />
 
