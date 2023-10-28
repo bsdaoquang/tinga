@@ -8,10 +8,9 @@ import SignUpScreen from './auth/SignUpScreen';
 import VerifyEmail from './auth/VerifyEmail';
 import CategoryDetail from './explores/CategoryDetail';
 import ExploreScreen from './explores/ExploreScreen';
-import AddNewProduct from './grocyries/AddNewProduct';
-import AddNewScreen from './grocyries/AddNewScreen';
-import CreatedItems from './grocyries/CreatedItems';
-import CreatedProductDetail from './grocyries/CreatedProductDetail';
+import AddNewProduct from './profiles/AddNewProduct';
+import AddNewScreen from './profiles/AddNewScreen';
+import CreatedItems from './profiles/CreatedItems';
 import GroceryScreen from './grocyries/GroceryScreen';
 import HistoryListDetail from './grocyries/HistoryListDetail';
 import ImproveScore from './grocyries/YourListScore';
@@ -75,5 +74,4 @@ export {
   AddNewProduct,
   AddNewScreen,
   CreatedItems,
-  CreatedProductDetail,
 };

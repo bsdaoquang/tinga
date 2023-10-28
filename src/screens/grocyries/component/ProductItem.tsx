@@ -15,7 +15,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 interface Props {
   item: Product;
-  onSelecteItem: () => void;
+  onSelecteItem: (cound: number) => void;
   isSelected: boolean;
   isEdit?: boolean;
   handleRemoveItem?: () => void;
@@ -30,8 +30,7 @@ const ProductItem = (props: Props) => {
 
   return (
     <RowComponent
-      styles={{marginBottom: 16, marginTop: 8, paddingHorizontal: 16}}
-    >
+      styles={{marginBottom: 16, marginTop: 8, paddingHorizontal: 16}}>
       {isEdit ? (
         <Button
           onPress={() =>
@@ -50,9 +49,8 @@ const ProductItem = (props: Props) => {
 
       <ImageProduct imageUrl={item.image} />
       <TouchableOpacity
-        onPress={onSelecteItem}
-        style={{flex: 1, paddingHorizontal: 12}}
-      >
+        onPress={() => onSelecteItem(count)}
+        style={{flex: 1, paddingHorizontal: 12}}>
         <TextComponent
           line={1}
           color={color}
