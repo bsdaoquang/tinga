@@ -73,7 +73,7 @@ export const ButtonComponent = (props: Props) => {
               : appColors.gray
             : color
             ? color
-            : appColors.success,
+            : appColors.success1,
           alignItems: 'center',
           justifyContent: 'center',
           opacity: disable ? 0.7 : 1,

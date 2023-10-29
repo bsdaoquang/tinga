@@ -521,9 +521,11 @@ const ModalProduct = (props: Props) => {
                     </RowComponent>
                   </RowComponent>
                 ) : (
-                  productIngredients.map((item, index) =>
-                    renderProductIngredient(item),
-                  )
+                  <RowComponent>
+                    {productIngredients.map((item, index) =>
+                      renderProductIngredient(item),
+                    )}
+                  </RowComponent>
                 )}
               </View>
             </RowComponent>

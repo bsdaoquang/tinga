@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
+import handleGetData from '../../apis/productAPI';
 import {
   Button,
   ButtonComponent,
@@ -18,11 +19,34 @@ import {appColors} from '../../constants/appColors';
 import {appSize} from '../../constants/appSize';
 import ModalizeInfoGrocery from '../../modals/ModalizeInfoGrocery';
 import AddToList from './component/AddToList';
-import {Product} from '../../Models/Product';
+import {useIsFocused} from '@react-navigation/native';
 
 const GroceryScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
-  const [isAddToList, setIsAddToList] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [productList, setProductList] = useState([]);
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    getMyProductList();
+  }, [isFocused]);
+
+  const getMyProductList = async () => {
+    const api = `/getProduct`;
+    setIsLoading(true);
+    await handleGetData
+      .handleUser(api)
+      .then((res: any) => {
+        setProductList(res);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
   return (
     <Container>
       <SectionComponent>
@@ -52,7 +76,9 @@ const GroceryScreen = ({navigation}: any) => {
           />
         </RowComponent>
       </SectionComponent>
-      {!isAddToList ? (
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : productList.length === 0 ? (
         <>
           <SectionComponent
             styles={{
@@ -95,7 +121,9 @@ const GroceryScreen = ({navigation}: any) => {
                 </View>
               }
               color={appColors.success}
-              onPress={() => setIsAddToList(true)}
+              onPress={() =>
+                navigation.navigate('Explore', {screen: 'ExploreScreen'})
+              }
             />
             <RowComponent onPress={() => navigation.navigate('ShopingHistory')}>
               <Octicons color={appColors.success} size={22} name="history" />

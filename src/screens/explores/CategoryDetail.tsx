@@ -36,7 +36,6 @@ const CategoryDetail = ({navigation, route}: any) => {
       sub_subcategory_id: subSubCategory ?? 0,
       offset: 1,
     };
-    console.log(data);
     setIsLoading(true);
     try {
       await handleGetData.handleProduct(api, data, 'post').then((res: any) => {
@@ -59,8 +58,7 @@ const CategoryDetail = ({navigation, route}: any) => {
           : subCategory
           ? subCategory.name
           : category.name
-      }
-    >
+      }>
       {products.length > 0 ? (
         <FlatList
           numColumns={2}

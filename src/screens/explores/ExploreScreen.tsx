@@ -91,7 +91,7 @@ const ExploreScreen = ({navigation}: any) => {
                   <CategoryItem
                     onPress={() => handleCheckChildrenValues(item)}
                     item={item}
-                    key={`category${item.id}`}
+                    key={`category${item.id}${index}`}
                   />
                 )}
               />

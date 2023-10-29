@@ -1,13 +1,8 @@
 import {Add, Location, Star1} from 'iconsax-react-native';
 import React, {useState} from 'react';
-import {
-  Image,
-  StyleProp,
-  Touchable,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
+import {StyleProp, View, ViewStyle} from 'react-native';
+import FastImage from 'react-native-fast-image';
+import {useSelector} from 'react-redux';
 import {
   Button,
   CardContent,
@@ -19,11 +14,8 @@ import {Product} from '../Models/Product';
 import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
 import {ModalProduct} from '../modals';
-import FastImage from 'react-native-fast-image';
-import {HandleProduct} from '../utils/HandleProduct';
-import {useSelector} from 'react-redux';
 import {authSelector} from '../redux/reducers/authReducer';
-import {BlurView} from '@react-native-community/blur';
+import {HandleProduct} from '../utils/HandleProduct';
 import LockPremiumComponent from './LockPremiumComponent';
 
 interface Props {
@@ -95,7 +87,7 @@ const ProductItemComponent = (props: Props) => {
             right: 10,
           }}
           icon={<Add size={24} color={appColors.white} />}
-          onPress={() => {}}
+          onPress={() => HandleProduct.addToList(item, 1)}
         />
         <View style={{padding: 10}}>
           <TextComponent text={`$ ${item.price}`} size={12} />
