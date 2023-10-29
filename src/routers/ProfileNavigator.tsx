@@ -7,8 +7,8 @@ import {
   ListScores,
   ProfileScreen,
   ReferralTerms,
-  ShopingHistory,
 } from '../screens';
+import MyAddedProducts from '../screens/profiles/MyAddedProducts';
 
 const ProfileNavigator = () => {
   const ProfileStack = createNativeStackNavigator();
@@ -22,6 +22,7 @@ const ProfileNavigator = () => {
       <ProfileStack.Screen name="ListScores" component={ListScores} />
       <ProfileStack.Screen name="ContactSupport" component={ContactSupport} />
       <ProfileStack.Screen name="ReferralTerms" component={ReferralTerms} />
+      <ProfileStack.Screen name="MyAddedProducts" component={MyAddedProducts} />
       <ProfileStack.Screen
         name="ContactDietitian"
         component={ContactDietitian}

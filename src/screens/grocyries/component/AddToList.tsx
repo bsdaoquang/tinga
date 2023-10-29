@@ -401,7 +401,9 @@ const AddToList = (props: Props) => {
             textColor="#13917B"
             textSize={14}
             fontStyles={{fontFamily: fontFamilys.bold}}
-            onPress={() => navigation.navigate('AddNewScreen')}
+            onPress={() =>
+              navigation.navigate('Explore', {screen: 'ExploreScreen'})
+            }
           />
         </View>
         <View style={{flex: 1}}>
