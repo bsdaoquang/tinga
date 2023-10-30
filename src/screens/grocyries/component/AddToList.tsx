@@ -33,6 +33,8 @@ import {global} from '../../../styles/global';
 import {handleCalcTotalByTarget} from '../../../utils/handleCalcTotal';
 import {showToast} from '../../../utils/showToast';
 import ProductItem from './ProductItem';
+import {authSelector} from '../../../redux/reducers/authReducer';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 interface Props {
   isEdit: boolean;
@@ -53,7 +55,7 @@ const AddToList = (props: Props) => {
   const [isUpdating, setIsUpdating] = useState(false);
 
   const navigation: any = useNavigation();
-
+  const auth = useSelector(authSelector);
   const shopingList = useSelector(shopingListSelector);
 
   useEffect(() => {
@@ -230,79 +232,122 @@ const AddToList = (props: Props) => {
               />
             </RowComponent>
             <SpaceComponent height={12} />
-            <RowComponent>
-              <ChartPieItem
-                total={67}
-                size={74}
-                fontSize={28}
-                data={{values: [70, 20, 10]}}
-                radius={0.9}
-              />
-              <View
-                style={{
-                  flex: 1,
-                  paddingLeft: 34,
-                }}>
-                <RowComponent>
-                  <View
-                    style={{
-                      backgroundColor: '#E6EECC',
-                      padding: 4,
-                      borderRadius: 100,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <TextComponent text="👍" size={12} flex={0} />
-                  </View>
-                  <TitleComponent text={` 50%`} size={12} flex={0} />
-                  <TextComponent
-                    text={` (14) Great Choices`}
-                    size={12}
-                    font={fontFamilys.regular}
-                  />
-                </RowComponent>
-                <SpaceComponent height={6} />
-                <RowComponent>
-                  <View
-                    style={{
-                      backgroundColor: '#FFECBF',
-                      padding: 4,
-                      borderRadius: 100,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <TextComponent text="👌" size={12} flex={0} />
-                  </View>
-                  <TitleComponent text={` 20%`} size={12} flex={0} />
-                  <TextComponent
-                    text={` (12) Good`}
-                    size={12}
-                    font={fontFamilys.regular}
-                  />
-                </RowComponent>
+            <View>
+              <RowComponent>
+                <ChartPieItem
+                  total={67}
+                  size={74}
+                  fontSize={28}
+                  data={{values: [70, 20, 10]}}
+                  radius={0.9}
+                />
+                <View
+                  style={{
+                    flex: 1,
+                    paddingLeft: 34,
+                  }}>
+                  <RowComponent>
+                    <View
+                      style={{
+                        backgroundColor: '#E6EECC',
+                        padding: 4,
+                        borderRadius: 100,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <TextComponent text="👍" size={12} flex={0} />
+                    </View>
+                    <TitleComponent text={` 50%`} size={12} flex={0} />
+                    <TextComponent
+                      text={` (14) Great Choices`}
+                      size={12}
+                      font={fontFamilys.regular}
+                    />
+                  </RowComponent>
+                  <SpaceComponent height={6} />
+                  <RowComponent>
+                    <View
+                      style={{
+                        backgroundColor: '#FFECBF',
+                        padding: 4,
+                        borderRadius: 100,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <TextComponent text="👌" size={12} flex={0} />
+                    </View>
+                    <TitleComponent text={` 20%`} size={12} flex={0} />
+                    <TextComponent
+                      text={` (12) Good`}
+                      size={12}
+                      font={fontFamilys.regular}
+                    />
+                  </RowComponent>
 
-                <SpaceComponent height={6} />
-                <RowComponent>
+                  <SpaceComponent height={6} />
+                  <RowComponent>
+                    <View
+                      style={{
+                        backgroundColor: '#FFDBDB',
+                        padding: 4,
+                        borderRadius: 100,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        transform: 'rotate(180deg)',
+                      }}>
+                      <TextComponent text="👍" size={12} flex={0} styles={{}} />
+                    </View>
+                    <TitleComponent text={` 10%`} size={12} flex={0} />
+                    <TextComponent
+                      text={` (4) Limit`}
+                      size={12}
+                      font={fontFamilys.regular}
+                    />
+                  </RowComponent>
+                </View>
+              </RowComponent>
+              {auth.is_premium === 0 && (
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    flex: 0,
+                    backgroundColor: appColors.white,
+                    opacity: 0.92,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 8,
+                  }}>
                   <View
                     style={{
-                      backgroundColor: '#FFDBDB',
-                      padding: 4,
+                      width: 24,
+                      height: 24,
+                      backgroundColor: appColors.primary,
                       borderRadius: 100,
                       justifyContent: 'center',
                       alignItems: 'center',
-                      transform: 'rotate(180deg)',
+                      marginBottom: 12,
                     }}>
-                    <TextComponent text="👍" size={12} flex={0} styles={{}} />
+                    <Fontisto name="locked" size={14} color={appColors.white} />
                   </View>
-                  <TitleComponent text={` 10%`} size={12} flex={0} />
+
                   <TextComponent
-                    text={` (4) Limit`}
-                    size={12}
-                    font={fontFamilys.regular}
+                    text="Upgrade to Premium "
+                    font={fontFamilys.bold}
+                    styles={{textDecorationLine: 'underline'}}
+                    flex={0}
                   />
-                </RowComponent>
-              </View>
-            </RowComponent>
+                  <TextComponent
+                    text="for full food ratings"
+                    font={fontFamilys.bold}
+                    flex={0}
+                  />
+                </View>
+              )}
+            </View>
           </CardContent>
         )}
       </SectionComponent>

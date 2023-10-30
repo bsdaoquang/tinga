@@ -34,6 +34,7 @@ import ModalAlert from '../../modals/ModalAlert';
 import ModalizeFilter from '../../modals/ModalizeFilter';
 import {addAuth, authSelector} from '../../redux/reducers/authReducer';
 import {global} from '../../styles/global';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 const ProfileScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
@@ -243,45 +244,92 @@ const ProfileScreen = ({navigation}: any) => {
           />
         </RowComponent>
         <SpaceComponent height={12} />
-        <CardContent
-          onPress={() => navigation.navigate('ListScoreTrend')}
-          color={appColors.white}
-          isShadow
-          styles={{paddingHorizontal: 37}}>
-          <View style={global.center}>
-            <ChartPieItem
-              total={80}
-              size={100}
-              fontSize={40}
-              data={{values: [70, 20, 10]}}
-              radius={0.9}
-            />
-            <RowComponent styles={{marginVertical: 8}}>
-              <AntDesign name="caretup" color={appColors.success1} size={12} />
-              <Text
-                style={[
-                  global.text,
-                  {
-                    fontFamily: fontFamilys.bold,
-                    flex: 0,
-                  },
-                ]}>
-                {' '}
-                6pt{' '}
-                <Text style={{fontFamily: fontFamilys.regular}}>
-                  since last list
+        <View>
+          <CardContent
+            onPress={() => navigation.navigate('ListScoreTrend')}
+            color={appColors.white}
+            isShadow
+            styles={{paddingHorizontal: 37}}>
+            <View style={global.center}>
+              <ChartPieItem
+                total={80}
+                size={100}
+                fontSize={40}
+                data={{values: [70, 20, 10]}}
+                radius={0.9}
+              />
+              <RowComponent styles={{marginVertical: 8}}>
+                <AntDesign
+                  name="caretup"
+                  color={appColors.success1}
+                  size={12}
+                />
+                <Text
+                  style={[
+                    global.text,
+                    {
+                      fontFamily: fontFamilys.bold,
+                      flex: 0,
+                    },
+                  ]}>
+                  {' '}
+                  6pt{' '}
+                  <Text style={{fontFamily: fontFamilys.regular}}>
+                    since last list
+                  </Text>
                 </Text>
-              </Text>
+              </RowComponent>
+            </View>
+            <RowComponent justify="space-between">
+              {renderPercentage(70, '#AAC54E', 'Great Choices')}
+
+              {renderPercentage(20, '#FFD97D', 'Good')}
+
+              {renderPercentage(10, '#F15D59', 'Limit')}
             </RowComponent>
-          </View>
-          <RowComponent justify="space-between">
-            {renderPercentage(70, '#AAC54E', 'Great Choices')}
+          </CardContent>
+          {auth.is_premium === 0 && (
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+                flex: 0,
+                backgroundColor: appColors.white,
+                opacity: 0.92,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 8,
+              }}>
+              <View
+                style={{
+                  width: 24,
+                  height: 24,
+                  backgroundColor: appColors.primary,
+                  borderRadius: 100,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginBottom: 12,
+                }}>
+                <Fontisto name="locked" size={14} color={appColors.white} />
+              </View>
 
-            {renderPercentage(20, '#FFD97D', 'Good')}
-
-            {renderPercentage(10, '#F15D59', 'Limit')}
-          </RowComponent>
-        </CardContent>
+              <TextComponent
+                text="Upgrade to Premium "
+                font={fontFamilys.bold}
+                styles={{textDecorationLine: 'underline'}}
+                flex={0}
+              />
+              <TextComponent
+                text="for full food ratings"
+                font={fontFamilys.bold}
+                flex={0}
+              />
+            </View>
+          )}
+        </View>
       </SectionComponent>
       <SectionComponent>
         <TabbarComponent
