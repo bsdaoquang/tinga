@@ -39,12 +39,14 @@ const ProductItem = (props: Props) => {
           icon={<AntDesign name="close" size={20} color={appColors.text} />}
         />
       ) : (
-        <CheckBox
-          disabled
-          lineWidth={1.0}
-          tintColors={{true: appColors.success1, false: appColors.gray}}
-          value={isSelected}
-        />
+        <TouchableOpacity onPress={() => onSelecteItem(count)}>
+          <CheckBox
+            disabled
+            lineWidth={1.0}
+            tintColors={{true: appColors.success1, false: appColors.gray}}
+            value={isSelected}
+          />
+        </TouchableOpacity>
       )}
 
       <ImageProduct imageUrl={item.image} />

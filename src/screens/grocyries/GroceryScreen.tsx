@@ -20,11 +20,16 @@ import {appSize} from '../../constants/appSize';
 import ModalizeInfoGrocery from '../../modals/ModalizeInfoGrocery';
 import AddToList from './component/AddToList';
 import {useIsFocused} from '@react-navigation/native';
+import {LoadingModal, ModalizeEditShopList} from '../../modals';
+import {showToast} from '../../utils/showToast';
 
 const GroceryScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [productList, setProductList] = useState([]);
+  const [isVisibleModalEditList, setIsVisibleModalEditList] = useState(false);
+  const [isEditList, setIsEditList] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const isFocused = useIsFocused();
 
@@ -33,10 +38,10 @@ const GroceryScreen = ({navigation}: any) => {
   }, [isFocused]);
 
   const getMyProductList = async () => {
-    const api = `/getProduct`;
+    const api = `/listOfProducts`;
     setIsLoading(true);
     await handleGetData
-      .handleUser(api)
+      .handleProduct(api, undefined, 'post')
       .then((res: any) => {
         setProductList(res);
         setIsLoading(false);
@@ -45,6 +50,37 @@ const GroceryScreen = ({navigation}: any) => {
         console.log(error);
         setIsLoading(false);
       });
+  };
+  const handleModalId = (id: string) => {
+    if (id === 'edit') {
+      setIsEditList(true);
+    } else {
+      navigation.navigate('');
+    }
+
+    setIsVisibleModalEditList(false);
+  };
+
+  const onRemoveItemFromList = async (id: number) => {
+    const api = `/listItemsDelete`;
+    const data = {
+      item_ids: id,
+    };
+
+    setIsUpdating(true);
+    await handleGetData
+      .handleProduct(api, data, 'post')
+      .then(() => {
+        setIsUpdating(false);
+
+        getMyProductList();
+      })
+      .catch(error => {
+        setIsUpdating(false);
+        showToast(JSON.stringify(error));
+      });
+
+    setIsEditList(false);
   };
 
   return (
@@ -55,7 +91,7 @@ const GroceryScreen = ({navigation}: any) => {
             icon={
               <Feather name="more-vertical" size={24} color={appColors.gray5} />
             }
-            onPress={() => {}}
+            onPress={() => setIsVisibleModalEditList(true)}
           />
         </RowComponent>
         <RowComponent justify="flex-start">
@@ -137,13 +173,24 @@ const GroceryScreen = ({navigation}: any) => {
           </SectionComponent>
         </>
       ) : (
-        <AddToList isEdit={false} selectedItems={items => console.log(items)} />
+        <AddToList
+          products={productList}
+          isEdit={isEditList}
+          selectedItems={items => console.log(items)}
+          onRemoveItem={(id: number) => onRemoveItemFromList(id)}
+        />
       )}
 
       <ModalizeInfoGrocery
         visible={isVisibleModalInfo}
         onClose={() => setIsVisibleModalInfo(false)}
       />
+      <ModalizeEditShopList
+        visible={isVisibleModalEditList}
+        onClose={() => setIsVisibleModalEditList(false)}
+        onPress={id => handleModalId(id)}
+      />
+      <LoadingModal visible={isUpdating} />
     </Container>
   );
 };

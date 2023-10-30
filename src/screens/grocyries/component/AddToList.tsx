@@ -1,15 +1,17 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {Add} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  SectionList,
   TouchableOpacity,
   View,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useSelector} from 'react-redux';
 import {Product} from '../../../Models/Product';
+import {UserChoose} from '../../../Models/UserChoose';
 import handleGetData from '../../../apis/productAPI';
 import {
   Button,
@@ -23,48 +25,38 @@ import {
   TitleComponent,
 } from '../../../components';
 import {appColors} from '../../../constants/appColors';
+import {appInfos} from '../../../constants/appInfos';
 import {fontFamilys} from '../../../constants/fontFamily';
+import {LoadingModal} from '../../../modals';
+import {shopingListSelector} from '../../../redux/reducers/shopingListReducer';
 import {global} from '../../../styles/global';
+import {handleCalcTotalByTarget} from '../../../utils/handleCalcTotal';
 import {showToast} from '../../../utils/showToast';
 import ProductItem from './ProductItem';
-import {useDispatch, useSelector} from 'react-redux';
-import {
-  addList,
-  shopingListSelector,
-} from '../../../redux/reducers/shopingListReducer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {appInfos} from '../../../constants/appInfos';
-import {LoadingModal} from '../../../modals';
-import {UserChoose} from '../../../Models/UserChoose';
-import {
-  handleCalcTotal,
-  handleCalcTotalByTarget,
-} from '../../../utils/handleCalcTotal';
 
 interface Props {
   isEdit: boolean;
   selectedItems: (items: Product[]) => void;
+  products: Product[];
+  onRemoveItem: (id: number) => void;
 }
 
 const AddToList = (props: Props) => {
-  const {isEdit, selectedItems} = props;
+  const {isEdit, selectedItems, products, onRemoveItem} = props;
 
   const [store, setStore] = useState<UserChoose[]>([]);
   const [storeSelected, setStoreSelected] = useState('all');
   const [directionScroll, setDirectionScroll] = useState('up');
   const [isShowScoreCard, setIsShowScoreCard] = useState(true);
-  const [products, setProducts] = useState<Product[]>([]);
   const [productSelected, setProductSelected] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
   const navigation: any = useNavigation();
-  const dispatch = useDispatch();
 
   const shopingList = useSelector(shopingListSelector);
 
   useEffect(() => {
-    getAllProducts();
     handleGetShops();
   }, []);
 
@@ -116,32 +108,32 @@ const AddToList = (props: Props) => {
     setProductSelected([...items]);
   };
 
-  const getAllProducts = async () => {
-    const api = `/getProductListing`;
-    setIsLoading(true);
-    try {
-      await handleGetData
-        .handleProduct(
-          api,
-          {
-            category_id: '0',
-            subcategory_id: '0',
-            sub_subcategory_id: '0',
-            offset: '0',
-          },
-          'post',
-        )
-        .then((res: any) => {
-          setProducts(res);
-          setIsLoading(false);
-        });
-    } catch (error) {
-      setIsLoading(false);
-      setIsLoading(false);
-      console.log(error);
-      showToast('Can not get product list');
-    }
-  };
+  // const getAllProducts = async () => {
+  //   const api = `/getProductListing`;
+  //   setIsLoading(true);
+  //   try {
+  //     await handleGetData
+  //       .handleProduct(
+  //         api,
+  //         {
+  //           category_id: '0',
+  //           subcategory_id: '0',
+  //           sub_subcategory_id: '0',
+  //           offset: '0',
+  //         },
+  //         'post',
+  //       )
+  //       .then((res: any) => {
+  //         setProducts(res);
+  //         setIsLoading(false);
+  //       });
+  //   } catch (error) {
+  //     setIsLoading(false);
+  //     setIsLoading(false);
+  //     console.log(error);
+  //     showToast('Can not get product list');
+  //   }
+  // };
 
   const renderTabStore = (item: any) => {
     const totalItems = productSelected.filter(
@@ -187,15 +179,21 @@ const AddToList = (props: Props) => {
     // });
   };
 
-  const handleAddProductToList = async () => {
-    console.log(productSelected);
-    // dispatch(addList(productSelected));
+  const handleCompleteList = async () => {
+    setIsUpdating(true);
+    const api = `/completeList`;
 
-    // setProductSelected([]);
-    // navigation.navigate('ShopingHistory');
+    await handleGetData
+      .handleProduct(api, undefined, 'post')
+      .then(res => {
+        setIsUpdating(false);
+        navigation.goBack();
+        showToast('Completed list');
+      })
+      .catch(error => {
+        showToast(JSON.stringify(error));
+      });
   };
-
-  const onRemoveItemFromList = (item: Product) => {};
 
   return (
     <>
@@ -375,7 +373,7 @@ const AddToList = (props: Props) => {
             renderItem={({item}) => (
               <ProductItem
                 isEdit={isEdit}
-                handleRemoveItem={() => onRemoveItemFromList(item)}
+                handleRemoveItem={() => onRemoveItem(item.id)}
                 item={item}
                 onSelecteItem={count => handleAddProduct(item, count)}
                 isSelected={
@@ -413,7 +411,7 @@ const AddToList = (props: Props) => {
             fontStyles={{fontFamily: fontFamilys.bold, fontSize: 14}}
             textColor={appColors.white}
             text="COMPLETE MY LIST"
-            onPress={handleAddProductToList}
+            onPress={handleCompleteList}
           />
         </View>
       </RowComponent>

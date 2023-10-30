@@ -468,7 +468,12 @@ const ModalizeFilter = (props: Props) => {
                   : renderButton({
                       id: 1,
                       isDiet: true,
-                      text: userChoices?.diets[0].name ?? '',
+                      text:
+                        userChoices &&
+                        userChoices.diets &&
+                        userChoices.diets.length > 0
+                          ? userChoices?.diets[0].name
+                          : '',
                       isRight: false,
                       isSelected: true,
                       onPress: () => setIsShowDiets(true),
