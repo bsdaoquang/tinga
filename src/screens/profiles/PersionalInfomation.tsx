@@ -29,9 +29,8 @@ const PersionalInfomation = ({navigation, route}: any) => {
     last_name: '',
   });
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isVisibleModalUpdatePhoto, setIsVisibleModalUpdatePhoto] = useState(
-    false,
-  );
+  const [isVisibleModalUpdatePhoto, setIsVisibleModalUpdatePhoto] =
+    useState(false);
   const [imageFile, setImageFile] = useState<any>();
   const [imageUrl, setImageUrl] = useState('');
 
@@ -53,14 +52,13 @@ const PersionalInfomation = ({navigation, route}: any) => {
     const api = `/save`;
     const data = new FormData();
 
-    const image = await handleResizeImage(imageFile);
-
     setIsUpdating(true);
 
     data.append('first_name', profileDetail.first_name);
     data.append('last_name', profileDetail.last_name);
 
     if (imageFile) {
+      const image = await handleResizeImage(imageFile);
       data.append('image', image);
     }
 
@@ -112,8 +110,7 @@ const PersionalInfomation = ({navigation, route}: any) => {
               justifyContent: 'center',
               alignItems: 'center',
               marginVertical: 20,
-            }}
-          >
+            }}>
             {imageUrl && (
               <>
                 <FastImage
@@ -127,8 +124,7 @@ const PersionalInfomation = ({navigation, route}: any) => {
                   resizeMode={FastImage.resizeMode.cover}
                 />
                 <RowComponent
-                  onPress={() => setIsVisibleModalUpdatePhoto(true)}
-                >
+                  onPress={() => setIsVisibleModalUpdatePhoto(true)}>
                   <TextComponent text="Update image" flex={0} />
                 </RowComponent>
               </>
@@ -138,8 +134,7 @@ const PersionalInfomation = ({navigation, route}: any) => {
                 marginBottom: 20,
                 width: '100%',
                 justifyContent: 'flex-start',
-              }}
-            >
+              }}>
               <Button
                 styles={{flex: 0}}
                 text="Edit Photo"

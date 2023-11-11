@@ -12,19 +12,19 @@ import {SplashScreen} from './src/screens';
 let codePushOptions = {checkFrequency: codePush.CheckFrequency.MANUAL};
 
 const App = () => {
-  const {stop} = useTourGuideController();
+  // const {stop} = useTourGuideController();
 
-  useEffect(() => {
-    codePush.sync({
-      updateDialog: {
-        title: 'Update',
-        optionalInstallButtonLabel: 'Install',
-        optionalIgnoreButtonLabel: 'Cancel',
-        optionalUpdateMessage: 'New version available, please update',
-      },
-      installMode: codePush.InstallMode.IMMEDIATE,
-    });
-  }, []);
+  // useEffect(() => {
+  //   codePush.sync({
+  //     updateDialog: {
+  //       title: 'Update',
+  //       optionalInstallButtonLabel: 'Install',
+  //       optionalIgnoreButtonLabel: 'Cancel',
+  //       optionalUpdateMessage: 'New version available, please update',
+  //     },
+  //     installMode: codePush.InstallMode.IMMEDIATE,
+  //   });
+  // }, []);
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
@@ -39,8 +39,7 @@ const App = () => {
             labels={{
               finish: 'Close',
             }}
-            tooltipComponent={() => null}
-          >
+            tooltipComponent={() => null}>
             <Router />
           </TourGuideProvider>
         </Host>

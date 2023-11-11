@@ -4,7 +4,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {UserChoose} from '../../Models/UserChoose';
 import handleGetData from '../../apis/productAPI';
 import {
-  Button,
   ButtonComponent,
   Container,
   LoadingComponent,
@@ -14,8 +13,8 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import {LoadingModal} from '../../modals';
 import {fontFamilys} from '../../constants/fontFamily';
+import {LoadingModal} from '../../modals';
 
 const ChooseDiet = ({navigation}: any) => {
   const [selected, setSelected] = useState<number[]>([]);
@@ -88,8 +87,10 @@ const ChooseDiet = ({navigation}: any) => {
               onPress={() => setSelected([item.id])}
               style={[
                 {
-                  borderWidth: selected.includes(item.id) ? 2 : 0,
-                  borderColor: appColors.success1,
+                  borderWidth: 2,
+                  borderColor: selected.includes(item.id)
+                    ? appColors.success1
+                    : appColors.white,
                   paddingHorizontal: 16,
                   paddingVertical: 20,
                   justifyContent: 'flex-start',
@@ -98,8 +99,7 @@ const ChooseDiet = ({navigation}: any) => {
                   marginTop: 16,
                 },
               ]}
-              key={item.id}
-            >
+              key={item.id}>
               <TextComponent
                 text={item.name}
                 flex={0}

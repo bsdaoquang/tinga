@@ -199,8 +199,7 @@ const SubscriptionModal = (props: Props) => {
           setPermiumItem(item);
         }}
         color={appColors.text}
-        styles={{padding: 0, alignItems: 'center', marginBottom: 16}}
-      >
+        styles={{padding: 0, alignItems: 'center', marginBottom: 16}}>
         {item.limitedperiod === '1' && (
           <TextComponent
             text="LIMITED-TIME OFFER"
@@ -222,8 +221,7 @@ const SubscriptionModal = (props: Props) => {
                 ? appColors.primary1
                 : appColors.white,
             borderRadius: 8,
-          }}
-        >
+          }}>
           <RowComponent>
             <TitleComponent text={item.title} color={colorText} size={16} />
             <TextComponent
@@ -263,16 +261,14 @@ const SubscriptionModal = (props: Props) => {
         flex: 1,
         height: appSize.height,
         backgroundColor: appColors.white,
-      }}
-    >
+      }}>
       <ScrollView
         style={[
           {
             paddingTop: 32,
             flex: 1,
           },
-        ]}
-      >
+        ]}>
         <SectionComponent>
           <RowComponent justify="flex-end">
             <Button
@@ -297,8 +293,7 @@ const SubscriptionModal = (props: Props) => {
                 fontSize: 36,
                 lineHeight: 32.5,
               },
-            ]}
-          >
+            ]}>
             {isWellCome ? `Try Tinga for free, \n` : `Tinga Premium \n`}
             <Text style={{fontSize: 24}}>
               {isWellCome ? 'cancel anytime.' : 'unlock all features'}
@@ -312,8 +307,7 @@ const SubscriptionModal = (props: Props) => {
                 alignItems: 'flex-start',
                 marginBottom: 8,
               }}
-              key={`desc${index}`}
-            >
+              key={`desc${index}`}>
               <FontAwesome name="check" color={appColors.success1} size={28} />
               <SpaceComponent width={12} />
               <TextComponent text={desc} />
@@ -348,8 +342,9 @@ const SubscriptionModal = (props: Props) => {
                   flex={0}
                 />
                 <TouchableOpacity
-                  onPress={() => Linking.openURL('https://tinga.ca/terms.html')}
-                >
+                  onPress={() =>
+                    Linking.openURL('https://tinga.ca/terms.html')
+                  }>
                   <TextComponent
                     font={fontFamilys.bold}
                     color="#32645B"

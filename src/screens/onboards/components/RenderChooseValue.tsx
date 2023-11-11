@@ -24,8 +24,11 @@ const RenderChooseValue = (props: Props) => {
         global.shadow,
         {
           shadowColor: 'rgba(0, 0, 0, 0.15)',
-          borderWidth: selected && selected.includes(item.id) ? 2 : 0,
-          borderColor: appColors.success1,
+          borderWidth: 2,
+          borderColor:
+            selected && selected.includes(item.id)
+              ? appColors.success1
+              : appColors.white,
         },
       ]}>
       <TextComponent

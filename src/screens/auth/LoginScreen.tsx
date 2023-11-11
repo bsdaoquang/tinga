@@ -74,8 +74,7 @@ const LoginScreen = () => {
         <SectionComponent
           styles={{
             marginTop: 40,
-          }}
-        >
+          }}>
           <Image
             source={require('../../assets/images/TingaLogo.png')}
             style={{width: 175, height: 68, resizeMode: 'contain'}}
@@ -86,8 +85,7 @@ const LoginScreen = () => {
           styles={{
             flex: 1,
             justifyContent: 'center',
-          }}
-        >
+          }}>
           <TitleComponent text="Login" size={26} flex={0} />
           <SpaceComponent height={22} />
           <InputComponent
@@ -104,11 +102,9 @@ const LoginScreen = () => {
 
           <InputComponent
             value={password}
-            max={8}
             placeholder="Password*"
             onChange={val => {
               setPassword(val);
-              // handleCheckPass(password);
             }}
             isSecure
             show={isShowPass}
