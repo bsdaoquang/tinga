@@ -91,8 +91,7 @@ const ChooseStore = ({navigation}: any) => {
       back
       right={
         <Button text="Skip" onPress={() => setIsVisibleModalSubcribe(true)} />
-      }
-    >
+      }>
       <SectionComponent flex={1}>
         <TextComponent text="Grocery Stores" size={12} flex={0} />
         <TitleComponent text="Where do you usually shop?" flex={0} size={26} />
@@ -132,7 +131,7 @@ const ChooseStore = ({navigation}: any) => {
           setIsWellCome(false);
           setIsVisibleModalSubcribe(false);
         }}
-        isWellCome={isWellCome}
+        isWellCome={true}
       />
     </Container>
   );

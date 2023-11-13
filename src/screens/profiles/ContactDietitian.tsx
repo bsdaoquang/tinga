@@ -33,7 +33,7 @@ const ContactDietitian = ({navigation}: any) => {
       description: content,
     };
 
-    const api = `/contactDietitian`;
+    const api = `/contactSupport`;
     setIsSending(true);
     try {
       await dashboardAPI.HandleAPI(api, data, 'post').then((res: any) => {
@@ -46,17 +46,6 @@ const ContactDietitian = ({navigation}: any) => {
             onOK: () => navigation.goBack(),
           });
           setIsVisibleModalCustom(true);
-          // Alert.alert(
-          //   'Hi there!',
-          //   `Thank you for getting in touch. We're working on your inquiry, and we will try to get back to you within 1-2 bussiness days. \n\nThanks!\nYour friendly Dietitian`,
-          //   [
-          //     {
-          //       text: 'OK',
-          //       onPress: () => navigation.goBack(),
-          //       style: 'default',
-          //     },
-          //   ],
-          // );
         }
       });
     } catch (error) {

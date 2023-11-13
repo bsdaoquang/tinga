@@ -30,7 +30,11 @@ const ModalRegisterPermium = (props: Props) => {
   };
 
   return (
-    <Modal visible={isVisible} transparent animationType="slide">
+    <Modal
+      visible={isVisible}
+      transparent
+      animationType="slide"
+      statusBarTranslucent>
       <View style={[global.modalContainer]}>
         <View style={[global.modalContent]}>
           <RowComponent justify="flex-end">
@@ -57,8 +61,7 @@ const ModalRegisterPermium = (props: Props) => {
             style={{
               // paddingHorizontal: 20,
               marginVertical: 20,
-            }}
-          >
+            }}>
             <ButtonComponent
               text="Successful Transaction"
               onPress={() => onSubcription(false)}

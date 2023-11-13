@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import React, {useState} from 'react';
-import {Image, Linking, Text, View} from 'react-native';
+import {Image, Linking, Text, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -210,19 +210,22 @@ const ProfileScreen = ({navigation}: any) => {
       <SectionComponent>
         <RowComponent>
           <TitleComponent text="Profile" size={28} />
-          <Image
-            source={
-              auth.url
-                ? {uri: auth.url}
-                : require('../../assets/images/profileIcon.png')
-            }
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: 100,
-              resizeMode: 'cover',
-            }}
-          />
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PersionalInfomation')}>
+            <Image
+              source={
+                auth.url
+                  ? {uri: auth.url}
+                  : require('../../assets/images/profileIcon.png')
+              }
+              style={{
+                width: 48,
+                height: 48,
+                borderRadius: 100,
+                resizeMode: 'cover',
+              }}
+            />
+          </TouchableOpacity>
         </RowComponent>
       </SectionComponent>
       <SectionComponent>

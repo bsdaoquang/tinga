@@ -35,6 +35,7 @@ const RenderChooseValue = (props: Props) => {
         text={item.name}
         flex={0}
         color={appColors.text2}
+        size={selected && selected.includes(item.id) ? 14 : 14}
         font={
           selected && selected.includes(item.id)
             ? fontFamilys.bold

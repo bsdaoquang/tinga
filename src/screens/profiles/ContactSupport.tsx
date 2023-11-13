@@ -45,17 +45,6 @@ const ContactSupport = ({navigation}: any) => {
             onOK: () => navigation.goBack(),
           });
           setIsVisibleModalCustom(true);
-          // Alert.alert(
-          //   'Hi there!',
-          //   `Thank you for getting in touch. We're working on your inquiry, and we will try to get back to you within 1-2 bussiness days. \n\nThanks!\nYour friendly Dietitian`,
-          //   [
-          //     {
-          //       text: 'OK',
-          //       onPress: () => navigation.goBack(),
-          //       style: 'default',
-          //     },
-          //   ],
-          // );
         }
       });
     } catch (error) {
