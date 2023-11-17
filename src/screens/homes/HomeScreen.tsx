@@ -140,7 +140,7 @@ const HomeScreen = ({navigation, route}: any) => {
             <SpaceComponent width={8} />
             <TouchableOpacity
               style={{flex: 1, paddingRight: 12}}
-              onPress={() => navigation.navigate('Profile')}>
+              onPress={() => navigation.navigate('ProfileScreen')}>
               <TitleComponent
                 line={1}
                 text={`Hi, ${auth.first_name}`}

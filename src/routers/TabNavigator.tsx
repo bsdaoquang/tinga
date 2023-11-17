@@ -8,8 +8,9 @@ import {appColors} from '../constants/appColors';
 import ExploreNavigator from './ExploreNavigator';
 import GroceryNavigator from './GroceryNavigator';
 import HomeNavigator from './HomeNavigator';
-import ProfileNavigator from './ProfileNavigator';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import RecipeNavigator from './RecipeNavigator';
+import {Union, UnionSelected} from '../assets/svg';
 
 const TabNavigator = () => {
   const Tabs = createBottomTabNavigator();
@@ -62,6 +63,8 @@ const TabNavigator = () => {
             ) : (
               <AntDesign name="shoppingcart" size={size + 2} color={color} />
             );
+          } else if (route.name === 'Recipes') {
+            icon = focused ? <UnionSelected /> : <Union />;
           } else {
             icon = (
               <User
@@ -75,9 +78,10 @@ const TabNavigator = () => {
         },
       })}>
       <Tabs.Screen name="Home" component={HomeNavigator} />
+      <Tabs.Screen name="Recipes" component={RecipeNavigator} />
       <Tabs.Screen name="Explore" component={ExploreNavigator} />
       <Tabs.Screen name="Grocery List" component={GroceryNavigator} />
-      <Tabs.Screen name="Profile" component={ProfileNavigator} />
+      {/* <Tabs.Screen name="Profile" component={ProfileNavigator} /> */}
     </Tabs.Navigator>
   );
 };

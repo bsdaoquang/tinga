@@ -9,6 +9,8 @@ import SettingIcon from './SettingIcon.svg';
 import Users from './Users.svg';
 import HeartBold from './HeartBold.svg';
 import GoogleIcon from './GoogleIcon.svg';
+import Union from './Union.svg';
+import UnionSelected from './UnionSelected.svg';
 export {
   TingaLogo,
   Circle1,
@@ -20,5 +22,7 @@ export {
   SettingIcon,
   Users,
   HeartBold,
-  GoogleIcon
+  GoogleIcon,
+  Union,
+  UnionSelected,
 };

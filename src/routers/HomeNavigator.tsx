@@ -4,11 +4,16 @@ import {
   ContactDietitian,
   ContactSupport,
   HomeScreen,
+  ListScoreTrend,
+  ListScores,
+  ProfileScreen,
+  ReferralTerms,
   TipDetail,
   TipsScreens,
   VideosScreen,
 } from '../screens';
 import VideoPlayer from '../screens/homes/components/VideoPlayer';
+import MyAddedProducts from '../screens/profiles/MyAddedProducts';
 
 const HomeNavigator = () => {
   const HomeStack = createNativeStackNavigator();
@@ -23,9 +28,13 @@ const HomeNavigator = () => {
       <HomeStack.Screen name="TipsScreens" component={TipsScreens} />
       <HomeStack.Screen name="TipDetail" component={TipDetail} />
       <HomeStack.Screen name="ContactSupport" component={ContactSupport} />
-      <HomeStack.Screen name="ContactDietitian" component={ContactDietitian} />
       <HomeStack.Screen name="VideoPlayer" component={VideoPlayer} />
-      {/* <HomeStack.Screen name="BarCodeScreen" component={BarCodeScreen} /> */}
+      <HomeStack.Screen name="ProfileScreen" component={ProfileScreen} />
+      <HomeStack.Screen name="ListScoreTrend" component={ListScoreTrend} />
+      <HomeStack.Screen name="ListScores" component={ListScores} />
+      <HomeStack.Screen name="ReferralTerms" component={ReferralTerms} />
+      <HomeStack.Screen name="MyAddedProducts" component={MyAddedProducts} />
+      <HomeStack.Screen name="ContactDietitian" component={ContactDietitian} />
     </HomeStack.Navigator>
   );
 };
