@@ -11,10 +11,11 @@ interface Props {
   seemore?: boolean;
   onPress?: () => void;
   styles?: StyleProp<ViewStyle>;
+  textMore?: string;
 }
 
 const TabbarComponent = (props: Props) => {
-  const {title, seemore, onPress, styles} = props;
+  const {title, seemore, onPress, styles, textMore} = props;
 
   return (
     <RowComponent
@@ -29,7 +30,7 @@ const TabbarComponent = (props: Props) => {
       {seemore && onPress && (
         <TouchableOpacity onPress={onPress}>
           <TextComponent
-            text="View All"
+            text={textMore ?? 'View All'}
             flex={0}
             color={appColors.success2}
             size={14}

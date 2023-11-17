@@ -9,6 +9,7 @@ import TextComponent from './TextComponent';
 import RowComponent from './RowComponent';
 import {CheftHatSuccess, UnionSelected} from '../assets/svg';
 import SpaceComponent from './SpaceComponent';
+import {global} from '../styles/global';
 
 interface Props {
   item: any;
@@ -19,15 +20,17 @@ const RecipeItemComponent = (props: Props) => {
 
   return (
     <View
-      style={{
-        width: (appSize.width - (32 + 12)) / 2,
-
-        marginBottom: 16,
-        padding: 0,
-        backgroundColor: appColors.white,
-        borderRadius: 10,
-        height: 180,
-      }}>
+      style={[
+        global.shadow,
+        {
+          width: (appSize.width - (32 + 12)) / 2,
+          marginBottom: 16,
+          padding: 0,
+          backgroundColor: appColors.white,
+          borderRadius: 10,
+          height: 180,
+        },
+      ]}>
       <View
         style={{
           flex: 1,

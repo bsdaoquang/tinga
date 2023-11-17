@@ -38,6 +38,7 @@ import CategoriesList from './components/CategoriesList';
 import HomeCarousels from './components/HomeCarousels';
 import Promotions from './components/Promotions';
 import VideoComponent from './components/VideoComponent';
+import RecipesList from './components/RecipesList';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -229,6 +230,7 @@ const HomeScreen = ({navigation, route}: any) => {
           }}>
           <CategoriesList title="Tips for you" url="/tipsForYou" />
           <CategoriesList title="Healthier Planning" url={'/healthiereating'} />
+          <RecipesList />
         </SectionComponent>
 
         <SectionComponent

@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {FlatList, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import {Tip} from '../../../Models/TipModel';
 import dashboardAPI from '../../../apis/dashboardAPI';
 import {
@@ -9,12 +10,10 @@ import {
   TextComponent,
   TitleComponent,
 } from '../../../components';
-import {appColors} from '../../../constants/appColors';
-import {showToast} from '../../../utils/showToast';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-import {useSelector} from 'react-redux';
-import {authSelector} from '../../../redux/reducers/authReducer';
 import LockPremiumComponent from '../../../components/LockPremiumComponent';
+import {appColors} from '../../../constants/appColors';
+import {authSelector} from '../../../redux/reducers/authReducer';
+import {showToast} from '../../../utils/showToast';
 interface Props {
   title: string;
   url: string;
@@ -77,8 +76,7 @@ const CategoriesList = ({title, url}: Props) => {
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 16,
-      }}
-    >
+      }}>
       <LockPremiumComponent />
       <TitleComponent
         text={item.title}
@@ -124,8 +122,7 @@ const CategoriesList = ({title, url}: Props) => {
               flex: 1,
               marginTop: 4,
               alignItems: 'center',
-            }}
-          >
+            }}>
             {renderDotsView(tips, indexItem)}
           </View>
         </>
