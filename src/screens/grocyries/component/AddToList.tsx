@@ -414,8 +414,9 @@ const AddToList = (props: Props) => {
                 />
               </RowComponent>
             }
+            keyExtractor={() => `${Math.random() * 1000000000}product`}
             showsVerticalScrollIndicator={false}
-            renderItem={({item}) => (
+            renderItem={({item, index}) => (
               <ProductItem
                 isEdit={isEdit}
                 handleRemoveItem={() => onRemoveItem(item.id)}

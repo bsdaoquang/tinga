@@ -188,7 +188,22 @@ const HomeCarousels = () => {
       </TourGuideZone>
       <CardContent styles={{marginHorizontal: 8}}>
         <TitleComponent
-          text={'Step 2 - Create your first\ngrocery list'}
+          text={'Step 2 - Generate and\nfavourite your first recipe'}
+          flex={0}
+          size={20}
+        />
+        <TextComponent text="" flex={0} />
+        <SpaceComponent height={16} />
+        <ButtonComponent
+          onPress={() => {}}
+          text="EXPLORE RECIPE GENERATOR"
+          color={appColors.success}
+          textColor={appColors.white}
+        />
+      </CardContent>
+      <CardContent styles={{marginHorizontal: 8}}>
+        <TitleComponent
+          text={'Step 3 - Create your first\ngrocery list'}
           flex={0}
           size={20}
         />

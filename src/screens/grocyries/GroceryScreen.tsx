@@ -31,11 +31,9 @@ const GroceryScreen = ({navigation}: any) => {
   const [isEditList, setIsEditList] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const isFocused = useIsFocused();
-
   useEffect(() => {
     getMyProductList();
-  }, [isFocused]);
+  }, []);
 
   const getMyProductList = async () => {
     const api = `/listOfProducts`;
@@ -51,6 +49,7 @@ const GroceryScreen = ({navigation}: any) => {
         setIsLoading(false);
       });
   };
+
   const handleModalId = (id: string) => {
     if (id === 'edit') {
       setIsEditList(true);

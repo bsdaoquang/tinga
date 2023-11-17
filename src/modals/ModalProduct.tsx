@@ -144,6 +144,7 @@ const ModalProduct = (props: Props) => {
 
     return (
       <View
+        key={`item${item.title}`}
         style={{
           borderWidth: 1,
           borderColor: '#dbdbdb',
@@ -282,7 +283,7 @@ const ModalProduct = (props: Props) => {
           'post',
         )
         .then(res => {
-          console.log(res);
+          // console.log(res);
           showToast('Added');
           getFavouritesList();
         });

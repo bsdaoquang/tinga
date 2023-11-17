@@ -69,27 +69,38 @@ const ShopingHistory = ({navigation}: any) => {
       });
   };
 
+  // useEffect(() => {
+  //   dataHistories.map(itemHis => {
+  //     itemHis.data.forEach(item => {
+  //       console.log(item);
+  //     });
+  //   });
+  // }, [dataHistories]);
+
   const renderCardHistory = (
-    item: {date: string; data: HistoryProduc[]},
-    index: number,
+    items: {date: string; data: HistoryProduc[]},
+    indexlist: number,
   ) => (
     <CardContent
       color={appColors.white}
       isShadow
       styles={{marginBottom: 16}}
-      key={`shoping${index}`}>
+      key={`shoping${indexlist}`}>
       <RowComponent
-        onPress={() => navigation.navigate('HistoryListDetail', {items: item})}>
-        <TextComponent text={item.date} />
+        onPress={() =>
+          navigation.navigate('HistoryListDetail', {items: items})
+        }>
+        <TextComponent text={items.date} />
         <Button
           onPress={() =>
-            navigation.navigate('HistoryListDetail', {items: item})
+            navigation.navigate('HistoryListDetail', {items: items})
           }
           icon={<ArrowRight2 size={18} color={appColors.gray} />}
         />
       </RowComponent>
       <SpaceComponent height={16} />
       <FlatList
+        keyExtractor={() => (Math.random() * 10000000).toFixed(1)}
         ListHeaderComponent={
           <View
             style={{
@@ -104,13 +115,9 @@ const ShopingHistory = ({navigation}: any) => {
             <TextComponent text="👍" size={16} flex={0} />
           </View>
         }
-        data={item.data}
+        data={items.data}
         renderItem={({item, index}) => (
-          <ImageProduct
-            key={`image${index}`}
-            imageUrl={item.image}
-            styles={{marginLeft: 8}}
-          />
+          <ImageProduct imageUrl={item.image} styles={{marginLeft: 8}} />
         )}
         showsHorizontalScrollIndicator={false}
         horizontal

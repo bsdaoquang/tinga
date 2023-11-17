@@ -1,19 +1,20 @@
-import {Gift} from 'iconsax-react-native';
+import {Gift, Health, Heart} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {StatusBar, TouchableOpacity, View} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useTourGuideController} from 'rn-tourguide';
 import {AlertDetail} from '../../Models/AlertDetail';
 import {HistoryProduc} from '../../Models/Product';
 import {VideoModel} from '../../Models/VideoModel';
 import dashboardAPI from '../../apis/dashboardAPI';
 import handleGetData from '../../apis/productAPI';
-import {TingaLogo, Users} from '../../assets/svg';
+import {UnionSelected, Users} from '../../assets/svg';
 import {
   ButtonComponent,
   ButtonIcon,
   CardContent,
+  ChartPieItem,
   Container,
   RowComponent,
   SectionComponent,
@@ -51,20 +52,20 @@ const HomeScreen = ({navigation, route}: any) => {
   const auth = useSelector(authSelector);
 
   useEffect(() => {
-    if (auth.is_premium !== 1) {
-      setTimeout(() => {
-        setIsvisibleModalOffer(true);
-      }, 1500);
-    }
+    // if (auth.is_premium !== 1) {
+    //   setTimeout(() => {
+    //     setIsvisibleModalOffer(true);
+    //   }, 1500);
+    // }
     getVideos();
     getHistoriesListOfProduct();
   }, []);
 
   useEffect(() => {
-    historiesList.length >= 5 &&
-      setTimeout(() => {
-        setIsVisibleModalRating(true);
-      }, 3000);
+    // historiesList.length >= 5 &&
+    //   setTimeout(() => {
+    //     setIsVisibleModalRating(true);
+    //   }, 3000);
   }, []);
 
   const getVideos = async () => {
@@ -136,18 +137,38 @@ const HomeScreen = ({navigation, route}: any) => {
             backgroundColor: appColors.primary,
           }}>
           <RowComponent>
-            <TingaLogo width={28} height={28} />
-            <SpaceComponent width={8} />
             <TouchableOpacity
-              style={{flex: 1, paddingRight: 12}}
+              style={{
+                flex: 1,
+                paddingRight: 12,
+                flexDirection: 'row',
+              }}
               onPress={() => navigation.navigate('ProfileScreen')}>
+              <View
+                style={{
+                  padding: 3,
+                  backgroundColor: appColors.white,
+                  borderRadius: 100,
+                }}>
+                <ChartPieItem
+                  total={80}
+                  size={32}
+                  fontSize={18}
+                  data={{values: [70, 20, 10]}}
+                  radius={0.9}
+                />
+              </View>
+              <SpaceComponent width={8} />
+
               <TitleComponent
                 line={1}
                 text={`Hi, ${auth.first_name}`}
                 size={28}
                 color={appColors.white}
-                height={30}
               />
+            </TouchableOpacity>
+            <TouchableOpacity style={{marginRight: 10}}>
+              <Heart size={30} color={appColors.white} />
             </TouchableOpacity>
             <ButtonIcon
               icon={<Gift color={appColors.error} size={18} variant="Bold" />}
@@ -161,7 +182,7 @@ const HomeScreen = ({navigation, route}: any) => {
             backgroundColor: appColors.white,
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
-            marginTop: -26,
+            marginTop: -36,
             paddingBottom: 12,
             paddingHorizontal: 0,
           }}>
@@ -172,12 +193,9 @@ const HomeScreen = ({navigation, route}: any) => {
                 onPress={() => navigation.navigate('Explore')}
                 styles={{flex: 1, paddingHorizontal: 10}}>
                 <RowComponent>
-                  <EvilIcons
-                    name="search"
-                    color={appColors.success}
-                    size={24}
-                  />
-                  <TitleComponent text="Search products" />
+                  <UnionSelected color={appColors.success} />
+                  <SpaceComponent width={4} />
+                  <TitleComponent text="Generate Recipes" />
                 </RowComponent>
               </CardContent>
               <SpaceComponent width={10} />
