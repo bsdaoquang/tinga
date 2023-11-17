@@ -29,6 +29,7 @@ interface Props {
   fontStyles?: StyleProp<TextStyle>;
   disableColor?: string;
   disableTextColor?: string;
+  textStyles?: StyleProp<TextStyle>;
 }
 
 export const ButtonComponent = (props: Props) => {
@@ -49,6 +50,7 @@ export const ButtonComponent = (props: Props) => {
     height,
     iconRight,
     styles,
+    textStyles,
   } = props;
 
   return (

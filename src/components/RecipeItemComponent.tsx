@@ -3,7 +3,7 @@ import CardContent from './CardContent';
 import TitleComponent from './TitleComponent';
 import {appSize} from '../constants/appSize';
 import {appColors} from '../constants/appColors';
-import {View} from 'react-native';
+import {StyleProp, TouchableOpacity, View, ViewStyle} from 'react-native';
 import {fontFamilys} from '../constants/fontFamily';
 import TextComponent from './TextComponent';
 import RowComponent from './RowComponent';
@@ -13,13 +13,16 @@ import {global} from '../styles/global';
 
 interface Props {
   item: any;
+  styles?: StyleProp<ViewStyle>;
+  onPress?: () => void;
 }
 
 const RecipeItemComponent = (props: Props) => {
-  const {item} = props;
+  const {item, styles, onPress} = props;
 
   return (
-    <View
+    <TouchableOpacity
+      onPress={onPress}
       style={[
         global.shadow,
         {
@@ -30,10 +33,11 @@ const RecipeItemComponent = (props: Props) => {
           borderRadius: 10,
           height: 180,
         },
+        styles,
       ]}>
       <View
         style={{
-          flex: 1,
+          flex: 1.5,
           backgroundColor: appColors.success2,
           padding: 10,
           borderTopLeftRadius: 10,
@@ -83,7 +87,7 @@ const RecipeItemComponent = (props: Props) => {
           </View>
         </RowComponent>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -12,6 +12,7 @@ import GoogleIcon from './GoogleIcon.svg';
 import Union from './Union.svg';
 import UnionSelected from './UnionSelected.svg';
 import CheftHatSuccess from './CheftHatSuccess.svg';
+import RecipesGenerate from './RecipeGenerate.svg';
 export {
   TingaLogo,
   Circle1,
@@ -27,4 +28,5 @@ export {
   Union,
   UnionSelected,
   CheftHatSuccess,
+  RecipesGenerate,
 };

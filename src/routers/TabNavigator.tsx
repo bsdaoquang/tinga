@@ -27,11 +27,15 @@ const TabNavigator = () => {
                 borderTopLeftRadius: 12,
                 borderTopRightRadius: 12,
                 height: 67,
+                zIndex: 1,
+                position: 'absolute',
               }
             : {
                 paddingTop: 6,
                 borderTopLeftRadius: 12,
                 borderTopRightRadius: 12,
+                zIndex: 1,
+                position: 'absolute',
               },
 
         tabBarLabel({focused}) {
