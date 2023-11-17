@@ -28,6 +28,8 @@ import {fontFamilys} from '../constants/fontFamily';
 import {products} from '../demoData/products';
 import {global} from '../styles/global';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import ModalFoodScoreInfo from './ModalFoodScoreInfo';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   visible: boolean;
@@ -41,6 +43,9 @@ const ModalizeRecipeDetail = (props: Props) => {
   const [isVisibleIngredients, setIsVisibleIngredients] = useState(false);
   const [isPrepareIngredients, setIsPrepareIngredients] = useState(false);
   const [isShowIntroductions, setIsShowIntroductions] = useState(false);
+  const [isVisibleModalScore, setIsVisibleModalScore] = useState(false);
+
+  const navigation: any = useNavigation();
 
   const prepareIngredient = [
     '1 pound large shrimp, peeled and deveined',
@@ -120,6 +125,12 @@ const ModalizeRecipeDetail = (props: Props) => {
               />
             </View>
             <RowComponent
+              onPress={() => {
+                modalRef.current?.close();
+                navigation.navigate('Grocery List', {
+                  screen: 'GroceryScreen',
+                });
+              }}
               styles={{
                 marginLeft: 12,
                 backgroundColor: appColors.primary,
@@ -187,7 +198,7 @@ const ModalizeRecipeDetail = (props: Props) => {
                       top: 0,
                       right: 0,
                     }}
-                    onPress={() => {}}
+                    onPress={() => setIsVisibleModalScore(true)}
                     icon={
                       <MaterialIcons name="info" size={20} color={'#9F9F9F'} />
                     }
@@ -536,6 +547,11 @@ const ModalizeRecipeDetail = (props: Props) => {
             </View>
           </ScrollView>
         )}
+
+        <ModalFoodScoreInfo
+          visible={isVisibleModalScore}
+          onClose={() => setIsVisibleModalScore(false)}
+        />
       </Modalize>
     </Portal>
   );
