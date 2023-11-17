@@ -1,82 +1,66 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList} from 'react-native';
-import {Product} from '../../Models/Product';
-import handleGetData from '../../apis/productAPI';
+import React, {useState} from 'react';
 import {
   ButtonComponent,
   Container,
-  LoadingComponent,
-  ProductItemComponent,
   RowComponent,
   SectionComponent,
   TitleComponent,
 } from '../../components';
+import FavouritesProducts from './components/FavouritesProducts';
+import {global} from '../../styles/global';
+import {appColors} from '../../constants/appColors';
+import FavouritesRecipes from './components/FavouritesRecipes';
 
 const MyFavourites = ({navigation}: any) => {
-  const [favouritesList, setFavouritesList] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [tabSelectd, setTabSelectd] = useState('products');
 
-  useEffect(() => {
-    getFavouritesList();
-  }, [navigation]);
-
-  const getFavouritesList = async () => {
-    const api = `/listOfFavourites`;
-    setIsLoading(true);
-    await handleGetData
-      .handleProduct(api, {}, 'post')
-      .then((res: any) => {
-        setFavouritesList(res);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.log(error);
-        setIsLoading(false);
-      });
-  };
+  const tabFavourites = [
+    {
+      title: 'Products',
+      key: 'products',
+    },
+    {
+      title: 'Recipes',
+      key: 'recipes',
+    },
+  ];
 
   return (
     <Container back>
       <SectionComponent>
         <TitleComponent text="Favourites" flex={0} height={32} size={32} />
       </SectionComponent>
-      {favouritesList.length > 0 ? (
-        <>
-          <FlatList
-            ListHeaderComponent={
-              <RowComponent
-                justify="flex-start"
-                styles={{marginVertical: 12, paddingHorizontal: 16}}>
-                <ButtonComponent
-                  text={`Products ${favouritesList.length}`}
-                  onPress={() => {}}
-                  styles={{
-                    paddingVertical: 9,
-                    paddingHorizontal: 12,
-                    borderRadius: 100,
-                  }}
-                />
-              </RowComponent>
-            }
-            numColumns={2}
-            horizontal={false}
-            showsVerticalScrollIndicator={false}
-            data={favouritesList}
-            renderItem={({item, index}) => (
-              <ProductItemComponent
-                onReload={getFavouritesList}
-                item={item}
-                styles={{marginLeft: 16}}
-              />
-            )}
-          />
-        </>
+      <SectionComponent>
+        <RowComponent justify="flex-start">
+          {tabFavourites.map(item => (
+            <ButtonComponent
+              styles={[
+                global.button,
+                {
+                  borderRadius: 100,
+                  marginRight: 12,
+                  paddingVertical: 9,
+                  paddingHorizontal: 12,
+                  backgroundColor:
+                    item.key === tabSelectd
+                      ? appColors.success1
+                      : appColors.white,
+                },
+              ]}
+              textColor={
+                item.key === tabSelectd ? appColors.text : appColors.gray
+              }
+              text={item.title}
+              key={item.key}
+              onPress={() => setTabSelectd(item.key)}
+            />
+          ))}
+        </RowComponent>
+      </SectionComponent>
+      {tabSelectd === 'products' ? (
+        <FavouritesProducts />
       ) : (
-        <LoadingComponent
-          isLoading={isLoading}
-          value={favouritesList.length}
-          message={`Opps.. You don't have any shopping history. Start you first shopping trip now!`}
-        />
+        <FavouritesRecipes />
       )}
     </Container>
   );

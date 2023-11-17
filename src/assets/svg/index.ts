@@ -11,6 +11,7 @@ import HeartBold from './HeartBold.svg';
 import GoogleIcon from './GoogleIcon.svg';
 import Union from './Union.svg';
 import UnionSelected from './UnionSelected.svg';
+import CheftHatSuccess from './CheftHatSuccess.svg';
 export {
   TingaLogo,
   Circle1,
@@ -25,4 +26,5 @@ export {
   GoogleIcon,
   Union,
   UnionSelected,
+  CheftHatSuccess,
 };

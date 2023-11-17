@@ -140,7 +140,7 @@ const Container = ({
                         ? navigation.goBack()
                         : navigation.navigate('HomeScreen')
                     }>
-                    <AntDesign name="arrowleft" size={22} color={'#32645B'} />
+                    <AntDesign name="arrowleft" size={22} color={'#41393E'} />
                   </TouchableOpacity>
                 )}
               </RowComponent>
