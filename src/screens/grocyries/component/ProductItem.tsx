@@ -1,5 +1,8 @@
-import {View, Text, Image, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import CheckBox from '@react-native-community/checkbox';
+import {AddSquare, MinusSquare} from 'iconsax-react-native';
+import React, {useState} from 'react';
+import {TouchableOpacity} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Product} from '../../../Models/Product';
 import {
   Button,
@@ -7,11 +10,7 @@ import {
   RowComponent,
   TextComponent,
 } from '../../../components';
-import CheckBox from '@react-native-community/checkbox';
-import {global} from '../../../styles/global';
 import {appColors} from '../../../constants/appColors';
-import {AddSquare, MinusSquare} from 'iconsax-react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 interface Props {
   item: Product;

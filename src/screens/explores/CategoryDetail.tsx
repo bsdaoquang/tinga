@@ -48,6 +48,7 @@ const CategoryDetail = ({navigation, route}: any) => {
       console.log(`Can not get producs items ${error}`);
     }
   };
+  console.log(products);
 
   return (
     <Container
