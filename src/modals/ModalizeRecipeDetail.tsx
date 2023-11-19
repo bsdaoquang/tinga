@@ -1,18 +1,15 @@
-import {
-  Add,
-  ArrowDown2,
-  ArrowUp2,
-  Heart,
-  Location,
-  ShoppingCart,
-} from 'iconsax-react-native';
+import {useNavigation} from '@react-navigation/native';
+import {Add, ArrowDown2, ArrowUp2, Heart, Location} from 'iconsax-react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Octicons from 'react-native-vector-icons/Octicons';
+import Tooltip from 'react-native-walkthrough-tooltip';
 import {Recipe} from '../Models/Recipe';
 import {
   Button,
@@ -27,9 +24,8 @@ import {appSize} from '../constants/appSize';
 import {fontFamilys} from '../constants/fontFamily';
 import {products} from '../demoData/products';
 import {global} from '../styles/global';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {showToast} from '../utils/showToast';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
-import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   visible: boolean;
@@ -44,7 +40,8 @@ const ModalizeRecipeDetail = (props: Props) => {
   const [isPrepareIngredients, setIsPrepareIngredients] = useState(false);
   const [isShowIntroductions, setIsShowIntroductions] = useState(false);
   const [isVisibleModalScore, setIsVisibleModalScore] = useState(false);
-
+  const [shopCount, setShopCount] = useState(0);
+  const [isVisibleTooltips, setIsVisibleTooltips] = useState(false);
   const navigation: any = useNavigation();
 
   const prepareIngredient = [
@@ -79,6 +76,14 @@ const ModalizeRecipeDetail = (props: Props) => {
     }
   }, [visible]);
 
+  useEffect(() => {
+    if (item) {
+      setTimeout(() => {
+        setIsVisibleTooltips(true);
+      }, 3000);
+    }
+  }, []);
+
   const modalRef = useRef<Modalize>();
 
   const handleCloseModal = () => {
@@ -102,9 +107,21 @@ const ModalizeRecipeDetail = (props: Props) => {
             <TouchableOpacity onPress={() => handleCloseModal()}>
               <AntDesign name="close" color={appColors.white} size={22} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleCloseModal()}>
-              <Heart color={appColors.white} size={24} />
-            </TouchableOpacity>
+            <Tooltip
+              topAdjustment={-30}
+              isVisible={isVisibleTooltips}
+              placement="bottom"
+              content={
+                <TitleComponent
+                  flex={0}
+                  text={`Favourite this recipe to\ncome back to it later`}
+                />
+              }
+              onClose={() => setIsVisibleTooltips(false)}>
+              <TouchableOpacity onPress={() => showToast('Waiting for API')}>
+                <Heart color={appColors.white} size={24} />
+              </TouchableOpacity>
+            </Tooltip>
           </RowComponent>
         }
         FooterComponent={
@@ -117,11 +134,23 @@ const ModalizeRecipeDetail = (props: Props) => {
             }}>
             <View style={{flex: 1}}>
               <ButtonComponent
+                disable={shopCount === 9}
+                color={shopCount === 9 ? appColors.gray : appColors.success1}
                 styles={{
                   paddingVertical: 15,
                 }}
-                text="Add 9 Ingredients to List"
-                onPress={() => {}}
+                icon={
+                  shopCount === 9 && (
+                    <Octicons name="check" size={22} color={appColors.white} />
+                  )
+                }
+                textColor={shopCount === 9 ? appColors.white : appColors.text}
+                text={
+                  shopCount === 9
+                    ? 'Added 9 Ingredients to List'
+                    : 'Add 9 Ingredients to List'
+                }
+                onPress={() => setShopCount(9)}
               />
             </View>
             <RowComponent
@@ -130,6 +159,7 @@ const ModalizeRecipeDetail = (props: Props) => {
                 navigation.navigate('Grocery List', {
                   screen: 'GroceryScreen',
                 });
+                setShopCount(0);
               }}
               styles={{
                 marginLeft: 12,
@@ -140,7 +170,7 @@ const ModalizeRecipeDetail = (props: Props) => {
               <FontAwesome5 name="shopping-cart" color={appColors.white} />
               <SpaceComponent width={6} />
               <TitleComponent
-                text="0"
+                text={shopCount.toString()}
                 flex={0}
                 color={appColors.white}
                 font={fontFamilys.medium}

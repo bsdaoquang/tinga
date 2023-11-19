@@ -20,12 +20,17 @@ import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
 import ModalizeFilter from '../../modals/ModalizeFilter';
 import {global} from '../../styles/global';
+import {useSelector} from 'react-redux';
+import {authSelector} from '../../redux/reducers/authReducer';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 const RecipesScreen = ({navigation}: any) => {
   const [isVisibleModalFilter, setIsVisibleModalFilter] = useState(false);
   const [mealOccasion, setMealOccasion] = useState('dinner');
   const [recipeTime, setRecipeTime] = useState(0);
   const [numberOfServings, setNumberOfServings] = useState(1);
+
+  const auth = useSelector(authSelector);
 
   const mealOccasions = [
     {key: 'breakfast', title: 'Breakfase', isReady: false},
@@ -203,23 +208,70 @@ const RecipesScreen = ({navigation}: any) => {
             </TouchableOpacity>
           </RowComponent>
 
-          <TouchableOpacity
-            onPress={() => navigation.navigate('RegenerateRecipes')}
-            style={[
-              global.shadow,
-              global.rowCenter,
-              global.button,
-              {
-                backgroundColor: appColors.success1,
-                marginTop: 20,
-                width: '80%',
-                paddingVertical: 15,
-              },
-            ]}>
-            <RecipesGenerate />
-            <SpaceComponent width={8} />
-            <TitleComponent height={14} text="Generate Recipes" flex={0} />
-          </TouchableOpacity>
+          <View style={{width: '80%', marginTop: 20}}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('RegenerateRecipes')}
+              style={[
+                global.shadow,
+                global.rowCenter,
+                global.button,
+                {
+                  backgroundColor: appColors.success1,
+
+                  paddingVertical: 15,
+                },
+              ]}>
+              <RecipesGenerate />
+              <SpaceComponent width={8} />
+              <TitleComponent height={14} text="Generate Recipes" flex={0} />
+            </TouchableOpacity>
+            {auth.is_premium === 0 && (
+              <View
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  flex: 0,
+                  backgroundColor: `rgba(0,0,0,0.4)`,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 8,
+                  flexDirection: 'row',
+                  paddingHorizontal: 12,
+                }}>
+                <View
+                  style={{
+                    width: 28,
+                    height: 28,
+                    backgroundColor: appColors.white,
+                    borderRadius: 100,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Fontisto name="locked" size={14} color={appColors.primary} />
+                </View>
+                <View style={{paddingLeft: 10}}>
+                  <TextComponent
+                    text="Upgrade to Premium "
+                    font={fontFamilys.bold}
+                    size={20}
+                    color={appColors.white}
+                    styles={{textDecorationLine: 'underline'}}
+                    flex={0}
+                  />
+                  <TitleComponent
+                    text="for recipe generator"
+                    font={fontFamilys.bold}
+                    color={appColors.white}
+                    flex={0}
+                    size={20}
+                  />
+                </View>
+              </View>
+            )}
+          </View>
         </SectionComponent>
       </View>
 

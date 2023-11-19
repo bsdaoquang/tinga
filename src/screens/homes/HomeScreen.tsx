@@ -193,7 +193,12 @@ const HomeScreen = ({navigation, route}: any) => {
               <CardContent
                 onPress={() => navigation.navigate('Explore')}
                 styles={{flex: 1, paddingHorizontal: 10}}>
-                <RowComponent>
+                <RowComponent
+                  onPress={() =>
+                    navigation.navigate('Recipes', {
+                      screen: 'recipeScreen',
+                    })
+                  }>
                   <UnionSelected color={appColors.success} />
                   <SpaceComponent width={4} />
                   <TitleComponent text="Generate Recipes" />

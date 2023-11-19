@@ -195,7 +195,11 @@ const HomeCarousels = () => {
         <TextComponent text="" flex={0} />
         <SpaceComponent height={16} />
         <ButtonComponent
-          onPress={() => {}}
+          onPress={() =>
+            navigation.navigate('Recipes', {
+              screen: 'recipeScreen',
+            })
+          }
           text="EXPLORE RECIPE GENERATOR"
           color={appColors.success}
           textColor={appColors.white}
