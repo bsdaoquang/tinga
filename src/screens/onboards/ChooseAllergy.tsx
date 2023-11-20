@@ -87,6 +87,7 @@ const ChooseAllergy = ({navigation}: any) => {
 
   return (
     <Container
+      paddingBottom={0}
       back
       right={
         <Button

@@ -58,15 +58,15 @@ const HomeScreen = ({navigation, route}: any) => {
 
   const auth = useSelector(authSelector);
 
-  useEffect(() => {
-    // if (auth.is_premium !== 1) {
-    //   setTimeout(() => {
-    //     setIsvisibleModalOffer(true);
-    //   }, 1500);
-    // }
-    getVideos();
-    getHistoriesListOfProduct();
-  }, []);
+  // useEffect(() => {
+  //   if (auth.is_premium !== 1) {
+  //     setTimeout(() => {
+  //       setIsvisibleModalOffer(true);
+  //     }, 1500);
+  //   }
+  //   getVideos();
+  //   getHistoriesListOfProduct();
+  // }, []);
 
   useEffect(() => {
     // historiesList.length >= 5 &&

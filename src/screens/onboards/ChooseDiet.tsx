@@ -72,7 +72,7 @@ const ChooseDiet = ({navigation}: any) => {
   };
 
   return (
-    <Container back>
+    <Container back paddingBottom={0}>
       <SectionComponent flex={1}>
         <TextComponent text="Dietary Preferences" size={12} flex={0} />
         <TitleComponent

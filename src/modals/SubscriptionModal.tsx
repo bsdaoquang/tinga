@@ -91,6 +91,7 @@ const SubscriptionModal = (props: Props) => {
     : [
         'Build health-scored grocery lists tailored\nto your dietary needs',
         'Discover  & swap for healthier options',
+        'Scan & swap for healthier options',
         'Simplified nutritional information ',
         'Access to a resource library to help you\nreach your goals',
       ];
@@ -314,6 +315,7 @@ const SubscriptionModal = (props: Props) => {
             </RowComponent>
           ))}
         </SectionComponent>
+        <View style={{flex: 1}} />
         {subscriptionsPlan.length > 0 ? (
           <>
             <SectionComponent styles={{marginTop: 50}}>
