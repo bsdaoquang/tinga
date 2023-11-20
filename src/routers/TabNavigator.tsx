@@ -11,6 +11,7 @@ import HomeNavigator from './HomeNavigator';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import RecipeNavigator from './RecipeNavigator';
 import {Union, UnionSelected} from '../assets/svg';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const TabNavigator = () => {
   const Tabs = createBottomTabNavigator();
@@ -63,11 +64,7 @@ const TabNavigator = () => {
           } else if (route.name === 'Explore') {
             icon = <SearchNormal1 size={size} color={color} />;
           } else if (route.name === 'Grocery List') {
-            icon = focused ? (
-              <FontAwesome name="shopping-cart" size={size + 2} color={color} />
-            ) : (
-              <AntDesign name="shoppingcart" size={size + 2} color={color} />
-            );
+            icon = <Ionicons name="list-sharp" size={size + 2} color={color} />;
           } else if (route.name === 'Recipes') {
             icon = focused ? <UnionSelected /> : <Union />;
           } else {

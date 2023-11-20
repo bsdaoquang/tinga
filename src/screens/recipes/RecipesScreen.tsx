@@ -1,6 +1,7 @@
 import {AddSquare, MinusSquare} from 'iconsax-react-native';
 import React, {useState} from 'react';
 import {
+  Image,
   ImageBackground,
   StatusBar,
   StyleSheet,
@@ -23,12 +24,14 @@ import {global} from '../../styles/global';
 import {useSelector} from 'react-redux';
 import {authSelector} from '../../redux/reducers/authReducer';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import {appSize} from '../../constants/appSize';
 
 const RecipesScreen = ({navigation}: any) => {
   const [isVisibleModalFilter, setIsVisibleModalFilter] = useState(false);
   const [mealOccasion, setMealOccasion] = useState('dinner');
   const [recipeTime, setRecipeTime] = useState(0);
   const [numberOfServings, setNumberOfServings] = useState(1);
+  const [generating, setGenerating] = useState(false);
 
   const auth = useSelector(authSelector);
 
@@ -45,7 +48,33 @@ const RecipesScreen = ({navigation}: any) => {
       title: '35min +',
     },
   ];
-  return (
+
+  const handleGenerating = () => {
+    setGenerating(true);
+    setTimeout(() => {
+      setGenerating(false);
+      navigation.navigate('RegenerateRecipes');
+    }, 4000);
+  };
+
+  return generating ? (
+    <View
+      style={{
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        backgroundColor: appColors.white,
+      }}>
+      <TextComponent text="Generating..." flex={0} />
+      <Image
+        source={require('../../assets/gif/dice-gif.gif')}
+        style={{
+          width: '80%',
+          resizeMode: 'contain',
+        }}
+      />
+    </View>
+  ) : (
     <ImageBackground
       source={require('../../assets/images/bg-recipescren.png')}
       imageStyle={{
@@ -210,7 +239,7 @@ const RecipesScreen = ({navigation}: any) => {
 
           <View style={{width: '80%', marginTop: 20}}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('RegenerateRecipes')}
+              onPress={handleGenerating}
               style={[
                 global.shadow,
                 global.rowCenter,
