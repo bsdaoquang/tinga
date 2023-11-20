@@ -20,6 +20,7 @@ const Welcome = ({navigation}: any) => {
   return (
     <Container
       top={48}
+      paddingBottom={0}
       backgroundColor={appColors.text}
       barStyle="light-content">
       <View style={{paddingVertical: 20, flex: 1}}>
@@ -49,7 +50,7 @@ const Welcome = ({navigation}: any) => {
             <Welcome4 />
           </Swiper>
         </View>
-        <SectionComponent styles={{marginVertical: 20}}>
+        <SectionComponent styles={{marginVertical: 20, flex: 0}}>
           <ButtonComponent
             text={indexScreen >= 3 ? 'Let’s get started' : 'Next'}
             onPress={() =>

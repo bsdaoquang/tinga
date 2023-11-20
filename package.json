@@ -26,6 +26,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.5.0",
     "iconsax-react-native": "^0.0.8",
+    "lottie-react-native": "^6.4.1",
     "react": "18.2.0",
     "react-native": "0.72.5",
     "react-native-camera": "^4.2.1",

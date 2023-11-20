@@ -49,6 +49,7 @@ const Container = ({
   barStyle,
   onScroll,
   styles,
+  paddingBottom,
 }: {
   children: any;
   top?: number;
@@ -67,6 +68,7 @@ const Container = ({
   onBack?: () => void;
   onScroll?: () => void;
   styles?: StyleProp<ViewStyle>;
+  paddingBottom?: number;
 }) => {
   const [contentY, setContentY] = useState<number>(0);
   const [refeshing, setRefeshing] = useState(false);
@@ -104,7 +106,7 @@ const Container = ({
         {
           paddingTop: top ?? Platform.OS === 'android' ? 32 : 48,
           flex: 1,
-          paddingBottom: 57,
+          paddingBottom: paddingBottom ?? 57,
           backgroundColor: backgroundColor
             ? backgroundColor
             : appColors.bgColor,

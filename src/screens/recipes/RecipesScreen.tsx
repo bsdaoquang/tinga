@@ -25,6 +25,7 @@ import {useSelector} from 'react-redux';
 import {authSelector} from '../../redux/reducers/authReducer';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {appSize} from '../../constants/appSize';
+import LottieView from 'lottie-react-native';
 
 const RecipesScreen = ({navigation}: any) => {
   const [isVisibleModalFilter, setIsVisibleModalFilter] = useState(false);
@@ -57,24 +58,7 @@ const RecipesScreen = ({navigation}: any) => {
     }, 4000);
   };
 
-  return generating ? (
-    <View
-      style={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-        backgroundColor: appColors.white,
-      }}>
-      <TextComponent text="Generating..." flex={0} />
-      <Image
-        source={require('../../assets/gif/dice-gif.gif')}
-        style={{
-          width: '80%',
-          resizeMode: 'contain',
-        }}
-      />
-    </View>
-  ) : (
+  return (
     <ImageBackground
       source={require('../../assets/images/bg-recipescren.png')}
       imageStyle={{
@@ -241,16 +225,29 @@ const RecipesScreen = ({navigation}: any) => {
             <TouchableOpacity
               onPress={handleGenerating}
               style={[
-                global.shadow,
                 global.rowCenter,
-                global.button,
                 {
                   backgroundColor: appColors.success1,
-
-                  paddingVertical: 15,
+                  borderRadius: 12,
+                  paddingVertical: generating ? 0 : 15,
                 },
               ]}>
-              <RecipesGenerate />
+              {generating ? (
+                <LottieView
+                  source={require('../../assets/animation/dice.json')}
+                  style={{
+                    height: 50,
+                    width: 50,
+                    padding: 0,
+                  }}
+                  autoPlay
+                  loop={false}
+                />
+              ) : (
+                <RecipesGenerate />
+              )}
+
+              {/*  */}
               <SpaceComponent width={8} />
               <TitleComponent height={14} text="Generate Recipes" flex={0} />
             </TouchableOpacity>
