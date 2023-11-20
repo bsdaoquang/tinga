@@ -104,6 +104,7 @@ const Container = ({
         {
           paddingTop: top ?? Platform.OS === 'android' ? 32 : 48,
           flex: 1,
+          paddingBottom: 57,
           backgroundColor: backgroundColor
             ? backgroundColor
             : appColors.bgColor,
@@ -204,8 +205,8 @@ const Container = ({
         <View
           style={{
             ...global.container,
-
             backgroundColor: backgroundColor ?? appColors.bgColor,
+            paddingBottom: 16,
           }}>
           {children}
         </View>

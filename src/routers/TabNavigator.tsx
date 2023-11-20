@@ -29,13 +29,14 @@ const TabNavigator = () => {
                 height: 67,
                 zIndex: 1,
                 position: 'absolute',
+                overflow: 'hidden',
+                borderWidth: 0.2,
               }
             : {
                 paddingTop: 6,
                 borderTopLeftRadius: 12,
                 borderTopRightRadius: 12,
                 zIndex: 1,
-                position: 'absolute',
               },
 
         tabBarLabel({focused}) {

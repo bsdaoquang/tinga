@@ -1,6 +1,12 @@
-import {Gift, Health, Heart} from 'iconsax-react-native';
+import {Gift, Health, Heart, SearchNormal1} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {StatusBar, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  ScrollView,
+  StatusBar,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {useSelector} from 'react-redux';
 import {useTourGuideController} from 'rn-tourguide';
@@ -103,8 +109,7 @@ const HomeScreen = ({navigation, route}: any) => {
         isScroll
         backgroundColor={
           auth.is_premium === 1 ? appColors.primary : appColors.text
-        }
-        top={32}>
+        }>
         <StatusBar barStyle={'light-content'} translucent />
 
         {auth.is_premium === 0 && (
@@ -191,7 +196,7 @@ const HomeScreen = ({navigation, route}: any) => {
           <View style={{paddingHorizontal: 16}}>
             <RowComponent>
               <CardContent
-                onPress={() => navigation.navigate('Explore')}
+                onPress={() => navigation.navigate('Recipes')}
                 styles={{flex: 1, paddingHorizontal: 10}}>
                 <RowComponent
                   onPress={() =>
@@ -206,15 +211,15 @@ const HomeScreen = ({navigation, route}: any) => {
               </CardContent>
               <SpaceComponent width={10} />
               <CardContent
-                onPress={() => {}}
+                onPress={() => navigation.navigate('Explore')}
                 styles={{
                   flex: 1,
                   paddingHorizontal: 10,
                 }}>
                 <RowComponent>
-                  <Users width={24} />
+                  <SearchNormal1 color={'#13917B'} size={22} />
                   <SpaceComponent width={4} />
-                  <TitleComponent text="Tinga Community" />
+                  <TitleComponent text="Search products" />
                 </RowComponent>
               </CardContent>
             </RowComponent>
@@ -233,15 +238,26 @@ const HomeScreen = ({navigation, route}: any) => {
             paddingHorizontal: 0,
             backgroundColor: appColors.white,
           }}>
+          <RecipesList />
           <CategoriesList title="Tips for you" url="/tipsForYou" />
           <CategoriesList title="Healthier Planning" url={'/healthiereating'} />
-          <RecipesList />
         </SectionComponent>
 
         <SectionComponent
-          styles={{backgroundColor: appColors.white, paddingBottom: 20}}>
+          styles={{backgroundColor: appColors.white, paddingBottom: 40}}>
           <Promotions />
-          <SpaceComponent height={24} />
+
+          <ButtonComponent
+            icon={<Users width={24} />}
+            text="Tinga Community"
+            color={'rgba(191, 191, 191, 0.21)'}
+            styles={{paddingVertical: 16, marginVertical: 32}}
+            onPress={() => Alert.alert('Info', 'Waiting community url')}
+            fontStyles={{
+              color: appColors.text,
+              fontSize: 16,
+            }}
+          />
 
           <TabbarComponent title="Need Extra Support?" />
           <ButtonComponent
