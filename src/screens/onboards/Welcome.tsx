@@ -14,6 +14,7 @@ import Welcome1 from './components/Welcome1';
 import Welcome2 from './components/Welcome2';
 import Welcome3 from './components/Welcome3';
 import Welcome4 from './components/Welcome4';
+import Welcome5 from './components/Welcome5';
 
 const Welcome = ({navigation}: any) => {
   const [indexScreen, setIndexScreen] = useState(0);
@@ -45,6 +46,7 @@ const Welcome = ({navigation}: any) => {
             dotStyle={{marginBottom: -32}}
             dotColor={appColors.white4}>
             <Welcome1 />
+            <Welcome5 />
             <Welcome2 />
             <Welcome3 />
             <Welcome4 />
@@ -52,9 +54,9 @@ const Welcome = ({navigation}: any) => {
         </View>
         <SectionComponent styles={{marginVertical: 20, flex: 0}}>
           <ButtonComponent
-            text={indexScreen >= 3 ? 'Let’s get started' : 'Next'}
+            text={indexScreen >= 4 ? 'Let’s get started' : 'Next'}
             onPress={() =>
-              indexScreen === 3
+              indexScreen >= 4
                 ? navigation.navigate('HomeLoginScreen')
                 : setIndexScreen(indexScreen + 1)
             }

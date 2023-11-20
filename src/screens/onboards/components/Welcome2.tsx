@@ -7,7 +7,7 @@ const Welcome2 = () => {
   return (
     <View style={{flex: 1}}>
       <RowComponent styles={{alignItems: 'flex-start', paddingHorizontal: 16}}>
-        <TitleComponent text="2. " size={26} color={appColors.white} flex={0} />
+        <TitleComponent text="3. " size={26} color={appColors.white} flex={0} />
         <TitleComponent
           text={`Search, scan and\nswap for healthier,\ndiet-compatible options`}
           size={26}
