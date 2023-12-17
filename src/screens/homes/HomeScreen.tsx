@@ -1,8 +1,7 @@
 import {Gift, Heart, SearchNormal1} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {Alert, StatusBar, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, StatusBar, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
-import {useTourGuideController} from 'rn-tourguide';
 import {AlertDetail} from '../../Models/AlertDetail';
 import {HistoryProduc} from '../../Models/Product';
 import {VideoModel} from '../../Models/VideoModel';
@@ -51,21 +50,23 @@ const HomeScreen = ({navigation, route}: any) => {
 
   const auth = useSelector(authSelector);
 
-  // useEffect(() => {
-  //   if (auth.is_premium !== 1) {
-  //     setTimeout(() => {
-  //       setIsvisibleModalOffer(true);
-  //     }, 1500);
-  //   }
-  //   getVideos();
-  //   getHistoriesListOfProduct();
-  // }, []);
+  // console.log(auth);
 
   useEffect(() => {
-    // historiesList.length >= 5 &&
-    //   setTimeout(() => {
-    //     setIsVisibleModalRating(true);
-    //   }, 3000);
+    if (auth.is_premium !== 1) {
+      setTimeout(() => {
+        setIsvisibleModalOffer(true);
+      }, 1500);
+    }
+    getVideos();
+    getHistoriesListOfProduct();
+  }, []);
+
+  useEffect(() => {
+    historiesList.length >= 5 &&
+      setTimeout(() => {
+        setIsVisibleModalRating(true);
+      }, 3000);
   }, []);
 
   const getVideos = async () => {
@@ -81,8 +82,7 @@ const HomeScreen = ({navigation, route}: any) => {
     }
   };
   const getHistoriesListOfProduct = async () => {
-    const api = `/listOfProducts`;
-
+    const api = `/listOfProductsCategorywise`;
     await handleGetData
       .handleProduct(api, {}, 'post')
       .then((res: any) => {
@@ -93,19 +93,12 @@ const HomeScreen = ({navigation, route}: any) => {
       });
   };
 
-  const {stop} = useTourGuideController();
-
   return (
     <>
-      <Container
-        onScroll={() => stop()}
-        isScroll
-        backgroundColor={
-          auth.is_premium === 1 ? appColors.primary : appColors.text
-        }>
+      <Container isScroll backgroundColor={appColors.text}>
         <StatusBar barStyle={'light-content'} translucent />
 
-        {auth.is_premium === 0 && (
+        {auth.is_premium === 0 ? (
           <RowComponent styles={{paddingBottom: 6, paddingTop: 12}}>
             <TextComponent
               color={appColors.white}
@@ -127,6 +120,18 @@ const HomeScreen = ({navigation, route}: any) => {
                 text="Get Tinga Premium"
               />
             </TouchableOpacity>
+          </RowComponent>
+        ) : (
+          <RowComponent>
+            <Image
+              source={require('../../assets/images/premiumLogo.png')}
+              style={{
+                width: 123,
+                height: 30,
+                resizeMode: 'contain',
+                marginVertical: 6,
+              }}
+            />
           </RowComponent>
         )}
         <SectionComponent
@@ -150,7 +155,7 @@ const HomeScreen = ({navigation, route}: any) => {
                   borderRadius: 100,
                 }}>
                 <ChartPieItem
-                  total={80}
+                  total={undefined}
                   size={32}
                   fontSize={18}
                   data={{values: [70, 20, 10]}}
@@ -166,7 +171,9 @@ const HomeScreen = ({navigation, route}: any) => {
                 color={appColors.white}
               />
             </TouchableOpacity>
-            <TouchableOpacity style={{marginRight: 10}}>
+            <TouchableOpacity
+              style={{marginRight: 10}}
+              onPress={() => navigation.navigate('MyFavourites')}>
               <Heart size={30} color={appColors.white} />
             </TouchableOpacity>
             <ButtonIcon

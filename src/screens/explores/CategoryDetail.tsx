@@ -33,22 +33,21 @@ const CategoryDetail = ({navigation, route}: any) => {
     const data = {
       category_id: category.id,
       subcategory_id: subCategory.id ?? 0,
-      sub_subcategory_id: subSubCategory ?? 0,
-      offset: 1,
+      sub_subcategory_id: subSubCategory.id ?? 0,
+      page: 1,
     };
+
     setIsLoading(true);
     try {
-      await handleGetData.handleProduct(api, data, 'post').then((res: any) => {
-        setProducts(res);
-        setIsLoading(false);
-      });
+      const res: any = await handleGetData.handleProduct(api, data, 'post');
+      setProducts(res);
+      setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       showToast(`Can not get producs items`);
       console.log(`Can not get producs items ${error}`);
     }
   };
-  console.log(products);
 
   return (
     <Container

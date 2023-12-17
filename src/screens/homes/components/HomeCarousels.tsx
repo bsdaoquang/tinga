@@ -60,7 +60,7 @@ const HomeCarousels = () => {
   };
 
   const getHistoriesListOfProduct = async () => {
-    const api = `/listOfProducts`;
+    const api = `/listOfProductsCategorywise`;
 
     await handleGetData
       .handleProduct(api, {}, 'post')
@@ -150,42 +150,32 @@ const HomeCarousels = () => {
       horizontal
       showsPagination
       style={{flex: 0, height: 230, paddingVertical: 16}}>
-      <TourGuideZone
-        zone={0}
-        style={{paddingBottom: 30}}
-        borderRadius={16}
-        text="START HERE"
-        shape={'rectangle_and_keep'}>
-        <CardContent styles={{marginHorizontal: 8}}>
-          <TitleComponent
-            text="Step 1 - Reset Your Pantry"
-            flex={0}
-            size={20}
-          />
-          <TextComponent
-            text={`Scan to learn which foods match your\ndietary restrictions and what to swap.`}
-            flex={0}
-          />
-          <SpaceComponent height={16} />
-          <ButtonComponent
-            disable={1 > 2 ? true : false}
-            onPress={() => {
-              stop();
-              navigation.navigate('HomeScan');
-            }}
-            text="Scan my food"
-            icon={
-              <Ionicons
-                name="barcode-outline"
-                size={24}
-                color={appColors.white}
-              />
-            }
-            color={appColors.success}
-            textColor={appColors.white}
-          />
-        </CardContent>
-      </TourGuideZone>
+      <CardContent styles={{marginHorizontal: 8}}>
+        <TitleComponent text="Step 1 - Reset Your Pantry" flex={0} size={20} />
+        <TextComponent
+          text={`Scan to learn which foods match your\ndietary restrictions and what to swap.`}
+          flex={0}
+        />
+        <SpaceComponent height={16} />
+        <ButtonComponent
+          disable={1 > 2 ? true : false}
+          onPress={() => {
+            stop();
+            navigation.navigate('HomeScan');
+          }}
+          text="Scan my food"
+          icon={
+            <Ionicons
+              name="barcode-outline"
+              size={24}
+              color={appColors.white}
+            />
+          }
+          color={appColors.success}
+          textColor={appColors.white}
+        />
+      </CardContent>
+
       <CardContent styles={{marginHorizontal: 8}}>
         <TitleComponent
           text={'Step 2 - Generate and\nfavourite your first recipe'}

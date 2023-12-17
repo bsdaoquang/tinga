@@ -9,7 +9,7 @@ interface ChartData {
 }
 
 interface Props {
-  total: number;
+  total?: number;
   data: ChartData;
   size?: number;
   fontSize?: number;
@@ -37,7 +37,7 @@ const ChartPieItem = (props: Props) => {
         coverRadius={stroke}
       />
       <TitleComponent
-        text={total.toString()}
+        text={total ? total.toString() : '--'}
         flex={0}
         size={fontSize ?? 28}
         styles={{position: 'absolute', left: 0, right: 0, textAlign: 'center'}}
