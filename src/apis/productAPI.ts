@@ -9,7 +9,7 @@ class DataAPI {
     isFile?: boolean,
     onProgress?: (val: any) => void,
   ) => {
-    return await axiosClient(`${appInfos.baseUrl}/api/product${url}`, {
+    const res = await axiosClient(`${appInfos.baseUrl}/api/product${url}`, {
       headers: {
         'Content-Type': isFile ? 'multipart/form-data' : 'application/json',
       },
@@ -17,6 +17,8 @@ class DataAPI {
       data: data ? (isFile ? data : JSON.stringify(data)) : undefined,
       onUploadProgress: onProgress ? onProgress : () => {},
     });
+
+    return res;
   };
   handleUser = async (
     url: string,

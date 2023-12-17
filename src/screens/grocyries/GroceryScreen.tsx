@@ -17,11 +17,10 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {appSize} from '../../constants/appSize';
-import ModalizeInfoGrocery from '../../modals/ModalizeInfoGrocery';
-import AddToList from './component/AddToList';
-import {useIsFocused} from '@react-navigation/native';
 import {LoadingModal, ModalizeEditShopList} from '../../modals';
+import ModalizeInfoGrocery from '../../modals/ModalizeInfoGrocery';
 import {showToast} from '../../utils/showToast';
+import AddToList from './component/AddToList';
 
 const GroceryScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
@@ -30,24 +29,35 @@ const GroceryScreen = ({navigation}: any) => {
   const [isVisibleModalEditList, setIsVisibleModalEditList] = useState(false);
   const [isEditList, setIsEditList] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [cardCount, setCardCount] = useState(0);
 
   useEffect(() => {
     getMyProductList();
   }, []);
 
   const getMyProductList = async () => {
-    const api = `/listOfProducts`;
+    const api = `/listOfProductsCategorywise`;
+    const cardCountAPI = '/getProductGroceryCount';
     setIsLoading(true);
-    await handleGetData
-      .handleProduct(api, undefined, 'post')
-      .then((res: any) => {
-        setProductList(res);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.log(error);
-        setIsLoading(false);
-      });
+
+    try {
+      const products: any = await handleGetData.handleProduct(
+        api,
+        undefined,
+        'post',
+      );
+
+      setProductList(products);
+
+      const res = await handleGetData.handleProduct(cardCountAPI);
+
+      setCardCount(res.data ?? 0);
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
   };
 
   const handleModalId = (id: string) => {
@@ -113,7 +123,14 @@ const GroceryScreen = ({navigation}: any) => {
       </SectionComponent>
       {isLoading ? (
         <ActivityIndicator />
-      ) : productList.length === 0 ? (
+      ) : productList.length > 0 || cardCount > 0 ? (
+        <AddToList
+          products={productList}
+          isEdit={isEditList}
+          selectedItems={items => console.log(items)}
+          onRemoveItem={(id: number) => onRemoveItemFromList(id)}
+        />
+      ) : (
         <>
           <SectionComponent
             styles={{
@@ -171,13 +188,6 @@ const GroceryScreen = ({navigation}: any) => {
             </RowComponent>
           </SectionComponent>
         </>
-      ) : (
-        <AddToList
-          products={productList}
-          isEdit={isEditList}
-          selectedItems={items => console.log(items)}
-          onRemoveItem={(id: number) => onRemoveItemFromList(id)}
-        />
       )}
 
       <ModalizeInfoGrocery

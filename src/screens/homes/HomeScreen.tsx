@@ -1,13 +1,6 @@
-import {Gift, Health, Heart, SearchNormal1} from 'iconsax-react-native';
+import {Gift, Heart, SearchNormal1} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  ScrollView,
-  StatusBar,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import {Alert, StatusBar, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useTourGuideController} from 'rn-tourguide';
 import {AlertDetail} from '../../Models/AlertDetail';
@@ -43,8 +36,8 @@ import {showToast} from '../../utils/showToast';
 import CategoriesList from './components/CategoriesList';
 import HomeCarousels from './components/HomeCarousels';
 import Promotions from './components/Promotions';
-import VideoComponent from './components/VideoComponent';
 import RecipesList from './components/RecipesList';
+import VideoComponent from './components/VideoComponent';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
