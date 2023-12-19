@@ -1,11 +1,18 @@
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {AddSquare, SearchNormal1} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {FlatList, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Product} from '../../../Models/Product';
 import handleGetData from '../../../apis/productAPI';
-import {SettingIcon} from '../../../assets/svg';
 import {
   Button,
   ButtonComponent,
@@ -16,12 +23,12 @@ import {
   TextComponent,
 } from '../../../components';
 import {appColors} from '../../../constants/appColors';
-import {ModalProduct} from '../../../modals';
-import {global} from '../../../styles/global';
-import {showToast} from '../../../utils/showToast';
 import {fontFamilys} from '../../../constants/fontFamily';
+import {ModalProduct} from '../../../modals';
 import ModalizeFilter from '../../../modals/ModalizeFilter';
+import {global} from '../../../styles/global';
 import {HandleProduct} from '../../../utils/HandleProduct';
+import {showToast} from '../../../utils/showToast';
 
 interface Props {
   category_id: number;
@@ -38,20 +45,63 @@ const SearchFilterComponent = (props: Props) => {
   const [results, setResults] = useState<Product[]>([]);
   const [product, setProduct] = useState<Product>();
   const [isVisibleModalProduct, setIsVisibleModalProduct] = useState(false);
+  const [cardCount, setCardCount] = useState(0);
+  const [isSearch, setIsSearch] = useState(true);
+
+  const navigation: any = useNavigation();
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    isFocused && setSearchValue('');
+  }, [isFocused]);
+
+  useEffect(() => {
+    getCardCount();
+  }, []);
 
   useEffect(() => {
     getProductsList();
   }, [category_id, subCategory_id, subSubCategory_id]);
 
   useEffect(() => {
-    if (searchValue) {
-      const items = products.filter(element =>
-        element.name.includes(searchValue),
-      );
-
-      setResults(items);
+    if (searchValue && searchValue.length >= 3) {
+      setResults([]);
+      searchProduct();
+    } else {
+      setResults([]);
     }
   }, [searchValue]);
+
+  const searchProduct = async () => {
+    const api = `/searchGroceriesList`;
+    const data = {
+      search: searchValue,
+      page: 1,
+    };
+
+    setIsSearch(true);
+
+    try {
+      const res: any = await handleGetData.handleProduct(api, data, 'post');
+
+      setIsSearch(false);
+      setResults(res);
+    } catch (error) {
+      console.log(error);
+      setIsSearch(false);
+    }
+  };
+
+  const getCardCount = async () => {
+    const api = `/getProductGroceryCount`;
+
+    try {
+      const res: any = await handleGetData.handleProduct(api);
+      res && setCardCount(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getProductsList = async () => {
     const api = `/getProductListing`;
@@ -82,7 +132,15 @@ const SearchFilterComponent = (props: Props) => {
               paddingVertical: 12,
               zIndex: 1,
             }}>
-            <SearchNormal1 size={18} color={appColors.gray} />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('SearchGrocery', {
+                  searchKey: searchValue,
+                  results,
+                });
+              }}>
+              <SearchNormal1 size={18} color={appColors.gray4} />
+            </TouchableOpacity>
 
             <TextInput
               value={searchValue}
@@ -97,6 +155,12 @@ const SearchFilterComponent = (props: Props) => {
               autoCapitalize="none"
               placeholder="Search groceries"
               placeholderTextColor={appColors.gray}
+              onEndEditing={() => {
+                navigation.navigate('SearchGrocery', {
+                  searchKey: searchValue,
+                  results,
+                });
+              }}
             />
 
             {searchValue.length > 0 && (
@@ -109,9 +173,16 @@ const SearchFilterComponent = (props: Props) => {
               />
             )}
 
-            <TouchableOpacity onPress={() => setIsVisibleModalFilter(true)}>
-              <SettingIcon width={24} color={appColors.text} />
-              <View
+            <TouchableOpacity
+              onPress={() => navigation.navigate('HomeScan')}
+              // onPress={() => setIsVisibleModalFilter(true)}
+            >
+              <MaterialCommunityIcons
+                name="barcode-scan"
+                size={24}
+                color={appColors.gray4}
+              />
+              {/* <View
                 style={{
                   position: 'absolute',
                   top: 0,
@@ -121,7 +192,7 @@ const SearchFilterComponent = (props: Props) => {
                   borderRadius: 4,
                   backgroundColor: appColors.error,
                 }}
-              />
+              /> */}
             </TouchableOpacity>
           </RowComponent>
 
@@ -136,77 +207,92 @@ const SearchFilterComponent = (props: Props) => {
                 color={appColors.white}
               />
             }
-            text="0"
+            text={cardCount.toString()}
             textColor={appColors.white}
             styles={{
               width: 48,
               height: 48,
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
+            fontStyles={{fontSize: 18}}
           />
         </RowComponent>
       </SectionComponent>
-      {searchValue && (
-        <View
-          style={{
-            paddingHorizontal: 16,
-            position: 'absolute',
-            marginRight: 60,
-            top: 48,
-            right: 0,
-            left: 0,
-            zIndex: 1,
-            flex: 1,
-            height: '100%',
-          }}>
-          <View
-            style={{
-              ...global.shadow,
-              backgroundColor: appColors.white,
-              padding: 12,
-              // height: '100%',
-              borderBottomRightRadius: 8,
-              borderBottomLeftRadius: 8,
-            }}>
-            {results.length > 0 ? (
-              <FlatList
-                showsVerticalScrollIndicator={false}
-                data={results}
-                renderItem={({item}) => (
-                  <RowComponent
-                    onPress={() => {
-                      setProduct(item);
-                      setIsVisibleModalProduct(true);
-                    }}
-                    justify="flex-start"
-                    styles={{paddingVertical: 8}}>
-                    <ImageProduct imageUrl={item.image} />
-                    <View style={{paddingHorizontal: 8, flex: 1}}>
-                      <TextComponent text={item.name} flex={0} line={2} />
-                    </View>
-                  </RowComponent>
-                )}
-              />
-            ) : (
-              <>
-                <TextComponent
-                  text="Can’t find what you’re looking for?Help us grow our database."
-                  flex={0}
-                />
-                <SpaceComponent height={12} />
-                <RowComponent onPress={() => showToast('Comming soon')}>
-                  <AddSquare variant="Bold" color={appColors.text} size={20} />
-
-                  <SpaceComponent width={8} />
-                  <TextComponent
-                    text="Add Missing Product"
-                    font={fontFamilys.bold}
+      {searchValue && searchValue.length >= 3 ? (
+        isSearch ? (
+          <ActivityIndicator />
+        ) : (
+          <>
+            <View
+              style={{
+                paddingHorizontal: 16,
+                position: 'absolute',
+                marginRight: 60,
+                top: 48,
+                right: 0,
+                left: 0,
+                zIndex: 1,
+                flex: 1,
+                height: '100%',
+              }}>
+              <View
+                style={{
+                  ...global.shadow,
+                  backgroundColor: appColors.white,
+                  padding: 12,
+                  maxHeight: '90%',
+                  borderBottomRightRadius: 8,
+                  borderBottomLeftRadius: 8,
+                }}>
+                {results.length > 0 ? (
+                  <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={results}
+                    keyExtractor={(_item, index) => `item${index}`}
+                    renderItem={({item, index}) => (
+                      <RowComponent
+                        onPress={() => {
+                          setProduct(item);
+                          setIsVisibleModalProduct(true);
+                        }}
+                        justify="flex-start"
+                        styles={{paddingVertical: 8}}
+                        key={`result${index}`}>
+                        <ImageProduct imageUrl={item.image} />
+                        <View style={{paddingHorizontal: 8, flex: 1}}>
+                          <TextComponent text={item.name} flex={0} line={2} />
+                        </View>
+                      </RowComponent>
+                    )}
                   />
-                </RowComponent>
-              </>
-            )}
-          </View>
-        </View>
-      )}
+                ) : (
+                  <>
+                    <TextComponent
+                      text="Can’t find what you’re looking for? Help us grow our database."
+                      flex={0}
+                    />
+                    <SpaceComponent height={12} />
+                    <RowComponent onPress={() => showToast('Comming soon')}>
+                      <AddSquare
+                        variant="Bold"
+                        color={appColors.text}
+                        size={20}
+                      />
+
+                      <SpaceComponent width={8} />
+                      <TextComponent
+                        text="Add Missing Product"
+                        font={fontFamilys.bold}
+                      />
+                    </RowComponent>
+                  </>
+                )}
+              </View>
+            </View>
+          </>
+        )
+      ) : null}
 
       <ModalProduct
         product={product}

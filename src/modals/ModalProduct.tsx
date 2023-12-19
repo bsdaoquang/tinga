@@ -137,14 +137,17 @@ const ModalProduct = (props: Props) => {
       });
   };
 
-  const renderProductIngredient = (item: {title: string; unit: string}) => {
+  const renderProductIngredient = (
+    item: {title: string; unit: string},
+    index: number,
+  ) => {
     const productIngre: any = producDetail;
 
     const value = productIngre ? productIngre[`${item.title}`] : [];
 
     return (
       <View
-        key={`item${item.title}`}
+        key={`item${item.title}${index}`}
         style={{
           borderWidth: 1,
           borderColor: '#dbdbdb',
@@ -524,7 +527,7 @@ const ModalProduct = (props: Props) => {
                 ) : (
                   <RowComponent>
                     {productIngredients.map((item, index) =>
-                      renderProductIngredient(item),
+                      renderProductIngredient(item, index),
                     )}
                   </RowComponent>
                 )}

@@ -34,7 +34,7 @@ const CategoryDetail = ({navigation, route}: any) => {
       category_id: category.id,
       subcategory_id: subCategory.id ?? 0,
       sub_subcategory_id: subSubCategory.id ?? 0,
-      page: 1,
+      offset: 1,
     };
 
     setIsLoading(true);

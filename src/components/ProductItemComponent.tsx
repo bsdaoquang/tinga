@@ -1,6 +1,6 @@
 import {Add, Location, Star1} from 'iconsax-react-native';
 import React, {useState} from 'react';
-import {StyleProp, View, ViewStyle} from 'react-native';
+import {StyleProp, Text, View, ViewStyle} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useSelector} from 'react-redux';
 import {
@@ -30,6 +30,25 @@ const ProductItemComponent = (props: Props) => {
 
   const {item, styles, onReload, isCheckPremium} = props;
   const auth = useSelector(authSelector);
+
+  const renderThumbType = () => {
+    return (
+      <View
+        style={{
+          width: 18,
+          height: 18,
+          backgroundColor: item.thumb_color,
+          borderRadius: 100,
+          justifyContent: 'center',
+          alignItems: 'center',
+          transform: item.thumb_type === 'Bad' ? 'rotate(180deg)' : '',
+        }}>
+        <Text style={{fontSize: 9}}>
+          {item.thumb_type === 'Normal' ? '👌' : `👍`}
+        </Text>
+      </View>
+    );
+  };
 
   return (
     <>
@@ -98,16 +117,18 @@ const ProductItemComponent = (props: Props) => {
             styles={{minHeight: 30}}
           />
           <SpaceComponent height={8} />
-          <RowComponent justify="flex-start">
-            <Location size={14} color={appColors.gray} />
-            <TextComponent
-              text={` ${item.shopname}`}
-              size={12}
-              flex={0}
-              color={appColors.gray}
-            />
-            <SpaceComponent width={12} />
-            <Star1 size={14} color={appColors.gray} />
+          <RowComponent justify="space-between">
+            <RowComponent>
+              <Location size={14} color={appColors.gray} />
+              <TextComponent
+                text={` ${item.shopname}`}
+                size={12}
+                flex={0}
+                color={appColors.gray}
+              />
+            </RowComponent>
+            {renderThumbType()}
+            {/* <Star1 size={14} color={appColors.gray} /> */}
           </RowComponent>
         </View>
         {isCheckPremium && auth.is_premium === 0 && (

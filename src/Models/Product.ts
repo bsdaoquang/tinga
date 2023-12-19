@@ -7,6 +7,8 @@ export interface Product {
   shopname: string;
   image: string;
   product_id?: number;
+  thumb_color: string;
+  thumb_type: string;
 }
 
 export interface ProductDetail {

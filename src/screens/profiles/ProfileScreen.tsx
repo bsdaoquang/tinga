@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, Linking, Text, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -35,6 +35,7 @@ import ModalizeFilter from '../../modals/ModalizeFilter';
 import {addAuth, authSelector} from '../../redux/reducers/authReducer';
 import {global} from '../../styles/global';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import handleGetData from '../../apis/productAPI';
 
 const ProfileScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
@@ -42,9 +43,25 @@ const ProfileScreen = ({navigation}: any) => {
   const [isVisibleModalFillter, setIsVisibleModalFillter] = useState(false);
   const [isVisibleModalAlert, setIsVisibleModalAlert] = useState(false);
   const [alertDetail, setAlertDetail] = useState<AlertDetail>();
+  const [avgScore, setAvgScore] = useState();
 
   const dispatch = useDispatch();
   const auth = useSelector(authSelector);
+
+  useEffect(() => {
+    getAvgScore();
+  }, []);
+
+  const getAvgScore = async () => {
+    const api = `/avgListScore`;
+    try {
+      const res = await handleGetData.handleUser(api);
+
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const demodatachart = [
     {
