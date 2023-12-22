@@ -74,17 +74,6 @@ const RecipeItemComponent = (props: Props) => {
             size={10}
             flex={0}
           />
-          <View
-            style={{
-              width: 18,
-              height: 18,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#E6EECC',
-              borderRadius: 100,
-            }}>
-            <TextComponent text="👍" flex={0} size={9} />
-          </View>
         </RowComponent>
       </View>
     </TouchableOpacity>

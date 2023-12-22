@@ -1,6 +1,7 @@
 import {Heart} from 'iconsax-react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   ImageBackground,
   ScrollView,
   TouchableOpacity,
@@ -21,11 +22,33 @@ import {recipesData} from '../../demoData/recipes';
 import ModalizeRecipeDetail from '../../modals/ModalizeRecipeDetail';
 import {global} from '../../styles/global';
 import {Recipe} from '../../Models/Recipe';
+import handleMealApi from '../../apis/mealplannerAPI';
+import {LoadingModal} from '../../modals';
 
 const RegenerateRecipes = () => {
   const [isVisibleModalRecipeDetail, setIsVisibleModalRecipeDetail] =
     useState(false);
   const [recipeItem, setRecipeItem] = useState<Recipe>();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    getGeneratedRecipe();
+  }, []);
+
+  const getGeneratedRecipe = async () => {
+    const api = `generatedRecipe`;
+
+    setIsLoading(true);
+
+    try {
+      const res = await handleMealApi.handleMealPlanner(api);
+      console.log(res);
+      setIsLoading(false);
+    } catch (error) {
+      console.log('Can not get recipe', error);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <ImageBackground
@@ -59,51 +82,55 @@ const RegenerateRecipes = () => {
           </TouchableOpacity>
         </RowComponent>
       </SectionComponent>
-      <ScrollView style={{flex: 1, marginBottom: 60}}>
-        <RowComponent styles={{paddingTop: 20}}>
-          <TitleComponent
-            flex={0}
-            line={1}
-            text="You should cook..."
-            size={24}
-            height={20}
-          />
-        </RowComponent>
-        <RowComponent>
-          <RecipeItemComponent
-            onPress={() => {
-              setIsVisibleModalRecipeDetail(true);
-              setRecipeItem(recipesData[0]);
-            }}
-            item={recipesData[0]}
-          />
-        </RowComponent>
-        <SectionComponent styles={{marginTop: 22}}>
-          <TitleComponent
-            text="MORE OPTIONS"
-            flex={0}
-            font={fontFamilys.regular}
-            size={14}
-          />
-
-          <RowComponent justify="flex-start">
-            {recipesData.map(
-              (item, index) =>
-                index < 3 && (
-                  <RecipeItemComponent
-                    onPress={() => {
-                      setRecipeItem(item);
-                      setIsVisibleModalRecipeDetail(true);
-                    }}
-                    styles={{marginRight: index % 2 ? 0 : 12}}
-                    key={item.key}
-                    item={item}
-                  />
-                ),
-            )}
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <ScrollView style={{flex: 1, marginBottom: 60}}>
+          <RowComponent styles={{paddingTop: 20}}>
+            <TitleComponent
+              flex={0}
+              line={1}
+              text="You should cook..."
+              size={24}
+              height={20}
+            />
           </RowComponent>
-        </SectionComponent>
-      </ScrollView>
+          <RowComponent>
+            <RecipeItemComponent
+              onPress={() => {
+                setIsVisibleModalRecipeDetail(true);
+                setRecipeItem(recipesData[0]);
+              }}
+              item={recipesData[0]}
+            />
+          </RowComponent>
+          <SectionComponent styles={{marginTop: 22}}>
+            <TitleComponent
+              text="MORE OPTIONS"
+              flex={0}
+              font={fontFamilys.regular}
+              size={14}
+            />
+
+            <RowComponent justify="flex-start">
+              {recipesData.map(
+                (item, index) =>
+                  index < 3 && (
+                    <RecipeItemComponent
+                      onPress={() => {
+                        setRecipeItem(item);
+                        setIsVisibleModalRecipeDetail(true);
+                      }}
+                      styles={{marginRight: index % 2 ? 0 : 12}}
+                      key={item.key}
+                      item={item}
+                    />
+                  ),
+              )}
+            </RowComponent>
+          </SectionComponent>
+        </ScrollView>
+      )}
 
       <ModalizeRecipeDetail
         visible={isVisibleModalRecipeDetail}

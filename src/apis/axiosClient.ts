@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import queryString from 'query-string';
-import { appInfos } from '../constants/appInfos';
+import {appInfos} from '../constants/appInfos';
 
 const getAccessToken = async () => {
   const res: any = await AsyncStorage.getItem(appInfos.localDataName.userData);

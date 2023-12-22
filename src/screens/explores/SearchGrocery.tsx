@@ -53,7 +53,8 @@ const SearchGrocery = ({navigation, route}: any) => {
       page,
     };
 
-    page === 1 ? setIsSearch(true) : setIsLoadmore(true);
+    setIsSearch(true);
+    // page === 1 ? setIsSearch(true) : setIsLoadmore(true);
 
     try {
       const res: any = await handleGetData.handleProduct(api, data, 'post');
@@ -75,11 +76,11 @@ const SearchGrocery = ({navigation, route}: any) => {
   };
 
   const getCardCount = async () => {
-    const api = `/getProductGroceryCount`;
-    console.log(api);
+    // const api = `/getProductGroceryCount`;
     // try {
     //   const res: any = await handleGetData.handleProduct(api);
     //   res && setCardCount(res);
+    //   console.log(res);
     // } catch (error) {
     //   console.log(`get card count ${error}`);
     // }
@@ -170,7 +171,7 @@ const SearchGrocery = ({navigation, route}: any) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}
-            fontStyles={{fontSize: 18}}
+            fontStyles={{fontSize: 18, lineHeight: 18}}
           />
         </RowComponent>
         {searchValue && (
@@ -201,7 +202,7 @@ const SearchGrocery = ({navigation, route}: any) => {
                 <ProductItemComponent item={item} styles={{marginLeft: 16}} />
               )}
               ListFooterComponent={isLoadmore ? <ActivityIndicator /> : <></>}
-              onEndReached={() => setPage(page + 1)}
+              // onEndReached={() => setPage(page + 1)}
             />
           ) : (
             <></>

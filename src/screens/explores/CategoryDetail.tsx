@@ -49,6 +49,15 @@ const CategoryDetail = ({navigation, route}: any) => {
     }
   };
 
+  useEffect(() => {
+    products &&
+      products.forEach((item, index) => {
+        console.log(`id of item ${index} is ${item.id}`);
+      });
+
+    console.log(products.length);
+  }, [products]);
+
   return (
     <Container
       back
@@ -66,7 +75,11 @@ const CategoryDetail = ({navigation, route}: any) => {
           showsVerticalScrollIndicator={false}
           data={products}
           renderItem={({item, index}) => (
-            <ProductItemComponent item={item} styles={{marginLeft: 16}} />
+            <ProductItemComponent
+              item={item}
+              key={`product${index}`}
+              styles={{marginLeft: 16}}
+            />
           )}
         />
       ) : (

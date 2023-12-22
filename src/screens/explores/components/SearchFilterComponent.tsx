@@ -215,7 +215,7 @@ const SearchFilterComponent = (props: Props) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}
-            fontStyles={{fontSize: 18}}
+            fontStyles={{fontSize: 18, lineHeight: 19}}
           />
         </RowComponent>
       </SectionComponent>

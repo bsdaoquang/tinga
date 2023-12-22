@@ -43,7 +43,7 @@ const ProductItemComponent = (props: Props) => {
           alignItems: 'center',
           transform: item.thumb_type === 'Bad' ? 'rotate(180deg)' : '',
         }}>
-        <Text style={{fontSize: 9}}>
+        <Text style={{fontSize: 9, color: '#FFD97D', lineHeight: 11}}>
           {item.thumb_type === 'Normal' ? '👌' : `👍`}
         </Text>
       </View>

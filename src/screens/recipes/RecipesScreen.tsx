@@ -26,6 +26,7 @@ import {authSelector} from '../../redux/reducers/authReducer';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {appSize} from '../../constants/appSize';
 import LottieView from 'lottie-react-native';
+import handleMealApi from '../../apis/mealplannerAPI';
 
 const RecipesScreen = ({navigation}: any) => {
   const [isVisibleModalFilter, setIsVisibleModalFilter] = useState(false);
@@ -50,12 +51,20 @@ const RecipesScreen = ({navigation}: any) => {
     },
   ];
 
-  const handleGenerating = () => {
+  const handleGenerating = async () => {
+    const api = `generateRecipe`;
     setGenerating(true);
-    setTimeout(() => {
+
+    try {
+      const res = await handleMealApi.handleMealPlanner(api, undefined, 'post');
+
+      console.log(res);
       setGenerating(false);
       navigation.navigate('RegenerateRecipes');
-    }, 4000);
+    } catch (error) {
+      console.log(`Can not generater recipe`);
+      setGenerating(false);
+    }
   };
 
   return (
