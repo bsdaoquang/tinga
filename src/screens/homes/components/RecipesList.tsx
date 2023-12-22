@@ -1,17 +1,31 @@
-import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
 import {FlatList, View} from 'react-native';
 import {TabbarComponent, TextComponent} from '../../../components';
 import RecipeItemComponent from '../../../components/RecipeItemComponent';
 import {appColors} from '../../../constants/appColors';
-import {recipesData} from '../../../demoData/recipes';
-import {appInfos} from '../../../constants/appInfos';
 import {appSize} from '../../../constants/appSize';
-import {useNavigation} from '@react-navigation/native';
+import {recipesData} from '../../../demoData/recipes';
+import handleMealApi from '../../../apis/mealplannerAPI';
 
 const RecipesList = () => {
   const [indexItem, setIndexItem] = useState(0);
-
+  const [favouritedRecipes, setFavouritedRecipes] = useState<any[]>([]);
   const navigation: any = useNavigation();
+
+  useEffect(() => {
+    getFavouritedRecipes();
+  }, []);
+
+  const getFavouritedRecipes = async () => {
+    const api = `listofFavouriteRecipe`;
+    try {
+      const res: any = await handleMealApi.handleMealPlanner(api);
+      setFavouritedRecipes(res);
+    } catch (error) {
+      console.log(`can not get list of favourited reciptes: ${error}`);
+    }
+  };
 
   const renderDotsView = (array: any[], position: any) => (
     <View style={{flexDirection: 'row'}}>
@@ -31,7 +45,7 @@ const RecipesList = () => {
     </View>
   );
 
-  return (
+  return favouritedRecipes.length > 0 ? (
     <View style={{marginBottom: 24}}>
       <View style={{paddingHorizontal: 16, marginBottom: 6}}>
         <TabbarComponent
@@ -83,6 +97,8 @@ const RecipesList = () => {
         />
       )}
     </View>
+  ) : (
+    <></>
   );
 };
 
