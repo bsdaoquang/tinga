@@ -129,8 +129,6 @@ const SignUpScreen = ({navigation}: any) => {
           setIsShowPass={() => {
             setIsShowPass(!isShowPass);
           }}
-          // onEnd={() => handleCheckPass(password)}
-          max={8}
           helpText={helpText?.paddword}
         />
         {errorText && (

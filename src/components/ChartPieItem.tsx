@@ -19,6 +19,7 @@ interface Props {
 const ChartPieItem = (props: Props) => {
   const {total, data, size, fontSize, radius} = props;
 
+  // green, orange, red
   const colors = data.colors ?? ['#AAC54E', '#FFD432', '#F15D59'];
   const containerSize = size ?? 80;
   const stroke = radius ?? 0.85;

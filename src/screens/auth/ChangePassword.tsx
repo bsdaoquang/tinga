@@ -98,7 +98,6 @@ const LoginScreen = ({route, navigation}: any) => {
           setIsShowPass={() => setIsShowPass(!isShowPass)}
           onEnd={() => handleCheckPass(password)}
           helpText={helpText?.paddword}
-          max={8}
         />
         {errorMessage && (
           <TextComponent

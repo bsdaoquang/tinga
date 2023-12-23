@@ -37,6 +37,7 @@ import HomeCarousels from './components/HomeCarousels';
 import Promotions from './components/Promotions';
 import RecipesList from './components/RecipesList';
 import VideoComponent from './components/VideoComponent';
+import {ProfileScore} from '../../Models/Score';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -47,6 +48,7 @@ const HomeScreen = ({navigation, route}: any) => {
   const [isVisibleModalAlert, setIsVisibleModalAlert] = useState(false);
   const [alertDetail, setAlertDetail] = useState<AlertDetail>();
   const [historiesList, setHistoriesList] = useState<HistoryProduc[]>([]);
+  const [profileScore, setProfileScore] = useState<ProfileScore>();
 
   const auth = useSelector(authSelector);
 
@@ -60,6 +62,7 @@ const HomeScreen = ({navigation, route}: any) => {
     }
     getVideos();
     getHistoriesListOfProduct();
+    getLatesProfileScore();
   }, []);
 
   useEffect(() => {
@@ -91,6 +94,17 @@ const HomeScreen = ({navigation, route}: any) => {
       .catch(error => {
         console.log(error);
       });
+  };
+
+  const getLatesProfileScore = async () => {
+    const api = `/avgListScore`;
+
+    try {
+      const res: any = await handleGetData.handleUser(api);
+      res && setProfileScore(res);
+    } catch (error) {
+      console.log(`Can not get profile score, ${error}`);
+    }
   };
 
   return (
@@ -154,13 +168,21 @@ const HomeScreen = ({navigation, route}: any) => {
                   backgroundColor: appColors.white,
                   borderRadius: 100,
                 }}>
-                <ChartPieItem
-                  total={undefined}
-                  size={32}
-                  fontSize={18}
-                  data={{values: [70, 20, 10]}}
-                  radius={0.9}
-                />
+                {profileScore && (
+                  <ChartPieItem
+                    total={profileScore?.list_score}
+                    size={32}
+                    fontSize={18}
+                    data={{
+                      values: [
+                        profileScore.green_line,
+                        profileScore.orange_line,
+                        profileScore.red_line,
+                      ],
+                    }}
+                    radius={0.9}
+                  />
+                )}
               </View>
               <SpaceComponent width={8} />
 
