@@ -125,16 +125,15 @@ const ModalProduct = (props: Props) => {
   ];
 
   const getFavouritesList = async () => {
-    const api = `/listOfFavourites`;
-
-    await handleGetData
-      .handleProduct(api, {}, 'post')
-      .then((res: any) => {
-        res.length > 0 && setFavouritesList(res);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    // const api = `/listOfFavourites`;
+    // await handleGetData
+    //   .handleProduct(api, {}, 'post')
+    //   .then((res: any) => {
+    //     res.length > 0 && setFavouritesList(res);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   };
 
   const renderProductIngredient = (

@@ -119,7 +119,7 @@ const HomeLoginScreen = ({navigation}: any) => {
           } else {
             setModalAlertDetail({
               title: 'Error',
-              mess: res.message,
+              mess: JSON.stringify(res),
               onOK: async () => await GoogleSignin.signOut(),
             });
             setIsVisibleModalAlert(true);
@@ -143,13 +143,11 @@ const HomeLoginScreen = ({navigation}: any) => {
           height: '100%',
           resizeMode: 'stretch',
           width: appSize.width,
-        }}
-      >
+        }}>
         <SectionComponent styles={{paddingTop: 32, position: 'absolute'}}>
           <TouchableOpacity
             style={{padding: 12}}
-            onPress={() => navigation.navigate('WelcomeScreen')}
-          >
+            onPress={() => navigation.navigate('WelcomeScreen')}>
             <AntDesign name="arrowleft" size={22} color={appColors.text} />
           </TouchableOpacity>
         </SectionComponent>
@@ -160,8 +158,7 @@ const HomeLoginScreen = ({navigation}: any) => {
           styles={{
             alignItems: 'center',
             width: '100%',
-          }}
-        >
+          }}>
           <TitleComponent
             text="Welcome to Tinga"
             size={32}

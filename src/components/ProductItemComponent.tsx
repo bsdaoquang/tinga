@@ -128,7 +128,6 @@ const ProductItemComponent = (props: Props) => {
               />
             </RowComponent>
             {renderThumbType()}
-            {/* <Star1 size={14} color={appColors.gray} /> */}
           </RowComponent>
         </View>
         {isCheckPremium && auth.is_premium === 0 && (
@@ -151,7 +150,7 @@ const ProductItemComponent = (props: Props) => {
         )}
       </CardContent>
 
-      <ModalProduct
+      {/* <ModalProduct
         visible={isVisibileModalProduct}
         onClose={() => {
           setIsVisibileModalProduct(false);
@@ -162,7 +161,7 @@ const ProductItemComponent = (props: Props) => {
         onAddToList={async (count: number) =>
           await HandleProduct.addToList(item, count)
         }
-      />
+      /> */}
     </>
   );
 };

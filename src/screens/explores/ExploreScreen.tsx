@@ -67,11 +67,7 @@ const ExploreScreen = ({navigation}: any) => {
             icon={
               <AddSquare size={24} color={appColors.text3} variant="Bold" />
             }
-            onPress={() =>
-              navigation.navigate('Home', {
-                screen: 'MyAddedProducts',
-              })
-            }
+            onPress={() => navigation.navigate('AddNewScreen')}
           />
         }>
         <SearchFilterComponent category_id={0} />

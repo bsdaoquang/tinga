@@ -162,15 +162,15 @@ const HomeScreen = ({navigation, route}: any) => {
                 flexDirection: 'row',
               }}
               onPress={() => navigation.navigate('ProfileScreen')}>
-              <View
-                style={{
-                  padding: 3,
-                  backgroundColor: appColors.white,
-                  borderRadius: 100,
-                }}>
-                {profileScore && (
+              {profileScore && (
+                <View
+                  style={{
+                    padding: 3,
+                    backgroundColor: appColors.white,
+                    borderRadius: 100,
+                  }}>
                   <ChartPieItem
-                    total={profileScore?.list_score}
+                    total={`${profileScore?.list_score}`}
                     size={32}
                     fontSize={18}
                     data={{
@@ -182,8 +182,8 @@ const HomeScreen = ({navigation, route}: any) => {
                     }}
                     radius={0.9}
                   />
-                )}
-              </View>
+                </View>
+              )}
               <SpaceComponent width={8} />
 
               <TitleComponent

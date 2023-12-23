@@ -272,7 +272,7 @@ const ProfileScreen = ({navigation}: any) => {
             styles={{paddingHorizontal: 37}}>
             <View style={global.center}>
               <ChartPieItem
-                total={80}
+                total={'80'}
                 size={100}
                 fontSize={40}
                 data={{values: [70, 20, 10]}}
@@ -367,7 +367,7 @@ const ProfileScreen = ({navigation}: any) => {
               <ChartPieItem
                 data={item.data}
                 key={item.id}
-                total={item.total}
+                total={`${item.total}`}
                 size={70}
                 fontSize={28}
               />

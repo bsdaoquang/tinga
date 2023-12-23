@@ -9,6 +9,8 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Product} from '../../Models/Product';
+import handleGetData from '../../apis/productAPI';
 import {
   Button,
   ButtonComponent,
@@ -17,73 +19,106 @@ import {
   RowComponent,
   SectionComponent,
   SpaceComponent,
+  TextComponent,
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {global} from '../../styles/global';
-import {Product} from '../../Models/Product';
-import handleGetData from '../../apis/productAPI';
+import ModalizeFilter from '../../modals/ModalizeFilter';
 
 const SearchGrocery = ({navigation, route}: any) => {
   const {searchKey, results}: {searchKey: string; results: Product[]} =
     route.params;
-  const [searchValue, setSearchValue] = useState(searchKey ?? '');
+  const [searchValue, setSearchValue] = useState('');
   const [cardCount, setCardCount] = useState(0);
-  const [resultsValue, setResultsValue] = useState<Product[]>(results ?? '');
+  const [resultsValue, setResultsValue] = useState<Product[]>([]);
   const [isSearch, setIsSearch] = useState(false);
   const [page, setPage] = useState(1);
   const [isLoadmore, setIsLoadmore] = useState(false);
+  const [loadmoreable, setLoadmoreable] = useState(true);
+  const [isVisibleModalFillter, setIsVisibleModalFillter] = useState(false);
 
   useEffect(() => {
     getCardCount();
   }, []);
 
   useEffect(() => {
-    if (!searchValue) {
-      setResultsValue([]);
+    setSearchValue(searchKey);
+  }, [searchKey]);
+
+  useEffect(() => {
+    setPage(1);
+    if (searchValue && searchValue.length >= 3) {
+      if (searchKey === searchValue) {
+        setResultsValue(results);
+      } else {
+        searchProduct();
+      }
     } else {
-      searchProduct();
+      setResultsValue([]);
     }
-  }, [searchValue, page]);
+  }, [searchValue]);
+
+  useEffect(() => {
+    searchValue && resultsValue.length > 0
+      ? handleLoadmore()
+      : setResultsValue([]);
+  }, [page]);
 
   const searchProduct = async () => {
     const api = `/searchGroceriesList`;
     const data = {
       search: searchValue,
-      page,
+      page: 1,
     };
 
     setIsSearch(true);
-    // page === 1 ? setIsSearch(true) : setIsLoadmore(true);
 
     try {
       const res: any = await handleGetData.handleProduct(api, data, 'post');
+      res && res.length > 0 && setResultsValue(res);
 
       setIsSearch(false);
-
-      if (page > 1) {
-        // console.log(res, page);
-        res.length > 0 && setResultsValue([...resultsValue, ...res]);
-
-        setIsLoadmore(false);
-      } else {
-        setResultsValue(res);
-      }
     } catch (error) {
       console.log(`Error search product ${error}`);
       setIsSearch(false);
     }
   };
 
+  const handleLoadmore = async () => {
+    const api = `/searchGroceriesList`;
+    const data = {
+      search: searchValue,
+      page,
+    };
+    setIsLoadmore(true);
+
+    try {
+      const res: any = await handleGetData.handleProduct(api, data, 'post');
+      if (res && res.length > 0) {
+        const data = [...resultsValue];
+        res.forEach((item: any) => data.push(item));
+        setResultsValue(data);
+        setIsLoadmore(false);
+      } else {
+        setLoadmoreable(false);
+        setIsLoadmore(false);
+      }
+    } catch (error) {
+      console.log(`Error search product ${error}`);
+      setLoadmoreable(false);
+      setIsLoadmore(false);
+    }
+  };
+
   const getCardCount = async () => {
-    // const api = `/getProductGroceryCount`;
-    // try {
-    //   const res: any = await handleGetData.handleProduct(api);
-    //   res && setCardCount(res);
-    //   console.log(res);
-    // } catch (error) {
-    //   console.log(`get card count ${error}`);
-    // }
+    const api = `/getProductGroceryCount`;
+    try {
+      const res: any = await handleGetData.handleProduct(api);
+      res && setCardCount(res);
+    } catch (error) {
+      console.log(`get card count ${error}`);
+    }
   };
 
   return (
@@ -187,7 +222,7 @@ const SearchGrocery = ({navigation, route}: any) => {
       {isSearch ? (
         <SectionComponent
           styles={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator />
+          <ActivityIndicator color={'#32645B'} size={35} />
         </SectionComponent>
       ) : (
         <>
@@ -199,16 +234,71 @@ const SearchGrocery = ({navigation, route}: any) => {
               data={resultsValue}
               keyExtractor={(_item, index) => `product${index}`}
               renderItem={({item, index}) => (
-                <ProductItemComponent item={item} styles={{marginLeft: 16}} />
+                <ProductItemComponent
+                  key={`item${item.id}${index}${item.shopname}`}
+                  item={item}
+                  styles={{marginLeft: 16}}
+                />
               )}
-              ListFooterComponent={isLoadmore ? <ActivityIndicator /> : <></>}
-              // onEndReached={() => setPage(page + 1)}
+              removeClippedSubviews
+              initialNumToRender={10}
+              onEndReachedThreshold={5}
+              ListFooterComponent={
+                isLoadmore ? (
+                  <ActivityIndicator />
+                ) : loadmoreable ? (
+                  <></>
+                ) : (
+                  <RowComponent>
+                    <TextComponent flex={0} text="End of data" />
+                  </RowComponent>
+                )
+              }
+              onEndReached={() => loadmoreable && setPage(page + 1)}
             />
           ) : (
-            <></>
+            <SectionComponent
+              styles={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <TextComponent
+                text={`Can’t find what you’re looking for?`}
+                flex={0}
+              />
+              <RowComponent
+                styles={{marginTop: 18}}
+                onPress={() => setIsVisibleModalFillter(true)}>
+                <TitleComponent
+                  flex={0}
+                  text="Edit your filters"
+                  styles={{textDecorationLine: 'underline'}}
+                />
+              </RowComponent>
+              <TextComponent text={`or help us grow our database.`} flex={0} />
+              <RowComponent
+                styles={{marginTop: 18}}
+                onPress={() => {
+                  navigation.navigate('AddNewScreen');
+                }}>
+                <AddSquare size={22} color={appColors.text} variant="Bold" />
+                <SpaceComponent width={8} />
+                <TitleComponent
+                  flex={0}
+                  text="Add Missing Product"
+                  styles={{textDecorationLine: 'underline'}}
+                />
+              </RowComponent>
+            </SectionComponent>
           )}
         </>
       )}
+
+      <ModalizeFilter
+        visible={isVisibleModalFillter}
+        onClose={() => setIsVisibleModalFillter(false)}
+      />
     </Container>
   );
 };
