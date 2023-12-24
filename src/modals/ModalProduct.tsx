@@ -24,7 +24,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
-import {Product, ProductDetail} from '../Models/Product';
+import {Nutrition, Product, ProductDetail} from '../Models/Product';
 import handleGetData from '../apis/productAPI';
 import {HeartBold} from '../assets/svg';
 import {
@@ -65,6 +65,8 @@ const ModalProduct = (props: Props) => {
   const [isShowDesc, setIsShowDesc] = useState(false);
   const [isShowIngre, setIsShowIngre] = useState(false);
   const [favouritesList, setFavouritesList] = useState<Product[]>([]);
+  const [swapItem, setSwapItem] = useState<Product[]>([]);
+  const [isShowSwapItems, setIsShowSwapItems] = useState(false);
 
   const auth = useSelector(authSelector);
 
@@ -79,13 +81,34 @@ const ModalProduct = (props: Props) => {
   }, [visible]);
 
   useEffect(() => {
-    visible && getProducDetail();
+    if (visible && product) {
+      getProducDetail();
+      getSwapItems();
+    }
   }, [product, visible]);
 
   const modalRef = useRef<Modalize>();
 
   const handleCloseModal = () => {
     modalRef.current?.close();
+  };
+
+  const getSwapItems = async () => {
+    const api = `/tingaSwap`;
+    try {
+      const res: any = await handleGetData.handleProduct(
+        api,
+        {
+          product_id: product?.id,
+          shop_id: product?.shop_id,
+        },
+        'post',
+      );
+
+      res && res.length > 0 && setSwapItem(res);
+    } catch (error) {
+      console.log(`Can not get swap items by ${error}`);
+    }
   };
 
   const getProducDetail = async () => {
@@ -101,31 +124,6 @@ const ModalProduct = (props: Props) => {
     }
   };
 
-  const categories = ['Gluten Free', 'Vegan', 'Organic'];
-
-  const productIngredients = [
-    {
-      title: 'calories',
-      desscription: '0',
-      unit: 'g',
-    },
-    {
-      title: 'carbohydrate',
-      desscription: '3',
-      unit: 'g',
-    },
-    {
-      title: 'fat',
-      desscription: '160',
-      unit: 'g',
-    },
-    {
-      title: 'protein',
-      desscription: '3',
-      unit: 'g',
-    },
-  ];
-
   const getFavouritesList = async () => {
     // const api = `/listOfFavourites`;
     // await handleGetData
@@ -138,59 +136,68 @@ const ModalProduct = (props: Props) => {
     //   });
   };
 
-  const renderProductIngredient = (
-    item: {title: string; unit: string},
-    index: number,
-  ) => {
-    const productIngre: any = producDetail;
-
-    const value = productIngre ? productIngre[`${item.title}`] : [];
+  const renderProductIngredient = (itemNutri: any) => {
+    const items: string[] = [];
+    for (const i in itemNutri) {
+      !i.includes('_color') && items.push(i);
+    }
 
     return (
-      <View
-        key={`item${item.title}${index}`}
-        style={{
-          borderWidth: 1,
-          borderColor: '#dbdbdb',
-          marginBottom: 16,
-          marginRight: 6,
-          width: 56,
-          height: 56,
-          borderRadius: 100,
-          backgroundColor: appColors.white,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <RowComponent styles={{alignItems: 'flex-end'}}>
+      <FlatList
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        data={items}
+        renderItem={({item, index}) => (
           <View
+            key={`item${item}${index}`}
             style={{
-              width: 8,
-              height: 8,
-              borderRadius: 4,
-              backgroundColor: appColors.success1,
-              marginRight: 2,
-              marginBottom: 2,
-            }}
-          />
-          <Text
-            style={[
-              global.text,
-              {flex: 0, lineHeight: 16, fontFamily: fontFamilys.bold},
-            ]}>
-            {value ? (value * 1).toFixed(1) : 0}
-            <Text style={{fontSize: 8}}>{item.unit}</Text>
-          </Text>
-        </RowComponent>
+              borderWidth: 1,
+              borderColor: '#dbdbdb',
+              marginRight: 6,
+              width: 56,
+              height: 56,
+              borderRadius: 100,
+              backgroundColor: appColors.white,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <RowComponent styles={{alignItems: 'flex-end'}}>
+              <View
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: 4,
+                  backgroundColor: itemNutri[`${item}_color`],
+                  marginRight: 2,
+                  marginBottom: 2,
+                }}
+              />
+              <Text
+                style={[
+                  global.text,
+                  {
+                    flex: 0,
+                    lineHeight: 16,
+                    fontFamily: fontFamilys.bold,
+                    fontSize: 14,
+                  },
+                ]}
+                numberOfLines={1}>
+                {itemNutri[`${item}`]}
+              </Text>
+            </RowComponent>
 
-        <TextComponent
-          text={item.title}
-          flex={0}
-          size={10}
-          styles={{paddingHorizontal: 2}}
-          line={1}
-          color={appColors.gray}
-        />
-      </View>
+            <TextComponent
+              text={item}
+              flex={0}
+              size={10}
+              styles={{paddingHorizontal: 2}}
+              line={1}
+              color={appColors.gray}
+            />
+          </View>
+        )}
+      />
     );
   };
 
@@ -328,6 +335,40 @@ const ModalProduct = (props: Props) => {
     },
   };
 
+  const renderThumbType = () => {
+    return (
+      <View>
+        <View
+          style={{
+            width: 56,
+            height: 56,
+            backgroundColor: `${producDetail?.thumb_color}`,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 100,
+            marginRight: 6,
+            transform:
+              producDetail?.thumb_type === 'Bad' ? 'rotate(180deg)' : '',
+          }}>
+          <Text style={{fontSize: 18, color: '#FFD97D'}}>
+            {producDetail?.thumb_type === 'Normal' ? '👌' : `👍`}
+          </Text>
+        </View>
+        <Button
+          styles={{
+            position: 'absolute',
+            top: 0,
+            right: 2,
+            backgroundColor: appColors.white,
+            borderRadius: 100,
+          }}
+          onPress={() => setIsShowModalFoodScoreInfo(true)}
+          icon={<MaterialIcons name="info" size={20} color={appColors.gray} />}
+        />
+      </View>
+    );
+  };
+
   return (
     <Portal>
       <Modalize
@@ -361,7 +402,7 @@ const ModalProduct = (props: Props) => {
 
                   <TextComponent
                     styles={{paddingHorizontal: 8}}
-                    text={`${count} pcs`}
+                    text={`${count} ct`}
                     flex={0}
                     size={14}
                     color={appColors.text2}
@@ -479,32 +520,8 @@ const ModalProduct = (props: Props) => {
               )}
             </SectionComponent>
 
-            <RowComponent styles={{paddingLeft: 16}}>
-              <>
-                <View
-                  style={{
-                    width: 56,
-                    height: 56,
-                    backgroundColor: '#E6EECC',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 100,
-                    marginRight: 6,
-                  }}>
-                  <TextComponent text="👍" size={20} flex={0} />
-                  <Button
-                    styles={{
-                      position: 'absolute',
-                      top: 0,
-                      right: 2,
-                    }}
-                    onPress={() => setIsShowModalFoodScoreInfo(true)}
-                    icon={
-                      <MaterialIcons name="info" size={20} color={'#9F9F9F'} />
-                    }
-                  />
-                </View>
-              </>
+            <RowComponent styles={{paddingLeft: 16, marginBottom: 16}}>
+              <>{renderThumbType()}</>
 
               <View style={{flex: 1}}>
                 {auth.is_premium === 0 ? (
@@ -552,28 +569,24 @@ const ModalProduct = (props: Props) => {
                     </RowComponent>
                   </RowComponent>
                 ) : (
-                  <RowComponent>
-                    {productIngredients.map((item, index) =>
-                      renderProductIngredient(item, index),
-                    )}
-                  </RowComponent>
+                  <>{renderProductIngredient(producDetail?.nutrition[0])}</>
                 )}
               </View>
             </RowComponent>
 
             <FlatList
               style={{paddingHorizontal: 8, paddingBottom: 12}}
-              data={categories}
+              data={producDetail?.diets.concat(producDetail.allergies)}
               horizontal
               showsHorizontalScrollIndicator={false}
-              renderItem={({item, index}) => renderCategory(item, index)}
+              renderItem={({item, index}) => renderCategory(item.name, index)}
             />
 
             <SectionComponent>
               <RowComponent
                 styles={{
                   alignItems: 'flex-start',
-                  paddingTop: 12,
+                  paddingVertical: 12,
                 }}>
                 <Image
                   source={require('../assets/images/TingaLogo.png')}
@@ -590,22 +603,34 @@ const ModalProduct = (props: Props) => {
                   height={19}
                 />
 
-                <Button
-                  onPress={() => {}}
-                  text="View All"
-                  fontStyles={{fontSize: 14, color: appColors.primary}}
-                />
-              </RowComponent>
-              {product && (
-                <RowComponent justify="space-between">
-                  {Array.from({length: 2}).map((_item, index) => (
-                    <ProductItemComponent
-                      isCheckPremium
-                      item={product}
-                      key={`item.id${index}`}
-                    />
-                  ))}
+                <RowComponent
+                  onPress={() => setIsShowSwapItems(!isShowSwapItems)}>
+                  <TextComponent
+                    flex={0}
+                    text="View All"
+                    styles={{fontSize: 14, color: appColors.primary}}
+                  />
+                  {!isShowSwapItems ? (
+                    <ArrowDown2 size={20} color={appColors.primary} />
+                  ) : (
+                    <ArrowUp2 size={20} color={appColors.primary} />
+                  )}
                 </RowComponent>
+              </RowComponent>
+              {swapItem.length > 0 && isShowSwapItems && (
+                <FlatList
+                  showsHorizontalScrollIndicator={false}
+                  horizontal
+                  data={swapItem}
+                  keyExtractor={(item, index) =>
+                    `Product${item.id}${item.shop_id}`
+                  }
+                  renderItem={({item}) => (
+                    <View style={{marginRight: 16}}>
+                      <ProductItemComponent isCheckPremium item={item} />
+                    </View>
+                  )}
+                />
               )}
             </SectionComponent>
 

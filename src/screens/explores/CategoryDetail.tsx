@@ -34,7 +34,11 @@ const CategoryDetail = ({navigation, route}: any) => {
     const data = {
       category_id: category.id,
       subcategory_id: subCategory.id ?? 0,
-      sub_subcategory_id: subSubCategory.id ?? 0,
+      sub_subcategory_id: subSubCategory
+        ? subSubCategory.id
+          ? subSubCategory.id
+          : 0
+        : 0,
       offset: 1,
     };
 

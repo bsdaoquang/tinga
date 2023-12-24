@@ -21,7 +21,7 @@ const SubSubCategories = ({route, navigation}: any) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getCategories();
+    category && parentCategory && getCategories();
   }, []);
 
   const getCategories = async () => {

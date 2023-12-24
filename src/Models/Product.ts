@@ -14,25 +14,62 @@ export interface Product {
 }
 
 export interface ProductDetail {
-  id: number;
-  name: string;
-  description: string;
-  size: string;
-  price: string;
-  old_price: string;
-  upc: string;
+  allergies: Allergy[];
   code: string;
-  calories: string;
-  fat: string;
-  carbohydrate: string;
-  protein: string;
+  description: string;
+  diets: Diet[];
+  id: number;
+  image: string;
+  ingridients: string;
+  is_addedtolist: number;
+  name: string;
+  nutrition: Nutrition[];
+  old_price: string;
+  price: string;
   rating: string;
   reviews: string;
-  ingridients: string;
-  shopname: string;
-  image: string;
-  is_addedtolist: 0 | 1;
   shop_id: number;
+  shopname: string;
+  size: string;
+  thumb_color: string;
+  thumb_type: string;
+  upc: string;
+}
+
+export interface Allergy {
+  name: string;
+}
+
+export interface Diet {
+  name: string;
+}
+
+export interface Nutrition {
+  calcium: string;
+  calcium_color: string;
+  calories: number;
+  carbohydrate: string;
+  carbohydrate_color: string;
+  cholesterol: string;
+  cholesterol_color: string;
+  fat: string;
+  fat_color: string;
+  fiber: string;
+  fiber_color: string;
+  iron: string;
+  iron_color: string;
+  potassium: string;
+  potassium_color: string;
+  protein: string;
+  protein_color: string;
+  sodium: string;
+  sodium_color: string;
+  sugar: string;
+  sugar_color: string;
+  vitamin_a: string;
+  vitamin_a_color: string;
+  vitamin_c: string;
+  vitamin_c_color: string;
 }
 
 export interface HistoryProduc {
