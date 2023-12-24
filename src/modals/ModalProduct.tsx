@@ -19,12 +19,13 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
+import RenderHTML from 'react-native-render-html';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
-import {Nutrition, Product, ProductDetail} from '../Models/Product';
+import {Product, ProductDetail} from '../Models/Product';
 import handleGetData from '../apis/productAPI';
 import {HeartBold} from '../assets/svg';
 import {
@@ -38,14 +39,12 @@ import {
   TitleComponent,
 } from '../components';
 import {appColors} from '../constants/appColors';
+import {appSize} from '../constants/appSize';
 import {fontFamilys} from '../constants/fontFamily';
 import {authSelector} from '../redux/reducers/authReducer';
 import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
-import {SubscriptionModal} from '.';
-import RenderHTML from 'react-native-render-html';
-import {appSize} from '../constants/appSize';
 
 interface Props {
   visible: boolean;
@@ -64,17 +63,16 @@ const ModalProduct = (props: Props) => {
   const [producDetail, setProducDetail] = useState<ProductDetail>();
   const [isShowDesc, setIsShowDesc] = useState(false);
   const [isShowIngre, setIsShowIngre] = useState(false);
-  const [favouritesList, setFavouritesList] = useState<Product[]>([]);
   const [swapItem, setSwapItem] = useState<Product[]>([]);
   const [isShowSwapItems, setIsShowSwapItems] = useState(false);
+  const [isFavoured, setIsFavoured] = useState(false);
 
   const auth = useSelector(authSelector);
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    // getFavouritesList();
-  }, []);
+  const data = {
+    product_id: product?.id,
+    shop_id: product?.shop_id,
+  };
 
   useEffect(() => {
     visible ? modalRef.current?.open() : modalRef.current?.close();
@@ -84,6 +82,7 @@ const ModalProduct = (props: Props) => {
     if (visible && product) {
       getProducDetail();
       getSwapItems();
+      handleCheckFavouredList();
     }
   }, [product, visible]);
 
@@ -96,14 +95,7 @@ const ModalProduct = (props: Props) => {
   const getSwapItems = async () => {
     const api = `/tingaSwap`;
     try {
-      const res: any = await handleGetData.handleProduct(
-        api,
-        {
-          product_id: product?.id,
-          shop_id: product?.shop_id,
-        },
-        'post',
-      );
+      const res: any = await handleGetData.handleProduct(api, data, 'post');
 
       res && res.length > 0 && setSwapItem(res);
     } catch (error) {
@@ -122,18 +114,6 @@ const ModalProduct = (props: Props) => {
       showToast(`Can not get product detail`);
       console.log(error);
     }
-  };
-
-  const getFavouritesList = async () => {
-    // const api = `/listOfFavourites`;
-    // await handleGetData
-    //   .handleProduct(api, {}, 'post')
-    //   .then((res: any) => {
-    //     res.length > 0 && setFavouritesList(res);
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
   };
 
   const renderProductIngredient = (itemNutri: any) => {
@@ -219,13 +199,6 @@ const ModalProduct = (props: Props) => {
     </TouchableOpacity>
   );
 
-  useEffect(() => {
-    if (visible && producDetail) {
-      console.log(product);
-      console.log(producDetail);
-    }
-  }, [visible, product, producDetail]);
-
   const renderButtonAdd = () => {
     return (
       producDetail && (
@@ -266,17 +239,14 @@ const ModalProduct = (props: Props) => {
   };
 
   const renderFavouriestButton = () => {
-    const item = favouritesList.find(
-      (element: Product) => element.id === producDetail?.id,
-    );
     return (
       producDetail && (
         <Button
           onPress={() =>
-            item ? handleRemoveFavoritesItem(item) : handleAddFavoritesItem()
+            isFavoured ? handleRemoveFavoritesItem() : handleAddFavoritesItem()
           }
           icon={
-            item ? (
+            isFavoured ? (
               <HeartBold width={24} height={24} />
             ) : (
               <Heart variant="Bold" color={appColors.white} size={24} />
@@ -287,43 +257,35 @@ const ModalProduct = (props: Props) => {
     );
   };
 
-  // console.log(favouritesList);
-
-  const handleAddFavoritesItem = async () => {
-    if (producDetail) {
-      const api = `/addToFavourite`;
-
-      await handleGetData
-        .handleProduct(
-          api,
-          {
-            product_id: producDetail?.id,
-          },
-          'post',
-        )
-        .then(res => {
-          // console.log(res);
-          showToast('Added');
-          getFavouritesList();
-        });
+  const handleCheckFavouredList = async () => {
+    const api = `/isFavouritelist`;
+    try {
+      const res: any = await handleGetData.handleProduct(api, data, 'post');
+      res && res.success && setIsFavoured(res.message);
+    } catch (error) {
+      console.log(`Can not check favoured list by ${error}`);
     }
   };
 
-  const handleRemoveFavoritesItem = async (item: Product) => {
-    const api = `/removeFavourites`;
+  const handleAddFavoritesItem = async () => {
+    const api = `/addToFavouritelist`;
+    try {
+      await handleGetData.handleProduct(api, data, 'post');
+      handleCheckFavouredList();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    await handleGetData
-      .handleProduct(
-        api,
-        {
-          id: item.id,
-        },
-        'post',
-      )
-      .then(res => {
-        showToast('Removed');
-        getFavouritesList();
-      });
+  const handleRemoveFavoritesItem = async () => {
+    const api = `/removeFavouritelist`;
+
+    try {
+      await handleGetData.handleProduct(api, data, 'post');
+      handleCheckFavouredList();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const tagsStyles: any = {

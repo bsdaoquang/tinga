@@ -1,4 +1,4 @@
-import {Add, Location, Star1} from 'iconsax-react-native';
+import {Add, Check, Location, Star1} from 'iconsax-react-native';
 import React, {useState} from 'react';
 import {StyleProp, Text, View, ViewStyle} from 'react-native';
 import FastImage from 'react-native-fast-image';
@@ -17,6 +17,7 @@ import {ModalProduct} from '../modals';
 import {authSelector} from '../redux/reducers/authReducer';
 import {HandleProduct} from '../utils/HandleProduct';
 import LockPremiumComponent from './LockPremiumComponent';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 interface Props {
   item: Product;
@@ -31,31 +32,11 @@ const ProductItemComponent = (props: Props) => {
   const {item, styles, onReload, isCheckPremium} = props;
   const auth = useSelector(authSelector);
 
-  const renderThumbType = () => {
-    return (
-      <View
-        style={{
-          width: 18,
-          height: 18,
-          backgroundColor: item.thumb_color,
-          borderRadius: 100,
-          justifyContent: 'center',
-          alignItems: 'center',
-          transform: item.thumb_type === 'Bad' ? 'rotate(180deg)' : '',
-        }}>
-        <Text style={{fontSize: 9, color: '#FFD97D', lineHeight: 11}}>
-          {item.thumb_type === 'Normal' ? '👌' : `👍`}
-        </Text>
-      </View>
-    );
-  };
-
-  // console.log(item);
-
   return (
     <>
       <CardContent
         onPress={
+          // () => console.log(item)
           isCheckPremium && auth.is_premium === 0
             ? undefined
             : () => setIsVisibileModalProduct(true)
@@ -101,7 +82,9 @@ const ProductItemComponent = (props: Props) => {
           styles={{
             width: 28,
             height: 28,
-            backgroundColor: appColors.primary,
+            backgroundColor: item.is_addedtolist
+              ? '#263238'
+              : appColors.primary,
             borderRadius: 14,
             position: 'absolute',
             top: 10,
@@ -111,10 +94,9 @@ const ProductItemComponent = (props: Props) => {
             item.is_addedtolist === 0 ? (
               <Add size={24} color={appColors.white} />
             ) : (
-              <></>
+              <AntDesign name="check" size={20} color={appColors.white} />
             )
           }
-          // onPress={() => console.log(item)}
           onPress={() => HandleProduct.addToList(item, 1, item.shop_id)}
         />
         <View style={{padding: 10}}>
@@ -136,7 +118,6 @@ const ProductItemComponent = (props: Props) => {
                 color={appColors.gray}
               />
             </RowComponent>
-            {renderThumbType()}
           </RowComponent>
         </View>
         {isCheckPremium && auth.is_premium === 0 && (
