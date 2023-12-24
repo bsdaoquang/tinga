@@ -44,12 +44,14 @@ import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
 import {SubscriptionModal} from '.';
+import RenderHTML from 'react-native-render-html';
+import {appSize} from '../constants/appSize';
 
 interface Props {
   visible: boolean;
   onClose: () => void;
   product?: Product;
-  onAddToList?: (count: number) => void;
+  onAddToList?: (count: number, shop_id: number) => void;
   products: Product[];
   onReload?: () => void;
 }
@@ -87,12 +89,12 @@ const ModalProduct = (props: Props) => {
   };
 
   const getProducDetail = async () => {
-    const api = `/getProductDetail/${product?.id}`;
+    const api = `/getDetailProduct?id=${product?.id}&shop_id=${product?.shop_id}`;
 
     try {
-      await handleGetData.handleProduct(api).then((res: any) => {
-        res.length > 0 && setProducDetail(res[0]);
-      });
+      const res: any = await handleGetData.handleProduct(api);
+
+      res && res.length > 0 && setProducDetail(res[0]);
     } catch (error) {
       showToast(`Can not get product detail`);
       console.log(error);
@@ -210,41 +212,49 @@ const ModalProduct = (props: Props) => {
     </TouchableOpacity>
   );
 
-  const renderButtonAdd = () => {
-    const item =
-      products && products.length > 0
-        ? products.find(element => element.product_id === product?.id)
-        : undefined;
+  useEffect(() => {
+    if (visible && producDetail) {
+      console.log(product);
+      console.log(producDetail);
+    }
+  }, [visible, product, producDetail]);
 
+  const renderButtonAdd = () => {
     return (
-      <View
-        style={{
-          flex: 1,
-        }}>
-        <ButtonComponent
-          disable={item ? true : false}
-          disableColor="#B7B7B7"
-          icon={
-            item && (
-              <FontAwesome5Icon
-                name="check"
-                size={18}
-                color={appColors.white}
-              />
-            )
-          }
-          text={item ? 'Added' : 'Add to List'}
-          onPress={
-            onAddToList
-              ? () => {
-                  onAddToList(count);
-                  handleCloseModal();
-                }
-              : () => console.log('add to list not yet')
-          }
-          textColor={item ? appColors.white : appColors.text}
-        />
-      </View>
+      producDetail && (
+        <View
+          style={{
+            flex: 1,
+          }}>
+          <ButtonComponent
+            disable={producDetail?.is_addedtolist === 1 ? true : false}
+            disableColor="#B7B7B7"
+            icon={
+              producDetail?.is_addedtolist === 1 && (
+                <FontAwesome5Icon
+                  name="check"
+                  size={18}
+                  color={appColors.white}
+                />
+              )
+            }
+            text={producDetail?.is_addedtolist === 1 ? 'Added' : 'Add to List'}
+            onPress={
+              onAddToList
+                ? () => {
+                    onAddToList(count, producDetail.shop_id);
+                    handleCloseModal();
+                  }
+                : () => console.log('add to list not yet')
+            }
+            textColor={
+              producDetail?.is_addedtolist === 1
+                ? appColors.white
+                : appColors.text
+            }
+          />
+        </View>
+      )
     );
   };
 
@@ -309,6 +319,15 @@ const ModalProduct = (props: Props) => {
       });
   };
 
+  const tagsStyles: any = {
+    body: {
+      fontFamily: 'GreycliffCF-Regular',
+      whiteSpace: 'normal',
+      color: appColors.text,
+      lineHeight: 19,
+    },
+  };
+
   return (
     <Portal>
       <Modalize
@@ -361,7 +380,7 @@ const ModalProduct = (props: Props) => {
         modalStyle={{backgroundColor: appColors.bgColor, height: 'auto'}}
         scrollViewProps={{showsVerticalScrollIndicator: false}}>
         <ScrollView style={{backgroundColor: appColors.bgColor, flex: 1}}>
-          {producDetail && producDetail.image && (
+          {producDetail && producDetail.image ? (
             <ImageBackground
               source={{
                 uri: producDetail.image,
@@ -430,6 +449,15 @@ const ModalProduct = (props: Props) => {
                 </RowComponent>
               </LinearGradient>
             </ImageBackground>
+          ) : (
+            <View
+              style={{
+                width: '100%',
+                height: 250,
+                borderTopLeftRadius: 12,
+                borderTopRightRadius: 12,
+              }}
+            />
           )}
 
           <View style={{flex: 1}}>
@@ -614,9 +642,11 @@ const ModalProduct = (props: Props) => {
               </RowComponent>
 
               {producDetail?.description && isShowDesc && (
-                <TextComponent
-                  text={producDetail?.description ?? ''}
-                  flex={1}
+                <RenderHTML
+                  source={{html: producDetail.description}}
+                  contentWidth={appSize.width}
+                  tagsStyles={tagsStyles}
+                  ignoredStyles={['fontFamily', 'fontSize']}
                 />
               )}
             </SectionComponent>

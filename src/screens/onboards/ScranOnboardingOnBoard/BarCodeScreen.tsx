@@ -151,14 +151,12 @@ const BarCodeScreen = ({navigation}: any) => {
           left: 0,
           right: 0,
         }}
-        colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0)']}
-      >
+        colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0)']}>
         <RowComponent
           styles={{
             paddingVertical: 42,
             paddingHorizontal: 16,
-          }}
-        >
+          }}>
           <Button
             icon={<AntDesign name="close" size={22} color={appColors.white} />}
             onPress={() => navigation.goBack()}
@@ -192,8 +190,7 @@ const BarCodeScreen = ({navigation}: any) => {
                 borderRadius: 12,
                 paddingVertical: 10,
                 paddingHorizontal: 12,
-              }}
-            >
+              }}>
               <TextComponent text="You scanned your first item!" flex={1} />
             </View>
           )}
@@ -207,8 +204,7 @@ const BarCodeScreen = ({navigation}: any) => {
                 borderRadius: 12,
                 paddingVertical: 10,
                 paddingHorizontal: 12,
-              }}
-            >
+              }}>
               <TextComponent
                 text="Well done! You’ve scanned 5 items"
                 flex={1}
@@ -230,8 +226,7 @@ const BarCodeScreen = ({navigation}: any) => {
           bottom: 24,
           right: 0,
           left: 0,
-        }}
-      >
+        }}>
         <RowComponent styles={{marginBottom: 24}}>
           <TextComponent
             text="Scanning for barcodes..."
@@ -261,10 +256,10 @@ const BarCodeScreen = ({navigation}: any) => {
           setShowProduct(false);
         }}
         product={product}
-        onAddToList={async (count: number) =>
+        onAddToList={async (count: number, shop_id) =>
           product &&
-          (await HandleProduct.addToList(product, count).then(() =>
-            getGroceriesList(),
+          (await HandleProduct.addToList(product, count, shop_id, true).then(
+            () => getGroceriesList(),
           ))
         }
         products={groceriesList ?? []}

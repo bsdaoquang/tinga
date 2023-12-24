@@ -235,7 +235,7 @@ const AddToList = (props: Props) => {
             <View>
               <RowComponent>
                 <ChartPieItem
-                  total={67}
+                  total={'67'}
                   size={74}
                   fontSize={28}
                   data={{values: [70, 20, 10]}}

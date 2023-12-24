@@ -50,6 +50,8 @@ const ProductItemComponent = (props: Props) => {
     );
   };
 
+  // console.log(item);
+
   return (
     <>
       <CardContent
@@ -105,8 +107,15 @@ const ProductItemComponent = (props: Props) => {
             top: 10,
             right: 10,
           }}
-          icon={<Add size={24} color={appColors.white} />}
-          onPress={() => HandleProduct.addToList(item, 1)}
+          icon={
+            item.is_addedtolist === 0 ? (
+              <Add size={24} color={appColors.white} />
+            ) : (
+              <></>
+            )
+          }
+          // onPress={() => console.log(item)}
+          onPress={() => HandleProduct.addToList(item, 1, item.shop_id)}
         />
         <View style={{padding: 10}}>
           <TextComponent text={`$ ${item.price}`} size={12} />
@@ -158,8 +167,8 @@ const ProductItemComponent = (props: Props) => {
         }}
         product={item}
         products={[]}
-        onAddToList={async (count: number) =>
-          await HandleProduct.addToList(item, count)
+        onAddToList={async (count: number, shop_id: number) =>
+          await HandleProduct.addToList(item, count, shop_id)
         }
       />
     </>

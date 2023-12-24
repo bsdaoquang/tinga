@@ -7,6 +7,7 @@ import {
   Container,
   LoadingComponent,
   ProductItemComponent,
+  TextComponent,
 } from '../../components';
 import {showToast} from '../../utils/showToast';
 
@@ -49,15 +50,6 @@ const CategoryDetail = ({navigation, route}: any) => {
     }
   };
 
-  useEffect(() => {
-    products &&
-      products.forEach((item, index) => {
-        console.log(`id of item ${index} is ${item.id}`);
-      });
-
-    console.log(products.length);
-  }, [products]);
-
   return (
     <Container
       back
@@ -71,16 +63,16 @@ const CategoryDetail = ({navigation, route}: any) => {
       {products.length > 0 ? (
         <FlatList
           numColumns={2}
-          horizontal={false}
           showsVerticalScrollIndicator={false}
           data={products}
           renderItem={({item, index}) => (
             <ProductItemComponent
               item={item}
-              key={`product${index}`}
+              key={`product${index}${item.id}${item.shopname}`}
               styles={{marginLeft: 16}}
             />
           )}
+          keyExtractor={(item, _index) => `product${item.id}${item.shopname}`}
         />
       ) : (
         <LoadingComponent isLoading={isLoading} value={products.length} />

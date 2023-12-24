@@ -97,7 +97,8 @@ const SearchFilterComponent = (props: Props) => {
 
     try {
       const res: any = await handleGetData.handleProduct(api);
-      res && setCardCount(res);
+
+      res && typeof res === 'number' && setCardCount(res);
     } catch (error) {
       console.log(error);
     }
@@ -302,8 +303,10 @@ const SearchFilterComponent = (props: Props) => {
           setIsVisibleModalProduct(false);
           setProduct(undefined);
         }}
-        onAddToList={async (count: number) =>
-          product ? await HandleProduct.addToList(product, count) : undefined
+        onAddToList={async (count: number, shop_id: number) =>
+          product
+            ? await HandleProduct.addToList(product, count, shop_id)
+            : undefined
         }
       />
 

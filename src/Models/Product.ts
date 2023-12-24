@@ -9,6 +9,8 @@ export interface Product {
   product_id?: number;
   thumb_color: string;
   thumb_type: string;
+  is_addedtolist?: 0 | 1;
+  shop_id: number;
 }
 
 export interface ProductDetail {
@@ -29,6 +31,8 @@ export interface ProductDetail {
   ingridients: string;
   shopname: string;
   image: string;
+  is_addedtolist: 0 | 1;
+  shop_id: number;
 }
 
 export interface HistoryProduc {
