@@ -27,9 +27,8 @@ import {global} from '../../styles/global';
 import ModalizeFilter from '../../modals/ModalizeFilter';
 
 const SearchGrocery = ({navigation, route}: any) => {
-  const {searchKey, results}: {searchKey: string; results: Product[]} =
-    route.params;
-  const [searchValue, setSearchValue] = useState('');
+  const {searchKey}: {searchKey: string} = route.params;
+  const [searchValue, setSearchValue] = useState(searchKey ?? '');
   const [cardCount, setCardCount] = useState(0);
   const [resultsValue, setResultsValue] = useState<Product[]>([]);
   const [isSearch, setIsSearch] = useState(false);
@@ -43,17 +42,9 @@ const SearchGrocery = ({navigation, route}: any) => {
   }, []);
 
   useEffect(() => {
-    setSearchValue(searchKey);
-  }, [searchKey]);
-
-  useEffect(() => {
     setPage(1);
     if (searchValue && searchValue.length >= 3) {
-      if (searchKey === searchValue) {
-        setResultsValue(results);
-      } else {
-        searchProduct();
-      }
+      searchProduct();
     } else {
       setResultsValue([]);
     }
@@ -127,11 +118,7 @@ const SearchGrocery = ({navigation, route}: any) => {
       right={
         <Button
           icon={<AddSquare size={24} color={appColors.text3} variant="Bold" />}
-          onPress={() =>
-            navigation.navigate('Home', {
-              screen: 'MyAddedProducts',
-            })
-          }
+          onPress={() => navigation.navigate('AddNewScreen')}
         />
       }>
       <SectionComponent>
@@ -214,86 +201,91 @@ const SearchGrocery = ({navigation, route}: any) => {
             size={20}
             flex={0}
             text={`${
-              results.length > 0 ? 'Gluten-free' : 'No gluten-free'
+              resultsValue.length > 0 ? 'Gluten-free' : 'No gluten-free'
             } results for “${searchValue}”`}
           />
         )}
       </SectionComponent>
-      {isSearch ? (
-        <SectionComponent
-          styles={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator color={'#32645B'} size={35} />
-        </SectionComponent>
-      ) : (
-        <>
-          {resultsValue.length > 0 ? (
-            <FlatList
-              numColumns={2}
-              horizontal={false}
-              showsVerticalScrollIndicator={false}
-              data={resultsValue}
-              keyExtractor={(_item, index) => `product${index}`}
-              renderItem={({item, index}) => (
-                <ProductItemComponent
-                  key={`item${item.id}${index}${item.shopname}`}
-                  item={item}
-                  styles={{marginLeft: 16}}
-                />
-              )}
-              removeClippedSubviews
-              initialNumToRender={10}
-              onEndReachedThreshold={5}
-              ListFooterComponent={
-                isLoadmore ? (
-                  <ActivityIndicator />
-                ) : loadmoreable ? (
-                  <></>
-                ) : (
-                  <RowComponent>
-                    <TextComponent flex={0} text="End of data" />
-                  </RowComponent>
-                )
-              }
-              onEndReached={() => loadmoreable && setPage(page + 1)}
-            />
-          ) : (
-            <SectionComponent
-              styles={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <TextComponent
-                text={`Can’t find what you’re looking for?`}
-                flex={0}
+      {searchValue ? (
+        isSearch ? (
+          <SectionComponent
+            styles={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicator color={'#32645B'} size={35} />
+          </SectionComponent>
+        ) : (
+          <>
+            {resultsValue.length > 0 ? (
+              <FlatList
+                numColumns={2}
+                horizontal={false}
+                showsVerticalScrollIndicator={false}
+                data={resultsValue}
+                keyExtractor={(_item, index) => `product${index}`}
+                renderItem={({item, index}) => (
+                  <ProductItemComponent
+                    key={`item${item.id}${index}${item.shopname}`}
+                    item={item}
+                    styles={{marginLeft: 16}}
+                  />
+                )}
+                removeClippedSubviews
+                initialNumToRender={10}
+                onEndReachedThreshold={5}
+                ListFooterComponent={
+                  isLoadmore ? (
+                    <ActivityIndicator />
+                  ) : loadmoreable ? (
+                    <></>
+                  ) : (
+                    <RowComponent>
+                      <TextComponent flex={0} text="End of data" />
+                    </RowComponent>
+                  )
+                }
+                onEndReached={() => loadmoreable && setPage(page + 1)}
               />
-              <RowComponent
-                styles={{marginTop: 18}}
-                onPress={() => setIsVisibleModalFillter(true)}>
-                <TitleComponent
-                  flex={0}
-                  text="Edit your filters"
-                  styles={{textDecorationLine: 'underline'}}
-                />
-              </RowComponent>
-              <TextComponent text={`or help us grow our database.`} flex={0} />
-              <RowComponent
-                styles={{marginTop: 18}}
-                onPress={() => {
-                  navigation.navigate('AddNewScreen');
+            ) : (
+              <SectionComponent
+                styles={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}>
-                <AddSquare size={22} color={appColors.text} variant="Bold" />
-                <SpaceComponent width={8} />
-                <TitleComponent
+                <TextComponent
+                  text={`Can’t find what you’re looking for?`}
                   flex={0}
-                  text="Add Missing Product"
-                  styles={{textDecorationLine: 'underline'}}
                 />
-              </RowComponent>
-            </SectionComponent>
-          )}
-        </>
-      )}
+                <RowComponent
+                  styles={{marginTop: 18}}
+                  onPress={() => setIsVisibleModalFillter(true)}>
+                  <TitleComponent
+                    flex={0}
+                    text="Edit your filters"
+                    styles={{textDecorationLine: 'underline'}}
+                  />
+                </RowComponent>
+                <TextComponent
+                  text={`or help us grow our database.`}
+                  flex={0}
+                />
+                <RowComponent
+                  styles={{marginTop: 18}}
+                  onPress={() => {
+                    navigation.navigate('AddNewScreen');
+                  }}>
+                  <AddSquare size={22} color={appColors.text} variant="Bold" />
+                  <SpaceComponent width={8} />
+                  <TitleComponent
+                    flex={0}
+                    text="Add Missing Product"
+                    styles={{textDecorationLine: 'underline'}}
+                  />
+                </RowComponent>
+              </SectionComponent>
+            )}
+          </>
+        )
+      ) : null}
 
       <ModalizeFilter
         visible={isVisibleModalFillter}

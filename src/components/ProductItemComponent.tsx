@@ -150,7 +150,7 @@ const ProductItemComponent = (props: Props) => {
         )}
       </CardContent>
 
-      {/* <ModalProduct
+      <ModalProduct
         visible={isVisibileModalProduct}
         onClose={() => {
           setIsVisibileModalProduct(false);
@@ -161,7 +161,7 @@ const ProductItemComponent = (props: Props) => {
         onAddToList={async (count: number) =>
           await HandleProduct.addToList(item, count)
         }
-      /> */}
+      />
     </>
   );
 };

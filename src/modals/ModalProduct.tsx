@@ -69,7 +69,7 @@ const ModalProduct = (props: Props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getFavouritesList();
+    // getFavouritesList();
   }, []);
 
   useEffect(() => {
@@ -77,8 +77,8 @@ const ModalProduct = (props: Props) => {
   }, [visible]);
 
   useEffect(() => {
-    getProducDetail();
-  }, [product]);
+    visible && getProducDetail();
+  }, [product, visible]);
 
   const modalRef = useRef<Modalize>();
 

@@ -46,7 +46,7 @@ const SubSubCategories = ({route, navigation}: any) => {
       right={
         <Button
           icon={<AddSquare size={24} color={appColors.text3} variant="Bold" />}
-          onPress={() => {}}
+          onPress={() => navigation.navigate('AddNewScreen')}
         />
       }>
       <SearchFilterComponent
