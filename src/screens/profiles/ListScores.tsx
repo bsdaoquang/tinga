@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {SectionList, View} from 'react-native';
+import {ActivityIndicator, SectionList, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {ListScore, Scoredetails} from '../../Models/Score';
 import {
@@ -17,9 +17,11 @@ import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
 import {ModalInfoScore} from '../../modals';
 import {DateTime} from '../../utils/DateTime';
+import handleGetData from '../../apis/productAPI';
 
 const ListScores = ({navigation, route}: any) => {
-  const {items}: {items: ListScore[]} = route.params;
+  const [items, setItems] = useState<ListScore[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
   const [scoreData, setScoreData] = useState<
     {
@@ -27,6 +29,10 @@ const ListScores = ({navigation, route}: any) => {
       data: Scoredetails[];
     }[]
   >([]);
+
+  useEffect(() => {
+    getRecentsListScore();
+  }, []);
 
   useEffect(() => {
     if (items && items.length > 0) {
@@ -50,6 +56,18 @@ const ListScores = ({navigation, route}: any) => {
       setScoreData(section);
     }
   }, [items]);
+
+  const getRecentsListScore = async () => {
+    const api = `/allListScore`;
+
+    try {
+      const res: any = await handleGetData.handleUser(api);
+
+      res && res.length > 0 && setItems(res);
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
 
   const renderScoreItem = (item: Scoredetails) => {
     const total = item.green_line + item.red_line + item.orange_line;
@@ -149,39 +167,52 @@ const ListScores = ({navigation, route}: any) => {
 
   return (
     <Container back>
-      <SectionComponent>
-        <RowComponent>
-          <TitleComponent size={20} text="All List Scores" />
-          <Button
-            icon={
-              <AntDesign name="infocirlceo" size={20} color={appColors.gray} />
-            }
-            onPress={() => setIsVisibleModalInfo(true)}
-          />
-        </RowComponent>
-      </SectionComponent>
+      {isLoading ? (
+        <SectionComponent>
+          <ActivityIndicator />
+        </SectionComponent>
+      ) : (
+        <>
+          <SectionComponent>
+            <RowComponent>
+              <TitleComponent size={20} text="All List Scores" />
+              <Button
+                icon={
+                  <AntDesign
+                    name="infocirlceo"
+                    size={20}
+                    color={appColors.gray}
+                  />
+                }
+                onPress={() => setIsVisibleModalInfo(true)}
+              />
+            </RowComponent>
+          </SectionComponent>
 
-      <SectionList
-        showsVerticalScrollIndicator={false}
-        sections={scoreData}
-        keyExtractor={(item, index) => `notification${index}`}
-        renderItem={({item}) => renderScoreItem(item)}
-        renderSectionHeader={({section: {date}}) => (
-          <RowComponent
-            styles={{
-              paddingHorizontal: 16,
-              marginBottom: 10,
-            }}>
-            <TextComponent text={date} size={14} />
-            <Button
-              text="View List"
-              textSize={14}
-              textColor={appColors.success2}
-              onPress={() => {}}
-            />
-          </RowComponent>
-        )}
-      />
+          <SectionList
+            showsVerticalScrollIndicator={false}
+            sections={scoreData}
+            keyExtractor={(item, index) => `notification${index}`}
+            renderItem={({item}) => renderScoreItem(item)}
+            renderSectionHeader={({section: {date}}) => (
+              <RowComponent
+                styles={{
+                  paddingHorizontal: 16,
+                  marginBottom: 10,
+                }}>
+                <TextComponent text={date} size={14} />
+                <Button
+                  text="View List"
+                  textSize={14}
+                  textColor={appColors.success2}
+                  onPress={() => {}}
+                />
+              </RowComponent>
+            )}
+          />
+        </>
+      )}
+
       <ModalInfoScore
         visible={isVisibleModalInfo}
         onClose={() => setIsVisibleModalInfo(false)}

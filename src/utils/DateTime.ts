@@ -1,3 +1,5 @@
+import {add0toNumber} from './add0toNumber';
+
 const monthNames = [
   'Jan',
   'Feb',
@@ -18,5 +20,10 @@ export class DateTime {
     const d = new Date(date);
 
     return `${monthNames[d.getMonth()]} ${d.getDate()}th, ${d.getFullYear()}`;
+  };
+  static getShortDate = (date: string) => {
+    const d = new Date(date);
+
+    return `${add0toNumber(d.getDate())}/${add0toNumber(d.getMonth() + 1)}`;
   };
 }
