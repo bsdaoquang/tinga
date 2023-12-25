@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList} from 'react-native';
+import {ActivityIndicator, FlatList} from 'react-native';
 import {Category} from '../../Models/Category';
 import {Product} from '../../Models/Product';
 import handleGetData from '../../apis/productAPI';
@@ -24,24 +24,53 @@ const CategoryDetail = ({navigation, route}: any) => {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadmore, setLoadmore] = useState(false);
+  const [page, setPage] = useState(1);
+  const [loadmoreable, setLoadmoreable] = useState(true);
+
+  const api = `/getProductListing`;
+  const data = {
+    category_id: category.id,
+    subcategory_id: subCategory.id ?? 0,
+    sub_subcategory_id: subSubCategory
+      ? subSubCategory.id
+        ? subSubCategory.id
+        : 0
+      : 0,
+    page: 1,
+  };
 
   useEffect(() => {
     getProducts();
   }, [category]);
 
-  const getProducts = async () => {
-    const api = `/getProductListing`;
-    const data = {
-      category_id: category.id,
-      subcategory_id: subCategory.id ?? 0,
-      sub_subcategory_id: subSubCategory
-        ? subSubCategory.id
-          ? subSubCategory.id
-          : 0
-        : 0,
-      offset: 1,
-    };
+  useEffect(() => {
+    page > 1 && handleLoadmore();
+  }, [page]);
 
+  const handleLoadmore = async () => {
+    setLoadmore(true);
+    const currentData = [...products];
+    try {
+      const res: any = await handleGetData.handleProduct(
+        api,
+        {...data, page},
+        'post',
+      );
+      if (res && res.length > 0) {
+        res.forEach((item: any) => currentData.push(item));
+        setProducts(currentData);
+      } else {
+        setLoadmoreable(false);
+      }
+      setLoadmore(false);
+    } catch (error) {
+      setLoadmore(false);
+      console.log(error);
+    }
+  };
+
+  const getProducts = async () => {
     setIsLoading(true);
     try {
       const res: any = await handleGetData.handleProduct(api, data, 'post');
@@ -66,7 +95,10 @@ const CategoryDetail = ({navigation, route}: any) => {
       }>
       {products.length > 0 ? (
         <FlatList
+          onEndReached={() => loadmoreable && setPage(page + 1)}
+          onEndReachedThreshold={0.5}
           numColumns={2}
+          ListFooterComponent={loadmore ? <ActivityIndicator /> : null}
           showsVerticalScrollIndicator={false}
           data={products}
           renderItem={({item, index}) => (
