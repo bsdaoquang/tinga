@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {SectionList, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SectionList, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {GoodIcon, GreatIcon, LimitIcon} from '../../assets/svg';
+import {ListScore, Scoredetails} from '../../Models/Score';
 import {
   Button,
   CardContent,
@@ -16,161 +16,136 @@ import {
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
 import {ModalInfoScore} from '../../modals';
+import {DateTime} from '../../utils/DateTime';
 
-const ListScores = () => {
+const ListScores = ({navigation, route}: any) => {
+  const {items}: {items: ListScore[]} = route.params;
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
+  const [scoreData, setScoreData] = useState<
+    {
+      date: string;
+      data: Scoredetails[];
+    }[]
+  >([]);
 
-  const scores = [
-    {
-      date: 'May 15th, 2023',
-      data: [
-        {
-          id: 'score1',
-          total: 84,
-          dataScore: {
-            great: 70,
-            good: 20,
-            limit: 10,
-          },
-        },
-      ],
-    },
-    {
-      date: 'May 15th, 2023',
-      data: [
-        {
-          id: 'score1',
-          total: 67,
-          dataScore: {
-            great: 50,
-            good: 35,
-            limit: 15,
-          },
-        },
-      ],
-    },
-    {
-      date: 'May 15th, 2023',
-      data: [
-        {
-          id: 'score1',
-          total: 52,
-          dataScore: {
-            great: 50,
-            good: 35,
-            limit: 15,
-          },
-        },
-      ],
-    },
-    {
-      date: 'May 15th, 2023',
-      data: [
-        {
-          id: 'score1',
-          total: 85,
-          dataScore: {
-            great: 70,
-            good: 20,
-            limit: 10,
-          },
-        },
-      ],
-    },
-  ];
+  useEffect(() => {
+    if (items && items.length > 0) {
+      const section: {date: string; data: Scoredetails[]}[] = [];
+      items.forEach(item => {
+        const date = DateTime.getDateString(item.created_at);
+        const data: Scoredetails[] = [];
+        const values = items.filter(
+          element => DateTime.getDateString(element.created_at) === date,
+        );
 
-  const renderScoreItem = (item: any) => (
-    <CardContent
-      isShadow
-      styles={{padding: 20, marginHorizontal: 16, marginBottom: 22}}
-      color={appColors.white}>
-      <RowComponent>
-        <ChartPieItem
-          total={item.total}
-          size={100}
-          fontSize={40}
-          data={{values: [70, 20, 10]}}
-          radius={0.9}
-        />
-        <View
-          style={{
-            flex: 1,
-            paddingLeft: 12,
-          }}>
-          <RowComponent>
-            <View
-              style={{
-                backgroundColor: '#E6EECC',
-                padding: 4,
-                borderRadius: 100,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <TextComponent text="👍" size={12} flex={0} />
-            </View>
-            <TitleComponent
-              text={` ${item.dataScore.great}%`}
-              size={12}
-              flex={0}
-            />
-            <TextComponent
-              text={` (14) Great Choices`}
-              size={12}
-              font={fontFamilys.regular}
-            />
-          </RowComponent>
-          <SpaceComponent height={6} />
-          <RowComponent>
-            <View
-              style={{
-                backgroundColor: '#FFECBF',
-                padding: 4,
-                borderRadius: 100,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <TextComponent text="👌" size={12} flex={0} />
-            </View>
-            <TitleComponent
-              text={` ${item.dataScore.good}%`}
-              size={12}
-              flex={0}
-            />
-            <TextComponent
-              text={` (12) Good`}
-              size={12}
-              font={fontFamilys.regular}
-            />
-          </RowComponent>
+        if (values.length > 0) {
+          values.forEach(val => data.push(val.scoredetails));
+        }
 
-          <SpaceComponent height={6} />
-          <RowComponent>
-            <View
-              style={{
-                backgroundColor: '#FFDBDB',
-                padding: 4,
-                borderRadius: 100,
-                justifyContent: 'center',
-                alignItems: 'center',
-                transform: 'rotate(180deg)',
-              }}>
-              <TextComponent text="👍" size={12} flex={0} styles={{}} />
-            </View>
-            <TitleComponent
-              text={` ${item.dataScore.limit}%`}
-              size={12}
-              flex={0}
-            />
-            <TextComponent
-              text={` (4) Limit`}
-              size={12}
-              font={fontFamilys.regular}
-            />
-          </RowComponent>
-        </View>
-      </RowComponent>
-    </CardContent>
-  );
+        section.push({
+          date,
+          data,
+        });
+      });
+      setScoreData(section);
+    }
+  }, [items]);
+
+  const renderScoreItem = (item: Scoredetails) => {
+    const total = item.green_line + item.red_line + item.orange_line;
+    return (
+      <CardContent
+        isShadow
+        styles={{padding: 20, marginHorizontal: 16, marginBottom: 22}}
+        color={appColors.white}>
+        <RowComponent>
+          <ChartPieItem
+            total={`${item.list_score}`}
+            size={100}
+            fontSize={40}
+            data={{values: [item.green_line, item.orange_line, item.red_line]}}
+            radius={0.9}
+          />
+          <View
+            style={{
+              flex: 1,
+              paddingLeft: 12,
+            }}>
+            <RowComponent>
+              <View
+                style={{
+                  backgroundColor: '#E6EECC',
+                  padding: 4,
+                  borderRadius: 100,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <TextComponent text="👍" size={12} flex={0} />
+              </View>
+              <TitleComponent
+                text={` ${(item.green_line / total) * 100}%`}
+                size={12}
+                flex={0}
+              />
+              <TextComponent
+                text={` (${item.green_quantity}) Great Choices`}
+                size={12}
+                font={fontFamilys.regular}
+              />
+            </RowComponent>
+            <SpaceComponent height={6} />
+            <RowComponent>
+              <View
+                style={{
+                  backgroundColor: '#FFECBF',
+                  padding: 4,
+                  borderRadius: 100,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <TextComponent text="👌" size={12} flex={0} />
+              </View>
+              <TitleComponent
+                text={` ${(item.orange_line / total) * 100}%`}
+                size={12}
+                flex={0}
+              />
+              <TextComponent
+                text={` (${item.orange_quantity}) Good`}
+                size={12}
+                font={fontFamilys.regular}
+              />
+            </RowComponent>
+
+            <SpaceComponent height={6} />
+            <RowComponent>
+              <View
+                style={{
+                  backgroundColor: '#FFDBDB',
+                  padding: 4,
+                  borderRadius: 100,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  transform: 'rotate(180deg)',
+                }}>
+                <TextComponent text="👍" size={12} flex={0} styles={{}} />
+              </View>
+              <TitleComponent
+                text={` ${(item.red_line / total) * 100}%`}
+                size={12}
+                flex={0}
+              />
+              <TextComponent
+                text={` (${item.red_quantity}) Limit`}
+                size={12}
+                font={fontFamilys.regular}
+              />
+            </RowComponent>
+          </View>
+        </RowComponent>
+      </CardContent>
+    );
+  };
 
   return (
     <Container back>
@@ -188,8 +163,8 @@ const ListScores = () => {
 
       <SectionList
         showsVerticalScrollIndicator={false}
-        sections={scores}
-        keyExtractor={(item, index) => `notification${item.id + index}`}
+        sections={scoreData}
+        keyExtractor={(item, index) => `notification${index}`}
         renderItem={({item}) => renderScoreItem(item)}
         renderSectionHeader={({section: {date}}) => (
           <RowComponent
