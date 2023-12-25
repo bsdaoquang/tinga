@@ -32,6 +32,25 @@ const ProductItemComponent = (props: Props) => {
   const {item, styles, onReload, isCheckPremium} = props;
   const auth = useSelector(authSelector);
 
+  const renderThumbType = () => {
+    return (
+      <View
+        style={{
+          width: 18,
+          height: 18,
+          backgroundColor: item.thumb_color,
+          borderRadius: 100,
+          justifyContent: 'center',
+          alignItems: 'center',
+          transform: item.thumb_type === 'Bad' ? 'rotate(180deg)' : '',
+        }}>
+        <Text style={{fontSize: 9, color: '#FFD97D', lineHeight: 11}}>
+          {item.thumb_type === 'Normal' ? '👌' : `👍`}
+        </Text>
+      </View>
+    );
+  };
+
   return (
     <>
       <CardContent
@@ -118,6 +137,7 @@ const ProductItemComponent = (props: Props) => {
                 color={appColors.gray}
               />
             </RowComponent>
+            {renderThumbType()}
           </RowComponent>
         </View>
         {isCheckPremium && auth.is_premium === 0 && (
