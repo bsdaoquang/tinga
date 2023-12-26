@@ -22,7 +22,10 @@ export const LoadingComponent = (props: Props) => {
         padding: 20,
       }}>
       {isLoading ? (
-        <ActivityIndicator size={20} color={appColors.gray} />
+        <>
+          <ActivityIndicator size={20} color={appColors.gray} />
+          <TextComponent text="Loading..." flex={0} color={appColors.gray} />
+        </>
       ) : (
         value === 0 && (
           <>

@@ -14,6 +14,7 @@ import {
 } from '../screens';
 import VideoPlayer from '../screens/homes/components/VideoPlayer';
 import MyAddedProducts from '../screens/profiles/MyAddedProducts';
+import ListScoreDetail from '../screens/profiles/ListScoreDetail';
 
 const HomeNavigator = () => {
   const HomeStack = createNativeStackNavigator();
@@ -35,6 +36,7 @@ const HomeNavigator = () => {
       <HomeStack.Screen name="ReferralTerms" component={ReferralTerms} />
       <HomeStack.Screen name="MyAddedProducts" component={MyAddedProducts} />
       <HomeStack.Screen name="ContactDietitian" component={ContactDietitian} />
+      <HomeStack.Screen name="ListScoreDetail" component={ListScoreDetail} />
     </HomeStack.Navigator>
   );
 };
