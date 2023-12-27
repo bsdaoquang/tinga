@@ -21,7 +21,6 @@ const HistoryListDetail = ({navigation, route}: any) => {
     };
   } = route.params;
 
-  console.log(items);
   return (
     <Container back>
       <SectionComponent>

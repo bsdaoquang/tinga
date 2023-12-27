@@ -13,6 +13,12 @@ export interface Product {
   shop_id: number;
 }
 
+export interface GroceryItem {
+  category_id: number;
+  category_name: string;
+  products: ProductDetail[];
+}
+
 export interface ProductDetail {
   allergies: Allergy[];
   code: string;
@@ -34,6 +40,8 @@ export interface ProductDetail {
   thumb_color: string;
   thumb_type: string;
   upc: string;
+  is_checked: string;
+  qty: number;
 }
 
 export interface Allergy {
@@ -91,4 +99,11 @@ export interface AddProduct {
   ingredient_image: string;
   nutrition_image: string;
   barcode_image: string;
+}
+
+export interface GroceryStore {
+  shopname: string;
+  shop_id: number;
+  total_items: number;
+  total_amount: number;
 }

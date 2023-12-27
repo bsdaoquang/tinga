@@ -10,7 +10,7 @@ import {
   SpaceComponent,
   TextComponent,
 } from '.';
-import {Product} from '../Models/Product';
+import {Product, ProductDetail} from '../Models/Product';
 import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
 import {ModalProduct} from '../modals';
@@ -30,7 +30,13 @@ const ProductItemComponent = (props: Props) => {
   const [isVisibileModalProduct, setIsVisibileModalProduct] = useState(false);
 
   const {item, styles, onReload, isCheckPremium} = props;
+  const [ProductDetail, setProductDetail] = useState<ProductDetail>();
+
   const auth = useSelector(authSelector);
+
+  const getProductDetail = async () => {
+    const api = `/getProductDetail/${item.id}`;
+  };
 
   const renderThumbType = () => {
     return (
@@ -116,7 +122,9 @@ const ProductItemComponent = (props: Props) => {
               <AntDesign name="check" size={20} color={appColors.white} />
             )
           }
-          onPress={() => HandleProduct.addToList(item, 1, item.shop_id)}
+          onPress={async () =>
+            await HandleProduct.addToList(item, 1, item.shop_id)
+          }
         />
         <View style={{padding: 10}}>
           <TextComponent text={`$ ${item.price}`} size={12} />

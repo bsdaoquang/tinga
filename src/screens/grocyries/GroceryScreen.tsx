@@ -21,24 +21,28 @@ import {LoadingModal, ModalizeEditShopList} from '../../modals';
 import ModalizeInfoGrocery from '../../modals/ModalizeInfoGrocery';
 import {showToast} from '../../utils/showToast';
 import AddToList from './component/AddToList';
+import {useIsFocused} from '@react-navigation/native';
 
 const GroceryScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [productList, setProductList] = useState([]);
   const [isVisibleModalEditList, setIsVisibleModalEditList] = useState(false);
   const [isEditList, setIsEditList] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [cardCount, setCardCount] = useState(0);
 
-  useEffect(() => {
-    getMyProductList();
-  }, []);
+  const isFocused = useIsFocused();
 
-  const getMyProductList = async () => {
+  useEffect(() => {
+    isFocused && getMyProductList();
+  }, [isFocused]);
+
+  const getMyProductList = async (isReload?: boolean) => {
     const api = `/listOfProductsCategorywise`;
     const cardCountAPI = '/getProductGroceryCount';
-    setIsLoading(true);
+
+    isReload ? setIsUpdating(true) : setIsLoading(true);
 
     try {
       const products: any = await handleGetData.handleProduct(
@@ -54,15 +58,19 @@ const GroceryScreen = ({navigation}: any) => {
       setCardCount(res.data ?? 0);
 
       setIsLoading(false);
+      setIsUpdating(false);
     } catch (error) {
       console.log(error);
       setIsLoading(false);
+      setIsUpdating(false);
     }
+
+    setIsLoading(false);
   };
 
   const handleModalId = (id: string) => {
     if (id === 'edit') {
-      setIsEditList(true);
+      setIsEditList(!isEditList);
     } else {
       navigation.navigate('');
     }
@@ -127,8 +135,7 @@ const GroceryScreen = ({navigation}: any) => {
         <AddToList
           products={productList}
           isEdit={isEditList}
-          selectedItems={items => console.log(items)}
-          onRemoveItem={(id: number) => onRemoveItemFromList(id)}
+          onChange={() => getMyProductList(true)}
         />
       ) : (
         <>

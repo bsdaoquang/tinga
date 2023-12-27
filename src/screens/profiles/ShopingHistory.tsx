@@ -57,11 +57,12 @@ const ShopingHistory = ({navigation}: any) => {
   }, [historiesList]);
 
   const getHistoriesListOfProduct = async () => {
-    const api = `/listOfProducts`;
+    const api = `/groceryHistory`;
 
     await handleGetData
-      .handleProduct(api, {}, 'post')
+      .handleProduct(api)
       .then((res: any) => {
+        console.log(res);
         setHistoriesList(res);
       })
       .catch(error => {

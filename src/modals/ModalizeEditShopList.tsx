@@ -35,19 +35,19 @@ const ModalizeEditShopList = (props: Props) => {
 
   useEffect(() => {
     if (visible) {
-      modalize.current?.open();
-      // Platform.OS === 'android'
-      //   ? modalize.current?.open()
-      //   : ActionSheetIOS.showActionSheetWithOptions(
-      //       {
-      //         options: menuUpdateShopListIos,
-      //         cancelButtonIndex: 0,
-      //         userInterfaceStyle: 'light',
-      //         title: 'Cập nhật ảnh đại diện',
-      //       },
+      // modalize.current?.open();
+      Platform.OS === 'android'
+        ? modalize.current?.open()
+        : ActionSheetIOS.showActionSheetWithOptions(
+            {
+              options: menuUpdateShopListIos,
+              cancelButtonIndex: 0,
+              userInterfaceStyle: 'light',
+              title: 'Cập nhật ảnh đại diện',
+            },
 
-      //       buttonIndex => console.log(buttonIndex),
-      //     );
+            buttonIndex => console.log(buttonIndex),
+          );
     } else {
       Platform.OS === 'android' && modalize.current?.close();
     }

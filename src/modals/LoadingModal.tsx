@@ -1,10 +1,9 @@
-import {View, Text, Modal, ActivityIndicator} from 'react-native';
 import React from 'react';
-import {appColors} from '../constants/appColors';
-import {global} from '../styles/global';
+import {ActivityIndicator, Modal, View} from 'react-native';
 import {TextComponent} from '../components';
-import {appInfos} from '../constants/appInfos';
+import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
+import {global} from '../styles/global';
 
 interface Props {
   visible: boolean;
@@ -17,7 +16,7 @@ const LoadingModal = (props: Props) => {
     <Modal
       visible={visible}
       transparent
-      animationType="slide"
+      animationType="fade"
       statusBarTranslucent>
       <View
         style={[
