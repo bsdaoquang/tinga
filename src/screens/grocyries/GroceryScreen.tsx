@@ -28,12 +28,18 @@ import AddToList from './component/AddToList';
 
 const GroceryScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [productList, setProductList] = useState([]);
   const [isVisibleModalEditList, setIsVisibleModalEditList] = useState(false);
   const [isEditList, setIsEditList] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [cardCount, setCardCount] = useState(0);
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    isFocused && getMyProductList();
+  }, [isFocused]);
 
   const getMyProductList = async (isReload?: boolean) => {
     const api = `/listOfProductsCategorywise`;
@@ -68,8 +74,8 @@ const GroceryScreen = ({navigation}: any) => {
   const handleModalId = (id: string) => {
     if (id === 'edit') {
       setIsEditList(!isEditList);
-    } else {
-      navigation.navigate('');
+    } else if (id === 'swap') {
+      navigation.navigate('ImproveScore');
     }
 
     setIsVisibleModalEditList(false);

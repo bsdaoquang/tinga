@@ -105,3 +105,22 @@ export interface GroceryStore {
   total_items: number;
   total_amount: number;
 }
+
+export interface SwapModel {
+  product_id: number;
+  shop_id: number;
+  swapproducts: Swapproduct[];
+}
+
+export interface Swapproduct {
+  id: number;
+  name: string;
+  price: string;
+  old_price: string;
+  shop_id: number;
+  shopname: string;
+  image: string;
+  thumb_type: string;
+  thumb_color: string;
+  is_addedtolist: number;
+}

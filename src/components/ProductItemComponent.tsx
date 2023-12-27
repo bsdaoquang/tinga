@@ -191,7 +191,9 @@ const ProductItemComponent = (props: Props) => {
         product={item}
         products={[]}
         onAddToList={async (count: number, shop_id: number) =>
-          await HandleProduct.addToList(item, count, shop_id)
+          await HandleProduct.addToList(item, count, shop_id).then(() =>
+            checkItemOfList(),
+          )
         }
       />
       <LoadingModal visible={isLoading} />

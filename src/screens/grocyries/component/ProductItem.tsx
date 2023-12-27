@@ -18,7 +18,7 @@ interface Props {
   isSelected: boolean;
   isEdit?: boolean;
   handleRemoveItem?: () => void;
-  onChangeCount: (type: 'minus' | 'plust') => void;
+  onChangeCount: (type: 'minus' | 'plus') => void;
 }
 
 const ProductItem = (props: Props) => {
@@ -111,7 +111,7 @@ const ProductItem = (props: Props) => {
             <Button
               disable={isSelected}
               icon={<AddSquare size={22} color={color} />}
-              onPress={() => onChangeCount('plust')}
+              onPress={() => onChangeCount('plus')}
             />
           )}
         </RowComponent>
