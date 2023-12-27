@@ -1,7 +1,8 @@
-import {Add, Check, Location, Star1} from 'iconsax-react-native';
+import {Add, Location} from 'iconsax-react-native';
 import React, {useState} from 'react';
 import {StyleProp, Text, View, ViewStyle} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useSelector} from 'react-redux';
 import {
   Button,
@@ -10,14 +11,14 @@ import {
   SpaceComponent,
   TextComponent,
 } from '.';
-import {Product, ProductDetail} from '../Models/Product';
+import {Product} from '../Models/Product';
+import handleGetData from '../apis/productAPI';
 import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
-import {ModalProduct} from '../modals';
+import {LoadingModal, ModalProduct} from '../modals';
 import {authSelector} from '../redux/reducers/authReducer';
 import {HandleProduct} from '../utils/HandleProduct';
 import LockPremiumComponent from './LockPremiumComponent';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 interface Props {
   item: Product;
@@ -30,12 +31,23 @@ const ProductItemComponent = (props: Props) => {
   const [isVisibileModalProduct, setIsVisibileModalProduct] = useState(false);
 
   const {item, styles, onReload, isCheckPremium} = props;
-  const [ProductDetail, setProductDetail] = useState<ProductDetail>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isCheckedItem, setIsCheckedItem] = useState(item.is_addedtolist);
 
   const auth = useSelector(authSelector);
 
-  const getProductDetail = async () => {
-    const api = `/getProductDetail/${item.id}`;
+  const checkItemOfList = async () => {
+    const api = `/getDetailProduct?id=${item.id}&shop_id=${item.shop_id}`;
+    setIsLoading(true);
+    try {
+      const res: any = await handleGetData.handleProduct(api);
+
+      res.length > 0 && setIsCheckedItem(res[0].is_addedtolist);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
   };
 
   const renderThumbType = () => {
@@ -107,23 +119,25 @@ const ProductItemComponent = (props: Props) => {
           styles={{
             width: 28,
             height: 28,
-            backgroundColor: item.is_addedtolist
-              ? '#263238'
-              : appColors.primary,
+            backgroundColor:
+              isCheckedItem === 1 ? '#263238' : appColors.primary,
             borderRadius: 14,
             position: 'absolute',
             top: 10,
             right: 10,
           }}
           icon={
-            item.is_addedtolist === 0 ? (
+            isCheckedItem === 0 ? (
               <Add size={24} color={appColors.white} />
             ) : (
               <AntDesign name="check" size={20} color={appColors.white} />
             )
           }
+          disable={isCheckedItem === 1}
           onPress={async () =>
-            await HandleProduct.addToList(item, 1, item.shop_id)
+            await HandleProduct.addToList(item, 1, item.shop_id).then(() =>
+              checkItemOfList(),
+            )
           }
         />
         <View style={{padding: 10}}>
@@ -180,6 +194,7 @@ const ProductItemComponent = (props: Props) => {
           await HandleProduct.addToList(item, count, shop_id)
         }
       />
+      <LoadingModal visible={isLoading} />
     </>
   );
 };

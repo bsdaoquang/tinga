@@ -1,3 +1,8 @@
+import {
+  NavigationProp,
+  useIsFocused,
+  useNavigation,
+} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
@@ -19,9 +24,7 @@ import {appColors} from '../../constants/appColors';
 import {appSize} from '../../constants/appSize';
 import {LoadingModal, ModalizeEditShopList} from '../../modals';
 import ModalizeInfoGrocery from '../../modals/ModalizeInfoGrocery';
-import {showToast} from '../../utils/showToast';
 import AddToList from './component/AddToList';
-import {useIsFocused} from '@react-navigation/native';
 
 const GroceryScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
@@ -31,12 +34,6 @@ const GroceryScreen = ({navigation}: any) => {
   const [isEditList, setIsEditList] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [cardCount, setCardCount] = useState(0);
-
-  const isFocused = useIsFocused();
-
-  useEffect(() => {
-    isFocused && getMyProductList();
-  }, [isFocused]);
 
   const getMyProductList = async (isReload?: boolean) => {
     const api = `/listOfProductsCategorywise`;
@@ -76,28 +73,6 @@ const GroceryScreen = ({navigation}: any) => {
     }
 
     setIsVisibleModalEditList(false);
-  };
-
-  const onRemoveItemFromList = async (id: number) => {
-    const api = `/listItemsDelete`;
-    const data = {
-      item_ids: id,
-    };
-
-    setIsUpdating(true);
-    await handleGetData
-      .handleProduct(api, data, 'post')
-      .then(() => {
-        setIsUpdating(false);
-
-        getMyProductList();
-      })
-      .catch(error => {
-        setIsUpdating(false);
-        showToast(JSON.stringify(error));
-      });
-
-    setIsEditList(false);
   };
 
   return (

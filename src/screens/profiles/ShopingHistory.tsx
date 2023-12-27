@@ -1,11 +1,12 @@
 import {ArrowRight2} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList} from 'react-native';
 import {HistoryProduc} from '../../Models/Product';
 import handleGetData from '../../apis/productAPI';
 import {
   Button,
   CardContent,
+  ChartPieItem,
   Container,
   ImageProduct,
   RowComponent,
@@ -19,41 +20,32 @@ import {DateTime} from '../../utils/DateTime';
 
 const ShopingHistory = ({navigation}: any) => {
   const [historiesList, setHistoriesList] = useState<HistoryProduc[]>([]);
-  const [dataHistories, setDataHistories] = useState<
-    {
-      date: string;
-      data: HistoryProduc[];
-    }[]
-  >([]);
 
   useEffect(() => {
     getHistoriesListOfProduct();
   }, []);
 
   useEffect(() => {
-    const dataList: {date: string; data: HistoryProduc[]}[] = [];
-    if (historiesList.length > 0) {
-      historiesList.forEach(item => {
-        const date = DateTime.getDateString(
-          new Date(item.created_on).toISOString(),
-        );
-
-        const index = dataList.findIndex(element => element.date === date);
-
-        index === -1 &&
-          dataList.push({
-            date,
-            data: historiesList.filter(
-              element =>
-                DateTime.getDateString(
-                  new Date(element.created_on).toISOString(),
-                ) === date,
-            ),
-          });
-      });
-    }
-
-    setDataHistories(dataList);
+    // const dataList: {date: string; data: HistoryProduc[]}[] = [];
+    // if (historiesList.length > 0) {
+    //   historiesList.forEach(item => {
+    //     const date = DateTime.getDateString(
+    //       new Date(item.created_on).toISOString(),
+    //     );
+    //     const index = dataList.findIndex(element => element.date === date);
+    //     index === -1 &&
+    //       dataList.push({
+    //         date,
+    //         data: historiesList.filter(
+    //           element =>
+    //             DateTime.getDateString(
+    //               new Date(element.created_on).toISOString(),
+    //             ) === date,
+    //         ),
+    //       });
+    //   });
+    // }
+    // setDataHistories(dataList);
   }, [historiesList]);
 
   const getHistoriesListOfProduct = async () => {
@@ -62,7 +54,6 @@ const ShopingHistory = ({navigation}: any) => {
     await handleGetData
       .handleProduct(api)
       .then((res: any) => {
-        console.log(res);
         setHistoriesList(res);
       })
       .catch(error => {
@@ -78,23 +69,18 @@ const ShopingHistory = ({navigation}: any) => {
   //   });
   // }, [dataHistories]);
 
-  const renderCardHistory = (
-    items: {date: string; data: HistoryProduc[]},
-    indexlist: number,
-  ) => (
+  const renderCardHistory = (item: HistoryProduc) => (
     <CardContent
       color={appColors.white}
       isShadow
       styles={{marginBottom: 16}}
-      key={`shoping${indexlist}`}>
+      key={`productGrocery${item.id}`}>
       <RowComponent
-        onPress={() =>
-          navigation.navigate('HistoryListDetail', {items: items})
-        }>
-        <TextComponent text={items.date} />
+        onPress={() => navigation.navigate('HistoryListDetail', {items: item})}>
+        <TextComponent text={DateTime.getDateString(item.created_at)} />
         <Button
           onPress={() =>
-            navigation.navigate('HistoryListDetail', {items: items})
+            navigation.navigate('HistoryListDetail', {items: item})
           }
           icon={<ArrowRight2 size={18} color={appColors.gray} />}
         />
@@ -103,20 +89,21 @@ const ShopingHistory = ({navigation}: any) => {
       <FlatList
         keyExtractor={() => (Math.random() * 10000000).toFixed(1)}
         ListHeaderComponent={
-          <View
-            style={{
-              width: 40,
-              height: 40,
-              backgroundColor: '#E6EECC',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 100,
-              marginRight: 6,
-            }}>
-            <TextComponent text="👍" size={16} flex={0} />
-          </View>
+          <ChartPieItem
+            total={`${item.scoredetails.list_score}`}
+            size={42}
+            fontSize={18}
+            data={{
+              values: [
+                item.scoredetails.green_line,
+                item.scoredetails.orange_line,
+                item.scoredetails.red_line,
+              ],
+            }}
+            radius={0.9}
+          />
         }
-        data={items.data}
+        data={item.products}
         renderItem={({item, index}) => (
           <ImageProduct imageUrl={item.image} styles={{marginLeft: 8}} />
         )}
@@ -131,7 +118,7 @@ const ShopingHistory = ({navigation}: any) => {
       <SectionComponent>
         <TitleComponent text="Grocery List History" size={32} />
         <SpaceComponent height={12} />
-        {dataHistories.map((item, index) => renderCardHistory(item, index))}
+        {historiesList.map(item => renderCardHistory(item))}
       </SectionComponent>
     </Container>
   );

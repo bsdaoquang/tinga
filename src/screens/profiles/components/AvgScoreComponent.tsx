@@ -58,8 +58,7 @@ const AvgScoreComponent = () => {
 
     try {
       const res: any = await handleGetData.handleUser(api);
-
-      res && res.length > 0 && setListScores(res);
+      res && setListScores(res);
     } catch (error) {
       setIsLoading(false);
     }
@@ -112,7 +111,7 @@ const AvgScoreComponent = () => {
         <ActivityIndicator />
       ) : (
         <>
-          {avgScore && (
+          {avgScore && avgScore.list_score >= 0 ? (
             <SectionComponent>
               <RowComponent styles={{alignItems: 'flex-start'}}>
                 <View style={{flex: 1}}>
@@ -266,6 +265,8 @@ const AvgScoreComponent = () => {
                 )}
               </View>
             </SectionComponent>
+          ) : (
+            <></>
           )}
           {listScores.length > 0 && (
             <SectionComponent>

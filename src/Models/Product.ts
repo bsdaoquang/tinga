@@ -1,3 +1,5 @@
+import {Scoredetails} from './Score';
+
 export interface Product {
   id: number;
   name: string;
@@ -81,14 +83,10 @@ export interface Nutrition {
 }
 
 export interface HistoryProduc {
-  created_on: number;
+  created_at: string;
   id: number;
-  image: string;
-  name: string;
-  old_price: string;
-  price: string;
-  qty: number;
-  shopname: string;
+  products: Product[];
+  scoredetails: Scoredetails;
 }
 
 export interface AddProduct {

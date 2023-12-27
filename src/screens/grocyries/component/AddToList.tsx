@@ -2,19 +2,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {Add} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {useSelector} from 'react-redux';
 import {
   GroceryItem,
   GroceryStore,
-  Product,
   ProductDetail,
 } from '../../../Models/Product';
 import {Scoredetails} from '../../../Models/Score';
@@ -97,6 +91,8 @@ const AddToList = (props: Props) => {
           selectedItems.forEach(selected => items.push(selected));
       });
       setProductSelected(items);
+
+      getListScore();
     }
   }, [products]);
 
@@ -181,7 +177,7 @@ const AddToList = (props: Props) => {
     }
   };
 
-  const handleUpdateQuaily = async (count: number, id: number) => {
+  const handleUpdateQuaily = async (type: 'minus' | 'plust', id: number) => {
     const api = `/qtyUpdate`;
 
     try {
@@ -189,14 +185,13 @@ const AddToList = (props: Props) => {
         api,
         {
           item_id: id,
-          qty: count,
+          qty: 1,
+          type,
         },
         'post',
       );
 
       showToast(res.message);
-      handleGetShops();
-      getListScore();
       onChange();
     } catch (error) {
       console.log(error);
@@ -214,10 +209,7 @@ const AddToList = (props: Props) => {
       );
 
       showToast(res.message);
-
       setIsLoading(false);
-
-      getListScore();
       onChange();
     } catch (error) {
       setIsLoading(false);
@@ -264,6 +256,7 @@ const AddToList = (props: Props) => {
             style={{
               flex: 1,
               paddingLeft: 34,
+              minHeight: 100,
             }}>
             <RowComponent>
               <View
@@ -417,13 +410,7 @@ const AddToList = (props: Props) => {
               />
             </RowComponent>
             <SpaceComponent height={12} />
-            {loadListScore ? (
-              <ActivityIndicator />
-            ) : listScore ? (
-              renderListScore(listScore)
-            ) : (
-              <></>
-            )}
+            {listScore ? renderListScore(listScore) : <></>}
           </CardContent>
         )}
       </SectionComponent>
@@ -456,7 +443,9 @@ const AddToList = (props: Props) => {
                 text={`All stores - ${store.reduce(
                   (a, b) => a + b.total_items,
                   0,
-                )} ($${store.reduce((a, b) => a + b.total_amount, 0)})`}
+                )} ($${store
+                  .reduce((a, b) => a + b.total_amount, 0)
+                  .toFixed(2)})`}
               />
             </TouchableOpacity>
           }
@@ -494,10 +483,7 @@ const AddToList = (props: Props) => {
                 item.products.map(product => (
                   <ProductItem
                     key={`product${product.id}${product.shop_id}`}
-                    onChangeCount={count =>
-                      count !== product.qty &&
-                      handleUpdateQuaily(count, product.id)
-                    }
+                    onChangeCount={type => handleUpdateQuaily(type, product.id)}
                     isEdit={isEdit}
                     handleRemoveItem={() => handleRemoveItem(product.id)}
                     item={product}

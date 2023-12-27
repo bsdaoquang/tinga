@@ -3,7 +3,7 @@ import {AddSquare, MinusSquare} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Product, ProductDetail} from '../../../Models/Product';
+import {ProductDetail} from '../../../Models/Product';
 import {
   Button,
   ImageProduct,
@@ -18,7 +18,7 @@ interface Props {
   isSelected: boolean;
   isEdit?: boolean;
   handleRemoveItem?: () => void;
-  onChangeCount: (count: number) => void;
+  onChangeCount: (type: 'minus' | 'plust') => void;
 }
 
 const ProductItem = (props: Props) => {
@@ -96,7 +96,7 @@ const ProductItem = (props: Props) => {
             <Button
               disable={isSelected}
               icon={<MinusSquare size={22} color={color} />}
-              onPress={() => onChangeCount(count - 1)}
+              onPress={() => onChangeCount('minus')}
             />
           )}
 
@@ -111,7 +111,7 @@ const ProductItem = (props: Props) => {
             <Button
               disable={isSelected}
               icon={<AddSquare size={22} color={color} />}
-              onPress={() => onChangeCount(count + 1)}
+              onPress={() => onChangeCount('plust')}
             />
           )}
         </RowComponent>

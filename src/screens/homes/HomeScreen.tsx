@@ -4,6 +4,7 @@ import {Alert, Image, StatusBar, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {AlertDetail} from '../../Models/AlertDetail';
 import {HistoryProduc} from '../../Models/Product';
+import {ProfileScore} from '../../Models/Score';
 import {VideoModel} from '../../Models/VideoModel';
 import dashboardAPI from '../../apis/dashboardAPI';
 import handleGetData from '../../apis/productAPI';
@@ -37,7 +38,6 @@ import HomeCarousels from './components/HomeCarousels';
 import Promotions from './components/Promotions';
 import RecipesList from './components/RecipesList';
 import VideoComponent from './components/VideoComponent';
-import {ProfileScore} from '../../Models/Score';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -51,8 +51,6 @@ const HomeScreen = ({navigation, route}: any) => {
   const [profileScore, setProfileScore] = useState<ProfileScore>();
 
   const auth = useSelector(authSelector);
-
-  // console.log(auth);
 
   useEffect(() => {
     if (auth.is_premium !== 1) {
@@ -101,6 +99,7 @@ const HomeScreen = ({navigation, route}: any) => {
 
     try {
       const res: any = await handleGetData.handleUser(api);
+
       res && setProfileScore(res);
     } catch (error) {
       console.log(`Can not get profile score, ${error}`);
@@ -162,7 +161,7 @@ const HomeScreen = ({navigation, route}: any) => {
                 flexDirection: 'row',
               }}
               onPress={() => navigation.navigate('ProfileScreen')}>
-              {profileScore && (
+              {profileScore && profileScore.list_score >= 0 ? (
                 <View
                   style={{
                     padding: 3,
@@ -183,6 +182,8 @@ const HomeScreen = ({navigation, route}: any) => {
                     radius={0.9}
                   />
                 </View>
+              ) : (
+                <></>
               )}
               <SpaceComponent width={8} />
 
