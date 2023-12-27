@@ -1,4 +1,4 @@
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
   Button,
@@ -91,6 +91,107 @@ const SwapItemsComponent = (props: Props) => {
     }
   };
 
+  const renderSwapItemsByProduct = () => {
+    const swapItems = items.find(
+      element =>
+        element.product_id === product?.id &&
+        element.shop_id === product.shop_id,
+    );
+
+    return swapItems && swapItems.swapproducts.length > 0 ? (
+      <FlatList
+        style={{marginTop: 16}}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        data={swapItems.swapproducts}
+        renderItem={({item}) => (
+          <View style={{marginLeft: 6, marginRight: 12, marginBottom: 12}}>
+            {renderCardItem(item, () =>
+              handleSwapItem({
+                product_id: swapItems.product_id,
+                shop_id: swapItems.shop_id,
+                swap_product_id: item.id,
+                swap_shop_id: item.shop_id,
+              }),
+            )}
+          </View>
+        )}
+      />
+    ) : (
+      <></>
+    );
+  };
+
+  const renderCardItem = (item: Swapproduct, onPress: () => void) => (
+    <CardContent
+      key={`children${item.id}shopId${item.shop_id}`}
+      color={appColors.white}
+      styles={[
+        global.shadow,
+        {
+          width: (appSize.width - 48) / 2,
+          marginBottom: product ? 0 : 16,
+          padding: 0,
+        },
+      ]}>
+      <Image
+        source={{uri: item.image}}
+        resizeMode="cover"
+        style={{
+          height: 100,
+          width: 'auto',
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+        }}
+      />
+
+      <Button
+        styles={{
+          width: 28,
+          height: 28,
+          backgroundColor:
+            item.is_addedtolist === 1 ? '#263238' : appColors.primary,
+          borderRadius: 14,
+          position: 'absolute',
+          top: 10,
+          right: 10,
+        }}
+        icon={
+          item.is_addedtolist === 0 ? (
+            <Add size={24} color={appColors.white} />
+          ) : (
+            <AntDesign name="check" size={20} color={appColors.white} />
+          )
+        }
+        disable={item.is_addedtolist === 1}
+        onPress={onPress}
+      />
+
+      <View style={{padding: 10}}>
+        <TextComponent text={`$ ${item.price}`} size={12} />
+        <TextComponent
+          text={item.name}
+          size={12}
+          line={2}
+          styles={{minHeight: 30}}
+        />
+        <SpaceComponent height={8} />
+        <RowComponent justify="space-between">
+          <RowComponent>
+            <Location size={14} color={appColors.gray} />
+            <TextComponent
+              text={` ${item.shopname}`}
+              size={12}
+              flex={0}
+              color={appColors.gray}
+            />
+          </RowComponent>
+          {renderThumbType(item)}
+        </RowComponent>
+      </View>
+    </CardContent>
+  );
+
   return (
     <View>
       <RowComponent
@@ -121,96 +222,23 @@ const SwapItemsComponent = (props: Props) => {
       </RowComponent>
       {items.length > 0 ? (
         product ? (
-          <></>
+          <>{renderSwapItemsByProduct()}</>
         ) : (
           <>
             {items.map(parentItem => (
               <RowComponent
                 styles={{justifyContent: 'space-between'}}
                 key={`product${parentItem.product_id}shopId${parentItem.shop_id}`}>
-                {parentItem.swapproducts.map(item => (
-                  <CardContent
-                    // onPress={() => console.log(item)}
-                    key={`children${item.id}shopId${item.shop_id}`}
-                    color={appColors.white}
-                    styles={[
-                      global.shadow,
-                      {
-                        width: (appSize.width - 48) / 2,
-                        marginBottom: 16,
-                        padding: 0,
-                      },
-                    ]}>
-                    <Image
-                      source={{uri: item.image}}
-                      resizeMode="cover"
-                      style={{
-                        height: 100,
-                        width: 'auto',
-                        borderTopLeftRadius: 10,
-                        borderTopRightRadius: 10,
-                      }}
-                    />
-
-                    <Button
-                      styles={{
-                        width: 28,
-                        height: 28,
-                        backgroundColor:
-                          item.is_addedtolist === 1
-                            ? '#263238'
-                            : appColors.primary,
-                        borderRadius: 14,
-                        position: 'absolute',
-                        top: 10,
-                        right: 10,
-                      }}
-                      icon={
-                        item.is_addedtolist === 0 ? (
-                          <Add size={24} color={appColors.white} />
-                        ) : (
-                          <AntDesign
-                            name="check"
-                            size={20}
-                            color={appColors.white}
-                          />
-                        )
-                      }
-                      disable={item.is_addedtolist === 1}
-                      onPress={async () =>
-                        handleSwapItem({
-                          product_id: parentItem.product_id,
-                          shop_id: parentItem.shop_id,
-                          swap_product_id: item.id,
-                          swap_shop_id: item.shop_id,
-                        })
-                      }
-                    />
-
-                    <View style={{padding: 10}}>
-                      <TextComponent text={`$ ${item.price}`} size={12} />
-                      <TextComponent
-                        text={item.name}
-                        size={12}
-                        line={2}
-                        styles={{minHeight: 30}}
-                      />
-                      <SpaceComponent height={8} />
-                      <RowComponent justify="space-between">
-                        <RowComponent>
-                          <Location size={14} color={appColors.gray} />
-                          <TextComponent
-                            text={` ${item.shopname}`}
-                            size={12}
-                            flex={0}
-                            color={appColors.gray}
-                          />
-                        </RowComponent>
-                        {renderThumbType(item)}
-                      </RowComponent>
-                    </View>
-                  </CardContent>
-                ))}
+                {parentItem.swapproducts.map(item =>
+                  renderCardItem(item, async () =>
+                    handleSwapItem({
+                      product_id: parentItem.product_id,
+                      shop_id: parentItem.shop_id,
+                      swap_product_id: item.id,
+                      swap_shop_id: item.shop_id,
+                    }),
+                  ),
+                )}
               </RowComponent>
             ))}
           </>

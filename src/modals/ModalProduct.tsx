@@ -45,6 +45,7 @@ import {authSelector} from '../redux/reducers/authReducer';
 import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
+import SwapItemsComponent from '../components/SwapItemsComponent';
 
 interface Props {
   visible: boolean;
@@ -81,7 +82,6 @@ const ModalProduct = (props: Props) => {
   useEffect(() => {
     if (visible && product) {
       getProducDetail();
-      getSwapItems();
       handleCheckFavouredList();
     }
   }, [product, visible]);
@@ -90,17 +90,6 @@ const ModalProduct = (props: Props) => {
 
   const handleCloseModal = () => {
     modalRef.current?.close();
-  };
-
-  const getSwapItems = async () => {
-    const api = `/tingaSwap`;
-    try {
-      const res: any = await handleGetData.handleProduct(api, data, 'post');
-
-      res && res.length > 0 && setSwapItem(res);
-    } catch (error) {
-      console.log(`Can not get swap items by ${error}`);
-    }
   };
 
   const getProducDetail = async () => {
@@ -545,55 +534,7 @@ const ModalProduct = (props: Props) => {
             />
 
             <SectionComponent>
-              <RowComponent
-                styles={{
-                  alignItems: 'flex-start',
-                  paddingVertical: 12,
-                }}>
-                <Image
-                  source={require('../assets/images/TingaLogo.png')}
-                  style={{
-                    width: 82,
-                    height: 26,
-                    resizeMode: 'contain',
-                  }}
-                />
-                <TitleComponent
-                  text="swaps"
-                  color={appColors.primary}
-                  size={20}
-                  height={19}
-                />
-
-                <RowComponent
-                  onPress={() => setIsShowSwapItems(!isShowSwapItems)}>
-                  <TextComponent
-                    flex={0}
-                    text="View All"
-                    styles={{fontSize: 14, color: appColors.primary}}
-                  />
-                  {!isShowSwapItems ? (
-                    <ArrowDown2 size={20} color={appColors.primary} />
-                  ) : (
-                    <ArrowUp2 size={20} color={appColors.primary} />
-                  )}
-                </RowComponent>
-              </RowComponent>
-              {swapItem.length > 0 && isShowSwapItems && (
-                <FlatList
-                  showsHorizontalScrollIndicator={false}
-                  horizontal
-                  data={swapItem}
-                  keyExtractor={(item, index) =>
-                    `Product${item.id}${item.shop_id}`
-                  }
-                  renderItem={({item}) => (
-                    <View style={{marginRight: 16}}>
-                      <ProductItemComponent isCheckPremium item={item} />
-                    </View>
-                  )}
-                />
-              )}
+              <SwapItemsComponent product={producDetail} />
             </SectionComponent>
 
             <SectionComponent>
