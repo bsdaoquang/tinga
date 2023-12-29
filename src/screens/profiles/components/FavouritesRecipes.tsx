@@ -1,16 +1,45 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, ScrollView} from 'react-native';
 import RecipeItemComponent from '../../../components/RecipeItemComponent';
 import {recipesData} from '../../../demoData/recipes';
 import {
+  LoadingComponent,
   RowComponent,
   SectionComponent,
   TitleComponent,
 } from '../../../components';
 import {fontFamilys} from '../../../constants/fontFamily';
 import {appColors} from '../../../constants/appColors';
+import handleMealApi from '../../../apis/mealplannerAPI';
+import {CloudFog} from 'iconsax-react-native';
+import {Recipe} from '../../../Models/Recipe';
 
 const FavouritesRecipes = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [favouritesList, setFavouritesList] = useState<Recipe[]>([]);
+
+  useEffect(() => {
+    getFavouritesRecipe();
+  }, []);
+
+  const getFavouritesRecipe = async () => {
+    const api = `listofFavouriteRecipe`;
+
+    setIsLoading(true);
+    try {
+      const res: any = await handleMealApi.handleMealPlanner(api);
+
+      if (res && res.length > 0) {
+        setFavouritesList(res);
+      }
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
       <SectionComponent
@@ -28,37 +57,21 @@ const FavouritesRecipes = () => {
           font={fontFamilys.regular}
           styles={{marginBottom: 14}}
         />
-        <RecipeItemComponent item={recipesData[1]} />
+        <RecipeItemComponent item={favouritesList[0]} />
       </SectionComponent>
 
-      {recipesData.length > 0 ? (
+      {favouritesList.length > 0 ? (
         <RowComponent justify="space-evenly">
-          {recipesData.map((item, index) => (
-            <RecipeItemComponent item={item} key={`item${item.key}${index}`} />
+          {favouritesList.map((item, index) => (
+            <RecipeItemComponent item={item} key={`item${item.id}${index}`} />
           ))}
-          {/* <FlatList
-            numColumns={2}
-            contentContainerStyle={{
-              justifyContent: 'space-between',
-            }}
-            horizontal={false}
-            showsVerticalScrollIndicator={false}
-            data={recipesData}
-            renderItem={({item, index}) => (
-              <RecipeItemComponent
-                item={item}
-                key={`item${item.key}${index}`}
-              />
-            )}
-          /> */}
         </RowComponent>
       ) : (
-        <></>
-        // <LoadingComponent
-        //   isLoading={isLoading}
-        //   value={favouritesList.length}
-        //   message={`Opps.. You don't have any shopping history. Start you first shopping trip now!`}
-        // />
+        <LoadingComponent
+          isLoading={isLoading}
+          value={favouritesList.length}
+          message={`Opps.. You don't have any shopping history. Start you first shopping trip now!`}
+        />
       )}
     </ScrollView>
   );

@@ -10,9 +10,10 @@ import RowComponent from './RowComponent';
 import {CheftHatSuccess, UnionSelected} from '../assets/svg';
 import SpaceComponent from './SpaceComponent';
 import {global} from '../styles/global';
+import {Recipe} from '../Models/Recipe';
 
 interface Props {
-  item: any;
+  item: Recipe;
   styles?: StyleProp<ViewStyle>;
   onPress?: () => void;
 }
@@ -48,7 +49,7 @@ const RecipeItemComponent = (props: Props) => {
           <CheftHatSuccess />
         </View>
         <TitleComponent
-          text={item.title}
+          text={item.meal_title}
           line={3}
           size={12}
           flex={0}
@@ -64,7 +65,7 @@ const RecipeItemComponent = (props: Props) => {
           borderBottomRightRadius: 10,
         }}>
         <TextComponent
-          text={`${item.times}min · Serves ${item.serves}`}
+          text={`${item.cook_time}min · Serves ${item.noservings}`}
           size={10}
         />
         <RowComponent justify="space-between">

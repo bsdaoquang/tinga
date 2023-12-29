@@ -26,7 +26,7 @@ const MyFavourites = ({navigation}: any) => {
   ];
 
   return (
-    <Container back>
+    <Container back paddingBottom={0}>
       <SectionComponent>
         <TitleComponent text="Favourites" flex={0} height={32} size={32} />
       </SectionComponent>

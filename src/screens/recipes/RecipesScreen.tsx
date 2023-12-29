@@ -30,7 +30,7 @@ import handleMealApi from '../../apis/mealplannerAPI';
 
 const RecipesScreen = ({navigation}: any) => {
   const [isVisibleModalFilter, setIsVisibleModalFilter] = useState(false);
-  const [mealOccasion, setMealOccasion] = useState('dinner');
+  const [mealOccasion, setMealOccasion] = useState('Dinner');
   const [recipeTime, setRecipeTime] = useState(0);
   const [numberOfServings, setNumberOfServings] = useState(1);
   const [generating, setGenerating] = useState(false);
@@ -38,9 +38,9 @@ const RecipesScreen = ({navigation}: any) => {
   const auth = useSelector(authSelector);
 
   const mealOccasions = [
-    {key: 'breakfast', title: 'Breakfase', isReady: false},
-    {key: 'lunch', title: 'Lunch', isReady: false},
-    {key: 'dinner', title: 'Dinner', isReady: true},
+    {key: 'Breakfast', title: 'Breakfase', isReady: false},
+    {key: 'Lunch', title: 'Lunch', isReady: false},
+    {key: 'Dinner', title: 'Dinner', isReady: true},
   ];
 
   const recipeTimes = [
@@ -55,12 +55,19 @@ const RecipesScreen = ({navigation}: any) => {
     const api = `generateRecipe`;
     setGenerating(true);
 
-    try {
-      const res = await handleMealApi.handleMealPlanner(api, undefined, 'post');
+    const data = {
+      type: mealOccasion,
+      preparationtime: recipeTime,
+      numofservings: numberOfServings,
+    };
 
-      console.log(res);
-      setGenerating(false);
-      navigation.navigate('RegenerateRecipes');
+    try {
+      const res: any = await handleMealApi.handleMealPlanner(api, data, 'post');
+      if (res && res.length > 0) {
+        // console.log(res);
+        setGenerating(false);
+        navigation.navigate('RegenerateRecipes', {recipe: res[0]});
+      }
     } catch (error) {
       console.log(`Can not generater recipe`);
       setGenerating(false);
@@ -163,7 +170,7 @@ const RecipesScreen = ({navigation}: any) => {
           </RowComponent>
 
           <RowComponent>
-            {recipeTimes.map(item => (
+            {recipeTimes.map((item, index) => (
               <TouchableOpacity
                 onPress={() => setRecipeTime(item.key)}
                 key={item.key}
@@ -232,6 +239,7 @@ const RecipesScreen = ({navigation}: any) => {
 
           <View style={{width: '80%', marginTop: 20}}>
             <TouchableOpacity
+              disabled={generating}
               onPress={handleGenerating}
               style={[
                 global.rowCenter,
@@ -250,13 +258,12 @@ const RecipesScreen = ({navigation}: any) => {
                     padding: 0,
                   }}
                   autoPlay
-                  loop={false}
+                  loop={true}
                 />
               ) : (
                 <RecipesGenerate />
               )}
 
-              {/*  */}
               <SpaceComponent width={8} />
               <TitleComponent height={14} text="Generate Recipes" flex={0} />
             </TouchableOpacity>

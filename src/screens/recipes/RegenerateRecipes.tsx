@@ -8,6 +8,8 @@ import {
   View,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {Recipe} from '../../Models/Recipe';
+import handleMealApi from '../../apis/mealplannerAPI';
 import {RecipesGenerate} from '../../assets/svg';
 import {
   RowComponent,
@@ -18,17 +20,16 @@ import {
 import RecipeItemComponent from '../../components/RecipeItemComponent';
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
-import {recipesData} from '../../demoData/recipes';
 import ModalizeRecipeDetail from '../../modals/ModalizeRecipeDetail';
 import {global} from '../../styles/global';
-import {Recipe} from '../../Models/Recipe';
-import handleMealApi from '../../apis/mealplannerAPI';
-import {LoadingModal} from '../../modals';
 
-const RegenerateRecipes = () => {
+const RegenerateRecipes = ({navigation, route}: any) => {
+  const {recipe}: {recipe: Recipe} = route.params;
+
   const [isVisibleModalRecipeDetail, setIsVisibleModalRecipeDetail] =
     useState(false);
-  const [recipeItem, setRecipeItem] = useState<Recipe>();
+  const [recipeItem, setRecipeItem] = useState<Recipe>(recipe);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -41,8 +42,8 @@ const RegenerateRecipes = () => {
     setIsLoading(true);
 
     try {
-      const res = await handleMealApi.handleMealPlanner(api);
-      console.log(res);
+      const res: any = await handleMealApi.handleMealPlanner(api);
+      res && res.length > 0 && setRecipes(res);
       setIsLoading(false);
     } catch (error) {
       console.log('Can not get recipe', error);
@@ -57,7 +58,7 @@ const RegenerateRecipes = () => {
       imageStyle={{flex: 1}}>
       <SectionComponent styles={{marginTop: 48}}>
         <RowComponent>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <AntDesign name="arrowleft" size={22} color={'#41393E'} />
           </TouchableOpacity>
           <RowComponent styles={{flex: 1}}>
@@ -99,9 +100,9 @@ const RegenerateRecipes = () => {
             <RecipeItemComponent
               onPress={() => {
                 setIsVisibleModalRecipeDetail(true);
-                setRecipeItem(recipesData[0]);
+                setRecipeItem(recipe);
               }}
-              item={recipesData[0]}
+              item={recipe}
             />
           </RowComponent>
           <SectionComponent styles={{marginTop: 22}}>
@@ -113,16 +114,16 @@ const RegenerateRecipes = () => {
             />
 
             <RowComponent justify="flex-start">
-              {recipesData.map(
+              {recipes.map(
                 (item, index) =>
-                  index < 3 && (
+                  index > 0 && (
                     <RecipeItemComponent
                       onPress={() => {
                         setRecipeItem(item);
                         setIsVisibleModalRecipeDetail(true);
                       }}
-                      styles={{marginRight: index % 2 ? 0 : 12}}
-                      key={item.key}
+                      styles={{marginRight: index % 2 === 0 ? 0 : 12}}
+                      key={item.id}
                       item={item}
                     />
                   ),
@@ -135,7 +136,6 @@ const RegenerateRecipes = () => {
       <ModalizeRecipeDetail
         visible={isVisibleModalRecipeDetail}
         onClose={() => {
-          setRecipeItem(undefined);
           setIsVisibleModalRecipeDetail(false);
         }}
         item={recipeItem}
