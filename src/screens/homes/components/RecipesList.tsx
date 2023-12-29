@@ -7,10 +7,11 @@ import {appColors} from '../../../constants/appColors';
 import {appSize} from '../../../constants/appSize';
 import {recipesData} from '../../../demoData/recipes';
 import handleMealApi from '../../../apis/mealplannerAPI';
+import {Recipe} from '../../../Models/Recipe';
 
 const RecipesList = () => {
   const [indexItem, setIndexItem] = useState(0);
-  const [favouritedRecipes, setFavouritedRecipes] = useState<any[]>([]);
+  const [favouritedRecipes, setFavouritedRecipes] = useState<Recipe[]>([]);
   const navigation: any = useNavigation();
 
   useEffect(() => {
@@ -29,19 +30,20 @@ const RecipesList = () => {
 
   const renderDotsView = (array: any[], position: any) => (
     <View style={{flexDirection: 'row'}}>
-      {array.map((_item, i: any) => (
-        <View
-          key={i}
-          style={{
-            height: 6,
-            width: position === i ? 24 : 6,
-            backgroundColor:
-              position === i ? appColors.primary : 'rgba(50, 100, 91, 0.20);',
-            marginHorizontal: 4,
-            borderRadius: 5,
-          }}
-        />
-      ))}
+      {favouritedRecipes.length > 1 &&
+        favouritedRecipes.map((_item, i: any) => (
+          <View
+            key={i}
+            style={{
+              height: 6,
+              width: position === i ? 24 : 6,
+              backgroundColor:
+                position === i ? appColors.primary : 'rgba(50, 100, 91, 0.20);',
+              marginHorizontal: 4,
+              borderRadius: 5,
+            }}
+          />
+        ))}
     </View>
   );
 
@@ -60,11 +62,11 @@ const RecipesList = () => {
           textMore="More Recipes"
         />
       </View>
-      {recipesData.length > 0 ? (
+      {favouritedRecipes.length > 0 ? (
         <>
           <FlatList
             showsHorizontalScrollIndicator={false}
-            data={recipesData}
+            data={favouritedRecipes}
             onScroll={event => {
               const index = Math.floor(
                 event.nativeEvent.contentOffset.x /
@@ -75,7 +77,10 @@ const RecipesList = () => {
             style={{paddingHorizontal: 8}}
             renderItem={({item}) => (
               <View style={{padding: 8}}>
-                <RecipeItemComponent item={item} />
+                <RecipeItemComponent
+                  item={item}
+                  onReload={getFavouritedRecipes}
+                />
               </View>
             )}
             horizontal

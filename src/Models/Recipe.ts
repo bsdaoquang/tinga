@@ -6,6 +6,7 @@ export interface Recipe {
   meal_title: string;
   noservings: number;
   type: string;
+  recent_added?: 0 | 1;
 }
 export interface RecipeDetail {
   cook_time: string;

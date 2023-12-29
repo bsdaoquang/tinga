@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ButtonComponent,
   Container,
@@ -11,7 +11,7 @@ import {global} from '../../styles/global';
 import {appColors} from '../../constants/appColors';
 import FavouritesRecipes from './components/FavouritesRecipes';
 
-const MyFavourites = ({navigation}: any) => {
+const MyFavourites = ({navigation, route}: any) => {
   const [tabSelectd, setTabSelectd] = useState('products');
 
   const tabFavourites = [
@@ -24,6 +24,12 @@ const MyFavourites = ({navigation}: any) => {
       key: 'recipes',
     },
   ];
+
+  useEffect(() => {
+    if (route.params) {
+      setTabSelectd(route.params.tab);
+    }
+  }, [route]);
 
   return (
     <Container back paddingBottom={0}>

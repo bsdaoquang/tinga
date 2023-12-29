@@ -20,15 +20,11 @@ import {
 import RecipeItemComponent from '../../components/RecipeItemComponent';
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
-import ModalizeRecipeDetail from '../../modals/ModalizeRecipeDetail';
 import {global} from '../../styles/global';
 
 const RegenerateRecipes = ({navigation, route}: any) => {
   const {recipe}: {recipe: Recipe} = route.params;
 
-  const [isVisibleModalRecipeDetail, setIsVisibleModalRecipeDetail] =
-    useState(false);
-  const [recipeItem, setRecipeItem] = useState<Recipe>(recipe);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,6 +39,7 @@ const RegenerateRecipes = ({navigation, route}: any) => {
 
     try {
       const res: any = await handleMealApi.handleMealPlanner(api);
+
       res && res.length > 0 && setRecipes(res);
       setIsLoading(false);
     } catch (error) {
@@ -78,7 +75,10 @@ const RegenerateRecipes = ({navigation, route}: any) => {
             </View>
           </RowComponent>
 
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('MyFavourites', {tab: 'recipes'})
+            }>
             <Heart size={24} color={appColors.white} />
           </TouchableOpacity>
         </RowComponent>
@@ -97,13 +97,7 @@ const RegenerateRecipes = ({navigation, route}: any) => {
             />
           </RowComponent>
           <RowComponent>
-            <RecipeItemComponent
-              onPress={() => {
-                setIsVisibleModalRecipeDetail(true);
-                setRecipeItem(recipe);
-              }}
-              item={recipe}
-            />
+            <RecipeItemComponent item={recipe} />
           </RowComponent>
           <SectionComponent styles={{marginTop: 22}}>
             <TitleComponent
@@ -118,13 +112,10 @@ const RegenerateRecipes = ({navigation, route}: any) => {
                 (item, index) =>
                   index > 0 && (
                     <RecipeItemComponent
-                      onPress={() => {
-                        setRecipeItem(item);
-                        setIsVisibleModalRecipeDetail(true);
-                      }}
                       styles={{marginRight: index % 2 === 0 ? 0 : 12}}
                       key={item.id}
                       item={item}
+                      onReload={getGeneratedRecipe}
                     />
                   ),
               )}
@@ -132,14 +123,6 @@ const RegenerateRecipes = ({navigation, route}: any) => {
           </SectionComponent>
         </ScrollView>
       )}
-
-      <ModalizeRecipeDetail
-        visible={isVisibleModalRecipeDetail}
-        onClose={() => {
-          setIsVisibleModalRecipeDetail(false);
-        }}
-        item={recipeItem}
-      />
     </ImageBackground>
   );
 };

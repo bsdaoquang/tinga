@@ -1,10 +1,16 @@
 import {useNavigation} from '@react-navigation/native';
-import {Add, ArrowDown2, ArrowUp2, Heart, Location} from 'iconsax-react-native';
+import {
+  Add,
+  AddCircle,
+  ArrowDown2,
+  ArrowUp2,
+  Heart,
+  Location,
+} from 'iconsax-react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   ScrollView,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -12,16 +18,15 @@ import FastImage from 'react-native-fast-image';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Octicons from 'react-native-vector-icons/Octicons';
-import Tooltip from 'react-native-walkthrough-tooltip';
 import {
   ProductStore,
   Recipe,
   RecipeDetail,
   RecipeIngredient,
 } from '../Models/Recipe';
+import handleMealApi from '../apis/mealplannerAPI';
 import {
   Button,
   ButtonComponent,
@@ -33,37 +38,40 @@ import {
 import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
 import {fontFamilys} from '../constants/fontFamily';
-import {products} from '../demoData/products';
 import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
-import ModalFoodScoreInfo from './ModalFoodScoreInfo';
-import handleMealApi from '../apis/mealplannerAPI';
-import {Product} from '../Models/Product';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import LoadingModal from './LoadingModal';
+import ModalFoodScoreInfo from './ModalFoodScoreInfo';
+import {useSelector} from 'react-redux';
+import {authSelector} from '../redux/reducers/authReducer';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import handleGetData from '../apis/productAPI';
 
 interface Props {
   visible: boolean;
   onClose: () => void;
   item?: Recipe;
+  onReload?: () => void;
 }
 
 const ModalizeRecipeDetail = (props: Props) => {
-  const {visible, onClose, item} = props;
+  const {visible, onClose, item, onReload} = props;
 
   const [isVisibleIngredients, setIsVisibleIngredients] = useState(false);
   const [isPrepareIngredients, setIsPrepareIngredients] = useState(false);
   const [isShowIntroductions, setIsShowIntroductions] = useState(false);
   const [isVisibleModalScore, setIsVisibleModalScore] = useState(false);
-  const [shopCount, setShopCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [recipeDetail, setRecipeDetail] = useState<RecipeDetail>();
   const [recipeIngredients, setRecipeIngredients] =
     useState<RecipeIngredient>();
   const [isUpdate, setIsUpdate] = useState(false);
+  const [productSelected, setProductSelected] = useState<ProductStore[]>([]);
+  const [cardCount, setCardCount] = useState(0);
 
   const navigation: any = useNavigation();
   const modalRef = useRef<Modalize>();
+  const auth = useSelector(authSelector);
 
   useEffect(() => {
     if (visible) {
@@ -72,6 +80,7 @@ const ModalizeRecipeDetail = (props: Props) => {
       if (item) {
         getRecipeDetailById();
         getIngredientItems();
+        getCardCount();
       }
     } else {
       modalRef.current?.close();
@@ -94,6 +103,16 @@ const ModalizeRecipeDetail = (props: Props) => {
     }
   };
 
+  const getCardCount = async () => {
+    const api = `/getProductGroceryCount`;
+    try {
+      const res: any = await handleGetData.handleProduct(api);
+      res && setCardCount(res);
+    } catch (error) {
+      console.log(`get card count ${error}`);
+    }
+  };
+
   const getIngredientItems = async () => {
     const api = `recipeIngredients?recipe_id=${item?.id}`;
 
@@ -110,6 +129,7 @@ const ModalizeRecipeDetail = (props: Props) => {
 
   const handleCloseModal = () => {
     modalRef.current?.close();
+    setProductSelected([]);
   };
 
   const handleAddToFavourit = async () => {
@@ -129,11 +149,57 @@ const ModalizeRecipeDetail = (props: Props) => {
 
         showToast(res.message);
         setIsUpdate(false);
-        getRecipeDetailById();
+        if (recipeDetail?.is_favourite === '1' && onReload) {
+          onClose();
+          onReload();
+        } else {
+          getRecipeDetailById();
+        }
       } catch (error) {
         console.log(error);
         setIsUpdate(false);
       }
+    }
+  };
+
+  const handleToggleProductSelected = (item: ProductStore) => {
+    const items = [...productSelected];
+    const index = items.findIndex(element => element.id === item.id);
+    if (index !== -1) {
+      items.splice(index, 1);
+    } else {
+      items.push(item);
+    }
+
+    setProductSelected(items);
+  };
+
+  const handleAddMoultiProduct = async () => {
+    const api = `addProductToList`;
+    const data = new FormData();
+
+    productSelected.forEach((product, index) => {
+      data.append(`product_id[${index}]`, product.id);
+      data.append(`shop_id[${index}]`, product.shop_id);
+    });
+    setIsUpdate(true);
+    try {
+      const res: any = await handleMealApi.handleMealPlanner(
+        api,
+        data,
+        'post',
+        true,
+      );
+
+      if (res) {
+        showToast(res.message);
+        setIsUpdate(false);
+        onClose();
+        setProductSelected([]);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsUpdate(false);
     }
   };
 
@@ -208,27 +274,50 @@ const ModalizeRecipeDetail = (props: Props) => {
               {
                 width: 18,
                 height: 18,
-                backgroundColor: '#E6EECC',
+                backgroundColor:
+                  item.thumb_type === 1
+                    ? '#FFECBF'
+                    : item.thumb_type === 2
+                    ? '#FFECBF'
+                    : '#FFDBDB',
                 borderRadius: 100,
+                transform: item.thumb_type === 3 ? 'rotate(180deg)' : '',
               },
             ]}>
-            <TextComponent text="👍" size={10} flex={0} />
+            <TextComponent
+              text={item.thumb_type === 2 ? '👌' : '👍'}
+              size={9}
+              flex={0}
+            />
           </View>
         </RowComponent>
       </View>
 
       <TouchableOpacity
+        disabled={instore}
+        onPress={() => handleToggleProductSelected(item)}
         style={{
           position: 'absolute',
           right: 10,
           top: 10,
+          backgroundColor:
+            instore || productSelected.includes(item)
+              ? '#263238'
+              : appColors.success2,
+          borderRadius: 100,
+          width: 28,
+          height: 28,
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
-        <AntDesign name="checkcircle" size={24} color={appColors.text2} />
+        {instore || productSelected.includes(item) ? (
+          <Ionicons name="checkmark-sharp" size={20} color={appColors.white} />
+        ) : (
+          <Add size={26} color={appColors.white} />
+        )}
       </TouchableOpacity>
     </View>
   );
-
-  console.log(recipeDetail);
 
   return (
     <Portal>
@@ -271,62 +360,43 @@ const ModalizeRecipeDetail = (props: Props) => {
         }
         FooterComponent={
           !isLoading ? (
-            <RowComponent
-              styles={{
-                padding: 12,
-                paddingHorizontal: 16,
-                backgroundColor: appColors.white,
-                paddingBottom: 20,
-              }}>
-              <View style={{flex: 1}}>
-                <ButtonComponent
-                  disable={shopCount === 9}
-                  color={shopCount === 9 ? appColors.gray : appColors.success1}
-                  styles={{
-                    paddingVertical: 15,
-                  }}
-                  icon={
-                    shopCount === 9 && (
-                      <Octicons
-                        name="check"
-                        size={22}
-                        color={appColors.white}
-                      />
-                    )
-                  }
-                  textColor={shopCount === 9 ? appColors.white : appColors.text}
-                  text={
-                    shopCount === 9
-                      ? 'Added 9 Ingredients to List'
-                      : 'Add 9 Ingredients to List'
-                  }
-                  onPress={() => setShopCount(9)}
-                />
-              </View>
-              {/* <RowComponent
-                onPress={() => {
-                  modalRef.current?.close();
-                  navigation.navigate('Grocery List', {
-                    screen: 'GroceryScreen',
-                  });
-                  setShopCount(0);
-                }}
+            productSelected.length > 0 && (
+              <RowComponent
                 styles={{
-                  marginLeft: 12,
-                  backgroundColor: appColors.primary,
-                  borderRadius: 12,
-                  padding: 15,
+                  padding: 12,
+                  paddingHorizontal: 16,
+                  backgroundColor: appColors.white,
+                  paddingBottom: 20,
                 }}>
-                <FontAwesome5 name="shopping-cart" color={appColors.white} />
-                <SpaceComponent width={6} />
-                <TitleComponent
-                  text={shopCount.toString()}
-                  flex={0}
-                  color={appColors.white}
-                  font={fontFamilys.medium}
-                />
-              </RowComponent> */}
-            </RowComponent>
+                <View style={{flex: 1}}>
+                  <ButtonComponent
+                    color={appColors.success1}
+                    styles={{
+                      paddingVertical: 15,
+                    }}
+                    textColor={appColors.text}
+                    text={`Add ${productSelected.length} Ingredients to List`}
+                    onPress={handleAddMoultiProduct}
+                  />
+                </View>
+                <RowComponent
+                  styles={{
+                    marginLeft: 12,
+                    backgroundColor: appColors.primary,
+                    borderRadius: 12,
+                    padding: 15,
+                  }}>
+                  <FontAwesome5 name="shopping-cart" color={appColors.white} />
+                  <SpaceComponent width={6} />
+                  <TitleComponent
+                    text={`${cardCount}`}
+                    flex={0}
+                    color={appColors.white}
+                    font={fontFamilys.medium}
+                  />
+                </RowComponent>
+              </RowComponent>
+            )
           ) : (
             <></>
           )
@@ -370,34 +440,6 @@ const ModalizeRecipeDetail = (props: Props) => {
               ) : recipeDetail ? (
                 <>
                   <RowComponent justify="flex-start">
-                    <View
-                      style={{
-                        width: 56,
-                        height: 56,
-                        backgroundColor: '#E6EECC',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 100,
-                        marginRight: 6,
-                      }}>
-                      <TextComponent text="👍" size={20} flex={0} />
-                      <Button
-                        styles={{
-                          position: 'absolute',
-                          top: 0,
-                          right: 0,
-                        }}
-                        onPress={() => setIsVisibleModalScore(true)}
-                        icon={
-                          <MaterialIcons
-                            name="info"
-                            size={20}
-                            color={'#9F9F9F'}
-                          />
-                        }
-                      />
-                    </View>
-
                     <ButtonComponent
                       styles={[
                         global.shadow,
@@ -574,6 +616,7 @@ const ModalizeRecipeDetail = (props: Props) => {
                     {isShowIntroductions &&
                       recipeDetail.cooking_instruction.map((item, index) => (
                         <RowComponent
+                          key={`instruction${index}`}
                           styles={{
                             marginBottom: 8,
                             alignItems: 'flex-start',
