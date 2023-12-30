@@ -476,7 +476,7 @@ const ModalizeRecipeDetail = (props: Props) => {
 
                             {
                               borderRadius: 100,
-                              marginTop: 12,
+                              marginBottom: 12,
                               backgroundColor: `#F5E6E6`,
                               justifyContent: 'center',
                               alignItems: 'center',
@@ -492,7 +492,7 @@ const ModalizeRecipeDetail = (props: Props) => {
                           />
                           <SpaceComponent width={8} />
                           <TextComponent
-                            text={'fagfss'}
+                            text={item}
                             flex={0}
                             color={appColors.error}
                           />
