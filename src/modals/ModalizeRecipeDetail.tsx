@@ -1,15 +1,16 @@
-import {useNavigation} from '@react-navigation/native';
 import {
   Add,
-  AddCircle,
   ArrowDown2,
   ArrowUp2,
+  Danger,
   Heart,
   Location,
+  Warning2,
 } from 'iconsax-react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   ScrollView,
   TouchableOpacity,
   View,
@@ -18,8 +19,8 @@ import FastImage from 'react-native-fast-image';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   ProductStore,
   Recipe,
@@ -27,8 +28,8 @@ import {
   RecipeIngredient,
 } from '../Models/Recipe';
 import handleMealApi from '../apis/mealplannerAPI';
+import handleGetData from '../apis/productAPI';
 import {
-  Button,
   ButtonComponent,
   RowComponent,
   SpaceComponent,
@@ -42,10 +43,6 @@ import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import LoadingModal from './LoadingModal';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
-import {useSelector} from 'react-redux';
-import {authSelector} from '../redux/reducers/authReducer';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import handleGetData from '../apis/productAPI';
 
 interface Props {
   visible: boolean;
@@ -69,9 +66,7 @@ const ModalizeRecipeDetail = (props: Props) => {
   const [productSelected, setProductSelected] = useState<ProductStore[]>([]);
   const [cardCount, setCardCount] = useState(0);
 
-  const navigation: any = useNavigation();
   const modalRef = useRef<Modalize>();
-  const auth = useSelector(authSelector);
 
   useEffect(() => {
     if (visible) {
@@ -439,27 +434,72 @@ const ModalizeRecipeDetail = (props: Props) => {
                 </RowComponent>
               ) : recipeDetail ? (
                 <>
-                  <RowComponent justify="flex-start">
-                    <ButtonComponent
-                      styles={[
-                        global.shadow,
-                        {
-                          borderRadius: 100,
-                          height: 40,
-                          paddingVertical: 0,
-                        },
-                      ]}
-                      fontStyles={{
-                        color: appColors.primary,
-                        fontFamily: fontFamilys.regular,
-                        fontSize: 14,
-                        lineHeight: 14,
-                      }}
-                      color={appColors.white}
-                      text="Gluten Free"
-                      onPress={() => {}}
+                  {recipeIngredients?.allergyfree && (
+                    <FlatList
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      data={recipeIngredients.allergyfree}
+                      renderItem={({item, index}) => (
+                        <View
+                          key={`allergyfree${index}`}
+                          style={[
+                            global.shadow,
+                            global.button,
+                            {
+                              borderRadius: 100,
+                              height: 40,
+                              paddingVertical: 0,
+                              backgroundColor: appColors.white,
+                              marginBottom: 12,
+                            },
+                          ]}>
+                          <TextComponent
+                            text={item}
+                            flex={0}
+                            color={appColors.success2}
+                          />
+                        </View>
+                      )}
                     />
-                  </RowComponent>
+                  )}
+
+                  {recipeIngredients?.notallergyfree && (
+                    <FlatList
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      data={recipeIngredients.notallergyfree}
+                      renderItem={({item, index}) => (
+                        <RowComponent
+                          key={`allergyfree${index}`}
+                          styles={[
+                            global.shadow,
+
+                            {
+                              borderRadius: 100,
+                              marginTop: 12,
+                              backgroundColor: `#F5E6E6`,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              paddingVertical: 8,
+                              paddingHorizontal: 16,
+                              marginRight: 8,
+                            },
+                          ]}>
+                          <Danger
+                            variant="Bold"
+                            size={20}
+                            color={appColors.error2}
+                          />
+                          <SpaceComponent width={8} />
+                          <TextComponent
+                            text={'fagfss'}
+                            flex={0}
+                            color={appColors.error}
+                          />
+                        </RowComponent>
+                      )}
+                    />
+                  )}
                   <View style={{paddingTop: 16}}>
                     <TextComponent
                       styles={{textAlign: 'justify'}}

@@ -25,6 +25,8 @@ export interface RecipeIngredient {
   instore: ProductStore[];
   notinstore: string[];
   ingrocerylist: ProductStore[];
+  notallergyfree: string[];
+  allergyfree: string[];
 }
 
 export interface ProductStore {

@@ -19,6 +19,7 @@ export const appColors = {
   success1: '#ABC43F',
   success2: '#32645B',
   error: '#F15D59',
+  error2: '#C63232',
   danger: '#F15D59',
 };
 
