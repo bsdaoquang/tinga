@@ -6,7 +6,6 @@ import Swiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
-import {TourGuideZone, useTourGuideController} from 'rn-tourguide';
 import {HistoryProduc} from '../../../Models/Product';
 import handleGetData from '../../../apis/productAPI';
 import {
@@ -30,20 +29,9 @@ const HomeCarousels = () => {
 
   const navigation: any = useNavigation();
 
-  const {canStart, start, stop} = useTourGuideController();
-
   useEffect(() => {
     getHistoriesListOfProduct();
   }, []);
-
-  useEffect(() => {
-    if (isFocused) {
-      // canStart && start();
-      !isPermission && historiesList.length === 0 && canStart && start();
-    } else {
-      stop();
-    }
-  }, [canStart, isPermission, isFocused]);
 
   useEffect(() => {
     requestPermision();
@@ -160,7 +148,6 @@ const HomeCarousels = () => {
         <ButtonComponent
           disable={1 > 2 ? true : false}
           onPress={() => {
-            stop();
             navigation.navigate('HomeScan');
           }}
           text="Scan my food"
