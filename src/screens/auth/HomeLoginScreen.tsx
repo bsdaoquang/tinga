@@ -141,7 +141,8 @@ const HomeLoginScreen = ({navigation}: any) => {
         style={{flex: 1}}
         imageStyle={{
           height: '100%',
-          resizeMode: 'stretch',
+          maxHeight: appSize.height * 0.8,
+          resizeMode: 'cover',
           width: appSize.width,
         }}>
         <SectionComponent styles={{paddingTop: 32, position: 'absolute'}}>

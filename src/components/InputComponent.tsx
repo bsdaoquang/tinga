@@ -149,12 +149,12 @@ export const InputComponent = (props: Props) => {
           placeholderTextColor={appColors.gray}
           keyboardType={type ? type : 'default'}
           maxLength={max}
-          readOnly={readOnly}
           style={[
             {
               flex: 1,
               margin: 0,
               padding: 0,
+              paddingVertical: 4,
               color: appColors.text2,
               fontFamily: fontFamilys.medium,
               marginLeft: prefix ? 10 : 0,

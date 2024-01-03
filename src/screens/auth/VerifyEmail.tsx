@@ -185,6 +185,7 @@ const VerifyEmail = ({navigation, route}: any) => {
               borderWidth: 2,
               borderColor: ref1.current?.isFocused() ? '#ABC43F' : '#EEF3DC',
               width: (appSize.width - 80) / 5,
+              minHeight: 48,
             }}
             ref={ref1}
             returnKeyLabel="Next"
@@ -208,6 +209,7 @@ const VerifyEmail = ({navigation, route}: any) => {
               borderWidth: 2,
               borderColor: ref2.current?.isFocused() ? '#ABC43F' : '#EEF3DC',
               width: (appSize.width - 80) / 5,
+              minHeight: 48,
             }}
             ref={ref2}
             value={numsCode[1]}
@@ -229,6 +231,7 @@ const VerifyEmail = ({navigation, route}: any) => {
               borderWidth: 2,
               borderColor: ref3.current?.isFocused() ? '#ABC43F' : '#EEF3DC',
               width: (appSize.width - 80) / 5,
+              minHeight: 48,
             }}
             maxLength={1}
             ref={ref3}
@@ -250,6 +253,7 @@ const VerifyEmail = ({navigation, route}: any) => {
               borderWidth: 2,
               borderColor: ref4.current?.isFocused() ? '#ABC43F' : '#EEF3DC',
               width: (appSize.width - 80) / 5,
+              minHeight: 48,
             }}
             ref={ref4}
             maxLength={1}
@@ -271,6 +275,7 @@ const VerifyEmail = ({navigation, route}: any) => {
               borderWidth: 2,
               borderColor: ref5.current?.isFocused() ? '#ABC43F' : '#EEF3DC',
               width: (appSize.width - 80) / 5,
+              minHeight: 48,
             }}
             ref={ref5}
             maxLength={1}

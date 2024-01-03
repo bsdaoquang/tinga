@@ -85,6 +85,7 @@ const LoginScreen = () => {
           styles={{
             flex: 1,
             justifyContent: 'center',
+            marginTop: -68,
           }}>
           <TitleComponent text="Login" size={26} flex={0} />
           <SpaceComponent height={22} />

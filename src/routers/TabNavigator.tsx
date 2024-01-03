@@ -2,16 +2,14 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Element3, SearchNormal1, User} from 'iconsax-react-native';
 import React from 'react';
 import {Platform} from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Union, UnionSelected} from '../assets/svg';
 import {TextComponent} from '../components';
 import {appColors} from '../constants/appColors';
 import ExploreNavigator from './ExploreNavigator';
 import GroceryNavigator from './GroceryNavigator';
 import HomeNavigator from './HomeNavigator';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import RecipeNavigator from './RecipeNavigator';
-import {Union, UnionSelected} from '../assets/svg';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const TabNavigator = () => {
   const Tabs = createBottomTabNavigator();
@@ -38,14 +36,19 @@ const TabNavigator = () => {
                 borderTopLeftRadius: 12,
                 borderTopRightRadius: 12,
                 zIndex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 82,
               },
 
         tabBarLabel({focused}) {
           return (
             <TextComponent
               text={route.name}
+              styles={{marginTop: 4}}
               size={12}
               color={focused ? appColors.primary : appColors.gray}
+              flex={0}
             />
           );
         },
