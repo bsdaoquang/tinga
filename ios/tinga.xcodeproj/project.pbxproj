@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* tingaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* tingaTests.m */; };
+		0104129C2B4559EE00171E84 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0104129B2B4559EE00171E84 /* GoogleService-Info.plist */; };
 		01E65667BA9242A9A34B0FCA /* GreycliffCF-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C04E7B95A8042EE97174A06 /* GreycliffCF-ExtraBold.ttf */; };
 		028AD80A0B6C4E2A99FE1767 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 588D3452C75848B898064C5A /* AntDesign.ttf */; };
 		0E8F69C5343647559126145F /* GreycliffCF-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF7D39C47B4846FB86EA0A30 /* GreycliffCF-Light.ttf */; };
@@ -22,7 +23,6 @@
 		5BDC13250EA1436991A8CACB /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7D2C85F61574167A4E42ED4 /* Fontisto.ttf */; };
 		6156164793D0498FBEAA64B8 /* FontAwesome6_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 350E407787EE4F62ACA1DC2A /* FontAwesome6_Brands.ttf */; };
 		621766921AE04315ABD2D1EC /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 702299B785E44D52BAAB8F69 /* FontAwesome5_Brands.ttf */; };
-		7455A3002AA35B4C00BADFEB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7455A2FF2AA35B4C00BADFEB /* GoogleService-Info.plist */; };
 		7C2022DA08ED4610AAB0C465 /* FontAwesome6_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F79E68E62A3741308BEDA8B9 /* FontAwesome6_Solid.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		824CC2022E854D7B8FECADD3 /* GreycliffCF-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB6445E88B3742249D92C600 /* GreycliffCF-Heavy.ttf */; };
@@ -57,6 +57,8 @@
 		00E356EE1AD99517003FC87E /* tingaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tingaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* tingaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = tingaTests.m; sourceTree = "<group>"; };
+		0104129B2B4559EE00171E84 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "tinga/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0104129D2B455B8100171E84 /* hermes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = hermes.xcframework; path = "Pods/hermes-engine/destroot/Library/Frameworks/universal/hermes.xcframework"; sourceTree = "<group>"; };
 		011BD3E07CE643F38AC6A06E /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = ../assets/fonts/Octicons.ttf; sourceTree = "<group>"; };
 		055D9BF05E8D4573A0593750 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = ../assets/fonts/FontAwesome5_Regular.ttf; sourceTree = "<group>"; };
 		0B1E81D7D72E4A3690021E9A /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = ../assets/fonts/Zocial.ttf; sourceTree = "<group>"; };
@@ -80,7 +82,6 @@
 		67CACC968ECC4699A51E9B7C /* GreycliffCF-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GreycliffCF-Bold.ttf"; path = "../assets/fonts/GreycliffCF-Bold.ttf"; sourceTree = "<group>"; };
 		702299B785E44D52BAAB8F69 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = ../assets/fonts/FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
 		70A588FD155E496287210442 /* GreycliffCF-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GreycliffCF-Regular.ttf"; path = "../assets/fonts/GreycliffCF-Regular.ttf"; sourceTree = "<group>"; };
-		7455A2FF2AA35B4C00BADFEB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7C04E7B95A8042EE97174A06 /* GreycliffCF-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GreycliffCF-ExtraBold.ttf"; path = "../assets/fonts/GreycliffCF-ExtraBold.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = tinga/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-tinga-tingaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinga-tingaTests.release.xcconfig"; path = "Target Support Files/Pods-tinga-tingaTests/Pods-tinga-tingaTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -153,6 +154,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0104129D2B455B8100171E84 /* hermes.xcframework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				214372D9D263C722FE3E49DF /* Pods_tinga.framework */,
 				1413F8C655B1C3141E2F9B45 /* Pods_tinga_tingaTests.framework */,
@@ -170,7 +172,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				7455A2FF2AA35B4C00BADFEB /* GoogleService-Info.plist */,
+				0104129B2B4559EE00171E84 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* tinga */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* tingaTests */,
@@ -334,7 +336,6 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				028AD80A0B6C4E2A99FE1767 /* AntDesign.ttf in Resources */,
 				3705F505CFB442EE86BADA49 /* Entypo.ttf in Resources */,
-				7455A3002AA35B4C00BADFEB /* GoogleService-Info.plist in Resources */,
 				2FB0C94E657D4F3BA30C39F4 /* EvilIcons.ttf in Resources */,
 				C7E3B837B5404408B16C4F3F /* Feather.ttf in Resources */,
 				C290371690C94603A8B7AD63 /* FontAwesome.ttf in Resources */,
@@ -347,6 +348,7 @@
 				5BDC13250EA1436991A8CACB /* Fontisto.ttf in Resources */,
 				F559A95864054C4D80133821 /* Foundation.ttf in Resources */,
 				592DA135C0294AD294495BB4 /* Ionicons.ttf in Resources */,
+				0104129C2B4559EE00171E84 /* GoogleService-Info.plist in Resources */,
 				B2D6E9908C5B4CEB813CDBA9 /* MaterialCommunityIcons.ttf in Resources */,
 				FB7286F4CDD54F8B98765066 /* MaterialIcons.ttf in Resources */,
 				8302AD58F58A4147A9251E3B /* Octicons.ttf in Resources */,
@@ -579,8 +581,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = VVZ53L65HU;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = tinga/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -596,6 +600,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.tinga;
 				PRODUCT_NAME = tinga;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -612,8 +617,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = VVZ53L65HU;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = tinga/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -628,6 +635,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.tinga;
 				PRODUCT_NAME = tinga;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -720,7 +728,14 @@
 					"-ld_classic",
 					"-Wl",
 					"-ld_classic",
-					"-Wl -ld_classic ",
+					"-Wl",
+					"-ld_classic",
+					"-Wl",
+					"-ld_classic",
+					"-Wl",
+					"-ld_classic",
+					"-Wl",
+					"-ld_classic",
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
@@ -805,7 +820,14 @@
 					"-ld_classic",
 					"-Wl",
 					"-ld_classic",
-					"-Wl -ld_classic ",
+					"-Wl",
+					"-ld_classic",
+					"-Wl",
+					"-ld_classic",
+					"-Wl",
+					"-ld_classic",
+					"-Wl",
+					"-ld_classic",
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
