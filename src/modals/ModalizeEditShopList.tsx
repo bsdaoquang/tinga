@@ -10,28 +10,33 @@ interface Props {
   visible: boolean;
   onClose: () => void;
   onPress: (id: string) => void;
+  isEdit?: boolean;
 }
 
-const menuUpdateShopListIos = ['Cancel', 'Edit List', 'Swap Items'];
-const menuUpdateShopListAndroid = [
-  {
-    id: 'edit',
-    tilte: 'Edit List',
-  },
-  {
-    id: 'swap',
-    tilte: 'Swap Items',
-  },
-  {
-    id: 'cancel',
-    tilte: 'Cancel',
-    isDanger: true,
-  },
-];
-
 const ModalizeEditShopList = (props: Props) => {
-  const {visible, onClose, onPress} = props;
+  const {visible, onClose, onPress, isEdit} = props;
   const modalize = useRef<Modalize>();
+
+  const menuUpdateShopListIos = [
+    'Cancel',
+    isEdit ? 'Complete Edit' : 'Edit List',
+    'Swap Items',
+  ];
+  const menuUpdateShopListAndroid = [
+    {
+      id: 'edit',
+      tilte: isEdit ? 'Complete Edit' : 'Edit List',
+    },
+    {
+      id: 'swap',
+      tilte: 'Swap Items',
+    },
+    {
+      id: 'cancel',
+      tilte: 'Cancel',
+      isDanger: true,
+    },
+  ];
 
   useEffect(() => {
     if (visible) {

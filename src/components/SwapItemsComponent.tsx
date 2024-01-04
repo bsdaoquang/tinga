@@ -99,24 +99,52 @@ const SwapItemsComponent = (props: Props) => {
     );
 
     return swapItems && swapItems.swapproducts.length > 0 ? (
-      <FlatList
-        style={{marginTop: 16}}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={swapItems.swapproducts}
-        renderItem={({item}) => (
-          <View style={{marginLeft: 6, marginRight: 12, marginBottom: 12}}>
-            {renderCardItem(item, () =>
-              handleSwapItem({
-                product_id: swapItems.product_id,
-                shop_id: swapItems.shop_id,
-                swap_product_id: item.id,
-                swap_shop_id: item.shop_id,
-              }),
-            )}
-          </View>
-        )}
-      />
+      <>
+        <RowComponent
+          styles={{
+            alignItems: 'flex-start',
+            paddingTop: 12,
+          }}>
+          <Image
+            source={require('../assets/images/TingaLogo.png')}
+            style={{
+              width: 82,
+              height: 26,
+              resizeMode: 'contain',
+            }}
+          />
+          <TitleComponent
+            text="swaps"
+            color={appColors.primary}
+            size={20}
+            height={19}
+          />
+
+          <Button
+            onPress={() => {}}
+            text="View All"
+            fontStyles={{fontSize: 14, color: appColors.primary}}
+          />
+        </RowComponent>
+        <FlatList
+          style={{marginTop: 16}}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={swapItems.swapproducts}
+          renderItem={({item}) => (
+            <View style={{marginLeft: 6, marginRight: 12, marginBottom: 12}}>
+              {renderCardItem(item, () =>
+                handleSwapItem({
+                  product_id: swapItems.product_id,
+                  shop_id: swapItems.shop_id,
+                  swap_product_id: item.id,
+                  swap_shop_id: item.shop_id,
+                }),
+              )}
+            </View>
+          )}
+        />
+      </>
     ) : (
       <></>
     );
@@ -192,63 +220,60 @@ const SwapItemsComponent = (props: Props) => {
     </CardContent>
   );
 
-  return (
+  return items.length > 0 ? (
     <View>
-      <RowComponent
-        styles={{
-          alignItems: 'flex-start',
-          paddingTop: 12,
-        }}>
-        <Image
-          source={require('../assets/images/TingaLogo.png')}
-          style={{
-            width: 82,
-            height: 26,
-            resizeMode: 'contain',
-          }}
-        />
-        <TitleComponent
-          text="swaps"
-          color={appColors.primary}
-          size={20}
-          height={19}
-        />
-
-        <Button
-          onPress={() => {}}
-          text="View All"
-          fontStyles={{fontSize: 14, color: appColors.primary}}
-        />
-      </RowComponent>
-      {items.length > 0 ? (
-        product ? (
-          <>{renderSwapItemsByProduct()}</>
-        ) : (
-          <>
-            {items.map(parentItem => (
-              <RowComponent
-                styles={{justifyContent: 'space-between'}}
-                key={`product${parentItem.product_id}shopId${parentItem.shop_id}`}>
-                {parentItem.swapproducts.map(item =>
-                  renderCardItem(item, async () =>
-                    handleSwapItem({
-                      product_id: parentItem.product_id,
-                      shop_id: parentItem.shop_id,
-                      swap_product_id: item.id,
-                      swap_shop_id: item.shop_id,
-                    }),
-                  ),
-                )}
-              </RowComponent>
-            ))}
-          </>
-        )
+      {product ? (
+        <>{renderSwapItemsByProduct()}</>
       ) : (
-        <LoadingComponent isLoading={isLoading} value={items.length} />
-      )}
+        <>
+          <RowComponent
+            styles={{
+              alignItems: 'flex-start',
+              paddingTop: 12,
+            }}>
+            <Image
+              source={require('../assets/images/TingaLogo.png')}
+              style={{
+                width: 82,
+                height: 26,
+                resizeMode: 'contain',
+              }}
+            />
+            <TitleComponent
+              text="swaps"
+              color={appColors.primary}
+              size={20}
+              height={19}
+            />
 
+            <Button
+              onPress={() => {}}
+              text="View All"
+              fontStyles={{fontSize: 14, color: appColors.primary}}
+            />
+          </RowComponent>
+          {items.map(parentItem => (
+            <RowComponent
+              styles={{justifyContent: 'space-between'}}
+              key={`product${parentItem.product_id}shopId${parentItem.shop_id}`}>
+              {parentItem.swapproducts.map(item =>
+                renderCardItem(item, async () =>
+                  handleSwapItem({
+                    product_id: parentItem.product_id,
+                    shop_id: parentItem.shop_id,
+                    swap_product_id: item.id,
+                    swap_shop_id: item.shop_id,
+                  }),
+                ),
+              )}
+            </RowComponent>
+          ))}
+        </>
+      )}
       <LoadingModal visible={isSwaping} />
     </View>
+  ) : (
+    <></>
   );
 };
 

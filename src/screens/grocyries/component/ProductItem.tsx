@@ -54,7 +54,14 @@ const ProductItem = (props: Props) => {
             onPress={() =>
               isEdit && handleRemoveItem ? handleRemoveItem() : undefined
             }
-            icon={<AntDesign name="close" size={18} color={appColors.text} />}
+            icon={
+              <AntDesign
+                name="close"
+                size={18}
+                color={appColors.text}
+                style={{marginRight: 8}}
+              />
+            }
           />
         ) : (
           <TouchableOpacity onPress={() => onSelecteItem()}>

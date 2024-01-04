@@ -9,7 +9,6 @@ import {
 import React, {useEffect, useRef, useState} from 'react';
 import {
   FlatList,
-  Image,
   ImageBackground,
   ScrollView,
   Text,
@@ -24,20 +23,20 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Product, ProductDetail} from '../Models/Product';
 import handleGetData from '../apis/productAPI';
 import {HeartBold} from '../assets/svg';
 import {
   Button,
   ButtonComponent,
-  ProductItemComponent,
   RowComponent,
   SectionComponent,
   SpaceComponent,
   TextComponent,
   TitleComponent,
 } from '../components';
+import SwapItemsComponent from '../components/SwapItemsComponent';
 import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
 import {fontFamilys} from '../constants/fontFamily';
@@ -45,7 +44,6 @@ import {authSelector} from '../redux/reducers/authReducer';
 import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
-import SwapItemsComponent from '../components/SwapItemsComponent';
 
 interface Props {
   visible: boolean;
@@ -62,11 +60,10 @@ const ModalProduct = (props: Props) => {
   const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] =
     useState(false);
   const [producDetail, setProducDetail] = useState<ProductDetail>();
-  const [isShowDesc, setIsShowDesc] = useState(false);
-  const [isShowIngre, setIsShowIngre] = useState(false);
-  const [swapItem, setSwapItem] = useState<Product[]>([]);
-  const [isShowSwapItems, setIsShowSwapItems] = useState(false);
-  const [isFavoured, setIsFavoured] = useState(false);
+  const [isShowDesc, setIsShowDesc] = useState(true);
+  const [isShowIngre, setIsShowIngre] = useState(true);
+  const [isFavoured, setIsFavoured] = useState(true);
+  const [dietsTitles, setDietsTitles] = useState<string[]>([]);
 
   const auth = useSelector(authSelector);
 
@@ -85,6 +82,18 @@ const ModalProduct = (props: Props) => {
       handleCheckFavouredList();
     }
   }, [product, visible]);
+
+  useEffect(() => {
+    const items: string[] = [];
+    if (producDetail) {
+      producDetail.diets.length > 0 &&
+        producDetail.diets.forEach(item => items.push(item.name));
+      producDetail.allergies.length > 0 &&
+        producDetail.allergies.forEach(item => items.push(item));
+
+      setDietsTitles(items);
+    }
+  }, [producDetail]);
 
   const modalRef = useRef<Modalize>();
 
@@ -417,13 +426,13 @@ const ModalProduct = (props: Props) => {
                     <Location size={14} color={appColors.white} />
                     <SpaceComponent width={4} />
                     <TextComponent
-                      text="Walmart"
+                      text={producDetail.shopname}
                       color={appColors.white}
                       flex={0}
                       size={12}
                     />
                   </RowComponent>
-                  <RowComponent
+                  {/* <RowComponent
                     styles={{
                       backgroundColor: '#41393E70',
                       flex: 0,
@@ -437,7 +446,7 @@ const ModalProduct = (props: Props) => {
                       flex={0}
                       size={12}
                     />
-                  </RowComponent>
+                  </RowComponent> */}
                 </RowComponent>
               </LinearGradient>
             </ImageBackground>
@@ -527,10 +536,10 @@ const ModalProduct = (props: Props) => {
 
             <FlatList
               style={{paddingHorizontal: 8, paddingBottom: 12}}
-              data={producDetail?.diets.concat(producDetail.allergies)}
+              data={dietsTitles}
               horizontal
               showsHorizontalScrollIndicator={false}
-              renderItem={({item, index}) => renderCategory(item.name, index)}
+              renderItem={({item, index}) => renderCategory(item, index)}
             />
 
             <SectionComponent>

@@ -40,11 +40,9 @@ const AddToList = (props: Props) => {
   const [store, setStore] = useState<GroceryStore[]>([]);
   const [storeSelected, setStoreSelected] = useState(0);
   const [directionScroll, setDirectionScroll] = useState('up');
-  const [isShowScoreCard, setIsShowScoreCard] = useState(true);
   const [productSelected, setProductSelected] = useState<ProductDetail[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [listScore, setListScore] = useState<Scoredetails>();
-  const [isVisibleModalInfoScore, setIsVisibleModalInfoScore] = useState(false);
 
   const navigation: any = useNavigation();
   const auth = useSelector(authSelector);
@@ -65,10 +63,6 @@ const AddToList = (props: Props) => {
 
     saveToLocal();
   }, [shopingList]);
-
-  useEffect(() => {
-    setIsShowScoreCard(directionScroll === 'up' ? true : false);
-  }, [directionScroll]);
 
   useEffect(() => {
     if (products.length > 0) {
@@ -233,50 +227,6 @@ const AddToList = (props: Props) => {
 
   return (
     <>
-      {listScore && (
-        <CardScore isHide={!isShowScoreCard} listScore={listScore} />
-      )}
-
-      <View>
-        <FlatList
-          data={store}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          ListHeaderComponent={
-            <TouchableOpacity
-              key={'all'}
-              onPress={() => setStoreSelected(0)}
-              style={[
-                global.tag,
-                {
-                  borderRadius: 100,
-                  marginLeft: 12,
-                  marginRight: 0,
-                  backgroundColor:
-                    storeSelected === 0 ? appColors.success1 : appColors.white,
-                },
-              ]}>
-              <TextComponent
-                flex={0}
-                font={
-                  storeSelected === 0 ? fontFamilys.bold : fontFamilys.medium
-                }
-                color={storeSelected === 0 ? appColors.text : appColors.gray}
-                size={12}
-                text={`All stores - ${store.reduce(
-                  (a, b) => a + b.total_items,
-                  0,
-                )} ($${store
-                  .reduce((a, b) => a + b.total_amount, 0)
-                  .toFixed(2)})`}
-              />
-            </TouchableOpacity>
-          }
-          keyExtractor={item => `shop${item.shop_id}`}
-          renderItem={({item}) => renderTabStore(item)}
-        />
-      </View>
-
       <View style={{flex: 1}}>
         <FlatList
           data={products}
@@ -286,14 +236,66 @@ const AddToList = (props: Props) => {
             );
           }}
           ListHeaderComponent={
-            <RowComponent
-              justify="flex-end"
-              styles={{paddingHorizontal: 16, marginBottom: 12}}>
-              <Button
-                text={'Sellec All'}
-                onPress={() => handleSelectAllProducts()}
-              />
-            </RowComponent>
+            <>
+              <View>
+                {listScore && <CardScore listScore={listScore} />}
+                <FlatList
+                  data={store}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  ListHeaderComponent={
+                    <>
+                      <TouchableOpacity
+                        key={'all'}
+                        onPress={() => setStoreSelected(0)}
+                        style={[
+                          global.tag,
+                          {
+                            borderRadius: 100,
+                            marginLeft: 12,
+                            marginRight: 0,
+                            backgroundColor:
+                              storeSelected === 0
+                                ? appColors.success1
+                                : appColors.white,
+                          },
+                        ]}>
+                        <TextComponent
+                          flex={0}
+                          font={
+                            storeSelected === 0
+                              ? fontFamilys.bold
+                              : fontFamilys.medium
+                          }
+                          color={
+                            storeSelected === 0
+                              ? appColors.text
+                              : appColors.gray
+                          }
+                          size={12}
+                          text={`All stores - ${store.reduce(
+                            (a, b) => a + b.total_items,
+                            0,
+                          )} ($${store
+                            .reduce((a, b) => a + b.total_amount, 0)
+                            .toFixed(2)})`}
+                        />
+                      </TouchableOpacity>
+                    </>
+                  }
+                  keyExtractor={item => `shop${item.shop_id}`}
+                  renderItem={({item}) => renderTabStore(item)}
+                />
+              </View>
+              <RowComponent
+                justify="flex-end"
+                styles={{paddingHorizontal: 16, marginBottom: 12}}>
+                <Button
+                  text={'Sellec All'}
+                  onPress={() => handleSelectAllProducts()}
+                />
+              </RowComponent>
+            </>
           }
           keyExtractor={item => `product${item.category_id}`}
           showsVerticalScrollIndicator={false}

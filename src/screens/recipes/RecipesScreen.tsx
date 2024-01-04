@@ -1,13 +1,16 @@
 import {AddSquare, MinusSquare} from 'iconsax-react-native';
+import LottieView from 'lottie-react-native';
 import React, {useState} from 'react';
 import {
-  Image,
   ImageBackground,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import {useSelector} from 'react-redux';
+import handleMealApi from '../../apis/mealplannerAPI';
 import {RecipesGenerate} from '../../assets/svg';
 import {
   ButtonComponent,
@@ -20,13 +23,8 @@ import {
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
 import ModalizeFilter from '../../modals/ModalizeFilter';
-import {global} from '../../styles/global';
-import {useSelector} from 'react-redux';
 import {authSelector} from '../../redux/reducers/authReducer';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-import {appSize} from '../../constants/appSize';
-import LottieView from 'lottie-react-native';
-import handleMealApi from '../../apis/mealplannerAPI';
+import {global} from '../../styles/global';
 
 const RecipesScreen = ({navigation}: any) => {
   const [isVisibleModalFilter, setIsVisibleModalFilter] = useState(false);
@@ -38,7 +36,7 @@ const RecipesScreen = ({navigation}: any) => {
   const auth = useSelector(authSelector);
 
   const mealOccasions = [
-    {key: 'Breakfast', title: 'Breakfase', isReady: false},
+    {key: 'Breakfast', title: 'Breakfast', isReady: false},
     {key: 'Lunch', title: 'Lunch', isReady: false},
     {key: 'Dinner', title: 'Dinner', isReady: true},
   ];

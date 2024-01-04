@@ -21,12 +21,11 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import {ModalInfoScore} from '../../../modals';
 
 interface Props {
-  isHide?: boolean;
   listScore: Scoredetails;
 }
 
 const CardScore = (props: Props) => {
-  const {isHide, listScore} = props;
+  const {listScore} = props;
 
   const [isVisibleModalInfoScore, setIsVisibleModalInfoScore] = useState(false);
   const navigation: any = useNavigation();
@@ -175,37 +174,35 @@ const CardScore = (props: Props) => {
   return (
     <>
       <SectionComponent>
-        {!isHide && (
-          <CardContent
-            isShadow
-            color={appColors.white}
-            styles={{padding: 12, marginVertical: 8, marginBottom: 0}}>
-            <RowComponent>
-              <RowComponent justify="flex-start" styles={{flex: 1}}>
-                <TitleComponent text="List Score" flex={0} size={18} />
-                <SpaceComponent width={4} />
-                <Button
-                  icon={
-                    <AntDesign
-                      name="infocirlceo"
-                      size={14}
-                      color={appColors.gray}
-                    />
-                  }
-                  onPress={() => setIsVisibleModalInfoScore(true)}
-                />
-              </RowComponent>
+        <CardContent
+          isShadow
+          color={appColors.white}
+          styles={{padding: 12, marginVertical: 8, marginBottom: 0}}>
+          <RowComponent>
+            <RowComponent justify="flex-start" styles={{flex: 1}}>
+              <TitleComponent text="List Score" flex={0} size={18} />
+              <SpaceComponent width={4} />
               <Button
-                text="Improve Score"
-                textSize={14}
-                textColor={appColors.primary}
-                onPress={() => navigation.navigate('ImproveScore')}
+                icon={
+                  <AntDesign
+                    name="infocirlceo"
+                    size={14}
+                    color={appColors.gray}
+                  />
+                }
+                onPress={() => setIsVisibleModalInfoScore(true)}
               />
             </RowComponent>
-            <SpaceComponent height={12} />
-            {listScore ? renderListScore(listScore) : <></>}
-          </CardContent>
-        )}
+            <Button
+              text="Improve Score"
+              textSize={14}
+              textColor={appColors.primary}
+              onPress={() => navigation.navigate('ImproveScore')}
+            />
+          </RowComponent>
+          <SpaceComponent height={12} />
+          {listScore ? renderListScore(listScore) : <></>}
+        </CardContent>
       </SectionComponent>
       <ModalInfoScore
         visible={isVisibleModalInfoScore}

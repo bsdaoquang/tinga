@@ -38,7 +38,10 @@ const GroceryScreen = ({navigation}: any) => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    isFocused && getMyProductList();
+    if (isFocused) {
+      getMyProductList();
+      setIsEditList(false);
+    }
   }, [isFocused]);
 
   const getMyProductList = async (isReload?: boolean) => {
@@ -186,6 +189,7 @@ const GroceryScreen = ({navigation}: any) => {
         visible={isVisibleModalEditList}
         onClose={() => setIsVisibleModalEditList(false)}
         onPress={id => handleModalId(id)}
+        isEdit={isEditList}
       />
       <LoadingModal visible={isUpdating} />
     </Container>

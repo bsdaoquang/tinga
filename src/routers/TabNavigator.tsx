@@ -45,10 +45,10 @@ const TabNavigator = () => {
           return (
             <TextComponent
               text={route.name}
-              styles={{marginTop: 4}}
+              // styles={{marginTop: 4}}
               size={12}
               color={focused ? appColors.primary : appColors.gray}
-              flex={0}
+              // flex={0}
             />
           );
         },

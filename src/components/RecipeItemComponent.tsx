@@ -65,7 +65,7 @@ const RecipeItemComponent = (props: Props) => {
             borderBottomRightRadius: 10,
           }}>
           <TextComponent
-            text={`${item.cook_time}min · Serves ${item.noservings}`}
+            text={`${item.cook_time} · Serves ${item.noservings}`}
             size={10}
           />
           <RowComponent justify="space-between">

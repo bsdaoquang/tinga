@@ -71,7 +71,7 @@ const RegenerateRecipes = ({navigation, route}: any) => {
               ]}>
               <RecipesGenerate />
               <SpaceComponent width={10} />
-              <TitleComponent height={14} text="Generate Recipes" flex={0} />
+              <TitleComponent height={14} text="Regenerate Recipes" flex={0} />
             </View>
           </RowComponent>
 
