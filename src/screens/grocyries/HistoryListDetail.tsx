@@ -1,55 +1,111 @@
-import {View, Text, FlatList} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {FlatList, TouchableOpacity, View} from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
+  ButtonComponent,
   Container,
+  ImageProduct,
   RowComponent,
   SectionComponent,
   TextComponent,
   TitleComponent,
 } from '../../components';
-import {HistoryProduc} from '../../Models/Product';
-import FastImage from 'react-native-fast-image';
 import {appColors} from '../../constants/appColors';
+import {DateTime} from '../../utils/DateTime';
 
 const HistoryListDetail = ({navigation, route}: any) => {
-  const {
-    items,
-  }: {
-    items: {
-      date: string;
-      data: HistoryProduc[];
-    };
-  } = route.params;
+  const {items} = route.params;
+  const [shops, setShops] = useState<{name: string; qty: number}[]>([]);
+
+  useEffect(() => {
+    const data: {
+      name: string;
+      qty: number;
+    }[] = [];
+    if (items.products.length > 0) {
+      items.products.forEach((item: any) => {
+        const index = data.findIndex(element => element.name === item.shopname);
+        if (index !== -1) {
+          data[index].qty += item.qty;
+        } else {
+          data.push({
+            name: item.shopname,
+            qty: item.qty,
+          });
+        }
+      });
+
+      setShops(data);
+    }
+  }, [items]);
 
   return (
-    <Container back>
+    <Container paddingBottom={0}>
+      <SectionComponent
+        styles={{justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+        <TouchableOpacity>
+          <MaterialIcons name="more-vert" size={22} color={appColors.gray} />
+        </TouchableOpacity>
+      </SectionComponent>
       <SectionComponent>
-        <TitleComponent text={items.date} flex={0} />
-        <TitleComponent text={`Shopping List`} size={32} flex={0} />
-        <FlatList
-          data={items.data}
-          renderItem={({item}) => (
-            <RowComponent styles={{paddingVertical: 12}}>
-              <FastImage
-                resizeMode={FastImage.resizeMode.cover}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 100,
-                  marginRight: 12,
-                }}
-                source={{uri: item.image}}
-              />
-              <TextComponent text={item.name} />
-              <TextComponent
-                text={`${item.qty} pcs`}
-                size={14}
-                color={appColors.gray}
-                flex={0}
-              />
-            </RowComponent>
-          )}
+        <TitleComponent size={28} text="Grocery List" flex={0} />
+        <TextComponent
+          text={DateTime.getDateString(items.created_at)}
+          flex={0}
         />
+      </SectionComponent>
+      <SectionComponent styles={{flex: 1}}>
+        <>
+          <FlatList
+            style={{
+              flex: 1,
+            }}
+            ListHeaderComponent={
+              <RowComponent justify="flex-start" styles={{paddingVertical: 12}}>
+                {shops.map(shop => (
+                  <View
+                    key={shop.name}
+                    style={{
+                      marginRight: 12,
+                      backgroundColor: appColors.success1,
+                      paddingHorizontal: 16,
+                      paddingVertical: 4,
+                      borderRadius: 100,
+                    }}>
+                    <TextComponent
+                      text={`${shop.name} ${shop.qty}`}
+                      flex={0}
+                      color={appColors.white}
+                    />
+                  </View>
+                ))}
+              </RowComponent>
+            }
+            data={items.products}
+            renderItem={({item}) => (
+              <RowComponent
+                key={`product${item.id}`}
+                styles={{
+                  marginBottom: 16,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <ImageProduct imageUrl={item.image} />
+                <View style={{flex: 1, paddingHorizontal: 12}}>
+                  <TextComponent text={item.name} flex={0} />
+                </View>
+                <TextComponent text={`${item.qty} pcs`} flex={0} />
+              </RowComponent>
+            )}
+          />
+
+          <ButtonComponent
+            styles={{flex: 0}}
+            text="Back to Grocery List History"
+            onPress={() => navigation.goBack()}
+            textColor={appColors.white}
+          />
+        </>
       </SectionComponent>
     </Container>
   );

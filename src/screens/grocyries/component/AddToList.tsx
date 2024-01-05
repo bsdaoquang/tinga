@@ -39,7 +39,6 @@ const AddToList = (props: Props) => {
 
   const [store, setStore] = useState<GroceryStore[]>([]);
   const [storeSelected, setStoreSelected] = useState(0);
-  const [directionScroll, setDirectionScroll] = useState('up');
   const [productSelected, setProductSelected] = useState<ProductDetail[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [listScore, setListScore] = useState<Scoredetails>();
@@ -230,11 +229,6 @@ const AddToList = (props: Props) => {
       <View style={{flex: 1}}>
         <FlatList
           data={products}
-          onScroll={event => {
-            setDirectionScroll(
-              event.nativeEvent.contentOffset.y > 0 ? 'down' : 'up',
-            );
-          }}
           ListHeaderComponent={
             <>
               <View>

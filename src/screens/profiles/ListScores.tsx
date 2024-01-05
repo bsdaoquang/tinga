@@ -59,7 +59,7 @@ const ListScores = ({navigation, route}: any) => {
             textSize={14}
             textColor={appColors.success2}
             onPress={() =>
-              navigation.navigate('ListScoreDetail', {id: data.id})
+              navigation.navigate('ListScoreDetail', {id: data.id, item: data})
             }
           />
         </RowComponent>
