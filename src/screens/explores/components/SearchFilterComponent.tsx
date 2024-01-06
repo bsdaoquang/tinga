@@ -52,12 +52,11 @@ const SearchFilterComponent = (props: Props) => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    isFocused && setSearchValue('');
+    if (isFocused) {
+      setSearchValue('');
+      getCardCount();
+    }
   }, [isFocused]);
-
-  useEffect(() => {
-    getCardCount();
-  }, []);
 
   useEffect(() => {
     getProductsList();
@@ -183,24 +182,13 @@ const SearchFilterComponent = (props: Props) => {
                 size={24}
                 color={appColors.gray4}
               />
-              {/* <View
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                  width: 6,
-                  height: 6,
-                  borderRadius: 4,
-                  backgroundColor: appColors.error,
-                }}
-              /> */}
             </TouchableOpacity>
           </RowComponent>
 
           <SpaceComponent width={12} />
           <ButtonComponent
             color={appColors.primary}
-            onPress={() => {}}
+            onPress={() => navigation.navigate('GroceryScreen')}
             icon={
               <FontAwesome6
                 name="cart-shopping"

@@ -85,7 +85,7 @@ const BarCodeScreen = ({navigation}: any) => {
   }, [showProduct, showError]);
 
   const getGroceriesList = async () => {
-    const api = `/listOfProducts`;
+    const api = `/listOfProductsCategorywise`;
 
     await handleGetData
       .handleProduct(api, undefined, 'post')

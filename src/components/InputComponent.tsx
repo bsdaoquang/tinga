@@ -130,7 +130,7 @@ export const InputComponent = (props: Props) => {
             paddingHorizontal: 16,
             borderWidth: 2,
             borderColor: isFocus ? '#ABC43F' : '#EEF3DC',
-            paddingVertical: Platform.OS === 'ios' ? 14 : 10,
+            paddingVertical: Platform.OS === 'ios' ? 14 : 8,
             minHeight: height ?? 40,
             backgroundColor: disable
               ? appColors.gray
@@ -154,7 +154,7 @@ export const InputComponent = (props: Props) => {
               flex: 1,
               margin: 0,
               padding: 0,
-              paddingVertical: 4,
+              // paddingVertical: 4,
               color: appColors.text2,
               fontFamily: fontFamilys.medium,
               marginLeft: prefix ? 10 : 0,

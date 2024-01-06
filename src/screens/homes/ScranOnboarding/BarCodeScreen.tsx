@@ -55,7 +55,7 @@ const BarCodeScreen = ({navigation}: any) => {
 
   const [QRCodeCotainer, setQRCodeCotainer] = useState(renderQrCode);
 
-  // const groceriesList = useSelector(groceriesSelector);
+  console.log(codeDetail);
 
   const dispatch = useDispatch();
 
@@ -79,7 +79,7 @@ const BarCodeScreen = ({navigation}: any) => {
   }, [showProduct, showError]);
 
   const getGroceriesList = async () => {
-    const api = `/listOfProducts`;
+    const api = `/listOfProductsCategorywise`;
 
     await handleGetData
       .handleProduct(api, undefined, 'post')
@@ -96,13 +96,14 @@ const BarCodeScreen = ({navigation}: any) => {
     };
     try {
       await handleGetData.handleProduct(api, data, 'post').then((res: any) => {
-        if (res.length > 0) {
-          setProduct(res[0]);
-          setShowProduct(true);
-        } else {
-          setProduct(undefined);
-          setShowError(true);
-        }
+        console.log(res);
+        // if (res.length > 0) {
+        //   setProduct(res[0]);
+        //   setShowProduct(true);
+        // } else {
+        //   setProduct(undefined);
+        //   setShowError(true);
+        // }
       });
     } catch (error) {
       console.log(error);
@@ -163,7 +164,7 @@ const BarCodeScreen = ({navigation}: any) => {
           />
           <View>
             <TextComponent
-              text={`${groceriesList.length}/5`}
+              text={`${groceriesList ? groceriesList.length : '0'}/5`}
               styles={{
                 backgroundColor: appColors.white,
                 paddingVertical: 4,

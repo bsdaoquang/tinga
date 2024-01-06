@@ -70,7 +70,7 @@ const LoginScreen = () => {
 
   return (
     <KeyboardAvoidingView style={{flex: 1}}>
-      <Container back isFlex isScroll>
+      <Container back isScroll isFlex>
         <SectionComponent
           styles={{
             marginTop: 40,

@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {FlatList, View} from 'react-native';
 import {TabbarComponent, TextComponent} from '../../../components';
@@ -14,9 +14,11 @@ const RecipesList = () => {
   const [favouritedRecipes, setFavouritedRecipes] = useState<Recipe[]>([]);
   const navigation: any = useNavigation();
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    getFavouritedRecipes();
-  }, []);
+    isFocused && getFavouritedRecipes();
+  }, [isFocused]);
 
   const getFavouritedRecipes = async () => {
     const api = `listofFavouriteRecipe`;

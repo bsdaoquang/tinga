@@ -34,21 +34,21 @@ const FavouritesProducts = () => {
   return favouritesList.length > 0 ? (
     <>
       <FlatList
-        ListHeaderComponent={
-          <RowComponent
-            justify="flex-start"
-            styles={{marginVertical: 12, paddingHorizontal: 16}}>
-            <ButtonComponent
-              text={`Products ${favouritesList.length}`}
-              onPress={() => {}}
-              styles={{
-                paddingVertical: 9,
-                paddingHorizontal: 12,
-                borderRadius: 100,
-              }}
-            />
-          </RowComponent>
-        }
+        // ListHeaderComponent={
+        //   <RowComponent
+        //     justify="flex-start"
+        //     styles={{marginVertical: 12, paddingHorizontal: 16}}>
+        //     <ButtonComponent
+        //       text={`Products ${favouritesList.length}`}
+        //       onPress={() => {}}
+        //       styles={{
+        //         paddingVertical: 9,
+        //         paddingHorizontal: 12,
+        //         borderRadius: 100,
+        //       }}
+        //     />
+        //   </RowComponent>
+        // }
         numColumns={2}
         horizontal={false}
         showsVerticalScrollIndicator={false}

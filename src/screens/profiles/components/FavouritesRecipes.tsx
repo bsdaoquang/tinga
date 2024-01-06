@@ -80,6 +80,7 @@ const FavouritesRecipes = () => {
                 <RecipeItemComponent
                   item={item}
                   key={`item${item.id}${index}`}
+                  onReload={getFavouritesRecipe}
                 />
               ))}
           </RowComponent>

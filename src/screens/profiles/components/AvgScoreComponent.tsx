@@ -71,37 +71,36 @@ const AvgScoreComponent = () => {
     title: string,
   ) => {
     return score ? (
-      <RowComponent>
+      <View
+        style={{
+          justifyContent: 'center',
+          width: `${(score / total) * 100}%`,
+        }}>
+        <TextComponent
+          text={score.toFixed(0)}
+          flex={0}
+          size={10}
+          font={fontFamilys.bold}
+          styles={{textAlign: 'center'}}
+        />
         <View
           style={{
-            justifyContent: 'center',
-            width: `${(score / total) * 100}%`,
-          }}>
-          <TextComponent
-            text={score.toFixed(0)}
-            flex={0}
-            size={10}
-            font={fontFamilys.bold}
-            styles={{textAlign: 'center'}}
-          />
-          <View
-            style={{
-              backgroundColor: color,
-              borderRadius: 4,
-              height: 18,
-              marginVertical: 4,
-            }}
-          />
+            backgroundColor: color,
+            borderRadius: 4,
+            height: 18,
+            marginVertical: 4,
+            marginRight: 10,
+          }}
+        />
 
-          <TextComponent
-            text={title}
-            flex={0}
-            size={10}
-            font={fontFamilys.regular}
-            styles={{textAlign: 'center'}}
-          />
-        </View>
-      </RowComponent>
+        <TextComponent
+          text={title}
+          flex={0}
+          size={10}
+          font={fontFamilys.regular}
+          styles={{textAlign: 'center'}}
+        />
+      </View>
     ) : null;
   };
 
@@ -192,30 +191,33 @@ const AvgScoreComponent = () => {
                     </RowComponent>
                   </View>
 
-                  {renderPercentage(
-                    avgScore.green_line +
-                      avgScore.red_line +
+                  <RowComponent>
+                    {renderPercentage(
+                      avgScore.green_line +
+                        avgScore.red_line +
+                        avgScore.orange_line,
+                      avgScore.green_line,
+                      '#AAC54E',
+                      'Great Choices',
+                    )}
+
+                    {renderPercentage(
+                      avgScore.green_line +
+                        avgScore.red_line +
+                        avgScore.orange_line,
                       avgScore.orange_line,
-                    avgScore.green_line,
-                    '#AAC54E',
-                    'Great Choices',
-                  )}
-                  {renderPercentage(
-                    avgScore.green_line +
-                      avgScore.red_line +
-                      avgScore.orange_line,
-                    avgScore.orange_line,
-                    '#FFD97D',
-                    'Good',
-                  )}
-                  {renderPercentage(
-                    avgScore.green_line +
-                      avgScore.red_line +
-                      avgScore.orange_line,
-                    avgScore.red_line,
-                    '#F15D59',
-                    'Limit',
-                  )}
+                      '#FFD97D',
+                      'Good',
+                    )}
+                    {renderPercentage(
+                      avgScore.green_line +
+                        avgScore.red_line +
+                        avgScore.orange_line,
+                      avgScore.red_line,
+                      '#F15D59',
+                      'Limit',
+                    )}
+                  </RowComponent>
                 </CardContent>
 
                 {auth.is_premium === 0 && (
@@ -277,7 +279,7 @@ const AvgScoreComponent = () => {
                 }
                 seemore
               />
-              <RowComponent justify="space-between">
+              <RowComponent justify="flex-start">
                 {listScores.map(
                   (item, index) =>
                     index < 3 && (
@@ -285,7 +287,10 @@ const AvgScoreComponent = () => {
                         key={`dataChart${index}`}
                         isShadow
                         color={appColors.white}
-                        styles={{width: (appSize.width - (32 + 12 * 2)) / 3}}>
+                        styles={{
+                          width: (appSize.width - (32 + 12 * 2)) / 3,
+                          marginRight: 12,
+                        }}>
                         <ChartPieItem
                           data={{
                             values: [

@@ -26,7 +26,7 @@ export class HandleProduct {
       .catch(error => JSON.stringify(error));
   };
   static getProductsList = async () => {
-    const api = `/listOfProducts`;
+    const api = `/listOfProductsCategorywise`;
 
     await handleGetData
       .handleProduct(api)

@@ -94,7 +94,7 @@ const ListScores = ({navigation, route}: any) => {
                   <TextComponent text="👍" size={12} flex={0} />
                 </View>
                 <TitleComponent
-                  text={` ${(item.green_line / total) * 100}%`}
+                  text={` ${((item.green_line / total) * 100).toFixed(0)}%`}
                   size={12}
                   flex={0}
                 />
@@ -117,7 +117,7 @@ const ListScores = ({navigation, route}: any) => {
                   <TextComponent text="👌" size={12} flex={0} />
                 </View>
                 <TitleComponent
-                  text={` ${(item.orange_line / total) * 100}%`}
+                  text={` ${((item.orange_line / total) * 100).toFixed(0)}%`}
                   size={12}
                   flex={0}
                 />
@@ -142,7 +142,7 @@ const ListScores = ({navigation, route}: any) => {
                   <TextComponent text="👍" size={12} flex={0} styles={{}} />
                 </View>
                 <TitleComponent
-                  text={` ${(item.red_line / total) * 100}%`}
+                  text={` ${((item.red_line / total) * 100).toFixed(0)}%`}
                   size={12}
                   flex={0}
                 />

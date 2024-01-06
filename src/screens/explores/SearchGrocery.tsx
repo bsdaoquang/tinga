@@ -200,9 +200,7 @@ const SearchGrocery = ({navigation, route}: any) => {
           <TitleComponent
             size={20}
             flex={0}
-            text={`${
-              resultsValue.length > 0 ? 'Gluten-free' : 'No gluten-free'
-            } results for “${searchValue}”`}
+            text={`Results for “${searchValue}”`}
           />
         )}
       </SectionComponent>

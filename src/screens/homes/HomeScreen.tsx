@@ -38,6 +38,7 @@ import HomeCarousels from './components/HomeCarousels';
 import Promotions from './components/Promotions';
 import RecipesList from './components/RecipesList';
 import VideoComponent from './components/VideoComponent';
+import {useIsFocused} from '@react-navigation/native';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -51,6 +52,14 @@ const HomeScreen = ({navigation, route}: any) => {
   const [profileScore, setProfileScore] = useState<ProfileScore>();
 
   const auth = useSelector(authSelector);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      getHistoriesListOfProduct();
+      getLatesProfileScore();
+    }
+  }, [isFocused]);
 
   useEffect(() => {
     if (auth.is_premium !== 1) {
@@ -59,8 +68,6 @@ const HomeScreen = ({navigation, route}: any) => {
       }, 1500);
     }
     getVideos();
-    getHistoriesListOfProduct();
-    getLatesProfileScore();
   }, []);
 
   useEffect(() => {
@@ -84,6 +91,7 @@ const HomeScreen = ({navigation, route}: any) => {
   };
   const getHistoriesListOfProduct = async () => {
     const api = `/listOfProductsCategorywise`;
+
     await handleGetData
       .handleProduct(api, {}, 'post')
       .then((res: any) => {

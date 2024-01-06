@@ -141,13 +141,16 @@ const AddToList = (props: Props) => {
   };
 
   const handleSelectAllProducts = () => {
-    // products.forEach(item => {
-    //   const data = item.data;
-    //   data.length > 0 &&
-    //     data.forEach(itemProduc => {
-    //       handleAddProduct(itemProduc);
-    //     });
-    // });
+    products.forEach(item => {
+      const data = item.products;
+
+      data.forEach(product => {
+        const index = productSelected.findIndex(
+          element => element.id === product.id,
+        );
+        index === -1 && handleCheckItemProduct(product.id);
+      });
+    });
   };
 
   const handleCheckItemProduct = async (id: number) => {
@@ -215,6 +218,7 @@ const AddToList = (props: Props) => {
       .then((res: any) => {
         setIsLoading(false);
         showToast(res.message);
+        handleGetShops();
         onChange();
         // navigation.goBack();
       })

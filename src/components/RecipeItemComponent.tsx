@@ -81,7 +81,9 @@ const RecipeItemComponent = (props: Props) => {
       <ModalizeRecipeDetail
         item={item}
         visible={isVisibleModal}
-        onClose={() => setIsVisibleModal(false)}
+        onClose={() => {
+          setIsVisibleModal(false);
+        }}
         onReload={onReload}
       />
     </>
