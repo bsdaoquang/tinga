@@ -32,7 +32,7 @@ const SwapItemsComponent = (props: Props) => {
 
   useEffect(() => {
     getSwapItems();
-  }, []);
+  }, [product]);
 
   const getSwapItems = async () => {
     const api = `/listOfSwaps`;

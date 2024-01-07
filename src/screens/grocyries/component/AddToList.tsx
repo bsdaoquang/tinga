@@ -42,6 +42,7 @@ const AddToList = (props: Props) => {
   const [productSelected, setProductSelected] = useState<ProductDetail[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [listScore, setListScore] = useState<Scoredetails>();
+  const [productsByStoreId, setproductsByStoreId] = useState<GroceryItem[]>([]);
 
   const navigation: any = useNavigation();
   const auth = useSelector(authSelector);
@@ -51,6 +52,25 @@ const AddToList = (props: Props) => {
     handleGetShops();
     getListScore();
   }, []);
+
+  useEffect(() => {
+    if (storeSelected !== 0) {
+      const data: GroceryItem[] = [];
+
+      products.forEach(items => {
+        data.push({
+          ...items,
+          products: items.products.filter(
+            element => element.shop_id === storeSelected,
+          ),
+        });
+      });
+
+      setproductsByStoreId(data);
+    } else {
+      setproductsByStoreId(products);
+    }
+  }, [storeSelected, products]);
 
   useEffect(() => {
     const saveToLocal = async () => {
@@ -232,7 +252,7 @@ const AddToList = (props: Props) => {
     <>
       <View style={{flex: 1}}>
         <FlatList
-          data={products}
+          data={productsByStoreId}
           ListHeaderComponent={
             <>
               <View>

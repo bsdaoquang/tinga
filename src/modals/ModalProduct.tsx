@@ -64,13 +64,11 @@ const ModalProduct = (props: Props) => {
   const [isShowIngre, setIsShowIngre] = useState(true);
   const [isFavoured, setIsFavoured] = useState(true);
   const [dietsTitles, setDietsTitles] = useState<string[]>([]);
-
+  const [data, setdata] = useState<{
+    product_id: number;
+    shop_id: number;
+  }>();
   const auth = useSelector(authSelector);
-
-  const data = {
-    product_id: product?.id,
-    shop_id: product?.shop_id,
-  };
 
   useEffect(() => {
     visible ? modalRef.current?.open() : modalRef.current?.close();
@@ -78,6 +76,10 @@ const ModalProduct = (props: Props) => {
 
   useEffect(() => {
     if (visible && product) {
+      setdata({
+        product_id: product?.id,
+        shop_id: product?.shop_id,
+      });
       getProducDetail();
       handleCheckFavouredList();
     }
@@ -102,15 +104,18 @@ const ModalProduct = (props: Props) => {
   };
 
   const getProducDetail = async () => {
-    const api = `/getDetailProduct?id=${product?.id}&shop_id=${product?.shop_id}`;
+    if (product) {
+      const api = `/getDetailProduct?id=${product?.id}&shop_id=${product?.shop_id}`;
+      console.log(api);
+      try {
+        const res: any = await handleGetData.handleProduct(api);
 
-    try {
-      const res: any = await handleGetData.handleProduct(api);
-
-      res && res.length > 0 && setProducDetail(res[0]);
-    } catch (error) {
-      showToast(`Can not get product detail`);
-      console.log(error);
+        console.log(res);
+        res && res.length > 0 && setProducDetail(res[0]);
+      } catch (error) {
+        showToast(`Can not get product detail`);
+        console.log(error);
+      }
     }
   };
 
@@ -384,7 +389,7 @@ const ModalProduct = (props: Props) => {
           {producDetail && producDetail.image ? (
             <ImageBackground
               source={{
-                uri: producDetail.image,
+                uri: product?.image,
               }}
               style={{
                 width: '100%',

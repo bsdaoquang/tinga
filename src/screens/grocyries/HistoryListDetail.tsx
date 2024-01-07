@@ -12,6 +12,7 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {DateTime} from '../../utils/DateTime';
+import RenderListDetail from '../../components/RenderListDetail';
 
 const HistoryListDetail = ({navigation, route}: any) => {
   const {items} = route.params;
@@ -55,57 +56,7 @@ const HistoryListDetail = ({navigation, route}: any) => {
         />
       </SectionComponent>
       <SectionComponent styles={{flex: 1}}>
-        <>
-          <FlatList
-            style={{
-              flex: 1,
-            }}
-            ListHeaderComponent={
-              <RowComponent justify="flex-start" styles={{paddingVertical: 12}}>
-                {shops.map(shop => (
-                  <View
-                    key={shop.name}
-                    style={{
-                      marginRight: 12,
-                      backgroundColor: appColors.success1,
-                      paddingHorizontal: 16,
-                      paddingVertical: 4,
-                      borderRadius: 100,
-                    }}>
-                    <TextComponent
-                      text={`${shop.name} ${shop.qty}`}
-                      flex={0}
-                      color={appColors.white}
-                    />
-                  </View>
-                ))}
-              </RowComponent>
-            }
-            data={items.products}
-            renderItem={({item}) => (
-              <RowComponent
-                key={`product${item.id}`}
-                styles={{
-                  marginBottom: 16,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <ImageProduct imageUrl={item.image} />
-                <View style={{flex: 1, paddingHorizontal: 12}}>
-                  <TextComponent text={item.name} flex={0} />
-                </View>
-                <TextComponent text={`${item.qty} pcs`} flex={0} />
-              </RowComponent>
-            )}
-          />
-
-          <ButtonComponent
-            styles={{flex: 0}}
-            text="Back to Grocery List History"
-            onPress={() => navigation.goBack()}
-            textColor={appColors.white}
-          />
-        </>
+        <RenderListDetail items={items.products} />
       </SectionComponent>
     </Container>
   );

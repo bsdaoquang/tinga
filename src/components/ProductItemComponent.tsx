@@ -72,12 +72,12 @@ const ProductItemComponent = (props: Props) => {
   return (
     <>
       <CardContent
-        onPress={
-          // () => console.log(item)
+        // onPress={() => console.log(item)}
+        onPress={() => {
           isCheckPremium && auth.is_premium === 0
             ? undefined
-            : () => setIsVisibileModalProduct(true)
-        }
+            : setIsVisibileModalProduct(true);
+        }}
         isShadow
         color={appColors.white}
         styles={[
