@@ -32,7 +32,7 @@ const ContactSupport = ({navigation}: any) => {
       description: content,
     };
 
-    const api = `/contactDietitian`;
+    const api = `/contactSupport`;
     setIsSending(true);
     try {
       await dashboardAPI.HandleAPI(api, data, 'post').then((res: any) => {

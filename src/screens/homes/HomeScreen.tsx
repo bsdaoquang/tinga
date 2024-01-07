@@ -1,6 +1,13 @@
 import {Gift, Heart, SearchNormal1} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {Alert, Image, StatusBar, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  Linking,
+  StatusBar,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import {AlertDetail} from '../../Models/AlertDetail';
 import {HistoryProduc} from '../../Models/Product';
@@ -283,7 +290,7 @@ const HomeScreen = ({navigation, route}: any) => {
             text="Tinga Community"
             color={'rgba(191, 191, 191, 0.21)'}
             styles={{paddingVertical: 16, marginVertical: 32}}
-            onPress={() => Alert.alert('Info', 'Waiting community url')}
+            onPress={() => Linking.openURL('https://tinga.ca/team.html')}
             fontStyles={{
               color: appColors.text,
               fontSize: 16,

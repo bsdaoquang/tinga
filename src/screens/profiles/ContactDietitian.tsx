@@ -1,6 +1,9 @@
 import {Sms, User} from 'iconsax-react-native';
 import React, {useState} from 'react';
+import {KeyboardAvoidingView} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
+import {AlertDetail} from '../../Models/AlertDetail';
+import dashboardAPI from '../../apis/dashboardAPI';
 import {
   ButtonComponent,
   Container,
@@ -11,12 +14,9 @@ import {
   TitleComponent,
 } from '../../components';
 import {appColors} from '../../constants/appColors';
-import dashboardAPI from '../../apis/dashboardAPI';
-import {Alert, KeyboardAvoidingView} from 'react-native';
-import {showToast} from '../../utils/showToast';
-import {AlertDetail} from '../../Models/AlertDetail';
-import ModalAlert from '../../modals/ModalAlert';
 import {LoadingModal} from '../../modals';
+import ModalAlert from '../../modals/ModalAlert';
+import {showToast} from '../../utils/showToast';
 
 const ContactDietitian = ({navigation}: any) => {
   const [firstName, setFirstName] = useState('');
@@ -33,7 +33,7 @@ const ContactDietitian = ({navigation}: any) => {
       description: content,
     };
 
-    const api = `/contactSupport`;
+    const api = `/contactDietitian`;
     setIsSending(true);
     try {
       await dashboardAPI.HandleAPI(api, data, 'post').then((res: any) => {
