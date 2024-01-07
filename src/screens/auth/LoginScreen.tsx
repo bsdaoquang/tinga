@@ -69,102 +69,99 @@ const LoginScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={{flex: 1}}>
-      <Container back isScroll isFlex>
-        <SectionComponent
+    <Container back isFlex isScroll paddingBottom={0}>
+      <SectionComponent
+        styles={{
+          marginTop: 40,
+        }}>
+        <Image
+          source={require('../../assets/images/TingaLogo.png')}
+          style={{width: 175, height: 68, resizeMode: 'contain'}}
+        />
+      </SectionComponent>
+
+      <SectionComponent
+        styles={{
+          flex: 1,
+          justifyContent: 'center',
+        }}>
+        <TitleComponent text="Login" size={26} flex={0} />
+        <SpaceComponent height={22} />
+        <InputComponent
+          value={email}
+          placeholder="Email address*"
+          affix={<Sms size={20} color={appColors.gray} />}
+          onChange={val => setEmail(val)}
+          type="email-address"
+          autoComplete="email"
+          isCapitalize="none"
+          onEnd={() => handleCheckEmail(email)}
+          helpText={helpText?.email}
+        />
+
+        <InputComponent
+          value={password}
+          placeholder="Password*"
+          onChange={val => {
+            setPassword(val);
+          }}
+          isSecure
+          show={isShowPass}
+          isCapitalize="none"
+          setIsShowPass={() => setIsShowPass(!isShowPass)}
+          helpText={helpText?.paddword}
+        />
+        {errorMessage && (
+          <TextComponent
+            text={errorMessage}
+            size={12}
+            color={appColors.danger}
+            flex={0}
+            styles={{marginBottom: 12}}
+          />
+        )}
+
+        <ButtonComponent
+          text={isLoading ? 'Loading...' : 'Login'}
+          iconRight
+          icon={
+            <Octicons name="arrow-right" size={20} color={appColors.text} />
+          }
+          disable={!email || !password || isLoading}
+          fontStyles={{textAlign: 'center'}}
+          onPress={handleLogin}
           styles={{
-            marginTop: 40,
-          }}>
-          <Image
-            source={require('../../assets/images/TingaLogo.png')}
-            style={{width: 175, height: 68, resizeMode: 'contain'}}
+            paddingVertical: 16,
+            borderColor: '#EEF3DC',
+            borderRadius: 14,
+          }}
+          textColor={appColors.text}
+        />
+      </SectionComponent>
+
+      <SectionComponent styles={{marginBottom: 20}}>
+        <RowComponent>
+          <TextComponent text="Don’t have an account? " flex={0} />
+          <Button
+            text="Sign up"
+            onPress={() => navigation.navigate('SignUpScreen')}
+            textColor={appColors.primary}
+            fontStyles={{fontFamily: fontFamilys.bold}}
           />
-        </SectionComponent>
-
-        <SectionComponent
-          styles={{
-            flex: 1,
-            justifyContent: 'center',
-            marginTop: -68,
-          }}>
-          <TitleComponent text="Login" size={26} flex={0} />
-          <SpaceComponent height={22} />
-          <InputComponent
-            value={email}
-            placeholder="Email address*"
-            affix={<Sms size={20} color={appColors.gray} />}
-            onChange={val => setEmail(val)}
-            type="email-address"
-            autoComplete="email"
-            isCapitalize="none"
-            onEnd={() => handleCheckEmail(email)}
-            helpText={helpText?.email}
+        </RowComponent>
+        <RowComponent styles={{marginTop: 8}}>
+          <TextComponent text="Forgot your password? " flex={0} />
+          <Button
+            text="Recover password"
+            onPress={() => navigation.navigate('ResetPassword')}
+            textColor={appColors.primary}
+            fontStyles={{fontFamily: fontFamilys.bold}}
           />
+        </RowComponent>
+      </SectionComponent>
 
-          <InputComponent
-            value={password}
-            placeholder="Password*"
-            onChange={val => {
-              setPassword(val);
-            }}
-            isSecure
-            show={isShowPass}
-            isCapitalize="none"
-            setIsShowPass={() => setIsShowPass(!isShowPass)}
-            helpText={helpText?.paddword}
-          />
-          {errorMessage && (
-            <TextComponent
-              text={errorMessage}
-              size={12}
-              color={appColors.danger}
-              flex={0}
-              styles={{marginBottom: 12}}
-            />
-          )}
-
-          <ButtonComponent
-            text={isLoading ? 'Loading...' : 'Login'}
-            iconRight
-            icon={
-              <Octicons name="arrow-right" size={20} color={appColors.text} />
-            }
-            disable={!email || !password || isLoading}
-            fontStyles={{textAlign: 'center'}}
-            onPress={handleLogin}
-            styles={{
-              paddingVertical: 16,
-              borderColor: '#EEF3DC',
-              borderRadius: 14,
-            }}
-            textColor={appColors.text}
-          />
-        </SectionComponent>
-
-        <SectionComponent styles={{marginBottom: 20}}>
-          <RowComponent>
-            <TextComponent text="Don’t have an account? " flex={0} />
-            <Button
-              text="Sign up"
-              onPress={() => navigation.navigate('SignUpScreen')}
-              textColor={appColors.primary}
-              fontStyles={{fontFamily: fontFamilys.bold}}
-            />
-          </RowComponent>
-          <RowComponent styles={{marginTop: 8}}>
-            <TextComponent text="Forgot your password? " flex={0} />
-            <Button
-              text="Recover password"
-              onPress={() => navigation.navigate('ResetPassword')}
-              textColor={appColors.primary}
-              fontStyles={{fontFamily: fontFamilys.bold}}
-            />
-          </RowComponent>
-        </SectionComponent>
-
-        <LoadingModal visible={isLoading} />
-      </Container>
-    </KeyboardAvoidingView>
+      <LoadingModal visible={isLoading} />
+    </Container>
   );
 };
 

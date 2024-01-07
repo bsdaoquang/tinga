@@ -1,7 +1,6 @@
 import {Sms} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useDispatch} from 'react-redux';
 import authenticationAPI from '../../apis/authAPI';
 import {
   ButtonComponent,
@@ -14,8 +13,8 @@ import {
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
 import useAuth from '../../hooks/useAuth';
-import TermsText from './components/TermsText';
 import {LoadingModal} from '../../modals';
+import TermsText from './components/TermsText';
 
 const SignUpScreen = ({navigation}: any) => {
   const [isShowPass, setIsShowPass] = useState(false);
@@ -80,7 +79,7 @@ const SignUpScreen = ({navigation}: any) => {
     }
   };
   return (
-    <Container back isScroll>
+    <Container back isScroll paddingBottom={0}>
       <SectionComponent>
         <TitleComponent text="Welcome to Tinga" size={26} height={44} />
         <TextComponent
