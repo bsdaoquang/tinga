@@ -9,6 +9,7 @@ const VideosScreen = ({route, navigation}: any) => {
   return (
     <Container back title="Videos">
       <FlatList
+        style={{flex: 1}}
         showsVerticalScrollIndicator={false}
         data={videos}
         renderItem={({item}) => (

@@ -258,6 +258,7 @@ const RecipesScreen = ({navigation}: any) => {
               <RowComponent>
                 {recipeTimes.map((item, index) => (
                   <TouchableOpacity
+                    disabled={index === 1}
                     onPress={() => setRecipeTime(item.key)}
                     key={item.key}
                     style={[

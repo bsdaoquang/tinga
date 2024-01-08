@@ -100,10 +100,12 @@ const BarCodeScreen = ({navigation}: any) => {
     const data = {
       barcode: `${id}`,
     };
+
     try {
       await handleGetData.handleProduct(api, data, 'post').then((res: any) => {
-        if (res.length > 0) {
-          setProduct(res[0]);
+        if (res && res.id && res.shop_id) {
+          // console.log(res);
+          setProduct(res);
           setShowProduct(true);
         } else {
           setProduct(undefined);

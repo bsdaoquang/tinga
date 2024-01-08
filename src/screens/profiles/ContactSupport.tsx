@@ -84,7 +84,7 @@ const ContactSupport = ({navigation}: any) => {
           <InputComponent
             value={content}
             onChange={val => setContent(val)}
-            placeholder="Describe your problem"
+            placeholder="How can we help?"
             isMultible
             rows={5}
           />

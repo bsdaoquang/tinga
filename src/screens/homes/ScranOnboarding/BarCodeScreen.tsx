@@ -96,14 +96,13 @@ const BarCodeScreen = ({navigation}: any) => {
     };
     try {
       await handleGetData.handleProduct(api, data, 'post').then((res: any) => {
-        console.log(res);
-        // if (res.length > 0) {
-        //   setProduct(res[0]);
-        //   setShowProduct(true);
-        // } else {
-        //   setProduct(undefined);
-        //   setShowError(true);
-        // }
+        if (res && res.id && res.shop_id) {
+          setProduct(res);
+          setShowProduct(true);
+        } else {
+          setProduct(undefined);
+          setShowError(true);
+        }
       });
     } catch (error) {
       console.log(error);

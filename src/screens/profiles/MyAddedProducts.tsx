@@ -204,8 +204,9 @@ const MyAddedProducts = ({navigation}: any) => {
                   alignItems: 'center',
                 }}>
                 <TextComponent
-                  text="You are not added any product to your list."
+                  text="You have not added any products to your profile."
                   size={16}
+                  styles={{textAlign: 'center'}}
                   color={appColors.gray5}
                   height={28}
                   flex={0}

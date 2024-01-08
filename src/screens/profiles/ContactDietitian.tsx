@@ -85,7 +85,7 @@ const ContactDietitian = ({navigation}: any) => {
           <InputComponent
             value={content}
             onChange={val => setContent(val)}
-            placeholder="How can we help"
+            placeholder="How can we help?"
             isMultible
             rows={5}
           />

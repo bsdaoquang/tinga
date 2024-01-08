@@ -1,14 +1,13 @@
+import {ArrowDown2, ArrowUp2} from 'iconsax-react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Touchable,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {Diet, UserChoose, UserSelected} from '../Models/UserChoose';
+import handleGetData from '../apis/productAPI';
+import profileAPI from '../apis/userAPI';
 import {
   Button,
   ButtonComponent,
@@ -18,16 +17,11 @@ import {
   TitleComponent,
 } from '../components';
 import {appColors} from '../constants/appColors';
-import {showToast} from '../utils/showToast';
-import profileAPI from '../apis/userAPI';
-import handleGetData from '../apis/productAPI';
-import {Diet, UserChoose, UserSelected} from '../Models/UserChoose';
 import {fontFamilys} from '../constants/fontFamily';
-import {ArrowDown2, ArrowUp2, InfoCircle} from 'iconsax-react-native';
 import {global} from '../styles/global';
+import {showToast} from '../utils/showToast';
 import LoadingModal from './LoadingModal';
 import ModalizeInfo from './ModalizeInfo';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 interface Props {
   visible: boolean;

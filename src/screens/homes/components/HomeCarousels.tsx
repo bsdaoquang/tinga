@@ -20,32 +20,24 @@ import {
 import {appColors} from '../../../constants/appColors';
 import {fontFamilys} from '../../../constants/fontFamily';
 import {global} from '../../../styles/global';
+import {useSelector} from 'react-redux';
+import {authSelector} from '../../../redux/reducers/authReducer';
+import {ListScore} from '../../../Models/Score';
 
 const HomeCarousels = () => {
-  const [isPermission, setIsPermission] = useState(false);
   const [historiesList, setHistoriesList] = useState<HistoryProduc[]>([]);
   const [isGuideStart, setIsGuideStart] = useState(false);
-  const isFocused = useIsFocused();
+  const [dietChecked, setDietChecked] = useState('');
+  const [listScores, setListScores] = useState<ListScore[]>([]);
 
   const navigation: any = useNavigation();
+  const auth = useSelector(authSelector);
 
   useEffect(() => {
     getHistoriesListOfProduct();
+    getDiets();
+    getRecentsListScore();
   }, []);
-
-  useEffect(() => {
-    requestPermision();
-  }, []);
-
-  const requestPermision = async () => {
-    check(PERMISSIONS.ANDROID.CAMERA).then(res => {
-      if (res === 'granted') {
-        setIsPermission(true);
-      } else {
-        setIsGuideStart(false);
-      }
-    });
-  };
 
   const getHistoriesListOfProduct = async () => {
     const api = `/listOfProductsCategorywise`;
@@ -58,6 +50,35 @@ const HomeCarousels = () => {
       .catch(error => {
         console.log(error);
       });
+  };
+
+  const getRecentsListScore = async () => {
+    const api = `/allListScore`;
+
+    try {
+      const res: any = await handleGetData.handleUser(api);
+      res && setListScores(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getDiets = async () => {
+    const api = `/dietpreference`;
+
+    try {
+      await handleGetData.handleProduct(api).then((res: any) => {
+        if (res) {
+          const item = res.find(
+            (element: any) => element.is_selected === 'Yes',
+          );
+
+          setDietChecked(item.name);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return historiesList.length > 5 ? (
@@ -199,7 +220,13 @@ const HomeCarousels = () => {
       </CardContent>
       <CardContent isShadow={false} styles={{marginHorizontal: 8}}>
         <TitleComponent
-          text={`Start your Gluten-free shopping experience`}
+          text={
+            listScores.length > 0
+              ? `Continue your customized ${
+                  dietChecked ?? ''
+                } shopping experience`
+              : `Start your ${dietChecked ?? ''} shopping experience`
+          }
           size={20}
           flex={0}
         />

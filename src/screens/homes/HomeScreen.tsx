@@ -268,7 +268,7 @@ const HomeScreen = ({navigation, route}: any) => {
               seemore
               onPress={() => navigation.navigate('VideosScreen', {videos})}
             />
-            {videos.length > 0 && <VideoComponent item={videos[2]} />}
+            {videos.length > 0 && <VideoComponent item={videos[0]} />}
           </View>
         </SectionComponent>
         <SectionComponent

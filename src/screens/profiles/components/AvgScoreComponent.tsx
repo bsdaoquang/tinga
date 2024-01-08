@@ -289,7 +289,7 @@ const AvgScoreComponent = () => {
                         color={appColors.white}
                         styles={{
                           width: (appSize.width - (32 + 12 * 2)) / 3,
-                          marginRight: 12,
+                          marginRight: index < 2 ? 12 : 0,
                         }}>
                         <ChartPieItem
                           data={{

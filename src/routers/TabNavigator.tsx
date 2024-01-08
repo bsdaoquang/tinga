@@ -89,7 +89,8 @@ const TabNavigator = () => {
         component={ExploreNavigator}
         listeners={({navigation, route}) => ({
           tabPress: e => {
-            // console.log(e);
+            console.log(e);
+
             navigation.navigate('ExploreScreen');
           },
         })}

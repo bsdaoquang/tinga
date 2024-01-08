@@ -16,6 +16,7 @@ import {appColors} from '../../../constants/appColors';
 import {appSize} from '../../../constants/appSize';
 import {fontFamilys} from '../../../constants/fontFamily';
 import {handleSaveUser} from '../../../utils/handleSaveUser';
+import handleGetData from '../../../apis/productAPI';
 
 const HomeScan = ({route}: any) => {
   useEffect(() => {
@@ -42,6 +43,7 @@ const HomeScan = ({route}: any) => {
       }
     }
   };
+
   return (
     <>
       <Container
@@ -72,8 +74,7 @@ const HomeScan = ({route}: any) => {
             textColor={appColors.white6}
           />
         }
-        isScroll
-      >
+        isScroll>
         <SectionComponent>
           <TextComponent
             text="Reset your pantry"
