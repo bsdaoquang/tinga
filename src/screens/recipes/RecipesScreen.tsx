@@ -1,7 +1,8 @@
 import {AddSquare, MinusSquare} from 'iconsax-react-native';
 import LottieView from 'lottie-react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
+  Image,
   ImageBackground,
   StatusBar,
   StyleSheet,
@@ -25,6 +26,11 @@ import {fontFamilys} from '../../constants/fontFamily';
 import ModalizeFilter from '../../modals/ModalizeFilter';
 import {authSelector} from '../../redux/reducers/authReducer';
 import {global} from '../../styles/global';
+import {Quote} from '../../Models/Recipe';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
 
 const RecipesScreen = ({navigation}: any) => {
   const [isVisibleModalFilter, setIsVisibleModalFilter] = useState(false);
@@ -32,6 +38,8 @@ const RecipesScreen = ({navigation}: any) => {
   const [recipeTime, setRecipeTime] = useState(0);
   const [numberOfServings, setNumberOfServings] = useState(1);
   const [generating, setGenerating] = useState(false);
+  const [quotes, setquotes] = useState<Quote[]>([]);
+  const [quoteShow, setQuoteShow] = useState<Quote>();
 
   const auth = useSelector(authSelector);
 
@@ -49,6 +57,24 @@ const RecipesScreen = ({navigation}: any) => {
     },
   ];
 
+  useEffect(() => {
+    getlistofFactsQuotes();
+  }, []);
+
+  useEffect(() => {
+    if (quotes.length > 0) {
+      setQuoteShow(quotes[0]);
+    }
+
+    if (generating && quotes.length > 0) {
+      const interval = setInterval(() => {
+        setQuoteShow(quotes[Math.floor(Math.random() * quotes.length)]);
+      }, 10000);
+
+      return () => clearInterval(interval);
+    }
+  }, [generating, quotes]);
+
   const handleGenerating = async () => {
     const api = `generateRecipe`;
     setGenerating(true);
@@ -62,8 +88,8 @@ const RecipesScreen = ({navigation}: any) => {
     try {
       const res: any = await handleMealApi.handleMealPlanner(api, data, 'post');
       if (res && res.length > 0) {
-        // console.log(res);
         setGenerating(false);
+
         navigation.navigate('RegenerateRecipes', {recipe: res[0]});
       }
     } catch (error) {
@@ -72,168 +98,233 @@ const RecipesScreen = ({navigation}: any) => {
     }
   };
 
+  const getlistofFactsQuotes = async () => {
+    const api = `listofFactsQuotes`;
+
+    try {
+      const res: any = await handleMealApi.handleMealPlanner(api);
+      res && res.length > 0 && setquotes(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <ImageBackground
-      source={require('../../assets/images/bg-recipescren.png')}
+      source={require('../../assets/images/bg-recipes.png')}
       imageStyle={{
         flex: 1,
       }}
       style={{flex: 1}}>
       <StatusBar translucent barStyle="dark-content" />
       <View style={{flex: 1, paddingTop: 32}}>
-        <SectionComponent>
-          <RowComponent justify="flex-end">
-            <ButtonComponent
-              styles={{
-                paddingVertical: 6,
-                paddingHorizontal: 12,
-                borderRadius: 8,
-              }}
-              fontStyles={{
-                fontFamily: fontFamilys.medium,
-                lineHeight: 20,
-                fontSize: 12,
-              }}
-              color={appColors.white}
-              text="More filters"
-              onPress={() => setIsVisibleModalFilter(true)}
-            />
-          </RowComponent>
+        <SectionComponent styles={{flex: 1, justifyContent: 'center'}}>
+          {generating ? (
+            <View
+              style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+              <TextComponent
+                text={quoteShow?.title ?? ''}
+                flex={0}
+                size={30}
+                font={fontFamilys.bold}
+                color={appColors.primary}
+              />
+            </View>
+          ) : (
+            <>
+              <RowComponent justify="flex-end">
+                <ButtonComponent
+                  styles={{
+                    paddingVertical: 6,
+                    paddingHorizontal: 12,
+                    borderRadius: 8,
+                  }}
+                  fontStyles={{
+                    fontFamily: fontFamilys.medium,
+                    lineHeight: 20,
+                    fontSize: 12,
+                  }}
+                  color={appColors.white}
+                  text="More filters"
+                  onPress={() => setIsVisibleModalFilter(true)}
+                />
+              </RowComponent>
+              <View style={{flex: 1, alignItems: 'center'}}>
+                <Image
+                  source={require('../../assets/images/recipe-logo.png')}
+                  style={{width: 60, height: 33}}
+                />
+                <TitleComponent
+                  text={`Recipe\nGenerator`}
+                  styles={{textAlign: 'center'}}
+                  size={42}
+                  height={44}
+                  color="#32645B"
+                  flex={0}
+                />
+              </View>
+            </>
+          )}
         </SectionComponent>
 
         <SectionComponent
           styles={{
-            flex: 1,
+            flex: 2,
             alignItems: 'center',
             justifyContent: 'flex-end',
             paddingBottom: 100,
             paddingHorizontal: 0,
           }}>
-          <TitleComponent
-            text="What should I cook?"
-            size={24}
-            flex={0}
-            color={appColors.white}
-          />
-          <TextComponent
-            text="Select meal occasion/s"
-            size={16}
-            flex={0}
-            color={appColors.white}
-            height={24}
-          />
-          <RowComponent styles={{marginTop: 14}}>
-            {mealOccasions.map(item => (
-              <TouchableOpacity
-                disabled={!item.isReady}
-                key={item.key}
-                style={[
-                  global.button,
-                  styles.button,
-                  {
-                    borderColor:
-                      item.key === mealOccasion
-                        ? appColors.success1
-                        : appColors.white,
-                  },
-                ]}>
-                <TitleComponent
-                  text={item.title}
-                  flex={0}
-                  size={16}
-                  color={item.isReady ? appColors.text : appColors.gray}
-                  font={item.isReady ? fontFamilys.bold : fontFamilys.medium}
-                />
-                {!item.isReady && (
-                  <TextComponent
-                    text="[Coming soon]"
-                    size={12}
-                    flex={0}
-                    color={appColors.gray}
-                    height={16}
-                  />
-                )}
-              </TouchableOpacity>
-            ))}
-          </RowComponent>
-
-          <RowComponent styles={{marginTop: 20, marginBottom: 10}}>
-            <TextComponent
-              font={fontFamilys.medium}
-              size={16}
-              text="Recipe Time"
-              flex={0}
-              color={appColors.white}
-            />
-          </RowComponent>
-
-          <RowComponent>
-            {recipeTimes.map((item, index) => (
-              <TouchableOpacity
-                onPress={() => setRecipeTime(item.key)}
-                key={item.key}
-                style={[
-                  global.button,
-                  styles.button,
-
-                  {
-                    height: 40,
-                    width: 88,
-                    borderColor:
-                      item.key === recipeTime
-                        ? appColors.success1
-                        : appColors.white,
-                  },
-                ]}>
-                <TitleComponent
-                  text={item.title}
-                  flex={0}
-                  size={16}
-                  color={
-                    item.key === recipeTime ? appColors.text : appColors.gray
-                  }
-                  font={
-                    item.key === recipeTime
-                      ? fontFamilys.bold
-                      : fontFamilys.medium
-                  }
-                />
-              </TouchableOpacity>
-            ))}
-          </RowComponent>
-          <RowComponent styles={{marginTop: 20, marginBottom: 10}}>
-            <TextComponent
-              font={fontFamilys.medium}
-              size={16}
-              text="Number of servings"
-              flex={0}
-              color={appColors.white}
-            />
-          </RowComponent>
-
-          <RowComponent>
-            <TouchableOpacity
-              disabled={numberOfServings === 1}
-              onPress={() => setNumberOfServings(numberOfServings - 1)}>
-              <MinusSquare
-                scale={24}
-                color={
-                  numberOfServings === 1 ? appColors.gray : appColors.white
-                }
+          {generating ? (
+            <View
+              style={{
+                flex: 1,
+                padding: 32,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <TextComponent
+                text={quoteShow?.description ?? ''}
+                styles={{textAlign: 'center'}}
+                size={20}
+                font={fontFamilys.bold}
+                color={appColors.white}
+                flex={0}
+                height={32}
               />
-            </TouchableOpacity>
-            <TitleComponent
-              text={numberOfServings.toString()}
-              size={22}
-              styles={{marginHorizontal: 18}}
-              color={appColors.white}
-              flex={0}
-            />
-            <TouchableOpacity
-              onPress={() => setNumberOfServings(numberOfServings + 1)}>
-              <AddSquare scale={24} color={appColors.white} />
-            </TouchableOpacity>
-          </RowComponent>
+            </View>
+          ) : (
+            <>
+              <TitleComponent
+                text="What should I cook?"
+                size={24}
+                flex={0}
+                color={appColors.white}
+              />
+              <TextComponent
+                text="Select meal occasion/s"
+                size={16}
+                flex={0}
+                color={appColors.white}
+                height={24}
+              />
+              <RowComponent styles={{marginTop: 14}}>
+                {mealOccasions.map(item => (
+                  <TouchableOpacity
+                    disabled={!item.isReady}
+                    key={item.key}
+                    style={[
+                      global.button,
+                      styles.button,
+                      {
+                        borderColor:
+                          item.key === mealOccasion
+                            ? appColors.success1
+                            : appColors.white,
+                      },
+                    ]}>
+                    <TitleComponent
+                      text={item.title}
+                      flex={0}
+                      size={16}
+                      color={item.isReady ? appColors.text : appColors.gray}
+                      font={
+                        item.isReady ? fontFamilys.bold : fontFamilys.medium
+                      }
+                    />
+                    {!item.isReady && (
+                      <TextComponent
+                        text="[Coming soon]"
+                        size={12}
+                        flex={0}
+                        color={appColors.gray}
+                        height={16}
+                      />
+                    )}
+                  </TouchableOpacity>
+                ))}
+              </RowComponent>
+
+              <RowComponent styles={{marginTop: 20, marginBottom: 10}}>
+                <TextComponent
+                  font={fontFamilys.medium}
+                  size={16}
+                  text="Recipe Time"
+                  flex={0}
+                  color={appColors.white}
+                />
+              </RowComponent>
+
+              <RowComponent>
+                {recipeTimes.map((item, index) => (
+                  <TouchableOpacity
+                    onPress={() => setRecipeTime(item.key)}
+                    key={item.key}
+                    style={[
+                      global.button,
+                      styles.button,
+
+                      {
+                        height: 40,
+                        width: 88,
+                        borderColor:
+                          item.key === recipeTime
+                            ? appColors.success1
+                            : appColors.white,
+                      },
+                    ]}>
+                    <TitleComponent
+                      text={item.title}
+                      flex={0}
+                      size={16}
+                      color={
+                        item.key === recipeTime
+                          ? appColors.text
+                          : appColors.gray
+                      }
+                      font={
+                        item.key === recipeTime
+                          ? fontFamilys.bold
+                          : fontFamilys.medium
+                      }
+                    />
+                  </TouchableOpacity>
+                ))}
+              </RowComponent>
+              <RowComponent styles={{marginTop: 20, marginBottom: 10}}>
+                <TextComponent
+                  font={fontFamilys.medium}
+                  size={16}
+                  text="Number of servings"
+                  flex={0}
+                  color={appColors.white}
+                />
+              </RowComponent>
+              <RowComponent>
+                <TouchableOpacity
+                  disabled={numberOfServings === 1}
+                  onPress={() => setNumberOfServings(numberOfServings - 1)}>
+                  <MinusSquare
+                    scale={24}
+                    color={
+                      numberOfServings === 1 ? appColors.gray : appColors.white
+                    }
+                  />
+                </TouchableOpacity>
+                <TitleComponent
+                  text={numberOfServings.toString()}
+                  size={22}
+                  styles={{marginHorizontal: 18}}
+                  color={appColors.white}
+                  flex={0}
+                />
+                <TouchableOpacity
+                  onPress={() => setNumberOfServings(numberOfServings + 1)}>
+                  <AddSquare scale={24} color={appColors.white} />
+                </TouchableOpacity>
+              </RowComponent>
+            </>
+          )}
 
           <View style={{width: '80%', marginTop: 20}}>
             <TouchableOpacity

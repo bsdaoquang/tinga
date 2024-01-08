@@ -44,3 +44,8 @@ export interface ProductStore {
   thumb_type: number;
   upc: string;
 }
+
+export interface Quote {
+  title: string;
+  description: string;
+}
