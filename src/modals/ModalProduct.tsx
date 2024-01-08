@@ -106,11 +106,10 @@ const ModalProduct = (props: Props) => {
   const getProducDetail = async () => {
     if (product) {
       const api = `/getDetailProduct?id=${product?.id}&shop_id=${product?.shop_id}`;
-      console.log(api);
+
       try {
         const res: any = await handleGetData.handleProduct(api);
 
-        console.log(res);
         res && res.length > 0 && setProducDetail(res[0]);
       } catch (error) {
         showToast(`Can not get product detail`);
