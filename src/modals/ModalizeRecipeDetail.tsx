@@ -54,10 +54,10 @@ interface Props {
 const ModalizeRecipeDetail = (props: Props) => {
   const {visible, onClose, item, onReload} = props;
 
-  const [isVisibleIngredients, setIsVisibleIngredients] = useState(false);
-  const [isPrepareIngredients, setIsPrepareIngredients] = useState(false);
-  const [isShowIntroductions, setIsShowIntroductions] = useState(false);
-  const [isVisibleModalScore, setIsVisibleModalScore] = useState(false);
+  const [isVisibleIngredients, setIsVisibleIngredients] = useState(true);
+  const [isPrepareIngredients, setIsPrepareIngredients] = useState(true);
+  const [isShowIntroductions, setIsShowIntroductions] = useState(true);
+  const [isVisibleModalScore, setIsVisibleModalScore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [recipeDetail, setRecipeDetail] = useState<RecipeDetail>();
   const [recipeIngredients, setRecipeIngredients] =
