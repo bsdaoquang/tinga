@@ -109,7 +109,7 @@ const RenderListDetail = (props: Props) => {
             <View style={{flex: 1, paddingHorizontal: 12}}>
               <TextComponent text={item.name} flex={0} />
             </View>
-            <TextComponent text={`${item.qty} pcs`} flex={0} />
+            <TextComponent text={`${item.qty} ct`} flex={0} />
           </RowComponent>
         )}
       />

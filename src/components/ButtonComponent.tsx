@@ -104,6 +104,7 @@ export const ButtonComponent = (props: Props) => {
           fontStyles,
         ]}
       />
+
       {iconRight && (
         <Octicons name="arrow-right" size={20} color={appColors.text} />
       )}

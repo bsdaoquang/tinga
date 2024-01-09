@@ -309,7 +309,7 @@ const AddToList = (props: Props) => {
                 justify="flex-end"
                 styles={{paddingHorizontal: 16, marginBottom: 12}}>
                 <Button
-                  text={'Sellec All'}
+                  text={'Select All'}
                   onPress={() => handleSelectAllProducts()}
                 />
               </RowComponent>

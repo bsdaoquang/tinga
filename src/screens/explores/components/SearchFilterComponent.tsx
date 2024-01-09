@@ -97,7 +97,7 @@ const SearchFilterComponent = (props: Props) => {
     try {
       const res: any = await handleGetData.handleProduct(api);
 
-      res && typeof res === 'number' && setCardCount(res);
+      res && typeof res === 'number' ? setCardCount(res) : setCardCount(0);
     } catch (error) {
       console.log(error);
     }
@@ -192,19 +192,22 @@ const SearchFilterComponent = (props: Props) => {
             icon={
               <FontAwesome6
                 name="cart-shopping"
-                size={14}
+                size={12}
                 color={appColors.white}
               />
             }
             text={cardCount.toString()}
+            // text="5"
             textColor={appColors.white}
             styles={{
-              width: 48,
-              height: 48,
+              width: 50,
+              height: 50,
+              padding: 0,
+              margin: 0,
               alignItems: 'center',
               justifyContent: 'center',
             }}
-            fontStyles={{fontSize: 18, lineHeight: 19}}
+            fontStyles={{fontSize: 18}}
           />
         </RowComponent>
       </SectionComponent>

@@ -18,8 +18,8 @@ const CategoryDetail = ({navigation, route}: any) => {
     subSubCategory,
   }: {
     category: Category;
-    subCategory: Category;
-    subSubCategory: Category;
+    subCategory?: Category;
+    subSubCategory?: Category;
   } = route.params;
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -28,10 +28,12 @@ const CategoryDetail = ({navigation, route}: any) => {
   const [page, setPage] = useState(1);
   const [loadmoreable, setLoadmoreable] = useState(true);
 
+  console.log(category);
+
   const api = `/getProductListing`;
   const data = {
     category_id: category.id,
-    subcategory_id: subCategory.id ?? 0,
+    subcategory_id: subCategory ? subCategory.id : 0,
     sub_subcategory_id: subSubCategory
       ? subSubCategory.id
         ? subSubCategory.id
