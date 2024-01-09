@@ -123,7 +123,7 @@ const ModalizeFilter = (props: Props) => {
 
     data.append('allergy_ids', ids.toString());
     data.append('prefrence', 3);
-    // console.log(data);
+
     try {
       await handleGetData
         .handleProduct(api, data, 'post', true)
@@ -132,7 +132,7 @@ const ModalizeFilter = (props: Props) => {
           setDisLikes(res);
         });
     } catch (error) {
-      console.log(error);
+      console.log(`error get dislike: ${error}`);
     }
   };
 
@@ -594,15 +594,18 @@ const ModalizeFilter = (props: Props) => {
                   </RowComponent>
                 ) : (
                   <RowComponent justify="flex-start">
-                    {userChoices?.dislikes.map((item: any) =>
-                      renderButton({
-                        id: item.id,
-                        text: item.allergy_dislike,
-                        isRight: false,
-                        isSelected: true,
-                        onPress: () => handleSelectedItem(item.id, 'dislikes'),
-                      }),
-                    )}
+                    {userChoices &&
+                      userChoices?.dislikes &&
+                      userChoices?.dislikes.map((item: any) =>
+                        renderButton({
+                          id: item.id,
+                          text: item.allergy_dislike,
+                          isRight: false,
+                          isSelected: true,
+                          onPress: () =>
+                            handleSelectedItem(item.id, 'dislikes'),
+                        }),
+                      )}
                   </RowComponent>
                 )}
               </View>
@@ -647,15 +650,17 @@ const ModalizeFilter = (props: Props) => {
                   </RowComponent>
                 ) : (
                   <RowComponent justify="flex-start">
-                    {userChoices?.shops.map(item =>
-                      renderButton({
-                        id: item.id,
-                        text: item.name,
-                        isRight: false,
-                        isSelected: true,
-                        onPress: () => handleSelectedItem(item.id, 'shops'),
-                      }),
-                    )}
+                    {userChoices &&
+                      userChoices.shops &&
+                      userChoices?.shops.map(item =>
+                        renderButton({
+                          id: item.id,
+                          text: item.name,
+                          isRight: false,
+                          isSelected: true,
+                          onPress: () => handleSelectedItem(item.id, 'shops'),
+                        }),
+                      )}
                   </RowComponent>
                 )}
               </View>
