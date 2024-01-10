@@ -1,24 +1,22 @@
-import {View, Text, Image, FlatList} from 'react-native';
+import {Add, Location} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, FlatList, Image, Text, View} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   Button,
   CardContent,
-  LoadingComponent,
-  ProductItemComponent,
   RowComponent,
   SpaceComponent,
   TextComponent,
   TitleComponent,
 } from '.';
-import {appColors} from '../constants/appColors';
 import {ProductDetail, SwapModel, Swapproduct} from '../Models/Product';
 import handleGetData from '../apis/productAPI';
+import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
-import {global} from '../styles/global';
-import {Add, Location} from 'iconsax-react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {LoadingModal} from '../modals';
-import {showToast} from '../utils/showToast';
+import ModalSwapProduct from '../modals/ModalSwapProduct';
+import {global} from '../styles/global';
 
 interface Props {
   product?: ProductDetail;
@@ -26,9 +24,10 @@ interface Props {
 
 const SwapItemsComponent = (props: Props) => {
   const {product} = props;
-  const [isLoading, setIsLoading] = useState(false);
   const [items, setItems] = useState<SwapModel[]>([]);
-  const [isSwaping, setIsSwaping] = useState(false);
+  const [isVisibleModalSwap, setIsVisibleModalSwap] = useState(false);
+  const [productSwap, setProductSwap] = useState<Swapproduct>();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getSwapItems();
@@ -37,7 +36,6 @@ const SwapItemsComponent = (props: Props) => {
   const getSwapItems = async () => {
     const api = `/listOfSwaps`;
     setIsLoading(true);
-
     try {
       const res: any = await handleGetData.handleProduct(
         api,
@@ -69,26 +67,6 @@ const SwapItemsComponent = (props: Props) => {
         </Text>
       </View>
     );
-  };
-
-  const handleSwapItem = async (item: {
-    product_id: number;
-    shop_id: number;
-    swap_product_id: number;
-    swap_shop_id: number;
-  }) => {
-    const api = `/swapItems`;
-
-    setIsSwaping(true);
-
-    try {
-      const res: any = await handleGetData.handleProduct(api, item, 'post');
-      showToast(res.message);
-      setIsSwaping(false);
-    } catch (error) {
-      setIsSwaping(false);
-      console.log(error);
-    }
   };
 
   const renderSwapItemsByProduct = () => {
@@ -133,14 +111,7 @@ const SwapItemsComponent = (props: Props) => {
           data={swapItems.swapproducts}
           renderItem={({item}) => (
             <View style={{marginLeft: 6, marginRight: 12, marginBottom: 12}}>
-              {renderCardItem(item, () =>
-                handleSwapItem({
-                  product_id: swapItems.product_id,
-                  shop_id: swapItems.shop_id,
-                  swap_product_id: item.id,
-                  swap_shop_id: item.shop_id,
-                }),
-              )}
+              {renderCardItem(item)}
             </View>
           )}
         />
@@ -150,7 +121,7 @@ const SwapItemsComponent = (props: Props) => {
     );
   };
 
-  const renderCardItem = (item: Swapproduct, onPress: () => void) => (
+  const renderCardItem = (item: Swapproduct) => (
     <CardContent
       key={`children${item.id}shopId${item.shop_id}`}
       color={appColors.white}
@@ -192,7 +163,10 @@ const SwapItemsComponent = (props: Props) => {
           )
         }
         disable={item.is_addedtolist === 1}
-        onPress={onPress}
+        onPress={() => {
+          setProductSwap(item);
+          setIsVisibleModalSwap(true);
+        }}
       />
 
       <View style={{padding: 10}}>
@@ -220,7 +194,9 @@ const SwapItemsComponent = (props: Props) => {
     </CardContent>
   );
 
-  return items.length > 0 ? (
+  return isLoading ? (
+    <ActivityIndicator />
+  ) : items.length > 0 ? (
     <View>
       {product ? (
         <>{renderSwapItemsByProduct()}</>
@@ -256,21 +232,21 @@ const SwapItemsComponent = (props: Props) => {
             <RowComponent
               styles={{justifyContent: 'space-between'}}
               key={`product${parentItem.product_id}shopId${parentItem.shop_id}`}>
-              {parentItem.swapproducts.map(item =>
-                renderCardItem(item, async () =>
-                  handleSwapItem({
-                    product_id: parentItem.product_id,
-                    shop_id: parentItem.shop_id,
-                    swap_product_id: item.id,
-                    swap_shop_id: item.shop_id,
-                  }),
-                ),
-              )}
+              {parentItem.swapproducts.map(item => renderCardItem(item))}
             </RowComponent>
           ))}
         </>
       )}
-      <LoadingModal visible={isSwaping} />
+      <ModalSwapProduct
+        product={product}
+        swapProduct={productSwap}
+        isVisible={isVisibleModalSwap}
+        onClose={() => {
+          setProductSwap(undefined);
+          setIsVisibleModalSwap(false);
+          getSwapItems();
+        }}
+      />
     </View>
   ) : (
     <></>

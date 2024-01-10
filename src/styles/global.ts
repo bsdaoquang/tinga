@@ -87,7 +87,6 @@ export const global = StyleSheet.create({
 
   modalContent: {
     padding: 16,
-    paddingVertical: 20,
     borderRadius: 10,
     width: Dimensions.get('window').width - 32,
     backgroundColor: appColors.white,
