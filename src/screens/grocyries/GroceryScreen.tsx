@@ -57,6 +57,13 @@ const GroceryScreen = ({navigation}: any) => {
         'post',
       );
 
+      const totalItemsOfList = products.reduce(
+        (a: any, b: any) => a + b.products.length,
+        0,
+      );
+
+      console.log(`total items of list: ${totalItemsOfList}`);
+
       setProductList(products);
 
       const res = await handleGetData.handleProduct(cardCountAPI);

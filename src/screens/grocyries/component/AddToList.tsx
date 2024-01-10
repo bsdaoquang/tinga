@@ -71,18 +71,15 @@ const AddToList = (props: Props) => {
   useEffect(() => {
     if (products.length > 0) {
       const items: ProductDetail[] = [];
-
       products.forEach(item => {
         const data = item.products;
         const selectedItems = data.filter(
           element => element.is_checked === '1',
         );
-
         selectedItems.length > 0 &&
           selectedItems.forEach(selected => items.push(selected));
       });
       setProductSelected(items);
-
       getListScore();
     }
   }, [products]);
@@ -162,22 +159,28 @@ const AddToList = (props: Props) => {
   };
 
   const handleCompleteList = async () => {
-    productSelected.forEach(item => console.log(item.qty));
-    // const api = `/completeList`;
-    // setIsLoading(true);
-    // await handleGetData
-    //   .handleProduct(api, undefined, 'post')
-    //   .then((res: any) => {
-    //     setIsLoading(false);
-    //     showToast(res.message);
-    //     handleGetShops();
-    //     onChange();
-    //     // navigation.goBack();
-    //   })
-    //   .catch(error => {
-    //     setIsLoading(false);
-    //     showToast(JSON.stringify(error));
-    //   });
+    const items: {item_id: number; qty: number}[] = [];
+    productSelected.forEach(item => {
+      items.push({
+        item_id: item.id,
+        qty: item.qty,
+      });
+    });
+
+    const api = `/completeList`;
+    setIsLoading(true);
+    try {
+      const res: any = await handleGetData.handleProduct(api, items, 'post');
+
+      setIsLoading(false);
+      showToast(res.message);
+      handleGetShops();
+      onChange();
+      // // navigation.goBack();
+    } catch (error) {
+      console.log(`Can not completed list ${error}`);
+      setIsLoading(false);
+    }
   };
 
   const removeItemFromList = async (id: number) => {

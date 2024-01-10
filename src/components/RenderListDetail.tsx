@@ -1,15 +1,18 @@
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import CheckBox from '@react-native-community/checkbox';
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 import {ButtonComponent, ImageProduct, RowComponent, TextComponent} from '.';
 import {appColors} from '../constants/appColors';
-import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   items: any;
+  onSelect: (item: any) => void;
+  selectedItems: {product_id: number; shop_id: number}[];
 }
 
 const RenderListDetail = (props: Props) => {
-  const {items} = props;
+  const {items, selectedItems, onSelect} = props;
   const [shops, setShops] = useState<{name: string; qty: number}[]>([]);
   const [tabSelected, setTabSelected] = useState('all');
 
@@ -36,6 +39,22 @@ const RenderListDetail = (props: Props) => {
       setShops(data);
     }
   }, [items]);
+
+  const renderCheckBox = (item: any) => {
+    const index = selectedItems.findIndex(
+      element =>
+        element.product_id === item.id && element.shop_id === item.shop_id,
+    );
+
+    return (
+      <CheckBox
+        disabled
+        lineWidth={1.0}
+        tintColors={{true: appColors.success1, false: appColors.gray}}
+        value={index !== -1}
+      />
+    );
+  };
 
   return (
     <>
@@ -97,14 +116,16 @@ const RenderListDetail = (props: Props) => {
             : items.filter((element: any) => element.shopname === tabSelected)
         }
         showsVerticalScrollIndicator={false}
-        renderItem={({item}) => (
+        renderItem={({item, index}) => (
           <RowComponent
+            onPress={() => onSelect(item)}
             key={`product${item.id}`}
             styles={{
               marginBottom: 16,
               alignItems: 'center',
               justifyContent: 'center',
             }}>
+            {renderCheckBox(item)}
             <ImageProduct imageUrl={item.image} />
             <View style={{flex: 1, paddingHorizontal: 12}}>
               <TextComponent text={item.name} flex={0} />

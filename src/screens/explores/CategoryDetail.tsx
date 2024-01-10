@@ -28,8 +28,6 @@ const CategoryDetail = ({navigation, route}: any) => {
   const [page, setPage] = useState(1);
   const [loadmoreable, setLoadmoreable] = useState(true);
 
-  console.log(category);
-
   const api = `/getProductListing`;
   const data = {
     category_id: category.id,
