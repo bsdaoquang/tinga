@@ -13,6 +13,7 @@ import {appColors} from '../../constants/appColors';
 import SearchFilterComponent from './components/SearchFilterComponent';
 import {Category} from '../../Models/Category';
 import handleGetData from '../../apis/productAPI';
+import {useIsFocused} from '@react-navigation/native';
 
 const SubCategories = ({route, navigation}: any) => {
   const {category} = route.params;

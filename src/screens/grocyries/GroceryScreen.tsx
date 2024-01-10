@@ -39,7 +39,7 @@ const GroceryScreen = ({navigation}: any) => {
 
   useEffect(() => {
     if (isFocused) {
-      getMyProductList();
+      getMyProductList(productList.length > 0);
       setIsEditList(false);
     }
   }, [isFocused]);
@@ -191,7 +191,10 @@ const GroceryScreen = ({navigation}: any) => {
         onPress={id => handleModalId(id)}
         isEdit={isEditList}
       />
-      <LoadingModal visible={isUpdating} />
+      <LoadingModal
+        visible={isUpdating}
+        mess={productList.length > 0 ? 'Check update' : ''}
+      />
     </Container>
   );
 };

@@ -35,7 +35,7 @@ axiosClient.interceptors.response.use(
     }
   },
   error => {
-    console.log(error);
+    console.log(`error api ${JSON.stringify(error)}`);
     return error.response;
   },
 );

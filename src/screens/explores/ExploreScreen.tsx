@@ -26,7 +26,7 @@ const ExploreScreen = ({navigation}: any) => {
 
   const getCategories = async () => {
     const api = `/getCategories`;
-
+    setIsLoading(true);
     try {
       await handleGetData.handleProduct(api).then((res: any) => {
         if (res.length > 0) {
@@ -72,7 +72,7 @@ const ExploreScreen = ({navigation}: any) => {
         }>
         <SearchFilterComponent category_id={0} />
 
-        {!isLoading ? (
+        {categories.length > 0 ? (
           <>
             <SectionComponent>
               <TitleComponent text={'Top categories'} size={24} flex={0} />

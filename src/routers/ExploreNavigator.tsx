@@ -7,9 +7,11 @@ import SearchGrocery from '../screens/explores/SearchGrocery';
 
 const ExploreNavigator = () => {
   const ExploreStack = createNativeStackNavigator();
+
   return (
     <>
       <ExploreStack.Navigator
+        initialRouteName="ExploreScreen"
         screenOptions={{
           headerShown: false,
         }}>

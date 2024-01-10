@@ -14,11 +14,11 @@ import {appColors} from '../../../constants/appColors';
 
 interface Props {
   item: ProductDetail;
-  onSelecteItem: () => void;
+  onSelecteItem: (count: number) => void;
   isSelected: boolean;
   isEdit?: boolean;
-  handleRemoveItem?: () => void;
-  onChangeCount: (type: 'minus' | 'plus') => void;
+  onRemoveItem: () => void;
+  onChangeQuality: (count: number) => void;
 }
 
 const ProductItem = (props: Props) => {
@@ -27,15 +27,15 @@ const ProductItem = (props: Props) => {
     onSelecteItem,
     isSelected,
     isEdit,
-    handleRemoveItem,
-    onChangeCount,
+    onRemoveItem,
+    onChangeQuality,
   } = props;
 
   const [count, setCount] = useState(1);
 
   useEffect(() => {
-    setCount(item.qty);
-  }, [item]);
+    count !== item.qty && onChangeQuality(count);
+  }, [count]);
 
   let color = isSelected ? appColors.gray : appColors.text;
 
@@ -51,9 +51,7 @@ const ProductItem = (props: Props) => {
         }}>
         {isEdit ? (
           <Button
-            onPress={() =>
-              isEdit && handleRemoveItem ? handleRemoveItem() : undefined
-            }
+            onPress={onRemoveItem}
             icon={
               <AntDesign
                 name="close"
@@ -64,7 +62,7 @@ const ProductItem = (props: Props) => {
             }
           />
         ) : (
-          <TouchableOpacity onPress={() => onSelecteItem()}>
+          <TouchableOpacity onPress={() => onSelecteItem(count)}>
             <CheckBox
               disabled
               lineWidth={1.0}
@@ -76,7 +74,7 @@ const ProductItem = (props: Props) => {
 
         <ImageProduct imageUrl={item.image} />
         <TouchableOpacity
-          onPress={() => onSelecteItem()}
+          onPress={() => onSelecteItem(count)}
           style={{flex: 1, paddingHorizontal: 12}}>
           <TextComponent
             line={1}
@@ -103,7 +101,7 @@ const ProductItem = (props: Props) => {
             <Button
               disable={isSelected}
               icon={<MinusSquare size={22} color={color} />}
-              onPress={() => onChangeCount('minus')}
+              onPress={() => setCount(count - 1)}
             />
           )}
 
@@ -118,7 +116,7 @@ const ProductItem = (props: Props) => {
             <Button
               disable={isSelected}
               icon={<AddSquare size={22} color={color} />}
-              onPress={() => onChangeCount('plus')}
+              onPress={() => setCount(count + 1)}
             />
           )}
         </RowComponent>

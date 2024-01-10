@@ -119,20 +119,20 @@ const ModalizeFilter = (props: Props) => {
 
     if (userChoices?.allergies && userChoices.allergies.length > 0) {
       userChoices.allergies.forEach(item => ids.push(item.id));
-    }
 
-    data.append('allergy_ids', ids.toString());
-    data.append('prefrence', 3);
+      data.append('allergy_ids', ids.toString());
+      data.append('prefrence', 3);
 
-    try {
-      await handleGetData
-        .handleProduct(api, data, 'post', true)
-        .then((res: any) => {
-          // console.log(res);
-          setDisLikes(res);
-        });
-    } catch (error) {
-      console.log(`error get dislike: ${error}`);
+      try {
+        await handleGetData
+          .handleProduct(api, data, 'post', true)
+          .then((res: any) => {
+            // console.log(res);
+            setDisLikes(res);
+          });
+      } catch (error) {
+        console.log(`error get dislike: ${error}`);
+      }
     }
   };
 

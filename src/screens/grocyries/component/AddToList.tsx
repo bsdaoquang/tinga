@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {Add} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
@@ -18,7 +17,6 @@ import {
   TextComponent,
 } from '../../../components';
 import {appColors} from '../../../constants/appColors';
-import {appInfos} from '../../../constants/appInfos';
 import {fontFamilys} from '../../../constants/fontFamily';
 import {LoadingModal} from '../../../modals';
 import {authSelector} from '../../../redux/reducers/authReducer';
@@ -45,8 +43,6 @@ const AddToList = (props: Props) => {
   const [productsByStoreId, setproductsByStoreId] = useState<GroceryItem[]>([]);
 
   const navigation: any = useNavigation();
-  const auth = useSelector(authSelector);
-  const shopingList = useSelector(shopingListSelector);
 
   useEffect(() => {
     handleGetShops();
@@ -71,17 +67,6 @@ const AddToList = (props: Props) => {
       setproductsByStoreId(products);
     }
   }, [storeSelected, products]);
-
-  useEffect(() => {
-    const saveToLocal = async () => {
-      await AsyncStorage.setItem(
-        appInfos.localDataName.shopingList,
-        JSON.stringify(shopingList),
-      );
-    };
-
-    saveToLocal();
-  }, [shopingList]);
 
   useEffect(() => {
     if (products.length > 0) {
@@ -161,91 +146,89 @@ const AddToList = (props: Props) => {
   };
 
   const handleSelectAllProducts = () => {
+    const items = [...productSelected];
     products.forEach(item => {
       const data = item.products;
-
       data.forEach(product => {
         const index = productSelected.findIndex(
-          element => element.id === product.id,
+          element =>
+            element.id === product.id && element.shop_id === product.shop_id,
         );
-        index === -1 && handleCheckItemProduct(product.id);
+        index === -1 && items.push(product);
       });
     });
-  };
 
-  const handleCheckItemProduct = async (id: number) => {
-    const api = `/listItemsCheck`;
-    try {
-      await handleGetData.handleProduct(api, {item_id: id}, 'post');
-      onChange();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleUpdateQuaily = async (type: 'minus' | 'plus', id: number) => {
-    const api = `/qtyUpdate`;
-
-    console.log('data: ', {
-      item_id: id,
-      qty: 1,
-      type,
-    });
-    try {
-      const res: any = await handleGetData.handleProduct(
-        api,
-        {
-          item_id: id,
-          qty: 1,
-          type,
-        },
-        'post',
-      );
-
-      console.log('res:', res);
-
-      showToast(res.message);
-      onChange();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleRemoveItem = async (id: number) => {
-    const api = `/listItemsDelete`;
-    setIsLoading(true);
-    try {
-      const res: any = await handleGetData.handleProduct(
-        api,
-        {item_id: id},
-        'post',
-      );
-
-      showToast(res.message);
-      setIsLoading(false);
-      onChange();
-    } catch (error) {
-      setIsLoading(false);
-      console.log(error);
-    }
+    setProductSelected(items);
   };
 
   const handleCompleteList = async () => {
-    const api = `/completeList`;
+    productSelected.forEach(item => console.log(item.qty));
+    // const api = `/completeList`;
+    // setIsLoading(true);
+    // await handleGetData
+    //   .handleProduct(api, undefined, 'post')
+    //   .then((res: any) => {
+    //     setIsLoading(false);
+    //     showToast(res.message);
+    //     handleGetShops();
+    //     onChange();
+    //     // navigation.goBack();
+    //   })
+    //   .catch(error => {
+    //     setIsLoading(false);
+    //     showToast(JSON.stringify(error));
+    //   });
+  };
+
+  const removeItemFromList = async (id: number) => {
+    const api = `/listItemsDelete`;
+
     setIsLoading(true);
-    await handleGetData
-      .handleProduct(api, undefined, 'post')
-      .then((res: any) => {
-        setIsLoading(false);
-        showToast(res.message);
-        handleGetShops();
-        onChange();
-        // navigation.goBack();
-      })
-      .catch(error => {
-        setIsLoading(false);
-        showToast(JSON.stringify(error));
-      });
+    try {
+      await handleGetData.handleProduct(api, {item_id: id}, 'post');
+      onChange();
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      console.log(`Can not remove item from list ${error}`);
+      setIsLoading(false);
+    }
+  };
+
+  const handleToggleProduct = (item: ProductDetail, qty: number) => {
+    item.qty = qty;
+    const items = [...productSelected];
+    const index = items.findIndex(
+      element => element.id === item.id && element.shop_id === item.shop_id,
+    );
+
+    if (index !== -1) {
+      items.splice(index, 1);
+    } else {
+      items.push(item);
+    }
+
+    setProductSelected(items);
+  };
+
+  const handleChangeQuality = (
+    item: ProductDetail,
+    index: number,
+    qty: number,
+  ) => {
+    item.qty = qty;
+    const data = [...productsByStoreId];
+    const dataProducts = data[index].products;
+
+    const indexOfItem = dataProducts.findIndex(
+      element => element.id === item.id && element.shop_id === item.shop_id,
+    );
+
+    if (indexOfItem !== -1) {
+      dataProducts[indexOfItem] = item;
+
+      setproductsByStoreId(data);
+    }
   };
 
   return (
@@ -326,12 +309,22 @@ const AddToList = (props: Props) => {
                 item.products.map(product => (
                   <ProductItem
                     key={`product${product.id}${product.shop_id}`}
-                    onChangeCount={type => handleUpdateQuaily(type, product.id)}
                     isEdit={isEdit}
-                    handleRemoveItem={() => handleRemoveItem(product.id)}
                     item={product}
-                    onSelecteItem={() => handleCheckItemProduct(product.id)}
-                    isSelected={product.is_checked === '1'}
+                    onSelecteItem={(count: number) =>
+                      handleToggleProduct(product, count)
+                    }
+                    onChangeQuality={(qty: number) =>
+                      handleChangeQuality(product, index, qty)
+                    }
+                    onRemoveItem={() => removeItemFromList(product.id)}
+                    isSelected={
+                      productSelected.findIndex(
+                        element =>
+                          element.id === product.id &&
+                          element.shop_id === product.shop_id,
+                      ) !== -1
+                    }
                   />
                 ))}
             </View>

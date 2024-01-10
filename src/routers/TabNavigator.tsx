@@ -84,17 +84,7 @@ const TabNavigator = () => {
       })}>
       <Tabs.Screen name="Home" component={HomeNavigator} />
       <Tabs.Screen name="Recipes" component={RecipeNavigator} />
-      <Tabs.Screen
-        name="Explore"
-        component={ExploreNavigator}
-        listeners={({navigation, route}) => ({
-          tabPress: e => {
-            console.log(e);
-
-            navigation.navigate('ExploreScreen');
-          },
-        })}
-      />
+      <Tabs.Screen name="Explore" component={ExploreNavigator} />
       <Tabs.Screen name="Grocery List" component={GroceryNavigator} />
       {/* <Tabs.Screen name="Profile" component={ProfileNavigator} /> */}
     </Tabs.Navigator>
