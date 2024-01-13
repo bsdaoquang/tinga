@@ -30,6 +30,8 @@ import ModalAlert from '../../modals/ModalAlert';
 import ModalizeFilter from '../../modals/ModalizeFilter';
 import {addAuth, authSelector} from '../../redux/reducers/authReducer';
 import AvgScoreComponent from './components/AvgScoreComponent';
+import {showToast} from '../../utils/showToast';
+import handleGetData from '../../apis/productAPI';
 
 const ProfileScreen = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -151,8 +153,25 @@ const ProfileScreen = ({navigation}: any) => {
     setAlertDetail({
       title: 'Warning!',
       mess: 'Do you want to delete your account?',
-      onOK: () => {
-        console.log('fafafa');
+      onOK: async () => {
+        const api = `/delete`;
+        try {
+          await handleGetData
+            .handleUser(
+              api,
+              {
+                phone: auth.phone ?? '',
+                last_name: auth.last_name ?? '',
+                first_name: auth.first_name ?? '',
+              },
+              'post',
+            )
+            .then(res => {
+              onLogout();
+            });
+        } catch (error) {
+          showToast(JSON.stringify(error));
+        }
         setIsVisibleModalAlert(false);
       },
     });

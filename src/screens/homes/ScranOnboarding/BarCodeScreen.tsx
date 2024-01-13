@@ -55,8 +55,6 @@ const BarCodeScreen = ({navigation}: any) => {
 
   const [QRCodeCotainer, setQRCodeCotainer] = useState(renderQrCode);
 
-  console.log(codeDetail);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -96,8 +94,10 @@ const BarCodeScreen = ({navigation}: any) => {
     };
     try {
       await handleGetData.handleProduct(api, data, 'post').then((res: any) => {
+        console.log(`response: ${JSON.stringify(res)}`);
         if (res && res.id && res.shop_id) {
           setProduct(res);
+
           setShowProduct(true);
         } else {
           setProduct(undefined);
@@ -236,6 +236,7 @@ const BarCodeScreen = ({navigation}: any) => {
 
       <ModalizeProducDetail
         visible={showError}
+        code={codeDetail}
         onClose={() => {
           setShowError(false);
           setCodeDetail('');
