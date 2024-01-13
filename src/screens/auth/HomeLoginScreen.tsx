@@ -87,9 +87,11 @@ const HomeLoginScreen = ({navigation}: any) => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
+
       handleSaveToDatabase(userInfo.user);
     } catch (error) {
       console.log(error);
+      showToast(JSON.stringify(error));
     }
   };
 
@@ -98,8 +100,8 @@ const HomeLoginScreen = ({navigation}: any) => {
     const data = {
       google_id: profile.id,
       email: profile.email,
-      first_name: profile.givenName,
-      last_name: profile.familyName,
+      first_name: profile.givenName ?? '',
+      last_name: profile.familyName ?? '',
     };
 
     setIsLogin(true);
@@ -172,6 +174,7 @@ const HomeLoginScreen = ({navigation}: any) => {
             text={`Create an account to change the way you shop\nwith Tinga – your personalised nutrition assistant`}
           />
         </SectionComponent>
+
         <SectionComponent styles={{paddingHorizontal: 28}}>
           <ButtonComponent
             icon={<FontAwesome name="apple" size={20} color={appColors.text} />}

@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import React, {useState} from 'react';
-import {Image, Linking, TouchableOpacity} from 'react-native';
+import {Image, Linking, TouchableOpacity, View} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,11 +12,13 @@ import {ListMenuItem} from '../../Models/ListMenuItem';
 import authenticationAPI from '../../apis/authAPI';
 import {Circle1} from '../../assets/svg';
 import {
+  ButtonComponent,
   CardContent,
   Container,
   ListItemComponent,
   RowComponent,
   SectionComponent,
+  SpaceComponent,
   TextComponent,
   TitleComponent,
 } from '../../components';
@@ -145,6 +147,18 @@ const ProfileScreen = ({navigation}: any) => {
     console.log(item);
   };
 
+  const handleDeleteAccount = () => {
+    setAlertDetail({
+      title: 'Warning!',
+      mess: 'Do you want to delete your account?',
+      onOK: () => {
+        console.log('fafafa');
+        setIsVisibleModalAlert(false);
+      },
+    });
+    setIsVisibleModalAlert(true);
+  };
+
   return (
     <Container isScroll>
       <SectionComponent>
@@ -240,6 +254,16 @@ const ProfileScreen = ({navigation}: any) => {
         <CardContent color={appColors.white} onPress={handleLogout}>
           <TextComponent text="Log Out" color={appColors.danger} />
         </CardContent>
+        <SpaceComponent height={16} />
+        <RowComponent onPress={handleDeleteAccount}>
+          <TextComponent
+            text="Delete account"
+            flex={0}
+            color={appColors.danger}
+            size={16}
+            font={fontFamilys.medium}
+          />
+        </RowComponent>
       </SectionComponent>
 
       <LoadingModal visible={isLoading} />

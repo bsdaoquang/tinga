@@ -39,6 +39,7 @@ const ModalUpdatePhoto = (props: Props, avatarProps: AvatarProps) => {
         width: 300,
         height: 300,
         cropping: true,
+        useFrontCamera: false,
       })
         .then((image: ImageOrVideo) => {
           const file = {
@@ -78,8 +79,7 @@ const ModalUpdatePhoto = (props: Props, avatarProps: AvatarProps) => {
       visible={isVisible}
       transparent
       animationType="slide"
-      statusBarTranslucent
-    >
+      statusBarTranslucent>
       <View style={[global.modalContainer]}>
         <View style={[global.modalContent]}>
           <RowComponent justify="flex-end">
@@ -93,16 +93,14 @@ const ModalUpdatePhoto = (props: Props, avatarProps: AvatarProps) => {
           <View style={{marginVertical: 20}}>
             <RowComponent
               styles={{paddingVertical: 12}}
-              onPress={() => handlePickerImage('camera')}
-            >
+              onPress={() => handlePickerImage('camera')}>
               <Ionicons name="camera" size={20} color={appColors.text} />
               <SpaceComponent width={8} />
               <TextComponent text="Camera" size={14} />
             </RowComponent>
             <RowComponent
               styles={{paddingVertical: 12}}
-              onPress={() => handlePickerImage('library')}
-            >
+              onPress={() => handlePickerImage('library')}>
               <Ionicons name="image" size={20} color={appColors.text} />
               <SpaceComponent width={8} />
               <TextComponent text="Image library" size={14} />
