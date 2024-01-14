@@ -56,13 +56,12 @@ const GroceryScreen = ({navigation}: any) => {
         undefined,
         'post',
       );
-
       const totalItemsOfList = products.reduce(
         (a: any, b: any) => a + b.products.length,
         0,
       );
 
-      console.log(`total items of list: ${totalItemsOfList}`);
+      // console.log(`total items of list: ${totalItemsOfList}`);
 
       setProductList(products);
 

@@ -291,14 +291,16 @@ const AddToList = (props: Props) => {
                   renderItem={({item}) => renderTabStore(item)}
                 />
               </View>
-              <RowComponent
-                justify="flex-end"
-                styles={{paddingHorizontal: 16, marginBottom: 12}}>
-                <Button
-                  text={'Select All'}
-                  onPress={() => handleSelectAllProducts()}
-                />
-              </RowComponent>
+              {!isEdit && (
+                <RowComponent
+                  justify="flex-end"
+                  styles={{paddingHorizontal: 16, marginBottom: 12}}>
+                  <Button
+                    text={'Select All'}
+                    onPress={() => handleSelectAllProducts()}
+                  />
+                </RowComponent>
+              )}
             </>
           }
           keyExtractor={item => `product${item.category_id}`}

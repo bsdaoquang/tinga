@@ -75,31 +75,35 @@ const AvgScoreComponent = () => {
         style={{
           justifyContent: 'center',
           width: `${(score / total) * 100}%`,
+          paddingHorizontal: 2,
         }}>
-        <TextComponent
-          text={score.toFixed(0)}
-          flex={0}
-          size={10}
-          font={fontFamilys.bold}
-          styles={{textAlign: 'center'}}
-        />
-        <View
-          style={{
-            backgroundColor: color,
-            borderRadius: 4,
-            height: 18,
-            marginVertical: 4,
-            marginRight: 10,
-          }}
-        />
+        <View>
+          <TextComponent
+            text={score.toFixed(0)}
+            flex={0}
+            size={10}
+            font={fontFamilys.bold}
+            styles={{textAlign: 'center'}}
+          />
+          <View
+            style={{
+              backgroundColor: color,
+              borderRadius: 4,
+              height: 18,
+              // marginVertical: 4,
+              // marginRight: 10,
+            }}
+          />
 
-        <TextComponent
-          text={title}
-          flex={0}
-          size={10}
-          font={fontFamilys.regular}
-          styles={{textAlign: 'center'}}
-        />
+          <TextComponent
+            line={1}
+            text={title}
+            flex={0}
+            size={10}
+            font={fontFamilys.regular}
+            styles={{textAlign: 'center'}}
+          />
+        </View>
       </View>
     ) : null;
   };
@@ -145,7 +149,7 @@ const AvgScoreComponent = () => {
                   onPress={() => navigation.navigate('ListScoreTrend')}
                   color={appColors.white}
                   isShadow
-                  styles={{paddingHorizontal: 37}}>
+                  styles={{}}>
                   <View style={global.center}>
                     <ChartPieItem
                       total={`${avgScore?.list_score}`}
@@ -191,7 +195,7 @@ const AvgScoreComponent = () => {
                     </RowComponent>
                   </View>
 
-                  <RowComponent>
+                  <RowComponent styles={{flex: 1}}>
                     {renderPercentage(
                       avgScore.green_line +
                         avgScore.red_line +
@@ -200,7 +204,6 @@ const AvgScoreComponent = () => {
                       '#AAC54E',
                       'Great Choices',
                     )}
-
                     {renderPercentage(
                       avgScore.green_line +
                         avgScore.red_line +

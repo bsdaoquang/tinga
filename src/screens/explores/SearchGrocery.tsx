@@ -177,7 +177,9 @@ const SearchGrocery = ({navigation, route}: any) => {
           <SpaceComponent width={12} />
           <ButtonComponent
             color={appColors.primary}
-            onPress={() => {}}
+            onPress={() =>
+              navigation.navigate('Grocery List', {screen: 'GroceryScreen'})
+            }
             icon={
               <FontAwesome6
                 name="cart-shopping"

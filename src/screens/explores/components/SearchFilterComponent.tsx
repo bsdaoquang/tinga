@@ -188,7 +188,9 @@ const SearchFilterComponent = (props: Props) => {
           <SpaceComponent width={12} />
           <ButtonComponent
             color={appColors.primary}
-            onPress={() => navigation.navigate('GroceryScreen')}
+            onPress={() =>
+              navigation.navigate('Grocery List', {screen: 'GroceryScreen'})
+            }
             icon={
               <FontAwesome6
                 name="cart-shopping"
