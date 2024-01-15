@@ -43,7 +43,8 @@ const RenderListDetail = (props: Props) => {
   const renderCheckBox = (item: any) => {
     const index = selectedItems.findIndex(
       element =>
-        element.product_id === item.id && element.shop_id === item.shop_id,
+        element.product_id === item.product_id &&
+        element.shop_id === item.shop_id,
     );
 
     return (

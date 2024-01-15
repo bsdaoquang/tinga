@@ -87,14 +87,15 @@ const HistoryListDetail = ({navigation, route}: any) => {
     const items = [...selectedItems];
     const index = items.findIndex(
       element =>
-        element.product_id === item.id && element.shop_id === item.shop_id,
+        element.product_id === item.product_id &&
+        element.shop_id === item.shop_id,
     );
 
     if (index !== -1) {
       items.splice(index, 1);
     } else {
       items.push({
-        product_id: item.id,
+        product_id: item.product_id,
         shop_id: item.shop_id,
       });
     }
