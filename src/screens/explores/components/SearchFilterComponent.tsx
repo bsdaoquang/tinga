@@ -11,6 +11,7 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useSelector} from 'react-redux';
 import {Product} from '../../../Models/Product';
 import handleGetData from '../../../apis/productAPI';
 import {
@@ -26,13 +27,9 @@ import {appColors} from '../../../constants/appColors';
 import {fontFamilys} from '../../../constants/fontFamily';
 import {ModalProduct} from '../../../modals';
 import ModalizeFilter from '../../../modals/ModalizeFilter';
-import {global} from '../../../styles/global';
-import {HandleProduct} from '../../../utils/HandleProduct';
-import {showToast} from '../../../utils/showToast';
-import {useSelector} from 'react-redux';
 import {groceriesSelector} from '../../../redux/reducers/groceryReducer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {appInfos} from '../../../constants/appInfos';
+import {global} from '../../../styles/global';
+import {showToast} from '../../../utils/showToast';
 
 interface Props {
   category_id: number;

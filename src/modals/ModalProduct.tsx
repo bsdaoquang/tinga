@@ -109,7 +109,6 @@ const ModalProduct = (props: Props) => {
 
       try {
         const res: any = await handleGetData.handleProduct(api);
-
         res && res.length > 0 && setProducDetail(res[0]);
       } catch (error) {
         showToast(`Can not get product detail`);

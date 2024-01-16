@@ -39,21 +39,6 @@ const ProductItemComponent = (props: Props) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const items: ProductDetail[] = [];
-    if (groceryList.length > 0) {
-      groceryList.forEach(item => {
-        const products = item.products;
-
-        products.length > 0 && products.forEach(product => items.push(product));
-      });
-
-      setProducts(items);
-    } else {
-      HandleGrocery.RemoveGrocery(dispatch);
-    }
-  }, [groceryList]);
-
   const renderThumbType = () => {
     return (
       <View
@@ -97,7 +82,7 @@ const ProductItemComponent = (props: Props) => {
             <AntDesign name="check" size={20} color={appColors.white} />
           )
         }
-        onPress={async () => {}}
+        onPress={async () => console.log(item)}
       />
     );
   };
