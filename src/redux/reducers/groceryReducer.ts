@@ -1,30 +1,45 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {GroceryItem} from '../../Models/Product';
+
+const initialState: {
+  groceries: GroceryItem[];
+} = {
+  groceries: [],
+};
 
 const grocerySlice = createSlice({
   name: 'groceryList',
-  initialState: {
-    groceries: [],
-  },
+  initialState,
   reducers: {
-    addLocalData: (state, action) => {
+    addGroceryList: (state, action) => {
       state.groceries = action.payload;
     },
-    addGroceries: (state, action) => {
-      const items: any = state.groceries;
-
+    updateGroceryList: (state, action) => {
       const item = action.payload;
-      if (item) {
-        items.push(item);
-        state.groceries = items;
+      const groceries = state.groceries;
+
+      const catIndex = groceries.findIndex(
+        element => element.category_id === item.category_id,
+      );
+      if (catIndex) {
+        const products = groceries[catIndex].products;
+
+        const index = products.findIndex(
+          element => element.id === item.id && element.shop_id === item.shop_id,
+        );
+
+        if (index !== -1) {
+          products.splice(index, 1);
+          groceries[catIndex].products = products;
+        }
       }
-    },
-    removeList: state => {
-      state.groceries = [];
+
+      state.groceries = groceries;
     },
   },
 });
 
 export const groceryReducer = grocerySlice.reducer;
-export const {addGroceries, removeList, addLocalData} = grocerySlice.actions;
+export const {addGroceryList, updateGroceryList} = grocerySlice.actions;
 //selector
 export const groceriesSelector = (state: any) => state.groceryReducer.groceries;

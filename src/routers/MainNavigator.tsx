@@ -18,22 +18,37 @@ import TabNavigator from './TabNavigator';
 import {useNavigation} from '@react-navigation/native';
 import {HandleLogin} from '../utils/HandleLogin';
 import {useDispatch} from 'react-redux';
+import {useAsyncStorage} from '@react-native-async-storage/async-storage';
+import handleGetData from '../apis/productAPI';
+import {addGroceryList} from '../redux/reducers/groceryReducer';
+import {appInfos} from '../constants/appInfos';
 
 const MainNavigator = () => {
   const Stack = createNativeStackNavigator();
   const navigation: any = useNavigation();
   const dispatch = useDispatch();
+  const {setItem, getItem} = useAsyncStorage(
+    appInfos.localDataName.groceryList,
+  );
 
   useEffect(() => {
     HandleLogin.handleCheckUserLoginAgain(navigation, dispatch);
+    getGroceryList();
   }, []);
+
+  const getGroceryList = async () => {
+    const res: any = await getItem();
+
+    if (res) {
+      dispatch(addGroceryList(JSON.parse(res)));
+    }
+  };
 
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-      }}
-    >
+      }}>
       <Stack.Screen name="HomeRoot" component={TabNavigator} />
       <Stack.Screen name="ShopingHistory" component={ShopingHistory} />
       <Stack.Screen name="ImproveScore" component={ImproveScore} />

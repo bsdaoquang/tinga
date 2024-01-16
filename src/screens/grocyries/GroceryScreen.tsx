@@ -1,15 +1,10 @@
-import {
-  NavigationProp,
-  useIsFocused,
-  useNavigation,
-} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, View} from 'react-native';
+import React, {useState} from 'react';
+import {View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
-import handleGetData from '../../apis/productAPI';
+import {useSelector} from 'react-redux';
 import {
   Button,
   ButtonComponent,
@@ -22,63 +17,17 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {appSize} from '../../constants/appSize';
-import {LoadingModal, ModalizeEditShopList} from '../../modals';
+import {ModalizeEditShopList} from '../../modals';
 import ModalizeInfoGrocery from '../../modals/ModalizeInfoGrocery';
+import {groceriesSelector} from '../../redux/reducers/groceryReducer';
 import AddToList from './component/AddToList';
 
 const GroceryScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [productList, setProductList] = useState([]);
   const [isVisibleModalEditList, setIsVisibleModalEditList] = useState(false);
   const [isEditList, setIsEditList] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [cardCount, setCardCount] = useState(0);
 
-  const isFocused = useIsFocused();
-
-  useEffect(() => {
-    if (isFocused) {
-      getMyProductList(productList.length > 0);
-      setIsEditList(false);
-    }
-  }, [isFocused]);
-
-  const getMyProductList = async (isReload?: boolean) => {
-    const api = `/listOfProductsCategorywise`;
-    const cardCountAPI = '/getProductGroceryCount';
-
-    isReload ? setIsUpdating(true) : setIsLoading(true);
-
-    try {
-      const products: any = await handleGetData.handleProduct(
-        api,
-        undefined,
-        'post',
-      );
-      const totalItemsOfList = products.reduce(
-        (a: any, b: any) => a + b.products.length,
-        0,
-      );
-
-      // console.log(`total items of list: ${totalItemsOfList}`);
-
-      setProductList(products);
-
-      const res = await handleGetData.handleProduct(cardCountAPI);
-
-      setCardCount(res.data ?? 0);
-
-      setIsLoading(false);
-      setIsUpdating(false);
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-      setIsUpdating(false);
-    }
-
-    setIsLoading(false);
-  };
+  const productList = useSelector(groceriesSelector);
 
   const handleModalId = (id: string) => {
     if (id === 'edit') {
@@ -119,14 +68,8 @@ const GroceryScreen = ({navigation}: any) => {
           />
         </RowComponent>
       </SectionComponent>
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : productList.length > 0 || cardCount > 0 ? (
-        <AddToList
-          products={productList}
-          isEdit={isEditList}
-          onChange={() => getMyProductList(true)}
-        />
+      {productList && productList.length > 0 ? (
+        <AddToList products={productList} isEdit={isEditList} />
       ) : (
         <>
           <SectionComponent
@@ -196,10 +139,6 @@ const GroceryScreen = ({navigation}: any) => {
         onClose={() => setIsVisibleModalEditList(false)}
         onPress={id => handleModalId(id)}
         isEdit={isEditList}
-      />
-      <LoadingModal
-        visible={isUpdating}
-        mess={productList.length > 0 ? 'Check update' : ''}
       />
     </Container>
   );

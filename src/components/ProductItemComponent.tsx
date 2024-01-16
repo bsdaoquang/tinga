@@ -1,9 +1,9 @@
 import {Add, Location} from 'iconsax-react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleProp, Text, View, ViewStyle} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   Button,
   CardContent,
@@ -11,13 +11,13 @@ import {
   SpaceComponent,
   TextComponent,
 } from '.';
-import {Product} from '../Models/Product';
-import handleGetData from '../apis/productAPI';
+import {GroceryItem, Product, ProductDetail} from '../Models/Product';
 import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
 import {LoadingModal, ModalProduct} from '../modals';
 import {authSelector} from '../redux/reducers/authReducer';
-import {HandleProduct} from '../utils/HandleProduct';
+import {groceriesSelector} from '../redux/reducers/groceryReducer';
+import {HandleGrocery} from '../utils/handleGrocery';
 import LockPremiumComponent from './LockPremiumComponent';
 
 interface Props {
@@ -25,6 +25,7 @@ interface Props {
   styles?: StyleProp<ViewStyle>;
   onReload?: () => void;
   isCheckPremium?: boolean;
+  // category: Category;
 }
 
 const ProductItemComponent = (props: Props) => {
@@ -32,23 +33,26 @@ const ProductItemComponent = (props: Props) => {
 
   const {item, styles, onReload, isCheckPremium} = props;
   const [isLoading, setIsLoading] = useState(false);
-  const [isCheckedItem, setIsCheckedItem] = useState(item.is_addedtolist);
-
+  const [products, setProducts] = useState<ProductDetail[]>([]);
   const auth = useSelector(authSelector);
+  const groceryList: GroceryItem[] = useSelector(groceriesSelector);
 
-  const checkItemOfList = async () => {
-    const api = `/getDetailProduct?id=${item.id}&shop_id=${item.shop_id}`;
-    setIsLoading(true);
-    try {
-      const res: any = await handleGetData.handleProduct(api);
+  const dispatch = useDispatch();
 
-      res.length > 0 && setIsCheckedItem(res[0].is_addedtolist);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
+  useEffect(() => {
+    const items: ProductDetail[] = [];
+    if (groceryList.length > 0) {
+      groceryList.forEach(item => {
+        const products = item.products;
+
+        products.length > 0 && products.forEach(product => items.push(product));
+      });
+
+      setProducts(items);
+    } else {
+      HandleGrocery.RemoveGrocery(dispatch);
     }
-  };
+  }, [groceryList]);
 
   const renderThumbType = () => {
     return (
@@ -66,6 +70,35 @@ const ProductItemComponent = (props: Props) => {
           {item.thumb_type === 'Normal' ? '👌' : `👍`}
         </Text>
       </View>
+    );
+  };
+
+  const renderButtonAdd = (item: Product) => {
+    const indexOfList = products.findIndex(
+      element =>
+        element.product_id === item.id && element.shop_id === item.shop_id,
+    );
+
+    return (
+      <Button
+        styles={{
+          width: 28,
+          height: 28,
+          backgroundColor: indexOfList !== -1 ? '#263238' : appColors.primary,
+          borderRadius: 14,
+          position: 'absolute',
+          top: 10,
+          right: 10,
+        }}
+        icon={
+          indexOfList === -1 ? (
+            <Add size={24} color={appColors.white} />
+          ) : (
+            <AntDesign name="check" size={20} color={appColors.white} />
+          )
+        }
+        onPress={async () => {}}
+      />
     );
   };
 
@@ -115,31 +148,7 @@ const ProductItemComponent = (props: Props) => {
           />
         )}
 
-        <Button
-          styles={{
-            width: 28,
-            height: 28,
-            backgroundColor:
-              isCheckedItem === 1 ? '#263238' : appColors.primary,
-            borderRadius: 14,
-            position: 'absolute',
-            top: 10,
-            right: 10,
-          }}
-          icon={
-            isCheckedItem === 0 ? (
-              <Add size={24} color={appColors.white} />
-            ) : (
-              <AntDesign name="check" size={20} color={appColors.white} />
-            )
-          }
-          disable={isCheckedItem === 1}
-          onPress={async () =>
-            await HandleProduct.addToList(item, 1, item.shop_id).then(() =>
-              checkItemOfList(),
-            )
-          }
-        />
+        {renderButtonAdd(item)}
         <View style={{padding: 10}}>
           <TextComponent text={`$ ${item.price}`} size={12} />
           <TextComponent
@@ -190,11 +199,11 @@ const ProductItemComponent = (props: Props) => {
         }}
         product={item}
         products={[]}
-        onAddToList={async (count: number, shop_id: number) =>
-          await HandleProduct.addToList(item, count, shop_id).then(() =>
-            checkItemOfList(),
-          )
-        }
+        // onAddToList={async (count: number, shop_id: number) =>
+        //   await HandleProduct.addToList(item, count, shop_id).then(() =>
+        //     checkItemOfList(),
+        //   )
+        // }
       />
       <LoadingModal visible={isLoading} />
     </>

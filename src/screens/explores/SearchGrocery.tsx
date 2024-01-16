@@ -29,7 +29,6 @@ import ModalizeFilter from '../../modals/ModalizeFilter';
 const SearchGrocery = ({navigation, route}: any) => {
   const {searchKey}: {searchKey: string} = route.params;
   const [searchValue, setSearchValue] = useState(searchKey ?? '');
-  const [cardCount, setCardCount] = useState(0);
   const [resultsValue, setResultsValue] = useState<Product[]>([]);
   const [isSearch, setIsSearch] = useState(false);
   const [page, setPage] = useState(1);
@@ -37,79 +36,65 @@ const SearchGrocery = ({navigation, route}: any) => {
   const [loadmoreable, setLoadmoreable] = useState(true);
   const [isVisibleModalFillter, setIsVisibleModalFillter] = useState(false);
 
-  useEffect(() => {
-    getCardCount();
-  }, []);
+  // useEffect(() => {
+  //   setPage(1);
+  //   if (searchValue && searchValue.length >= 3) {
+  //     searchProduct();
+  //   } else {
+  //     setResultsValue([]);
+  //   }
+  // }, [searchValue]);
 
-  useEffect(() => {
-    setPage(1);
-    if (searchValue && searchValue.length >= 3) {
-      searchProduct();
-    } else {
-      setResultsValue([]);
-    }
-  }, [searchValue]);
+  // useEffect(() => {
+  //   searchValue && resultsValue.length > 0
+  //     ? handleLoadmore()
+  //     : setResultsValue([]);
+  // }, [page]);
 
-  useEffect(() => {
-    searchValue && resultsValue.length > 0
-      ? handleLoadmore()
-      : setResultsValue([]);
-  }, [page]);
+  // const searchProduct = async () => {
+  //   const api = `/searchGroceriesList`;
+  //   const data = {
+  //     search: searchValue,
+  //     page: 1,
+  //   };
 
-  const searchProduct = async () => {
-    const api = `/searchGroceriesList`;
-    const data = {
-      search: searchValue,
-      page: 1,
-    };
+  //   setIsSearch(true);
 
-    setIsSearch(true);
+  //   try {
+  //     const res: any = await handleGetData.handleProduct(api, data, 'post');
+  //     res && res.length > 0 && setResultsValue(res);
 
-    try {
-      const res: any = await handleGetData.handleProduct(api, data, 'post');
-      res && res.length > 0 && setResultsValue(res);
-
-      setIsSearch(false);
-    } catch (error) {
-      console.log(`Error search product ${error}`);
-      setIsSearch(false);
-    }
-  };
+  //     setIsSearch(false);
+  //   } catch (error) {
+  //     console.log(`Error search product ${error}`);
+  //     setIsSearch(false);
+  //   }
+  // };
 
   const handleLoadmore = async () => {
-    const api = `/searchGroceriesList`;
-    const data = {
-      search: searchValue,
-      page,
-    };
-    setIsLoadmore(true);
-
-    try {
-      const res: any = await handleGetData.handleProduct(api, data, 'post');
-      if (res && res.length > 0) {
-        const data = [...resultsValue];
-        res.forEach((item: any) => data.push(item));
-        setResultsValue(data);
-        setIsLoadmore(false);
-      } else {
-        setLoadmoreable(false);
-        setIsLoadmore(false);
-      }
-    } catch (error) {
-      console.log(`Error search product ${error}`);
-      setLoadmoreable(false);
-      setIsLoadmore(false);
-    }
-  };
-
-  const getCardCount = async () => {
-    const api = `/getProductGroceryCount`;
-    try {
-      const res: any = await handleGetData.handleProduct(api);
-      res && setCardCount(res);
-    } catch (error) {
-      console.log(`get card count ${error}`);
-    }
+    console.log(`load more`);
+    // const api = `/searchGroceriesList`;
+    // const data = {
+    //   search: searchValue,
+    //   page,
+    // };
+    // setIsLoadmore(true);
+    // try {
+    //   const res: any = await handleGetData.handleProduct(api, data, 'post');
+    //   if (res && res.length > 0) {
+    //     const data = [...resultsValue];
+    //     res.forEach((item: any) => data.push(item));
+    //     setResultsValue(data);
+    //     setIsLoadmore(false);
+    //   } else {
+    //     setLoadmoreable(false);
+    //     setIsLoadmore(false);
+    //   }
+    // } catch (error) {
+    //   console.log(`Error search product ${error}`);
+    //   setLoadmoreable(false);
+    //   setIsLoadmore(false);
+    // }
   };
 
   return (
@@ -187,7 +172,7 @@ const SearchGrocery = ({navigation, route}: any) => {
                 color={appColors.white}
               />
             }
-            text={cardCount.toString()}
+            text={`0`}
             textColor={appColors.white}
             styles={{
               width: 48,

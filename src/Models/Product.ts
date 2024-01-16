@@ -44,6 +44,9 @@ export interface ProductDetail {
   upc: string;
   is_checked: string;
   qty: number;
+  product_id: number;
+  category_id: number;
+  category_name: string;
 }
 
 export interface Allergy {

@@ -106,6 +106,7 @@ const CategoryDetail = ({navigation, route}: any) => {
               item={item}
               key={`product${index}${item.id}${item.shopname}`}
               styles={{marginLeft: 16}}
+              category={category}
             />
           )}
           keyExtractor={(item, _index) => `product${item.id}${item.shopname}`}

@@ -29,6 +29,10 @@ import ModalizeFilter from '../../../modals/ModalizeFilter';
 import {global} from '../../../styles/global';
 import {HandleProduct} from '../../../utils/HandleProduct';
 import {showToast} from '../../../utils/showToast';
+import {useSelector} from 'react-redux';
+import {groceriesSelector} from '../../../redux/reducers/groceryReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appInfos} from '../../../constants/appInfos';
 
 interface Props {
   category_id: number;
@@ -45,16 +49,16 @@ const SearchFilterComponent = (props: Props) => {
   const [results, setResults] = useState<Product[]>([]);
   const [product, setProduct] = useState<Product>();
   const [isVisibleModalProduct, setIsVisibleModalProduct] = useState(false);
-  const [cardCount, setCardCount] = useState(0);
   const [isSearch, setIsSearch] = useState(true);
 
   const navigation: any = useNavigation();
   const isFocused = useIsFocused();
 
+  const grocecyList = useSelector(groceriesSelector);
+
   useEffect(() => {
     if (isFocused) {
       setSearchValue('');
-      getCardCount();
     }
   }, [isFocused]);
 
@@ -88,18 +92,6 @@ const SearchFilterComponent = (props: Props) => {
     } catch (error) {
       console.log(error);
       setIsSearch(false);
-    }
-  };
-
-  const getCardCount = async () => {
-    const api = `/getProductGroceryCount`;
-
-    try {
-      const res: any = await handleGetData.handleProduct(api);
-
-      res && typeof res === 'number' ? setCardCount(res) : setCardCount(0);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -155,12 +147,6 @@ const SearchFilterComponent = (props: Props) => {
               autoCapitalize="none"
               placeholder="Search groceries"
               placeholderTextColor={appColors.gray}
-              onEndEditing={() => {
-                navigation.navigate('SearchGrocery', {
-                  searchKey: searchValue,
-                  results,
-                });
-              }}
             />
 
             {searchValue.length > 0 && (
@@ -173,10 +159,7 @@ const SearchFilterComponent = (props: Props) => {
               />
             )}
 
-            <TouchableOpacity
-              onPress={() => navigation.navigate('HomeScan')}
-              // onPress={() => setIsVisibleModalFilter(true)}
-            >
+            <TouchableOpacity onPress={() => navigation.navigate('HomeScan')}>
               <MaterialCommunityIcons
                 name="barcode-scan"
                 size={24}
@@ -198,7 +181,7 @@ const SearchFilterComponent = (props: Props) => {
                 color={appColors.white}
               />
             }
-            text={cardCount.toString()}
+            text={grocecyList.length}
             // text="5"
             textColor={appColors.white}
             styles={{
@@ -241,6 +224,23 @@ const SearchFilterComponent = (props: Props) => {
                 }}>
                 {results.length > 0 ? (
                   <FlatList
+                    ListHeaderComponent={
+                      <RowComponent
+                        justify="flex-end"
+                        onPress={() =>
+                          navigation.navigate('SearchGrocery', {
+                            searchKey: searchValue,
+                            results,
+                          })
+                        }>
+                        <TextComponent
+                          text="See all"
+                          size={12}
+                          color={appColors.primary}
+                          flex={0}
+                        />
+                      </RowComponent>
+                    }
                     showsVerticalScrollIndicator={false}
                     data={results}
                     keyExtractor={(_item, index) => `item${index}`}
@@ -296,11 +296,11 @@ const SearchFilterComponent = (props: Props) => {
           setIsVisibleModalProduct(false);
           setProduct(undefined);
         }}
-        onAddToList={async (count: number, shop_id: number) =>
-          product
-            ? await HandleProduct.addToList(product, count, shop_id)
-            : undefined
-        }
+        // onAddToList={async (count: number, shop_id: number) =>
+        //   product
+        //     ? await HandleProduct.addToList(product, count, shop_id)
+        //     : undefined
+        // }
       />
 
       <ModalizeFilter

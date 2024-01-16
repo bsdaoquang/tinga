@@ -29,11 +29,10 @@ import ProductItem from './ProductItem';
 interface Props {
   isEdit: boolean;
   products: GroceryItem[];
-  onChange: () => void;
 }
 
 const AddToList = (props: Props) => {
-  const {isEdit, products, onChange} = props;
+  const {isEdit, products} = props;
 
   const [store, setStore] = useState<GroceryStore[]>([]);
   const [storeSelected, setStoreSelected] = useState(0);
@@ -175,8 +174,6 @@ const AddToList = (props: Props) => {
       setIsLoading(false);
       showToast(res.message);
       handleGetShops();
-      onChange();
-      // // navigation.goBack();
     } catch (error) {
       console.log(`Can not completed list ${error}`);
       setIsLoading(false);
@@ -189,7 +186,7 @@ const AddToList = (props: Props) => {
     setIsLoading(true);
     try {
       await handleGetData.handleProduct(api, {item_id: id}, 'post');
-      onChange();
+
       setIsLoading(false);
     } catch (error) {
       console.log(error);
