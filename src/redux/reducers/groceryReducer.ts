@@ -1,10 +1,19 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {GroceryItem} from '../../Models/Product';
+import {GroceryItem, ProductDetail} from '../../Models/Product';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appInfos} from '../../constants/appInfos';
 
 const initialState: {
-  groceries: GroceryItem[];
+  groceries: ProductDetail[];
 } = {
   groceries: [],
+};
+
+const uploadAsyncStorage = async (data: ProductDetail[]) => {
+  await AsyncStorage.setItem(
+    appInfos.localDataName.groceryList,
+    JSON.stringify(data),
+  );
 };
 
 const grocerySlice = createSlice({
@@ -17,29 +26,38 @@ const grocerySlice = createSlice({
     updateGroceryList: (state, action) => {
       const item = action.payload;
       const groceries = state.groceries;
+      const items = [...groceries];
 
-      const catIndex = groceries.findIndex(
-        element => element.category_id === item.category_id,
+      const index = items.findIndex(
+        element => element.id === item.id && element.shop_id === item.shop_id,
       );
-      if (catIndex) {
-        const products = groceries[catIndex].products;
 
-        const index = products.findIndex(
-          element => element.id === item.id && element.shop_id === item.shop_id,
-        );
-
-        if (index !== -1) {
-          products.splice(index, 1);
-          groceries[catIndex].products = products;
-        }
+      if (index !== -1) {
+        items.splice(index, 1);
+      } else {
+        items.push(item);
       }
 
-      state.groceries = groceries;
+      state.groceries = items;
+    },
+
+    updateQuatity: (state, action) => {
+      const {item, qty} = action.payload;
+      const groceries = state.groceries;
+      const data = [...groceries];
+      const index = data.findIndex(element => element.id === item.id);
+      if (index !== -1) {
+        data[index].qty = qty;
+
+        state.groceries = data;
+        uploadAsyncStorage(data);
+      }
     },
   },
 });
 
 export const groceryReducer = grocerySlice.reducer;
-export const {addGroceryList, updateGroceryList} = grocerySlice.actions;
+export const {addGroceryList, updateGroceryList, updateQuatity} =
+  grocerySlice.actions;
 //selector
 export const groceriesSelector = (state: any) => state.groceryReducer.groceries;

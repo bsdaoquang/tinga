@@ -17,10 +17,13 @@ import {
 import TabNavigator from './TabNavigator';
 import {useNavigation} from '@react-navigation/native';
 import {HandleLogin} from '../utils/HandleLogin';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useAsyncStorage} from '@react-native-async-storage/async-storage';
 import handleGetData from '../apis/productAPI';
-import {addGroceryList} from '../redux/reducers/groceryReducer';
+import {
+  addGroceryList,
+  groceriesSelector,
+} from '../redux/reducers/groceryReducer';
 import {appInfos} from '../constants/appInfos';
 
 const MainNavigator = () => {
@@ -31,10 +34,20 @@ const MainNavigator = () => {
     appInfos.localDataName.groceryList,
   );
 
+  const grocecyList = useSelector(groceriesSelector);
+
   useEffect(() => {
     HandleLogin.handleCheckUserLoginAgain(navigation, dispatch);
     getGroceryList();
   }, []);
+
+  useEffect(() => {
+    saveGroceryList();
+  }, [grocecyList.length]);
+
+  const saveGroceryList = async () => {
+    grocecyList && (await setItem(JSON.stringify(grocecyList)));
+  };
 
   const getGroceryList = async () => {
     const res: any = await getItem();

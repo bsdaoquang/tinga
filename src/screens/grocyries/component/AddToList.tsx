@@ -1,8 +1,8 @@
 import {useNavigation} from '@react-navigation/native';
 import {Add} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {FlatList, TouchableOpacity, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {FlatList, SectionList, TouchableOpacity, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   GroceryItem,
   GroceryStore,
@@ -14,6 +14,7 @@ import {
   Button,
   ButtonComponent,
   RowComponent,
+  SectionComponent,
   TextComponent,
 } from '../../../components';
 import {appColors} from '../../../constants/appColors';
@@ -25,14 +26,23 @@ import {global} from '../../../styles/global';
 import {showToast} from '../../../utils/showToast';
 import CardScore from './CardScore';
 import ProductItem from './ProductItem';
+import {
+  groceriesSelector,
+  updateGroceryList,
+  updateQuatity,
+} from '../../../redux/reducers/groceryReducer';
 
 interface Props {
   isEdit: boolean;
-  products: GroceryItem[];
+}
+
+interface Section {
+  title: string;
+  data: ProductDetail[];
 }
 
 const AddToList = (props: Props) => {
-  const {isEdit, products} = props;
+  const {isEdit} = props;
 
   const [store, setStore] = useState<GroceryStore[]>([]);
   const [storeSelected, setStoreSelected] = useState(0);
@@ -40,8 +50,11 @@ const AddToList = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [listScore, setListScore] = useState<Scoredetails>();
   const [productsByStoreId, setproductsByStoreId] = useState<GroceryItem[]>([]);
-
+  const [sectionData, setSectionData] = useState<Section[]>([]);
   const navigation: any = useNavigation();
+  const groceryList: ProductDetail[] = useSelector(groceriesSelector);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     handleGetShops();
@@ -49,39 +62,46 @@ const AddToList = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    if (storeSelected !== 0) {
-      const data: GroceryItem[] = [];
-
-      products.forEach(items => {
-        data.push({
-          ...items,
-          products: items.products.filter(
-            element => element.shop_id === storeSelected,
-          ),
-        });
-      });
-
-      setproductsByStoreId(data);
-    } else {
-      setproductsByStoreId(products);
-    }
-  }, [storeSelected, products]);
+    // if (storeSelected !== 0) {
+    //   const data: GroceryItem[] = [];
+    //   products.forEach(items => {
+    //     data.push({
+    //       ...items,
+    //       products: items.products.filter(
+    //         element => element.shop_id === storeSelected,
+    //       ),
+    //     });
+    //   });
+    //   setproductsByStoreId(data);
+    // } else {
+    //   setproductsByStoreId(products);
+    // }
+  }, [storeSelected]);
 
   useEffect(() => {
-    if (products.length > 0) {
-      const items: ProductDetail[] = [];
-      products.forEach(item => {
-        const data = item.products;
-        const selectedItems = data.filter(
-          element => element.is_checked === '1',
-        );
-        selectedItems.length > 0 &&
-          selectedItems.forEach(selected => items.push(selected));
-      });
-      setProductSelected(items);
-      getListScore();
-    }
-  }, [products]);
+    const items: Section[] = [];
+    groceryList.forEach(item => {
+      const catIndex = items.findIndex(
+        element => element.title === item.category_name,
+      );
+      if (catIndex === -1) {
+        items.push({
+          title: item.category_name,
+          data: [],
+        });
+      }
+    });
+
+    items.forEach(group => {
+      const data = groceryList.filter(
+        element => element.category_name === group.title,
+      );
+
+      group.data = data;
+    });
+
+    setSectionData(items);
+  }, [groceryList]);
 
   const getListScore = async () => {
     const api = `/groceryListScore`;
@@ -142,19 +162,18 @@ const AddToList = (props: Props) => {
   };
 
   const handleSelectAllProducts = () => {
-    const items = [...productSelected];
-    products.forEach(item => {
-      const data = item.products;
-      data.forEach(product => {
-        const index = productSelected.findIndex(
-          element =>
-            element.id === product.id && element.shop_id === product.shop_id,
-        );
-        index === -1 && items.push(product);
-      });
-    });
-
-    setProductSelected(items);
+    // const items = [...productSelected];
+    // products.forEach(item => {
+    //   const data = item.products;
+    //   data.forEach(product => {
+    //     const index = productSelected.findIndex(
+    //       element =>
+    //         element.id === product.id && element.shop_id === product.shop_id,
+    //     );
+    //     index === -1 && items.push(product);
+    //   });
+    // });
+    // setProductSelected(items);
   };
 
   const handleCompleteList = async () => {
@@ -211,127 +230,138 @@ const AddToList = (props: Props) => {
     setProductSelected(items);
   };
 
-  const handleChangeQuality = (
-    item: ProductDetail,
-    index: number,
-    qty: number,
-  ) => {
-    item.qty = qty;
-    const data = [...productsByStoreId];
-    const dataProducts = data[index].products;
-
-    const indexOfItem = dataProducts.findIndex(
-      element => element.id === item.id && element.shop_id === item.shop_id,
-    );
-
-    if (indexOfItem !== -1) {
-      dataProducts[indexOfItem] = item;
-
-      setproductsByStoreId(data);
-    }
-  };
-
   return (
     <>
       <View style={{flex: 1}}>
-        <FlatList
-          data={productsByStoreId}
+        <SectionList
+          sections={sectionData}
+          renderSectionHeader={({section: {title}}) => (
+            <View style={{paddingHorizontal: 16}}>
+              <TextComponent text={title} />
+            </View>
+          )}
+          keyExtractor={(item, _index) => `product${item.id}${item.shop_id}`}
+          renderItem={({item, index}) => (
+            <ProductItem
+              key={`product${item.id}${item.shop_id}`}
+              isEdit={isEdit}
+              item={item}
+              onSelecteItem={(count: number) =>
+                handleToggleProduct(item, count)
+              }
+              onChangeQuality={(qty: number) => {
+                dispatch(updateQuatity({item, qty}));
+              }}
+              onRemoveItem={() => dispatch(updateGroceryList(item))}
+              isSelected={
+                productSelected.findIndex(
+                  element =>
+                    element.id === item.id && element.shop_id === item.shop_id,
+                ) !== -1
+              }
+            />
+          )}
+        />
+        {/* <FlatList
+          data={groceryList}
           ListHeaderComponent={
-            <>
-              <View>
-                {listScore && <CardScore listScore={listScore} />}
-                <FlatList
-                  data={store}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  ListHeaderComponent={
-                    <>
-                      <TouchableOpacity
-                        key={'all'}
-                        onPress={() => setStoreSelected(0)}
-                        style={[
-                          global.tag,
-                          {
-                            borderRadius: 100,
-                            marginLeft: 12,
-                            marginRight: 0,
-                            backgroundColor:
-                              storeSelected === 0
-                                ? appColors.success1
-                                : appColors.white,
-                          },
-                        ]}>
-                        <TextComponent
-                          flex={0}
-                          font={
-                            storeSelected === 0
-                              ? fontFamilys.bold
-                              : fontFamilys.medium
-                          }
-                          color={
-                            storeSelected === 0
-                              ? appColors.text
-                              : appColors.gray
-                          }
-                          size={12}
-                          text={`All stores - ${store.reduce(
-                            (a, b) => a + b.total_items,
-                            0,
-                          )} ($${store
-                            .reduce((a, b) => a + b.total_amount, 0)
-                            .toFixed(2)})`}
-                        />
-                      </TouchableOpacity>
-                    </>
-                  }
-                  keyExtractor={item => `shop${item.shop_id}`}
-                  renderItem={({item}) => renderTabStore(item)}
-                />
-              </View>
-              {!isEdit && (
-                <RowComponent
-                  justify="flex-end"
-                  styles={{paddingHorizontal: 16, marginBottom: 12}}>
-                  <Button
-                    text={'Select All'}
-                    onPress={() => handleSelectAllProducts()}
-                  />
-                </RowComponent>
-              )}
-            </>
+            <></>
+            // <>
+            //   <View>
+            //     {listScore && <CardScore listScore={listScore} />}
+            //     <FlatList
+            //       data={store}
+            //       horizontal
+            //       showsHorizontalScrollIndicator={false}
+            //       ListHeaderComponent={
+            //         <>
+            //           <TouchableOpacity
+            //             key={'all'}
+            //             onPress={() => setStoreSelected(0)}
+            //             style={[
+            //               global.tag,
+            //               {
+            //                 borderRadius: 100,
+            //                 marginLeft: 12,
+            //                 marginRight: 0,
+            //                 backgroundColor:
+            //                   storeSelected === 0
+            //                     ? appColors.success1
+            //                     : appColors.white,
+            //               },
+            //             ]}>
+            //             <TextComponent
+            //               flex={0}
+            //               font={
+            //                 storeSelected === 0
+            //                   ? fontFamilys.bold
+            //                   : fontFamilys.medium
+            //               }
+            //               color={
+            //                 storeSelected === 0
+            //                   ? appColors.text
+            //                   : appColors.gray
+            //               }
+            //               size={12}
+            //               text={`All stores - ${store.reduce(
+            //                 (a, b) => a + b.total_items,
+            //                 0,
+            //               )} ($${store
+            //                 .reduce((a, b) => a + b.total_amount, 0)
+            //                 .toFixed(2)})`}
+            //             />
+            //           </TouchableOpacity>
+            //         </>
+            //       }
+            //       keyExtractor={item => `shop${item.shop_id}`}
+            //       renderItem={({item}) => renderTabStore(item)}
+            //     />
+            //   </View>
+            //   {!isEdit && (
+            //     <RowComponent
+            //       justify="flex-end"
+            //       styles={{paddingHorizontal: 16, marginBottom: 12}}>
+            //       <Button
+            //         text={'Select All'}
+            //         onPress={() => handleSelectAllProducts()}
+            //       />
+            //     </RowComponent>
+            //   )}
+            // </>
           }
           keyExtractor={item => `product${item.category_id}`}
           showsVerticalScrollIndicator={false}
           renderItem={({item, index}) => (
-            <View style={{marginBottom: 16}}>
+            <></>
+            // <View style={{marginBottom: 16}}>
               <View style={{paddingHorizontal: 16}}>
                 <TextComponent text={item.category_name} />
               </View>
-              {item.products.length > 0 &&
-                item.products.map(product => (
-                  <ProductItem
-                    key={`product${product.id}${product.shop_id}`}
-                    isEdit={isEdit}
-                    item={product}
-                    onSelecteItem={(count: number) =>
-                      handleToggleProduct(product, count)
-                    }
-                    onChangeQuality={(qty: number) =>
-                      handleChangeQuality(product, index, qty)
-                    }
-                    onRemoveItem={() => removeItemFromList(product.id)}
-                    isSelected={
-                      productSelected.findIndex(
-                        element =>
-                          element.id === product.id &&
-                          element.shop_id === product.shop_id,
-                      ) !== -1
-                    }
-                  />
-                ))}
-            </View>
+            //   {item.products.length > 0 &&
+            //     item.products.map(product => (
+            //       <ProductItem
+            //         key={`product${product.id}${product.shop_id}`}
+            //         isEdit={isEdit}
+            //         item={product}
+            //         onSelecteItem={(count: number) =>
+            //           handleToggleProduct(product, count)
+            //         }
+            //         onChangeQuality={(qty: number) =>
+            //           handleChangeQuality(product, index, qty)
+            //         }
+            //         onRemoveItem={() => removeItemFromList(product.id)}
+            //         isSelected={
+            //           productSelected.findIndex(
+            //             element =>
+            //               element.id === product.id &&
+            //               element.shop_id === product.shop_id,
+            //           ) !== -1
+            //         }
+            //       />
+            //     ))}
+            // </View>
           )}
-        />
+        /> */}
       </View>
 
       <RowComponent

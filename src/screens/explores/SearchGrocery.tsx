@@ -25,6 +25,8 @@ import {
 import {appColors} from '../../constants/appColors';
 import {global} from '../../styles/global';
 import ModalizeFilter from '../../modals/ModalizeFilter';
+import {useSelector} from 'react-redux';
+import {groceriesSelector} from '../../redux/reducers/groceryReducer';
 
 const SearchGrocery = ({navigation, route}: any) => {
   const {searchKey}: {searchKey: string} = route.params;
@@ -35,6 +37,8 @@ const SearchGrocery = ({navigation, route}: any) => {
   const [isLoadmore, setIsLoadmore] = useState(false);
   const [loadmoreable, setLoadmoreable] = useState(true);
   const [isVisibleModalFillter, setIsVisibleModalFillter] = useState(false);
+
+  const grocecyList = useSelector(groceriesSelector);
 
   useEffect(() => {
     setPage(1);
@@ -171,11 +175,12 @@ const SearchGrocery = ({navigation, route}: any) => {
                 color={appColors.white}
               />
             }
-            text={`0`}
+            text={grocecyList.length}
             textColor={appColors.white}
             styles={{
-              width: 48,
+              minWidth: 48,
               height: 48,
+              paddingHorizontal: 10,
               alignItems: 'center',
               justifyContent: 'center',
             }}

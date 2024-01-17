@@ -182,7 +182,8 @@ const SearchFilterComponent = (props: Props) => {
             // text="5"
             textColor={appColors.white}
             styles={{
-              width: 50,
+              minWidth: 50,
+              paddingHorizontal: 10,
               height: 50,
               padding: 0,
               margin: 0,

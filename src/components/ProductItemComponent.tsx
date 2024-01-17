@@ -16,7 +16,10 @@ import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
 import {LoadingModal, ModalProduct} from '../modals';
 import {authSelector} from '../redux/reducers/authReducer';
-import {groceriesSelector} from '../redux/reducers/groceryReducer';
+import {
+  groceriesSelector,
+  updateGroceryList,
+} from '../redux/reducers/groceryReducer';
 import {HandleGrocery} from '../utils/handleGrocery';
 import LockPremiumComponent from './LockPremiumComponent';
 
@@ -35,7 +38,7 @@ const ProductItemComponent = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState<ProductDetail[]>([]);
   const auth = useSelector(authSelector);
-  const groceryList: GroceryItem[] = useSelector(groceriesSelector);
+  const groceryList: ProductDetail[] = useSelector(groceriesSelector);
 
   const dispatch = useDispatch();
 
@@ -59,9 +62,8 @@ const ProductItemComponent = (props: Props) => {
   };
 
   const renderButtonAdd = (item: Product) => {
-    const indexOfList = products.findIndex(
-      element =>
-        element.product_id === item.id && element.shop_id === item.shop_id,
+    const indexOfList = groceryList.findIndex(
+      element => element.id === item.id && element.shop_id === item.shop_id,
     );
 
     return (
@@ -82,7 +84,7 @@ const ProductItemComponent = (props: Props) => {
             <AntDesign name="check" size={20} color={appColors.white} />
           )
         }
-        onPress={async () => console.log(item)}
+        onPress={async () => dispatch(updateGroceryList(item))}
       />
     );
   };

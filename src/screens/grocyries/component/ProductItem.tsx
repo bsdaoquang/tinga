@@ -31,7 +31,7 @@ const ProductItem = (props: Props) => {
     onChangeQuality,
   } = props;
 
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(item.qty ?? 1);
 
   useEffect(() => {
     count !== item.qty && onChangeQuality(count);

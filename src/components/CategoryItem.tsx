@@ -1,9 +1,9 @@
-import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {TextComponent} from '.';
-import {appSize} from '../constants/appSize';
-import {Category} from '../Models/Category';
+import {TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {TextComponent} from '.';
+import {Category} from '../Models/Category';
+import {appSize} from '../constants/appSize';
 
 interface Props {
   item: Category;

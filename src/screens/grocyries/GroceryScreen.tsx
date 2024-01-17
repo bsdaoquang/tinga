@@ -68,8 +68,8 @@ const GroceryScreen = ({navigation}: any) => {
           />
         </RowComponent>
       </SectionComponent>
-      {productList && productList.length > 0 ? (
-        <AddToList products={productList} isEdit={isEditList} />
+      {productList.length > 0 ? (
+        <AddToList isEdit={isEditList} />
       ) : (
         <>
           <SectionComponent
