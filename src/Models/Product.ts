@@ -40,7 +40,7 @@ export interface ProductDetail {
   shopname: string;
   size: string;
   thumb_color: string;
-  thumb_type: string;
+  thumb_type: 'Normal' | 'Bad' | 'Good';
   upc: string;
   is_checked: string;
   qty: number;

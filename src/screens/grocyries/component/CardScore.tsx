@@ -1,5 +1,5 @@
 import {View, Text} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Button,
   CardContent,
@@ -19,33 +19,44 @@ import {useSelector} from 'react-redux';
 import {authSelector} from '../../../redux/reducers/authReducer';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {ModalInfoScore} from '../../../modals';
+import {ProductDetail} from '../../../Models/Product';
+import {groceriesSelector} from '../../../redux/reducers/groceryReducer';
 
-interface Props {
-  listScore: Scoredetails;
-}
-
-const CardScore = (props: Props) => {
-  const {listScore} = props;
-
+const CardScore = () => {
   const [isVisibleModalInfoScore, setIsVisibleModalInfoScore] = useState(false);
   const navigation: any = useNavigation();
   const auth = useSelector(authSelector);
+  const groceryList: ProductDetail[] = useSelector(groceriesSelector);
 
-  const renderListScore = (item: Scoredetails) => {
-    const total =
-      item.green_quantity * 1 +
-      item.red_quantity * 1 +
-      item.orange_quantity * 1;
+  const renderListScore = () => {
+    const total = groceryList.reduce((a, b) => a + b.qty, 0);
+    const itemGood = groceryList.filter(
+      element => element.thumb_type === 'Good',
+    );
+    const itemNormal = groceryList.filter(
+      element => element.thumb_type === 'Normal',
+    );
+    const itemBad = groceryList.filter(element => element.thumb_type === 'Bad');
 
+    const totalGood = itemGood.reduce((a, b) => a + b.qty, 0);
+    const totalNormal = itemNormal.reduce((a, b) => a + b.qty, 0);
+    const totalBad = itemBad.reduce((a, b) => a + b.qty, 0);
     return (
       <View>
         <RowComponent>
           <ChartPieItem
-            total={`${item.list_score}`}
+            total={`${
+              Math.floor((totalGood / total) * 100) +
+              Math.floor(((totalNormal / total) * 100) / 2)
+            }`}
             size={74}
             fontSize={28}
             data={{
-              values: [item.green_line, item.orange_line, item.red_line],
+              values: [
+                (totalGood / total) * 100,
+                (totalNormal / total) * 100,
+                (totalBad / total) * 100,
+              ],
             }}
             radius={0.9}
           />
@@ -67,12 +78,12 @@ const CardScore = (props: Props) => {
                 <TextComponent text="👍" size={12} flex={0} />
               </View>
               <TitleComponent
-                text={` ${((item.green_quantity / total) * 100).toFixed(0)}%`}
+                text={` ${((totalGood / total) * 100).toFixed(0)}%`}
                 size={12}
                 flex={0}
               />
               <TextComponent
-                text={` (${item.green_quantity}) Great Choices`}
+                text={` (${totalGood}) Great Choices`}
                 size={12}
                 font={fontFamilys.regular}
               />
@@ -90,12 +101,12 @@ const CardScore = (props: Props) => {
                 <TextComponent text="👌" size={12} flex={0} />
               </View>
               <TitleComponent
-                text={` ${((item.orange_quantity / total) * 100).toFixed(0)}%`}
+                text={` ${((totalNormal / total) * 100).toFixed(0)}%`}
                 size={12}
                 flex={0}
               />
               <TextComponent
-                text={` (${item.orange_quantity}) Good`}
+                text={` (${totalNormal}) Good`}
                 size={12}
                 font={fontFamilys.regular}
               />
@@ -115,12 +126,12 @@ const CardScore = (props: Props) => {
                 <TextComponent text="👍" size={12} flex={0} styles={{}} />
               </View>
               <TitleComponent
-                text={` ${((item.red_quantity / total) * 100).toFixed(0)}%`}
+                text={` ${((totalBad / total) * 100).toFixed(0)}%`}
                 size={12}
                 flex={0}
               />
               <TextComponent
-                text={` (${item.red_quantity}) Limit`}
+                text={` (${totalBad}) Limit`}
                 size={12}
                 font={fontFamilys.regular}
               />
@@ -201,7 +212,7 @@ const CardScore = (props: Props) => {
             />
           </RowComponent>
           <SpaceComponent height={12} />
-          {listScore ? renderListScore(listScore) : <></>}
+          {renderListScore()}
         </CardContent>
       </SectionComponent>
       <ModalInfoScore

@@ -7,7 +7,7 @@ require Pod::Executable.execute_command('node', ['-p',
 
 permissions_path = '../node_modules/react-native-permissions/ios'
 pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
-
+pod 'GoogleSignIn'
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
