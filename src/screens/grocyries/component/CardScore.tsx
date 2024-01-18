@@ -21,8 +21,13 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import {ModalInfoScore} from '../../../modals';
 import {ProductDetail} from '../../../Models/Product';
 import {groceriesSelector} from '../../../redux/reducers/groceryReducer';
+interface Props {
+  type?: 'circle' | 'card';
+  size?: number;
+}
+const CardScore = (props: Props) => {
+  const {type, size} = props;
 
-const CardScore = () => {
   const [isVisibleModalInfoScore, setIsVisibleModalInfoScore] = useState(false);
   const navigation: any = useNavigation();
   const auth = useSelector(authSelector);
@@ -41,7 +46,7 @@ const CardScore = () => {
     const totalGood = itemGood.reduce((a, b) => a + b.qty, 0);
     const totalNormal = itemNormal.reduce((a, b) => a + b.qty, 0);
     const totalBad = itemBad.reduce((a, b) => a + b.qty, 0);
-    return (
+    return groceryList && groceryList.length > 0 ? (
       <View>
         <RowComponent>
           <ChartPieItem
@@ -180,9 +185,51 @@ const CardScore = () => {
           </View>
         )}
       </View>
+    ) : (
+      <></>
     );
   };
-  return (
+
+  const renderScoreCircle = () => {
+    const total = groceryList.reduce((a, b) => a + b.qty, 0);
+    const itemGood = groceryList.filter(
+      element => element.thumb_type === 'Good',
+    );
+    const itemNormal = groceryList.filter(
+      element => element.thumb_type === 'Normal',
+    );
+    const itemBad = groceryList.filter(element => element.thumb_type === 'Bad');
+
+    const totalGood = itemGood.reduce((a, b) => a + b.qty, 0);
+    const totalNormal = itemNormal.reduce((a, b) => a + b.qty, 0);
+    const totalBad = itemBad.reduce((a, b) => a + b.qty, 0);
+    return groceryList && groceryList.length > 0 ? (
+      <View>
+        <ChartPieItem
+          total={`${
+            Math.floor((totalGood / total) * 100) +
+            Math.floor(((totalNormal / total) * 100) / 2)
+          }`}
+          size={size ?? 24}
+          fontSize={size ? size - 14 : 14}
+          data={{
+            values: [
+              (totalGood / total) * 100,
+              (totalNormal / total) * 100,
+              (totalBad / total) * 100,
+            ],
+          }}
+          radius={0.9}
+        />
+      </View>
+    ) : (
+      <></>
+    );
+  };
+
+  return type || type === 'circle' ? (
+    renderScoreCircle()
+  ) : (
     <>
       <SectionComponent>
         <CardContent

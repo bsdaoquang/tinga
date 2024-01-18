@@ -81,18 +81,15 @@ const AddToList = (props: Props) => {
   }, [groceryList]);
 
   const handleSelectAllProducts = () => {
-    // const items = [...productSelected];
-    // products.forEach(item => {
-    //   const data = item.products;
-    //   data.forEach(product => {
-    //     const index = productSelected.findIndex(
-    //       element =>
-    //         element.id === product.id && element.shop_id === product.shop_id,
-    //     );
-    //     index === -1 && items.push(product);
-    //   });
-    // });
-    // setProductSelected(items);
+    const items = [...productSelected];
+    groceryList.forEach(item => {
+      const index = productSelected.findIndex(
+        element => element.id === item.id,
+      );
+
+      index === -1 && items.push(item);
+    });
+    setProductSelected(items);
   };
 
   const handleCompleteList = async () => {
@@ -111,6 +108,10 @@ const AddToList = (props: Props) => {
 
       setIsLoading(false);
       showToast(res.message);
+
+      // remove item after add list
+      productSelected.forEach(item => dispatch(updateGroceryList(item)));
+      setProductSelected([]);
     } catch (error) {
       console.log(`Can not completed list ${error}`);
       setIsLoading(false);
@@ -151,8 +152,16 @@ const AddToList = (props: Props) => {
                     justify="flex-end"
                     styles={{paddingHorizontal: 16, marginBottom: 12}}>
                     <Button
-                      text={'Select All'}
-                      onPress={() => handleSelectAllProducts()}
+                      text={
+                        productSelected.length !== groceryList.length
+                          ? 'Select All'
+                          : 'Unselected all'
+                      }
+                      onPress={() =>
+                        productSelected.length !== groceryList.length
+                          ? handleSelectAllProducts()
+                          : setProductSelected([])
+                      }
                     />
                   </RowComponent>
                 )}

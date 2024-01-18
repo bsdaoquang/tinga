@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {AlertDetail} from '../../Models/AlertDetail';
-import {HistoryProduc} from '../../Models/Product';
+import {HistoryProduc, ProductDetail} from '../../Models/Product';
 import {ProfileScore} from '../../Models/Score';
 import {VideoModel} from '../../Models/VideoModel';
 import dashboardAPI from '../../apis/dashboardAPI';
@@ -46,6 +46,8 @@ import Promotions from './components/Promotions';
 import RecipesList from './components/RecipesList';
 import VideoComponent from './components/VideoComponent';
 import {useIsFocused} from '@react-navigation/native';
+import {groceriesSelector} from '../../redux/reducers/groceryReducer';
+import CardScore from '../grocyries/component/CardScore';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -55,18 +57,10 @@ const HomeScreen = ({navigation, route}: any) => {
   const [videos, setVideos] = useState<VideoModel[]>([]);
   const [isVisibleModalAlert, setIsVisibleModalAlert] = useState(false);
   const [alertDetail, setAlertDetail] = useState<AlertDetail>();
-  const [historiesList, setHistoriesList] = useState<HistoryProduc[]>([]);
-  const [profileScore, setProfileScore] = useState<ProfileScore>();
 
   const auth = useSelector(authSelector);
   const isFocused = useIsFocused();
-
-  useEffect(() => {
-    if (isFocused) {
-      getHistoriesListOfProduct();
-      getLatesProfileScore();
-    }
-  }, [isFocused]);
+  const groceryList: ProductDetail[] = useSelector(groceriesSelector);
 
   useEffect(() => {
     if (auth.is_premium !== 1) {
@@ -78,10 +72,10 @@ const HomeScreen = ({navigation, route}: any) => {
   }, []);
 
   useEffect(() => {
-    historiesList.length >= 5 &&
-      setTimeout(() => {
-        setIsVisibleModalRating(true);
-      }, 3000);
+    // groceryList.length >= 5 &&
+    //   setTimeout(() => {
+    //     setIsVisibleModalRating(true);
+    //   }, 3000);
   }, []);
 
   const getVideos = async () => {
@@ -94,30 +88,6 @@ const HomeScreen = ({navigation, route}: any) => {
     } catch (error) {
       console.log(`can not get videos for dashboard`);
       showToast('Can not get videos');
-    }
-  };
-  const getHistoriesListOfProduct = async () => {
-    const api = `/listOfProductsCategorywise`;
-
-    await handleGetData
-      .handleProduct(api, {}, 'post')
-      .then((res: any) => {
-        setHistoriesList(res);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  const getLatesProfileScore = async () => {
-    const api = `/avgListScore`;
-
-    try {
-      const res: any = await handleGetData.handleUser(api);
-
-      res && setProfileScore(res);
-    } catch (error) {
-      console.log(`Can not get profile score, ${error}`);
     }
   };
 
@@ -176,30 +146,15 @@ const HomeScreen = ({navigation, route}: any) => {
                 flexDirection: 'row',
               }}
               onPress={() => navigation.navigate('ProfileScreen')}>
-              {profileScore && profileScore.list_score >= 0 ? (
-                <View
-                  style={{
-                    padding: 3,
-                    backgroundColor: appColors.white,
-                    borderRadius: 100,
-                  }}>
-                  <ChartPieItem
-                    total={`${profileScore?.list_score}`}
-                    size={32}
-                    fontSize={18}
-                    data={{
-                      values: [
-                        profileScore.green_line,
-                        profileScore.orange_line,
-                        profileScore.red_line,
-                      ],
-                    }}
-                    radius={0.9}
-                  />
-                </View>
-              ) : (
-                <></>
-              )}
+              <View
+                style={{
+                  padding: 3,
+                  backgroundColor: appColors.white,
+                  borderRadius: 100,
+                }}>
+                <CardScore type="circle" size={32} />
+              </View>
+
               <SpaceComponent width={8} />
 
               <TitleComponent
