@@ -2,6 +2,7 @@ import {Add, Location} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, FlatList, Image, Text, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useSelector} from 'react-redux';
 import {
   Button,
   CardContent,
@@ -14,8 +15,8 @@ import {ProductDetail, SwapModel, Swapproduct} from '../Models/Product';
 import handleGetData from '../apis/productAPI';
 import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
-import {LoadingModal} from '../modals';
 import ModalSwapProduct from '../modals/ModalSwapProduct';
+import {groceriesSelector} from '../redux/reducers/groceryReducer';
 import {global} from '../styles/global';
 
 interface Props {
@@ -26,8 +27,13 @@ const SwapItemsComponent = (props: Props) => {
   const {product} = props;
   const [items, setItems] = useState<SwapModel[]>([]);
   const [isVisibleModalSwap, setIsVisibleModalSwap] = useState(false);
-  const [productSwap, setProductSwap] = useState<Swapproduct>();
+  const [productSwap, setProductSwap] = useState<ProductDetail>();
   const [isLoading, setIsLoading] = useState(false);
+  const groceryList: ProductDetail[] = useSelector(groceriesSelector);
+  const [productToSwap, setProductToSwap] = useState<{
+    product_id: number;
+    shop_id: number;
+  }>();
 
   useEffect(() => {
     getSwapItems();
@@ -97,12 +103,6 @@ const SwapItemsComponent = (props: Props) => {
             size={20}
             height={19}
           />
-
-          <Button
-            onPress={() => {}}
-            text="View All"
-            fontStyles={{fontSize: 14, color: appColors.primary}}
-          />
         </RowComponent>
         <FlatList
           style={{marginTop: 16}}
@@ -111,7 +111,10 @@ const SwapItemsComponent = (props: Props) => {
           data={swapItems.swapproducts}
           renderItem={({item}) => (
             <View style={{marginLeft: 6, marginRight: 12, marginBottom: 12}}>
-              {renderCardItem(item)}
+              {renderCardItem(item, () => {
+                setProductSwap(item);
+                setIsVisibleModalSwap(true);
+              })}
             </View>
           )}
         />
@@ -121,78 +124,80 @@ const SwapItemsComponent = (props: Props) => {
     );
   };
 
-  const renderCardItem = (item: Swapproduct) => (
-    <CardContent
-      key={`children${item.id}shopId${item.shop_id}`}
-      color={appColors.white}
-      styles={[
-        global.shadow,
-        {
-          width: (appSize.width - 48) / 2,
-          marginBottom: product ? 0 : 16,
-          padding: 0,
-        },
-      ]}>
-      <Image
-        source={{uri: item.image}}
-        resizeMode="cover"
-        style={{
-          height: 100,
-          width: 'auto',
-          borderTopLeftRadius: 10,
-          borderTopRightRadius: 10,
-        }}
-      />
-
-      <Button
-        styles={{
-          width: 28,
-          height: 28,
-          backgroundColor:
-            item.is_addedtolist === 1 ? '#263238' : appColors.primary,
-          borderRadius: 14,
-          position: 'absolute',
-          top: 10,
-          right: 10,
-        }}
-        icon={
-          item.is_addedtolist === 0 ? (
-            <Add size={24} color={appColors.white} />
-          ) : (
-            <AntDesign name="check" size={20} color={appColors.white} />
-          )
-        }
-        disable={item.is_addedtolist === 1}
-        onPress={() => {
-          setProductSwap(item);
-          setIsVisibleModalSwap(true);
-        }}
-      />
-
-      <View style={{padding: 10}}>
-        <TextComponent text={`$ ${item.price}`} size={12} />
-        <TextComponent
-          text={item.name}
-          size={12}
-          line={2}
-          styles={{minHeight: 30}}
+  const renderCardItem = (item: Swapproduct, onPress: () => void) => {
+    const indexProduct = groceryList.findIndex(
+      element => element.id === item.id && element.shop_id === item.shop_id,
+    );
+    return (
+      <CardContent
+        key={`children${item.id}shopId${item.shop_id}`}
+        color={appColors.white}
+        styles={[
+          global.shadow,
+          {
+            width: (appSize.width - 48) / 2,
+            marginBottom: product ? 0 : 16,
+            padding: 0,
+          },
+        ]}>
+        <Image
+          source={{uri: item.image}}
+          resizeMode="cover"
+          style={{
+            height: 100,
+            width: 'auto',
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+          }}
         />
-        <SpaceComponent height={8} />
-        <RowComponent justify="space-between">
-          <RowComponent>
-            <Location size={14} color={appColors.gray} />
-            <TextComponent
-              text={` ${item.shopname}`}
-              size={12}
-              flex={0}
-              color={appColors.gray}
-            />
+
+        <Button
+          styles={{
+            width: 28,
+            height: 28,
+            backgroundColor:
+              indexProduct !== -1 ? '#263238' : appColors.primary,
+            borderRadius: 14,
+            position: 'absolute',
+            top: 10,
+            right: 10,
+          }}
+          icon={
+            indexProduct === -1 ? (
+              <Add size={24} color={appColors.white} />
+            ) : (
+              <AntDesign name="check" size={20} color={appColors.white} />
+            )
+          }
+          disable={indexProduct !== -1}
+          onPress={onPress}
+        />
+
+        <View style={{padding: 10}}>
+          <TextComponent text={`$ ${item.price}`} size={12} />
+          <TextComponent
+            text={item.name}
+            size={12}
+            line={2}
+            styles={{minHeight: 30}}
+          />
+          <SpaceComponent height={8} />
+          <RowComponent justify="space-between">
+            <RowComponent>
+              <Location size={14} color={appColors.gray} />
+              <TextComponent
+                text={` ${item.shopname}`}
+                size={12}
+                flex={0}
+                color={appColors.gray}
+              />
+            </RowComponent>
+            {renderThumbType(item)}
           </RowComponent>
-          {renderThumbType(item)}
-        </RowComponent>
-      </View>
-    </CardContent>
-  );
+        </View>
+      </CardContent>
+    );
+  };
 
   return isLoading ? (
     <ActivityIndicator />
@@ -221,24 +226,27 @@ const SwapItemsComponent = (props: Props) => {
               size={20}
               height={19}
             />
-
-            <Button
-              onPress={() => {}}
-              text="View All"
-              fontStyles={{fontSize: 14, color: appColors.primary}}
-            />
           </RowComponent>
-          {items.map(parentItem => (
+          {items.map((parentItem, index) => (
             <RowComponent
               styles={{justifyContent: 'space-between'}}
-              key={`product${parentItem.product_id}shopId${parentItem.shop_id}`}>
-              {parentItem.swapproducts.map(item => renderCardItem(item))}
+              key={`product${parentItem.product_id}shopId${parentItem.shop_id}-${index}`}>
+              {parentItem.swapproducts.map(item =>
+                renderCardItem(item, () => {
+                  setProductToSwap({
+                    product_id: parentItem.product_id,
+                    shop_id: parentItem.shop_id,
+                  });
+                  setProductSwap(item);
+                  setIsVisibleModalSwap(true);
+                }),
+              )}
             </RowComponent>
           ))}
         </>
       )}
       <ModalSwapProduct
-        product={product}
+        product={product ? product : productToSwap}
         swapProduct={productSwap}
         isVisible={isVisibleModalSwap}
         onClose={() => {

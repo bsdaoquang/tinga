@@ -34,20 +34,20 @@ export class HandleGrocery {
         let qty = ``;
 
         grocecyList.forEach((product: any, index: number) => {
-          if (product.id && product.qty && product.shop_id) {
+          if (product.id && product.shop_id) {
             product_id += `${product.id}${
               index < grocecyList.length - 1 ? ', ' : ''
             }`;
             shop_id += `${product.shop_id}${
               index < grocecyList.length - 1 ? ', ' : ''
             }`;
-            qty += `${product.qty}${
+            qty += `${product.qty ?? 1}${
               index < grocecyList.length - 1 ? ', ' : ''
             }`;
           }
         });
 
-        if (product_id && shop_id && qty) {
+        if (product_id && shop_id) {
           const data = new FormData();
           data.append('product_id', product_id);
           data.append('shop_id', shop_id);

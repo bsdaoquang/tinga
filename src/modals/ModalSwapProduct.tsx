@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Image, Modal, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, Image, Modal, Text, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   Button,
@@ -19,39 +19,72 @@ import {appSize} from '../constants/appSize';
 import {Location} from 'iconsax-react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import LoadingModal from './LoadingModal';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addGroceryList,
+  groceriesSelector,
+} from '../redux/reducers/groceryReducer';
+import {HandleGrocery} from '../utils/handleGrocery';
 
 interface Props {
   isVisible: boolean;
   onClose: () => void;
-  product?: ProductDetail;
-  swapProduct?: Swapproduct;
+  product?: any;
+  swapProduct?: ProductDetail;
 }
 
 const ModalSwapProduct = (props: Props) => {
   const {isVisible, onClose, product, swapProduct} = props;
   const [isSwaping, setIsSwaping] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [productDetail, setproductDetail] = useState<ProductDetail>();
 
-  const handleSwapItem = async () => {
-    if (product && swapProduct) {
-      const api = `/swapItems`;
+  const groceryList: ProductDetail[] = useSelector(groceriesSelector);
+  const dispatch = useDispatch();
 
-      const data = {
-        product_id: product?.id,
-        shop_id: product.shop_id,
-        swap_product_id: swapProduct.id,
-        swap_shop_id: swapProduct.shop_id,
-      };
+  useEffect(() => {
+    if (product && product.image) {
+      setproductDetail(product);
+    } else {
+      getProducDetail();
+    }
+  }, [product]);
 
-      setIsSwaping(true);
+  const getProducDetail = async () => {
+    if (product) {
+      const api = `/getDetailProduct?id=${product?.product_id}&shop_id=${product?.shop_id}`;
 
       try {
-        const res: any = await handleGetData.handleProduct(api, data, 'post');
-        showToast(res.message);
+        const res: any = await handleGetData.handleProduct(api);
+        res && res.length > 0 && setproductDetail(res[0]);
+      } catch (error) {
+        showToast(`Can not get product detail`);
+        console.log(error);
+      }
+    }
+  };
+
+  const handleSwapItem = async () => {
+    const items = [...groceryList];
+
+    if (productDetail && swapProduct) {
+      const index = items.findIndex(
+        element =>
+          element.id === productDetail?.id &&
+          element.shop_id === productDetail.shop_id,
+      );
+
+      if (index !== -1) {
+        // console.log(swapProduct);
+        setIsSwaping(true);
+        items[index] = swapProduct;
+
+        dispatch(addGroceryList(items));
         setIsSwaping(false);
         onClose();
-      } catch (error) {
-        setIsSwaping(false);
-        console.log(error);
+      } else {
+        showToast('Product swap not found');
+        getProducDetail();
       }
     } else {
       showToast('Swap product not found');
@@ -151,33 +184,38 @@ const ModalSwapProduct = (props: Props) => {
             />
           </RowComponent>
 
-          {product && swapProduct && (
-            <>
-              <View
-                style={{
-                  paddingVertical: 22,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                {renderCardItem(product)}
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            swapProduct &&
+            productDetail && (
+              <>
+                <View
+                  style={{
+                    paddingVertical: 22,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  {renderCardItem(productDetail)}
 
-                <Entypo
-                  size={28}
-                  color={appColors.success1}
-                  name="arrow-down"
-                  style={{marginBottom: 22}}
+                  <Entypo
+                    size={28}
+                    color={appColors.success1}
+                    name="arrow-down"
+                    style={{marginBottom: 22}}
+                  />
+
+                  {renderCardItem(swapProduct)}
+                </View>
+
+                <ButtonComponent
+                  text="Swap Product"
+                  textColor="white"
+                  onPress={handleSwapItem}
+                  disable={isSwaping}
                 />
-
-                {renderCardItem(swapProduct)}
-              </View>
-
-              <ButtonComponent
-                text="Swap Product"
-                textColor="white"
-                onPress={handleSwapItem}
-                disable={isSwaping}
-              />
-            </>
+              </>
+            )
           )}
         </View>
       </View>

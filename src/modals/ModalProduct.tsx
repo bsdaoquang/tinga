@@ -44,6 +44,7 @@ import {authSelector} from '../redux/reducers/authReducer';
 import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
+import {groceriesSelector} from '../redux/reducers/groceryReducer';
 
 interface Props {
   visible: boolean;
@@ -69,6 +70,7 @@ const ModalProduct = (props: Props) => {
     shop_id: number;
   }>();
   const auth = useSelector(authSelector);
+  const groceryList: ProductDetail[] = useSelector(groceriesSelector);
 
   useEffect(() => {
     visible ? modalRef.current?.open() : modalRef.current?.close();
@@ -201,6 +203,11 @@ const ModalProduct = (props: Props) => {
   );
 
   const renderButtonAdd = () => {
+    const index = groceryList.findIndex(
+      element =>
+        element.id === product?.id && element.shop_id === product.shop_id,
+    );
+
     return (
       producDetail && (
         <View
@@ -208,7 +215,7 @@ const ModalProduct = (props: Props) => {
             flex: 1,
           }}>
           <ButtonComponent
-            disable={producDetail?.is_addedtolist === 1 ? true : false}
+            disable={index !== -1 ? true : false}
             disableColor="#B7B7B7"
             icon={
               producDetail?.is_addedtolist === 1 && (
@@ -219,20 +226,16 @@ const ModalProduct = (props: Props) => {
                 />
               )
             }
-            text={producDetail?.is_addedtolist === 1 ? 'Added' : 'Add to List'}
+            text={index !== -1 ? 'Added' : 'Add to List'}
             onPress={
               onAddToList
                 ? () => {
                     onAddToList(count, producDetail.shop_id);
-                    handleCloseModal();
+                    // handleCloseModal();
                   }
                 : () => console.log('add to list not yet')
             }
-            textColor={
-              producDetail?.is_addedtolist === 1
-                ? appColors.white
-                : appColors.text
-            }
+            textColor={index !== -1 ? appColors.white : appColors.text}
           />
         </View>
       )

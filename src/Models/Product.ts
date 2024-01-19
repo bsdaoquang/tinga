@@ -112,7 +112,7 @@ export interface GroceryStore {
 export interface SwapModel {
   product_id: number;
   shop_id: number;
-  swapproducts: Swapproduct[];
+  swapproducts: ProductDetail[];
 }
 
 export interface Swapproduct {

@@ -25,6 +25,7 @@ const grocerySlice = createSlice({
   reducers: {
     addGroceryList: (state, action) => {
       state.groceries = action.payload;
+      uploadAsyncStorage(action.payload);
     },
     updateGroceryList: (state, action) => {
       const item = action.payload;

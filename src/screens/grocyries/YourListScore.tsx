@@ -62,7 +62,8 @@ const YourListScore = ({navigation, route}: any) => {
           />
         </RowComponent>
       </SectionComponent>
-      {listScore && <CardScore listScore={listScore} />}
+      {/* {listScore && <CardScore listScore={listScore} />} */}
+      <CardScore />
       <SectionComponent>
         <TitleComponent
           text="Improve Your Score"

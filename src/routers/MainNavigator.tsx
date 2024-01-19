@@ -1,5 +1,13 @@
+import {useAsyncStorage} from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {appInfos} from '../constants/appInfos';
+import {
+  addGroceryList,
+  groceriesSelector,
+} from '../redux/reducers/groceryReducer';
 import {
   AddNewProduct,
   AddNewScreen,
@@ -14,20 +22,10 @@ import {
   ShopingHistory,
   WebviewScreen,
 } from '../screens';
-import TabNavigator from './TabNavigator';
-import {useNavigation} from '@react-navigation/native';
 import {HandleLogin} from '../utils/HandleLogin';
-import {useDispatch, useSelector} from 'react-redux';
-import {useAsyncStorage} from '@react-native-async-storage/async-storage';
-import handleGetData from '../apis/productAPI';
-import {
-  addGroceryList,
-  groceriesSelector,
-} from '../redux/reducers/groceryReducer';
-import {appInfos} from '../constants/appInfos';
-import {ProductDetail} from '../Models/Product';
-import {Data} from 'iconsax-react-native';
 import {HandleGrocery} from '../utils/handleGrocery';
+import TabNavigator from './TabNavigator';
+import handleGetData from '../apis/productAPI';
 
 const MainNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -36,8 +34,6 @@ const MainNavigator = () => {
   const {setItem, getItem} = useAsyncStorage(
     appInfos.localDataName.groceryList,
   );
-
-  const grocecyList = useSelector(groceriesSelector);
 
   useEffect(() => {
     HandleLogin.handleCheckUserLoginAgain(navigation, dispatch);
@@ -49,7 +45,22 @@ const MainNavigator = () => {
 
     if (res) {
       dispatch(addGroceryList(JSON.parse(res)));
-      await HandleGrocery.syncDataToDatabase();
+      // await HandleGrocery.syncDataToDatabase();
+    } else {
+      const api = `/listOfProducts`;
+
+      try {
+        const res: any = await handleGetData.handleProduct(
+          api,
+          undefined,
+          'post',
+        );
+        if (res && res.length > 0) {
+          dispatch(addGroceryList(res));
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 

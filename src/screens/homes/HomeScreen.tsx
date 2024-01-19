@@ -147,14 +147,16 @@ const HomeScreen = ({navigation, route}: any) => {
                 flexDirection: 'row',
               }}
               onPress={() => navigation.navigate('ProfileScreen')}>
-              <View
-                style={{
-                  padding: 3,
-                  backgroundColor: appColors.white,
-                  borderRadius: 100,
-                }}>
-                <CardScore type="circle" size={32} />
-              </View>
+              {groceryList.length > 0 && (
+                <View
+                  style={{
+                    padding: 3,
+                    backgroundColor: appColors.white,
+                    borderRadius: 100,
+                  }}>
+                  <CardScore type="circle" size={32} />
+                </View>
+              )}
 
               <SpaceComponent width={8} />
 

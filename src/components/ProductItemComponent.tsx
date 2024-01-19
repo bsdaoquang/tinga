@@ -1,5 +1,5 @@
 import {Add, Location} from 'iconsax-react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {StyleProp, Text, View, ViewStyle} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -11,7 +11,7 @@ import {
   SpaceComponent,
   TextComponent,
 } from '.';
-import {GroceryItem, Product, ProductDetail} from '../Models/Product';
+import {Product, ProductDetail} from '../Models/Product';
 import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
 import {LoadingModal, ModalProduct} from '../modals';
@@ -20,7 +20,6 @@ import {
   groceriesSelector,
   updateGroceryList,
 } from '../redux/reducers/groceryReducer';
-import {HandleGrocery} from '../utils/handleGrocery';
 import LockPremiumComponent from './LockPremiumComponent';
 
 interface Props {
@@ -188,11 +187,7 @@ const ProductItemComponent = (props: Props) => {
         }}
         product={item}
         products={[]}
-        // onAddToList={async (count: number, shop_id: number) =>
-        //   await HandleProduct.addToList(item, count, shop_id).then(() =>
-        //     checkItemOfList(),
-        //   )
-        // }
+        onAddToList={async () => dispatch(updateGroceryList(item))}
       />
       <LoadingModal visible={isLoading} />
     </>
