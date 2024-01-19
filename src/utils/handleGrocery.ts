@@ -47,6 +47,8 @@ export class HandleGrocery {
           }
         });
 
+        console.log(product_id, shop_id, qty);
+
         if (product_id && shop_id) {
           const data = new FormData();
           data.append('product_id', product_id);

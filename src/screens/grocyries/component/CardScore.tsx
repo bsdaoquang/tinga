@@ -34,7 +34,7 @@ const CardScore = (props: Props) => {
   const groceryList: ProductDetail[] = useSelector(groceriesSelector);
 
   const renderListScore = () => {
-    const total = groceryList.reduce((a, b) => (a + b.qty ? b.qty : 1), 0);
+    const total = groceryList.reduce((a, b) => a + (b.qty ? b.qty : 1), 0);
     const itemGood = groceryList.filter(
       element => element.thumb_type === 'Good',
     );
@@ -43,9 +43,9 @@ const CardScore = (props: Props) => {
     );
     const itemBad = groceryList.filter(element => element.thumb_type === 'Bad');
 
-    const totalGood = itemGood.reduce((a, b) => (a + b.qty ? b.qty : 1), 0);
-    const totalNormal = itemNormal.reduce((a, b) => (a + b.qty ? b.qty : 1), 0);
-    const totalBad = itemBad.reduce((a, b) => (a + b.qty ? b.qty : 1), 0);
+    const totalGood = itemGood.reduce((a, b) => a + (b.qty ? b.qty : 1), 0);
+    const totalNormal = itemNormal.reduce((a, b) => a + (b.qty ? b.qty : 1), 0);
+    const totalBad = itemBad.reduce((a, b) => a + (b.qty ? b.qty : 1), 0);
     return groceryList && groceryList.length > 0 ? (
       <View>
         <RowComponent>
@@ -191,7 +191,7 @@ const CardScore = (props: Props) => {
   };
 
   const renderScoreCircle = () => {
-    const total = groceryList.reduce((a, b) => (a + b.qty ? b.qty : 1), 0);
+    const total = groceryList.reduce((a, b) => a + (b.qty ? b.qty : 1), 0);
     const itemGood = groceryList.filter(
       element => element.thumb_type === 'Good',
     );
@@ -200,9 +200,9 @@ const CardScore = (props: Props) => {
     );
     const itemBad = groceryList.filter(element => element.thumb_type === 'Bad');
 
-    const totalGood = itemGood.reduce((a, b) => (a + b.qty ? b.qty : 1), 0);
-    const totalNormal = itemNormal.reduce((a, b) => (a + b.qty ? b.qty : 1), 0);
-    const totalBad = itemBad.reduce((a, b) => (a + b.qty ? b.qty : 1), 0);
+    const totalGood = itemGood.reduce((a, b) => a + (b.qty ? b.qty : 1), 0);
+    const totalNormal = itemNormal.reduce((a, b) => a + (b.qty ? b.qty : 1), 0);
+    const totalBad = itemBad.reduce((a, b) => a + (b.qty ? b.qty : 1), 0);
 
     return groceryList && groceryList.length > 0 && total ? (
       <View>

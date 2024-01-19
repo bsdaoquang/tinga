@@ -38,7 +38,7 @@ const ShopListItems = (props: Props) => {
           const data: GroceryStore = {
             shopname: item.shopname,
             shop_id: item.shop_id,
-            total_items: total_items.reduce((a, b) => a + b.qty, 0),
+            total_items: total_items.reduce((a, b) => a + (b.qty ?? 1), 0),
             total_amount: total_items.reduce(
               (a, b) => a + parseFloat(b.price),
               0,

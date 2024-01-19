@@ -201,7 +201,7 @@ const ProfileScreen = ({navigation}: any) => {
           </TouchableOpacity>
         </RowComponent>
       </SectionComponent>
-      {/* <AvgScoreComponent /> */}
+      <AvgScoreComponent />
 
       <SectionComponent styles={{marginTop: 16}}>
         <TitleComponent

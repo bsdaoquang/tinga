@@ -136,6 +136,8 @@ const AddToList = (props: Props) => {
     setProductSelected(items);
   };
 
+  // console.log(groceryList);
+
   return (
     <>
       <View style={{flex: 1}}>

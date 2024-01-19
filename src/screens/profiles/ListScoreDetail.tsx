@@ -17,6 +17,8 @@ import {DateTime} from '../../utils/DateTime';
 import RenderListDetail from '../../components/RenderListDetail';
 import {showToast} from '../../utils/showToast';
 import {LoadingModal} from '../../modals';
+import {useDispatch} from 'react-redux';
+import {updateGroceryList} from '../../redux/reducers/groceryReducer';
 
 const ListScoreDetail = ({navigation, route}: any) => {
   const {id, item} = route.params;
@@ -33,6 +35,8 @@ const ListScoreDetail = ({navigation, route}: any) => {
   >([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     id && getScoreDetailById();
@@ -78,39 +82,13 @@ const ListScoreDetail = ({navigation, route}: any) => {
   };
 
   const handleMoveToList = async () => {
-    const api = `/moveListToGrocery`;
-    let ids = ``;
-    let shopIds = ``;
-
-    selectedItems.forEach((item, index) => {
-      ids += `${item.product_id}${
-        index < selectedItems.length - 1 ? ', ' : ''
-      }`;
-      shopIds += `${item.shop_id}${
-        index < selectedItems.length - 1 ? ', ' : ''
-      }`;
+    selectedItems.forEach(item => {
+      const data: any = {...item};
+      data.id = item.product_id;
+      dispatch(updateGroceryList(data));
     });
 
-    const data = new FormData();
-    data.append('product_id', ids);
-    data.append('shop_id', shopIds);
-
-    setIsUpdating(true);
-
-    try {
-      const res: any = await handleGetData.handleProduct(
-        api,
-        data,
-        'post',
-        true,
-      );
-      showToast(res.message);
-      setIsUpdating(false);
-      setSelectedItems([]);
-    } catch (error) {
-      console.log(`can not move product to list ${error}`);
-      setIsUpdating(false);
-    }
+    setSelectedItems([]);
   };
 
   const handleSelectItem = (item: any) => {

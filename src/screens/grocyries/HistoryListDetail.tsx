@@ -1,21 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch} from 'react-redux';
 import {
   ButtonComponent,
   Container,
-  ImageProduct,
   RowComponent,
   SectionComponent,
   TextComponent,
   TitleComponent,
 } from '../../components';
-import {appColors} from '../../constants/appColors';
-import {DateTime} from '../../utils/DateTime';
 import RenderListDetail from '../../components/RenderListDetail';
-import handleGetData from '../../apis/productAPI';
-import {showToast} from '../../utils/showToast';
+import {appColors} from '../../constants/appColors';
 import {LoadingModal} from '../../modals';
+import {DateTime} from '../../utils/DateTime';
+import {updateGroceryList} from '../../redux/reducers/groceryReducer';
 
 const HistoryListDetail = ({navigation, route}: any) => {
   const {items} = route.params;
@@ -24,6 +23,8 @@ const HistoryListDetail = ({navigation, route}: any) => {
     {product_id: number; shop_id: number}[]
   >([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const data: {
@@ -48,39 +49,13 @@ const HistoryListDetail = ({navigation, route}: any) => {
   }, [items]);
 
   const handleMoveToList = async () => {
-    const api = `/moveListToGrocery`;
-    let ids = ``;
-    let shopIds = ``;
-
-    selectedItems.forEach((item, index) => {
-      ids += `${item.product_id}${
-        index < selectedItems.length - 1 ? ', ' : ''
-      }`;
-      shopIds += `${item.shop_id}${
-        index < selectedItems.length - 1 ? ', ' : ''
-      }`;
+    selectedItems.forEach(item => {
+      const data: any = {...item};
+      data.id = item.product_id;
+      dispatch(updateGroceryList(data));
     });
 
-    const data = new FormData();
-    data.append('product_id', ids);
-    data.append('shop_id', shopIds);
-
-    setIsLoading(true);
-
-    try {
-      const res: any = await handleGetData.handleProduct(
-        api,
-        data,
-        'post',
-        true,
-      );
-      showToast(res.message);
-      setIsLoading(false);
-      setSelectedItems([]);
-    } catch (error) {
-      console.log(`can not move product to list ${error}`);
-      setIsLoading(false);
-    }
+    setSelectedItems([]);
   };
 
   const handleSelectItem = (item: any) => {
@@ -94,10 +69,7 @@ const HistoryListDetail = ({navigation, route}: any) => {
     if (index !== -1) {
       items.splice(index, 1);
     } else {
-      items.push({
-        product_id: item.product_id,
-        shop_id: item.shop_id,
-      });
+      items.push(item);
     }
 
     setSelectedItems(items);
