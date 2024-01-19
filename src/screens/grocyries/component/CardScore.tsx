@@ -203,7 +203,7 @@ const CardScore = (props: Props) => {
     const totalGood = itemGood.reduce((a, b) => a + b.qty, 0);
     const totalNormal = itemNormal.reduce((a, b) => a + b.qty, 0);
     const totalBad = itemBad.reduce((a, b) => a + b.qty, 0);
-    return groceryList && groceryList.length > 0 ? (
+    return groceryList && groceryList.length > 0 && total ? (
       <View>
         <ChartPieItem
           total={`${

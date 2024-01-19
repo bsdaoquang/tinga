@@ -3,6 +3,7 @@ import {addGroceryList} from '../redux/reducers/groceryReducer';
 import {appInfos} from '../constants/appInfos';
 import {Product, ProductDetail} from '../Models/Product';
 import {Category} from '../Models/Category';
+import handleGetData from '../apis/productAPI';
 
 export class HandleGrocery {
   static RemoveGrocery = async (dispatch: any) => {
@@ -17,7 +18,57 @@ export class HandleGrocery {
     const res = await AsyncStorage.getItem(appInfos.localDataName.groceryList);
     if (res) {
       const groceries = JSON.parse(res);
-      console.log(category);
+    }
+  };
+
+  static syncDataToDatabase = async () => {
+    const res = await AsyncStorage.getItem(appInfos.localDataName.groceryList);
+
+    if (res) {
+      const grocecyList = JSON.parse(res);
+
+      const api = `/addListToGrocery`;
+      if (grocecyList) {
+        let product_id = ``;
+        let shop_id = ``;
+        let qty = ``;
+
+        grocecyList.forEach((product: any, index: number) => {
+          if (product.id && product.qty && product.shop_id) {
+            product_id += `${product.id}${
+              index < grocecyList.length - 1 ? ', ' : ''
+            }`;
+            shop_id += `${product.shop_id}${
+              index < grocecyList.length - 1 ? ', ' : ''
+            }`;
+            qty += `${product.qty}${
+              index < grocecyList.length - 1 ? ', ' : ''
+            }`;
+          }
+        });
+
+        if (product_id && shop_id && qty) {
+          const data = new FormData();
+          data.append('product_id', product_id);
+          data.append('shop_id', shop_id);
+          data.append('qty', qty);
+
+          try {
+            const res: any = await handleGetData.handleProduct(
+              api,
+              data,
+              'post',
+              true,
+            );
+
+            console.log(res);
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          console.log('Can not get data');
+        }
+      }
     }
   };
 }

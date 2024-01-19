@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {GroceryItem, ProductDetail} from '../../Models/Product';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appInfos} from '../../constants/appInfos';
+import {HandleGrocery} from '../../utils/handleGrocery';
 
 const initialState: {
   groceries: ProductDetail[];
@@ -14,6 +15,8 @@ const uploadAsyncStorage = async (data: ProductDetail[]) => {
     appInfos.localDataName.groceryList,
     JSON.stringify(data),
   );
+
+  await HandleGrocery.syncDataToDatabase();
 };
 
 const grocerySlice = createSlice({
@@ -39,6 +42,7 @@ const grocerySlice = createSlice({
       }
 
       state.groceries = items;
+      uploadAsyncStorage(items);
     },
 
     updateQuatity: (state, action) => {

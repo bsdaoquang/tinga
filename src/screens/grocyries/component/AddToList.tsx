@@ -1,37 +1,29 @@
 import {useNavigation} from '@react-navigation/native';
 import {Add} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {FlatList, SectionList, TouchableOpacity, View} from 'react-native';
+import {SectionList, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  GroceryItem,
-  GroceryStore,
-  ProductDetail,
-} from '../../../Models/Product';
-import {Scoredetails} from '../../../Models/Score';
+import {ProductDetail} from '../../../Models/Product';
 import handleGetData from '../../../apis/productAPI';
 import {
   Button,
   ButtonComponent,
   RowComponent,
-  SectionComponent,
   TextComponent,
 } from '../../../components';
 import {appColors} from '../../../constants/appColors';
 import {fontFamilys} from '../../../constants/fontFamily';
 import {LoadingModal} from '../../../modals';
-import {authSelector} from '../../../redux/reducers/authReducer';
-import {shopingListSelector} from '../../../redux/reducers/shopingListReducer';
-import {global} from '../../../styles/global';
-import {showToast} from '../../../utils/showToast';
-import CardScore from './CardScore';
-import ProductItem from './ProductItem';
 import {
   groceriesSelector,
   updateGroceryList,
   updateQuatity,
 } from '../../../redux/reducers/groceryReducer';
+import {showToast} from '../../../utils/showToast';
+import CardScore from './CardScore';
+import ProductItem from './ProductItem';
 import ShopListItems from './ShopListItems';
+import axios from 'axios';
 
 interface Props {
   isEdit: boolean;
@@ -93,26 +85,36 @@ const AddToList = (props: Props) => {
   };
 
   const handleCompleteList = async () => {
-    const items: {item_id: number; qty: number}[] = [];
-    productSelected.forEach(item => {
-      items.push({
-        item_id: item.id,
-        qty: item.qty,
-      });
+    let items = ``;
+
+    productSelected.forEach((item, index) => {
+      items += `{"item_id": ${item.id},"qty": ${item.qty},"shop_id": ${
+        item.shop_id
+      }} ${index < productSelected.length - 1 ? ',' : ''}`;
     });
 
-    const api = `/completeList`;
+    const api = `/completeListProductwise`;
+    const data = new FormData();
+    data.append('item_ids', `[${items}]`);
     setIsLoading(true);
     try {
-      const res: any = await handleGetData.handleProduct(api, items, 'post');
+      const res: any = await handleGetData.handleProduct(
+        api,
+        data,
+        'post',
+        true,
+      );
 
       setIsLoading(false);
-      showToast(res.message);
-
-      // remove item after add list
-      productSelected.forEach(item => dispatch(updateGroceryList(item)));
-      setProductSelected([]);
+      if (res && res.success) {
+        // remove item after add list
+        productSelected.forEach(item => dispatch(updateGroceryList(item)));
+        setProductSelected([]);
+      } else {
+        showToast(res.message);
+      }
     } catch (error) {
+      console.log(error);
       console.log(`Can not completed list ${error}`);
       setIsLoading(false);
     }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -21,11 +21,18 @@ import {ModalizeEditShopList} from '../../modals';
 import ModalizeInfoGrocery from '../../modals/ModalizeInfoGrocery';
 import {groceriesSelector} from '../../redux/reducers/groceryReducer';
 import AddToList from './component/AddToList';
+import {useIsFocused} from '@react-navigation/native';
 
 const GroceryScreen = ({navigation}: any) => {
   const [isVisibleModalInfo, setIsVisibleModalInfo] = useState(false);
   const [isVisibleModalEditList, setIsVisibleModalEditList] = useState(false);
   const [isEditList, setIsEditList] = useState(false);
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    isFocused && isEditList && setIsEditList(false);
+  }, [isFocused]);
 
   const productList = useSelector(groceriesSelector);
 

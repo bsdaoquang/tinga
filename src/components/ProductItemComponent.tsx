@@ -84,7 +84,9 @@ const ProductItemComponent = (props: Props) => {
             <AntDesign name="check" size={20} color={appColors.white} />
           )
         }
-        onPress={async () => dispatch(updateGroceryList(item))}
+        onPress={async () => {
+          dispatch(updateGroceryList(item));
+        }}
       />
     );
   };

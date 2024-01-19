@@ -83,7 +83,9 @@ const ShopListItems = (props: Props) => {
             storeSelected === item.shop_id ? appColors.text : appColors.gray
           }
           size={12}
-          text={`${item.shopname} - ${item.total_items} ($${item.total_amount})`}
+          text={`${item.shopname} - ${
+            item.total_items
+          } ($${item.total_amount.toFixed(2)})`}
         />
       </TouchableOpacity>
     );

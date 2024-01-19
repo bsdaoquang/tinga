@@ -25,6 +25,9 @@ import {
   groceriesSelector,
 } from '../redux/reducers/groceryReducer';
 import {appInfos} from '../constants/appInfos';
+import {ProductDetail} from '../Models/Product';
+import {Data} from 'iconsax-react-native';
+import {HandleGrocery} from '../utils/handleGrocery';
 
 const MainNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -41,19 +44,12 @@ const MainNavigator = () => {
     getGroceryList();
   }, []);
 
-  useEffect(() => {
-    saveGroceryList();
-  }, [grocecyList.length]);
-
-  const saveGroceryList = async () => {
-    grocecyList && (await setItem(JSON.stringify(grocecyList)));
-  };
-
   const getGroceryList = async () => {
     const res: any = await getItem();
 
     if (res) {
       dispatch(addGroceryList(JSON.parse(res)));
+      await HandleGrocery.syncDataToDatabase();
     }
   };
 

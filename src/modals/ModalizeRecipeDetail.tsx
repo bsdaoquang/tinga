@@ -451,6 +451,7 @@ const ModalizeRecipeDetail = (props: Props) => {
                               paddingVertical: 0,
                               backgroundColor: appColors.white,
                               marginBottom: 12,
+                              marginHorizontal: 4,
                             },
                           ]}>
                           <TextComponent
@@ -570,7 +571,7 @@ const ModalizeRecipeDetail = (props: Props) => {
                                       marginBottom: 16,
                                     },
                                   ]}>
-                                  <View
+                                  {/* <View
                                     style={{
                                       flex: 1.5,
                                       backgroundColor: appColors.gray,
@@ -584,7 +585,7 @@ const ModalizeRecipeDetail = (props: Props) => {
                                       size={28}
                                       color={'#b1b1b1'}
                                     />
-                                  </View>
+                                  </View> */}
                                   <View
                                     style={{
                                       backgroundColor: appColors.white,

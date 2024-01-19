@@ -59,8 +59,9 @@ const HomeScreen = ({navigation, route}: any) => {
   const [alertDetail, setAlertDetail] = useState<AlertDetail>();
 
   const auth = useSelector(authSelector);
-  const isFocused = useIsFocused();
+
   const groceryList: ProductDetail[] = useSelector(groceriesSelector);
+  // console.log(auth);
 
   useEffect(() => {
     if (auth.is_premium !== 1) {
