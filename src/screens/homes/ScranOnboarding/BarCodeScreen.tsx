@@ -251,12 +251,12 @@ const BarCodeScreen = ({navigation}: any) => {
           setShowProduct(false);
         }}
         product={product}
-        onAddToList={async (count: number, shop_id) =>
-          product &&
-          (await HandleProduct.addToList(product, count, shop_id, true).then(
-            () => getGroceriesList(),
-          ))
-        }
+        // onAddToList={async (count: number, shop_id) =>
+        //   product &&
+        //   (await HandleProduct.addToList(product, count, shop_id, true).then(
+        //     () => getGroceriesList(),
+        //   ))
+        // }
         products={groceriesList}
       />
 

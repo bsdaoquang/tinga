@@ -23,7 +23,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Product, ProductDetail} from '../Models/Product';
 import handleGetData from '../apis/productAPI';
 import {HeartBold} from '../assets/svg';
@@ -44,19 +44,22 @@ import {authSelector} from '../redux/reducers/authReducer';
 import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
-import {groceriesSelector} from '../redux/reducers/groceryReducer';
+import {
+  groceriesSelector,
+  updateGroceryList,
+} from '../redux/reducers/groceryReducer';
 
 interface Props {
   visible: boolean;
   onClose: () => void;
   product?: Product;
-  onAddToList?: (count: number) => void;
+  // onAddToList?: (count: number) => void;
   products: Product[];
   onReload?: () => void;
 }
 
 const ModalProduct = (props: Props) => {
-  const {visible, onClose, product, onAddToList, products, onReload} = props;
+  const {visible, onClose, product, products, onReload} = props;
   const [count, setCount] = useState(1);
   const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] =
     useState(false);
@@ -71,6 +74,7 @@ const ModalProduct = (props: Props) => {
   }>();
   const auth = useSelector(authSelector);
   const groceryList: ProductDetail[] = useSelector(groceriesSelector);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     visible ? modalRef.current?.open() : modalRef.current?.close();
@@ -82,7 +86,7 @@ const ModalProduct = (props: Props) => {
         product_id: product?.id,
         shop_id: product?.shop_id,
       });
-      getProducDetail();
+      getProducDetail(product.id, product.shop_id);
       handleCheckFavouredList();
     }
   }, [product, visible]);
@@ -105,9 +109,9 @@ const ModalProduct = (props: Props) => {
     modalRef.current?.close();
   };
 
-  const getProducDetail = async () => {
+  const getProducDetail = async (id: number, shop_id: number) => {
     if (product) {
-      const api = `/getDetailProduct?id=${product?.id}&shop_id=${product?.shop_id}`;
+      const api = `/getDetailProduct?id=${id}&shop_id=${shop_id}`;
 
       try {
         const res: any = await handleGetData.handleProduct(api);
@@ -205,7 +209,8 @@ const ModalProduct = (props: Props) => {
   const renderButtonAdd = () => {
     const index = groceryList.findIndex(
       element =>
-        element.id === product?.id && element.shop_id === product.shop_id,
+        element.id === producDetail?.id &&
+        element.shop_id === producDetail.shop_id,
     );
 
     return (
@@ -227,14 +232,12 @@ const ModalProduct = (props: Props) => {
               )
             }
             text={index !== -1 ? 'Added' : 'Add to List'}
-            onPress={
-              onAddToList
-                ? () => {
-                    onAddToList(count);
-                    // handleCloseModal();
-                  }
-                : () => console.log('add to list not yet')
-            }
+            onPress={() => {
+              const data: ProductDetail = {...producDetail};
+              data.qty = count;
+
+              dispatch(updateGroceryList(data));
+            }}
             textColor={index !== -1 ? appColors.white : appColors.text}
           />
         </View>
@@ -390,7 +393,7 @@ const ModalProduct = (props: Props) => {
           {producDetail && producDetail.image ? (
             <ImageBackground
               source={{
-                uri: product?.image,
+                uri: producDetail?.image,
               }}
               style={{
                 width: '100%',
@@ -549,7 +552,10 @@ const ModalProduct = (props: Props) => {
             />
 
             <SectionComponent>
-              <SwapItemsComponent product={producDetail} />
+              <SwapItemsComponent
+                product={producDetail}
+                onSwapItem={val => getProducDetail(val.id, val.shop_id)}
+              />
             </SectionComponent>
 
             <SectionComponent>

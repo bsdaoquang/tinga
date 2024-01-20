@@ -21,10 +21,11 @@ import {global} from '../styles/global';
 
 interface Props {
   product?: ProductDetail;
+  onSwapItem?: (item: ProductDetail) => void;
 }
 
 const SwapItemsComponent = (props: Props) => {
-  const {product} = props;
+  const {product, onSwapItem} = props;
   const [items, setItems] = useState<SwapModel[]>([]);
   const [isVisibleModalSwap, setIsVisibleModalSwap] = useState(false);
   const [productSwap, setProductSwap] = useState<ProductDetail>();
@@ -76,13 +77,26 @@ const SwapItemsComponent = (props: Props) => {
   };
 
   const renderSwapItemsByProduct = () => {
-    const swapItems = items.find(
-      element =>
-        element.product_id === product?.id &&
-        element.shop_id === product.shop_id,
-    );
+    // const swapItems = items.find(
+    //   element =>
+    //     element.product_id === product?.id &&
+    //     element.shop_id === product.shop_id,
+    // );
 
-    return swapItems && swapItems.swapproducts.length > 0 ? (
+    const data: ProductDetail[] = [];
+    items.forEach((item: any) => {
+      const products = item.swapproducts;
+
+      products.forEach((product: any) => {
+        const index = data.findIndex(
+          element =>
+            element.id === product.id && element.shop_id === product.shop_id,
+        );
+        index === -1 && data.push(product);
+      });
+    });
+
+    return data.length > 0 ? (
       <>
         <RowComponent
           styles={{
@@ -108,13 +122,15 @@ const SwapItemsComponent = (props: Props) => {
           style={{marginTop: 16}}
           horizontal
           showsHorizontalScrollIndicator={false}
-          data={swapItems.swapproducts}
+          data={data}
+          keyExtractor={item => `children${item.id}shopId${item.shop_id}`}
           renderItem={({item}) => (
-            <View style={{marginLeft: 6, marginRight: 12, marginBottom: 12}}>
-              {renderCardItem(item, () => {
-                setProductSwap(item);
-                setIsVisibleModalSwap(true);
-              })}
+            <View
+              key={`children${item.id}shopId${item.shop_id}`}
+              style={{marginLeft: 6, marginRight: 12, marginBottom: 12}}>
+              {renderCardItem(item, () =>
+                onSwapItem ? onSwapItem(item) : undefined,
+              )}
             </View>
           )}
         />
@@ -130,7 +146,7 @@ const SwapItemsComponent = (props: Props) => {
     );
     return (
       <CardContent
-        key={`children${item.id}shopId${item.shop_id}`}
+        // key={`children${item.id}shopId${item.shop_id}`}
         color={appColors.white}
         styles={[
           global.shadow,
