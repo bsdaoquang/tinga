@@ -191,7 +191,9 @@ const AddToList = (props: Props) => {
                   handleToggleProduct(item, count)
                 }
                 onChangeQuality={(qty: number) => {
-                  dispatch(updateQuatity({item, qty}));
+                  item.qty
+                    ? qty !== item.qty && dispatch(updateQuatity({item, qty}))
+                    : undefined;
                 }}
                 onRemoveItem={() => dispatch(updateGroceryList(item))}
                 isSelected={
@@ -228,7 +230,7 @@ const AddToList = (props: Props) => {
         </View>
         <View style={{flex: 1}}>
           <ButtonComponent
-            disable={productSelected.length === 0}
+            disable={productSelected.length === 0 || isEdit}
             color="#13917B"
             fontStyles={{fontFamily: fontFamilys.bold, fontSize: 14}}
             textColor={appColors.white}

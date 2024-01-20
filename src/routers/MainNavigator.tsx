@@ -41,27 +41,22 @@ const MainNavigator = () => {
   }, []);
 
   const getGroceryList = async () => {
-    const res: any = await getItem();
+    const api = `/listOfProducts`;
 
-    if (res) {
-      dispatch(addGroceryList(JSON.parse(res)));
-      // await HandleGrocery.syncDataToDatabase();
-    } else {
-      const api = `/listOfProducts`;
-
-      try {
-        const res: any = await handleGetData.handleProduct(
-          api,
-          undefined,
-          'post',
-        );
-        if (res && res.length > 0) {
-          dispatch(addGroceryList(res));
-        }
-      } catch (error) {
-        console.log(error);
+    try {
+      const res: any = await handleGetData.handleProduct(
+        api,
+        undefined,
+        'post',
+      );
+      if (res && res.length > 0) {
+        // console.log(res);
+        dispatch(addGroceryList(res));
       }
+    } catch (error) {
+      console.log(error);
     }
+    // }
   };
 
   return (

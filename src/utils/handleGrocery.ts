@@ -47,7 +47,7 @@ export class HandleGrocery {
           }
         });
 
-        console.log(product_id, shop_id, qty);
+        // console.log(product_id, shop_id, qty);
 
         if (product_id && shop_id) {
           const data = new FormData();

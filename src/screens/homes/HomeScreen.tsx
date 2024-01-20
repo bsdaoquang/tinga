@@ -50,7 +50,6 @@ const HomeScreen = ({navigation, route}: any) => {
   const auth = useSelector(authSelector);
 
   const groceryList: ProductDetail[] = useSelector(groceriesSelector);
-  console.log(auth);
 
   useEffect(() => {
     if (auth.is_premium !== 1) {

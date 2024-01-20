@@ -71,6 +71,7 @@ const ListScoreDetail = ({navigation, route}: any) => {
     setIsLoading(true);
     try {
       const res: any = await handleGetData.handleProduct(api);
+
       if (res && res.length > 0) {
         setDataScore(res);
       }
@@ -101,14 +102,10 @@ const ListScoreDetail = ({navigation, route}: any) => {
     if (index !== -1) {
       items.splice(index, 1);
     } else {
-      items.push({
-        id: item.id,
-        shop_id: item.shop_id,
-      });
+      items.push(item);
     }
 
     setSelectedItems(items);
-    console.log(items);
   };
 
   return (
