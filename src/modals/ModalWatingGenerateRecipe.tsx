@@ -20,6 +20,8 @@ import {
 } from '../components';
 import Swiper from 'react-native-swiper';
 import {fontFamilys} from '../constants/fontFamily';
+import handleGetData from '../apis/productAPI';
+import {useIsFocused} from '@react-navigation/native';
 
 interface Props {
   visible: boolean;
@@ -29,13 +31,36 @@ const ModalWatingGenerateRecipe = (props: Props) => {
   const {visible} = props;
 
   const [quotes, setquotes] = useState<Quote[]>([]);
+  const [dietType, setDietType] = useState(0);
+  const isFocus = useIsFocused();
 
   useEffect(() => {
-    getlistofFactsQuotes();
+    isFocus && getDiets();
+  }, [isFocus]);
+
+  useEffect(() => {
+    dietType && getlistofFactsQuotes();
   }, []);
 
+  const getDiets = async () => {
+    const api = `/dietpreference`;
+
+    try {
+      await handleGetData.handleProduct(api).then((res: any) => {
+        if (res) {
+          const item = res.find(
+            (element: any) => element.is_selected === 'Yes',
+          );
+          item && setDietType(item.id);
+        }
+      });
+    } catch (error) {
+      console.log(`error ${error}`);
+    }
+  };
+
   const getlistofFactsQuotes = async () => {
-    const api = `listofFactsQuotes`;
+    const api = `listofFactsQuotes?diet_type=${dietType ?? 1}`;
 
     try {
       const res: any = await handleMealApi.handleMealPlanner(api);
