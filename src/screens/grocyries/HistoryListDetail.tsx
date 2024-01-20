@@ -15,12 +15,13 @@ import {appColors} from '../../constants/appColors';
 import {LoadingModal} from '../../modals';
 import {DateTime} from '../../utils/DateTime';
 import {updateGroceryList} from '../../redux/reducers/groceryReducer';
+import {showToast} from '../../utils/showToast';
 
 const HistoryListDetail = ({navigation, route}: any) => {
   const {items} = route.params;
   const [shops, setShops] = useState<{name: string; qty: number}[]>([]);
   const [selectedItems, setSelectedItems] = useState<
-    {product_id: number; shop_id: number}[]
+    {id: number; shop_id: number}[]
   >([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -51,19 +52,17 @@ const HistoryListDetail = ({navigation, route}: any) => {
   const handleMoveToList = async () => {
     selectedItems.forEach(item => {
       const data: any = {...item};
-      data.id = item.product_id;
+      data.id = item.id;
       dispatch(updateGroceryList(data));
     });
-
     setSelectedItems([]);
+    showToast('Added to list!!!');
   };
 
   const handleSelectItem = (item: any) => {
     const items = [...selectedItems];
     const index = items.findIndex(
-      element =>
-        element.product_id === item.product_id &&
-        element.shop_id === item.shop_id,
+      element => element.id === item.id && element.shop_id === item.shop_id,
     );
 
     if (index !== -1) {
@@ -94,6 +93,7 @@ const HistoryListDetail = ({navigation, route}: any) => {
           </View>
           <ButtonComponent
             text="Add to List"
+            // onPress={() => console.log()}
             onPress={handleMoveToList}
             disable={selectedItems.length === 0}
             disableColor={appColors.gray4}

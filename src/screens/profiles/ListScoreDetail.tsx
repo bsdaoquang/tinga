@@ -31,7 +31,7 @@ const ListScoreDetail = ({navigation, route}: any) => {
     }[]
   >([]);
   const [selectedItems, setSelectedItems] = useState<
-    {product_id: number; shop_id: number}[]
+    {id: number; shop_id: number}[]
   >([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -84,31 +84,31 @@ const ListScoreDetail = ({navigation, route}: any) => {
   const handleMoveToList = async () => {
     selectedItems.forEach(item => {
       const data: any = {...item};
-      data.id = item.product_id;
+      data.id = item.id;
       dispatch(updateGroceryList(data));
     });
-
+    showToast('Product added to list!');
     setSelectedItems([]);
   };
 
   const handleSelectItem = (item: any) => {
     const items = [...selectedItems];
+
     const index = items.findIndex(
-      element =>
-        element.product_id === item.product_id &&
-        element.shop_id === item.shop_id,
+      element => element.id === item.id && element.shop_id === item.shop_id,
     );
 
     if (index !== -1) {
       items.splice(index, 1);
     } else {
       items.push({
-        product_id: item.product_id,
+        id: item.id,
         shop_id: item.shop_id,
       });
     }
 
     setSelectedItems(items);
+    console.log(items);
   };
 
   return (

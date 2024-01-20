@@ -25,29 +25,6 @@ const ShopingHistory = ({navigation}: any) => {
     getHistoriesListOfProduct();
   }, []);
 
-  useEffect(() => {
-    // const dataList: {date: string; data: HistoryProduc[]}[] = [];
-    // if (historiesList.length > 0) {
-    //   historiesList.forEach(item => {
-    //     const date = DateTime.getDateString(
-    //       new Date(item.created_on).toISOString(),
-    //     );
-    //     const index = dataList.findIndex(element => element.date === date);
-    //     index === -1 &&
-    //       dataList.push({
-    //         date,
-    //         data: historiesList.filter(
-    //           element =>
-    //             DateTime.getDateString(
-    //               new Date(element.created_on).toISOString(),
-    //             ) === date,
-    //         ),
-    //       });
-    //   });
-    // }
-    // setDataHistories(dataList);
-  }, [historiesList]);
-
   const getHistoriesListOfProduct = async () => {
     const api = `/groceryHistory`;
 
@@ -60,14 +37,6 @@ const ShopingHistory = ({navigation}: any) => {
         console.log(error);
       });
   };
-
-  // useEffect(() => {
-  //   dataHistories.map(itemHis => {
-  //     itemHis.data.forEach(item => {
-  //       console.log(item);
-  //     });
-  //   });
-  // }, [dataHistories]);
 
   const renderCardHistory = (item: HistoryProduc) => (
     <CardContent

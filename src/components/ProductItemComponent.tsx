@@ -187,7 +187,11 @@ const ProductItemComponent = (props: Props) => {
         }}
         product={item}
         products={[]}
-        onAddToList={async () => dispatch(updateGroceryList(item))}
+        onAddToList={async (count: number) => {
+          const data: any = {...item};
+          data.qty = count;
+          dispatch(updateGroceryList(data));
+        }}
       />
       <LoadingModal visible={isLoading} />
     </>

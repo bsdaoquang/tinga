@@ -1,26 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {Image, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Product} from '../../Models/Product';
+import {Scoredetails} from '../../Models/Score';
+import handleGetData from '../../apis/productAPI';
 import {
   Button,
-  CardContent,
-  ChartPieItem,
   Container,
-  ProductItemComponent,
   RowComponent,
   SectionComponent,
   SpaceComponent,
-  TextComponent,
   TitleComponent,
 } from '../../components';
-import {appColors} from '../../constants/appColors';
-import {fontFamilys} from '../../constants/fontFamily';
-import {ModalInfoScore} from '../../modals';
-import handleGetData from '../../apis/productAPI';
-import {Scoredetails} from '../../Models/Score';
-import CardScore from './component/CardScore';
 import SwapItemsComponent from '../../components/SwapItemsComponent';
+import {appColors} from '../../constants/appColors';
+import {ModalInfoScore} from '../../modals';
+import CardScore from './component/CardScore';
 
 const YourListScore = ({navigation, route}: any) => {
   // const {products}: {products: Product[]} = route.params;

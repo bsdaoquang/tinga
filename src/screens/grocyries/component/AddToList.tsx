@@ -136,8 +136,6 @@ const AddToList = (props: Props) => {
     setProductSelected(items);
   };
 
-  // console.log(groceryList);
-
   return (
     <>
       <View style={{flex: 1}}>
@@ -173,11 +171,15 @@ const AddToList = (props: Props) => {
             ) : null
           }
           sections={sectionData}
-          renderSectionHeader={({section: {title}}) => (
-            <View style={{paddingHorizontal: 16}}>
-              <TextComponent text={title} />
-            </View>
-          )}
+          renderSectionHeader={({section: {title}}) =>
+            storeSelected == 0 ? (
+              <View style={{paddingHorizontal: 16}}>
+                <TextComponent text={title} />
+              </View>
+            ) : (
+              <></>
+            )
+          }
           keyExtractor={(item, _index) => `product${item.id}${item.shop_id}`}
           renderItem={({item, index}) =>
             storeSelected === 0 || storeSelected === item.shop_id ? (

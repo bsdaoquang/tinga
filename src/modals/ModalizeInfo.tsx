@@ -77,25 +77,23 @@ const ModalizeInfo = (props: Props) => {
   );
 
   return (
-    <Portal>
-      <Modalize
-        onClose={onClose}
-        ref={modalRef}
-        adjustToContentHeight
-        handlePosition="inside">
-        <View
-          style={{
-            padding: 20,
-            paddingBottom: 40,
-          }}>
-          <RowComponent justify="flex-end" onPress={handleCloseModal}>
-            <AntDesign name="close" color={appColors.gray} size={22} />
-          </RowComponent>
+    <Modalize
+      onClose={onClose}
+      ref={modalRef}
+      adjustToContentHeight
+      handlePosition="inside">
+      <View
+        style={{
+          padding: 20,
+          paddingBottom: 40,
+        }}>
+        <RowComponent justify="flex-end" onPress={handleCloseModal}>
+          <AntDesign name="close" color={appColors.gray} size={22} />
+        </RowComponent>
 
-          {type === 'diet' ? infeDiet : infoAllergy}
-        </View>
-      </Modalize>
-    </Portal>
+        {type === 'diet' ? infeDiet : infoAllergy}
+      </View>
+    </Modalize>
   );
 };
 

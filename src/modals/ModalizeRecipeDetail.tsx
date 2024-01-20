@@ -43,6 +43,13 @@ import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import LoadingModal from './LoadingModal';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
+import {ProductDetail} from '../Models/Product';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  groceriesSelector,
+  updateGroceryList,
+} from '../redux/reducers/groceryReducer';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   visible: boolean;
@@ -64,9 +71,11 @@ const ModalizeRecipeDetail = (props: Props) => {
     useState<RecipeIngredient>();
   const [isUpdate, setIsUpdate] = useState(false);
   const [productSelected, setProductSelected] = useState<ProductStore[]>([]);
-  const [cardCount, setCardCount] = useState(0);
 
+  const groceryList: ProductDetail[] = useSelector(groceriesSelector);
+  const dispatch = useDispatch();
   const modalRef = useRef<Modalize>();
+  const navigation: any = useNavigation();
 
   useEffect(() => {
     if (visible) {
@@ -75,7 +84,6 @@ const ModalizeRecipeDetail = (props: Props) => {
       if (item) {
         getRecipeDetailById();
         getIngredientItems();
-        getCardCount();
       }
     } else {
       modalRef.current?.close();
@@ -95,16 +103,6 @@ const ModalizeRecipeDetail = (props: Props) => {
         console.log(error);
         setIsLoading(false);
       }
-    }
-  };
-
-  const getCardCount = async () => {
-    const api = `/getProductGroceryCount`;
-    try {
-      const res: any = await handleGetData.handleProduct(api);
-      res && setCardCount(res);
-    } catch (error) {
-      console.log(`get card count ${error}`);
     }
   };
 
@@ -170,149 +168,134 @@ const ModalizeRecipeDetail = (props: Props) => {
   };
 
   const handleAddMoultiProduct = async () => {
-    const api = `addProductToList`;
-    const data = new FormData();
-
     productSelected.forEach((product, index) => {
-      data.append(`product_id[${index}]`, product.id);
-      data.append(`shop_id[${index}]`, product.shop_id);
+      dispatch(updateGroceryList(product));
     });
-    setIsUpdate(true);
-    try {
-      const res: any = await handleMealApi.handleMealPlanner(
-        api,
-        data,
-        'post',
-        true,
-      );
-
-      if (res) {
-        showToast(res.message);
-        setIsUpdate(false);
-        onClose();
-        setProductSelected([]);
-      }
-    } catch (error) {
-      console.log(error);
-      setIsUpdate(false);
-    }
+    setProductSelected([]);
+    getIngredientItems();
   };
 
-  const renderProductItem = (instore: boolean, item: ProductStore) => (
-    <View
-      key={item.id}
-      style={[
-        global.shadow,
-        {
-          width: (appSize.width - 64) / 2,
-          height: 170,
-          marginBottom: 16,
-        },
-      ]}>
-      {item.image ? (
-        <FastImage
-          source={{uri: item.image}}
-          style={{
-            width: '100%',
-            flex: 1,
-            height: 96,
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-          }}
-          resizeMode={FastImage.resizeMode.cover}
-        />
-      ) : (
+  const renderProductItem = (instore: boolean, item: ProductStore) => {
+    return (
+      <View
+        key={item.id}
+        style={[
+          global.shadow,
+          {
+            width: (appSize.width - 64) / 2,
+            height: 170,
+            marginBottom: 16,
+          },
+        ]}>
+        {item.image ? (
+          <FastImage
+            source={{uri: item.image}}
+            style={{
+              width: '100%',
+              flex: 1,
+              height: 96,
+              borderTopLeftRadius: 8,
+              borderTopRightRadius: 8,
+            }}
+            resizeMode={FastImage.resizeMode.cover}
+          />
+        ) : (
+          <View
+            style={{
+              flex: 1.5,
+              backgroundColor: appColors.gray,
+              borderTopLeftRadius: 8,
+              borderTopRightRadius: 8,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Ionicons name="image-outline" size={28} color={'#b1b1b1'} />
+          </View>
+        )}
+
         <View
           style={{
-            flex: 1.5,
-            backgroundColor: appColors.gray,
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
+            backgroundColor: appColors.white,
+            padding: 8,
+            borderBottomLeftRadius: 8,
+            borderBottomRightRadius: 8,
+          }}>
+          <TextComponent text={`$ ${item.price}`} size={12} height={16} />
+          <TextComponent
+            text={item.name}
+            styles={{marginVertical: 4}}
+            size={12}
+            flex={0}
+            line={1}
+            height={16}
+          />
+          <RowComponent justify="space-between">
+            <RowComponent>
+              <Location size={10} color={appColors.gray} />
+              <SpaceComponent width={4} />
+              <TextComponent
+                text={item.shop_name ?? ''}
+                flex={0}
+                size={10}
+                color={appColors.gray}
+              />
+            </RowComponent>
+
+            <View
+              style={[
+                global.rowCenter,
+                {
+                  width: 18,
+                  height: 18,
+                  backgroundColor:
+                    item.thumb_type === 1
+                      ? '#FFECBF'
+                      : item.thumb_type === 2
+                      ? '#FFECBF'
+                      : '#FFDBDB',
+                  borderRadius: 100,
+                  transform: item.thumb_type === 3 ? 'rotate(180deg)' : '',
+                },
+              ]}>
+              <TextComponent
+                text={item.thumb_type === 2 ? '👌' : '👍'}
+                size={9}
+                flex={0}
+              />
+            </View>
+          </RowComponent>
+        </View>
+
+        <TouchableOpacity
+          disabled={instore}
+          onPress={() => handleToggleProductSelected(item)}
+          style={{
+            position: 'absolute',
+            right: 10,
+            top: 10,
+            backgroundColor:
+              instore || productSelected.includes(item)
+                ? '#263238'
+                : appColors.success2,
+            borderRadius: 100,
+            width: 28,
+            height: 28,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Ionicons name="image-outline" size={28} color={'#b1b1b1'} />
-        </View>
-      )}
-
-      <View
-        style={{
-          backgroundColor: appColors.white,
-          padding: 8,
-          borderBottomLeftRadius: 8,
-          borderBottomRightRadius: 8,
-        }}>
-        <TextComponent text={`$ ${item.price}`} size={12} height={16} />
-        <TextComponent
-          text={item.name}
-          styles={{marginVertical: 4}}
-          size={12}
-          flex={0}
-          line={1}
-          height={16}
-        />
-        <RowComponent justify="space-between">
-          <RowComponent>
-            <Location size={10} color={appColors.gray} />
-            <SpaceComponent width={4} />
-            <TextComponent
-              text={item.shopname ?? ''}
-              flex={0}
-              size={10}
-              color={appColors.gray}
+          {instore || productSelected.includes(item) ? (
+            <Ionicons
+              name="checkmark-sharp"
+              size={20}
+              color={appColors.white}
             />
-          </RowComponent>
-
-          <View
-            style={[
-              global.rowCenter,
-              {
-                width: 18,
-                height: 18,
-                backgroundColor:
-                  item.thumb_type === 1
-                    ? '#FFECBF'
-                    : item.thumb_type === 2
-                    ? '#FFECBF'
-                    : '#FFDBDB',
-                borderRadius: 100,
-                transform: item.thumb_type === 3 ? 'rotate(180deg)' : '',
-              },
-            ]}>
-            <TextComponent
-              text={item.thumb_type === 2 ? '👌' : '👍'}
-              size={9}
-              flex={0}
-            />
-          </View>
-        </RowComponent>
+          ) : (
+            <Add size={26} color={appColors.white} />
+          )}
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        disabled={instore}
-        onPress={() => handleToggleProductSelected(item)}
-        style={{
-          position: 'absolute',
-          right: 10,
-          top: 10,
-          backgroundColor:
-            instore || productSelected.includes(item)
-              ? '#263238'
-              : appColors.success2,
-          borderRadius: 100,
-          width: 28,
-          height: 28,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        {instore || productSelected.includes(item) ? (
-          <Ionicons name="checkmark-sharp" size={20} color={appColors.white} />
-        ) : (
-          <Add size={26} color={appColors.white} />
-        )}
-      </TouchableOpacity>
-    </View>
-  );
+    );
+  };
 
   return (
     <Portal>
@@ -375,6 +358,14 @@ const ModalizeRecipeDetail = (props: Props) => {
                   />
                 </View>
                 <RowComponent
+                  onPress={() => {
+                    setProductSelected([]);
+                    modalRef.current?.close();
+
+                    navigation.navigate('Grocery List', {
+                      screen: 'GroceryScreen',
+                    });
+                  }}
                   styles={{
                     marginLeft: 12,
                     backgroundColor: appColors.primary,
@@ -384,10 +375,11 @@ const ModalizeRecipeDetail = (props: Props) => {
                   <FontAwesome5 name="shopping-cart" color={appColors.white} />
                   <SpaceComponent width={6} />
                   <TitleComponent
-                    text={`${cardCount}`}
+                    text={`${groceryList.length}`}
                     flex={0}
                     color={appColors.white}
-                    font={fontFamilys.medium}
+                    font={fontFamilys.bold}
+                    size={18}
                   />
                 </RowComponent>
               </RowComponent>
@@ -571,28 +563,25 @@ const ModalizeRecipeDetail = (props: Props) => {
                                       marginBottom: 16,
                                     },
                                   ]}>
-                                  {/* <View
+                                  <FastImage
+                                    source={require('../assets/images/no-image.jpg')}
                                     style={{
-                                      flex: 1.5,
-                                      backgroundColor: appColors.gray,
+                                      width: '100%',
+                                      flex: 1,
+
                                       borderTopLeftRadius: 8,
                                       borderTopRightRadius: 8,
-                                      justifyContent: 'center',
-                                      alignItems: 'center',
-                                    }}>
-                                    <Ionicons
-                                      name="image-outline"
-                                      size={28}
-                                      color={'#b1b1b1'}
-                                    />
-                                  </View> */}
+                                    }}
+                                    resizeMode={FastImage.resizeMode.cover}
+                                  />
                                   <View
                                     style={{
                                       backgroundColor: appColors.white,
                                       padding: 8,
+                                      paddingVertical: 12,
                                       borderBottomLeftRadius: 8,
                                       borderBottomRightRadius: 8,
-                                      flex: 1,
+                                      flex: 0,
                                       justifyContent: 'center',
                                     }}>
                                     <TextComponent

@@ -8,7 +8,7 @@ import {appColors} from '../constants/appColors';
 interface Props {
   items: any;
   onSelect: (item: any) => void;
-  selectedItems: {product_id: number; shop_id: number}[];
+  selectedItems: {id: number; shop_id: number}[];
 }
 
 const RenderListDetail = (props: Props) => {
@@ -42,9 +42,7 @@ const RenderListDetail = (props: Props) => {
 
   const renderCheckBox = (item: any) => {
     const index = selectedItems.findIndex(
-      element =>
-        element.product_id === item.product_id &&
-        element.shop_id === item.shop_id,
+      element => element.id === item.id && element.shop_id === item.shop_id,
     );
 
     return (

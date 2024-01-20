@@ -5,7 +5,7 @@ import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {Diet, UserChoose, UserSelected} from '../Models/UserChoose';
+import {Diet, Dislike, UserChoose, UserSelected} from '../Models/UserChoose';
 import handleGetData from '../apis/productAPI';
 import profileAPI from '../apis/userAPI';
 import {
@@ -44,7 +44,7 @@ const ModalizeFilter = (props: Props) => {
   const [selected, setSelected] = useState<{
     allergies: number[];
     shops: number[];
-    disLikes: string[];
+    disLikes: Dislike[];
   }>({
     allergies: [],
     shops: [],
@@ -90,7 +90,7 @@ const ModalizeFilter = (props: Props) => {
     try {
       await profileAPI.HandleUser(api).then((res: any) => {
         setuserChoices(res);
-        // console.log(res);
+        // console.log(res.dislikes);
       });
     } catch (error) {
       showToast(`user choice not found`);
@@ -177,7 +177,7 @@ const ModalizeFilter = (props: Props) => {
         .then((res: any) => {
           if (res && res.success) {
             getUserChoices();
-            setIsShowDiets(false);
+            // setIsShowDiets(false);
             setIsUpdating(false);
           } else {
             console.log('Can not update');
@@ -361,7 +361,7 @@ const ModalizeFilter = (props: Props) => {
         <Modalize
           onClose={onClose}
           ref={modalRef}
-          // adjustToContentHeight
+          adjustToContentHeight
           scrollViewProps={{showsVerticalScrollIndicator: false}}
           disableScrollIfPossible={false}
           handlePosition="inside"
@@ -603,7 +603,10 @@ const ModalizeFilter = (props: Props) => {
                           isRight: false,
                           isSelected: true,
                           onPress: () =>
-                            handleSelectedItem(item.id, 'dislikes'),
+                            handleSelectedItem(
+                              item.allergy_dislike,
+                              'dislikes',
+                            ),
                         }),
                       )}
                   </RowComponent>
@@ -668,12 +671,12 @@ const ModalizeFilter = (props: Props) => {
           </View>
           <LoadingModal visible={isUpdating} mess="Updating..." />
         </Modalize>
+        <ModalizeInfo
+          visible={isVisibleModalInfoDiet}
+          onClose={() => setIsVisibleModalInfoDiet(false)}
+          type={typeInfo}
+        />
       </Portal>
-      <ModalizeInfo
-        visible={isVisibleModalInfoDiet}
-        onClose={() => setIsVisibleModalInfoDiet(false)}
-        type={typeInfo}
-      />
     </>
   );
 };

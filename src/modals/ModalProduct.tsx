@@ -50,7 +50,7 @@ interface Props {
   visible: boolean;
   onClose: () => void;
   product?: Product;
-  onAddToList?: (count: number, shop_id: number) => void;
+  onAddToList?: (count: number) => void;
   products: Product[];
   onReload?: () => void;
 }
@@ -230,7 +230,7 @@ const ModalProduct = (props: Props) => {
             onPress={
               onAddToList
                 ? () => {
-                    onAddToList(count, producDetail.shop_id);
+                    onAddToList(count);
                     // handleCloseModal();
                   }
                 : () => console.log('add to list not yet')

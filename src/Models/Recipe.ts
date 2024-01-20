@@ -38,7 +38,7 @@ export interface ProductStore {
   name: string;
   price: string;
   shop_id: number;
-  shopname: string;
+  shop_name: string;
   size: string;
   thumb_score: number;
   thumb_type: number;
