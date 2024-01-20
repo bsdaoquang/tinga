@@ -56,7 +56,7 @@ const ModalizeFilter = (props: Props) => {
   useEffect(() => {
     getUserChoices();
     getDiets();
-    getDislikes();
+    // getDislikes();
     getAllgeries();
     getShops();
   }, []);
@@ -68,6 +68,8 @@ const ModalizeFilter = (props: Props) => {
         disLikes: userChoices.dislikes,
         shops: userChoices.shops,
       });
+
+      getDislikes();
     }
   }, [userChoices]);
 
@@ -127,7 +129,6 @@ const ModalizeFilter = (props: Props) => {
         await handleGetData
           .handleProduct(api, data, 'post', true)
           .then((res: any) => {
-            // console.log(res);
             setDisLikes(res);
           });
       } catch (error) {

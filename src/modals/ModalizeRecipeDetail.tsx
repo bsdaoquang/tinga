@@ -520,10 +520,10 @@ const ModalizeRecipeDetail = (props: Props) => {
                           size={12}
                         />
 
-                        {recipeIngredients?.ingrocerylist && (
+                        {recipeIngredients?.instore && (
                           <RowComponent justify="space-between">
-                            {recipeIngredients.ingrocerylist.map(
-                              (item, index) => renderProductItem(true, item),
+                            {recipeIngredients.instore.map((item, index) =>
+                              renderProductItem(true, item),
                             )}
                           </RowComponent>
                         )}
@@ -537,11 +537,12 @@ const ModalizeRecipeDetail = (props: Props) => {
                           </RowComponent>
 
                           <RowComponent justify="space-between">
-                            {recipeIngredients?.instore.map((item, index) =>
-                              renderProductItem(false, item),
+                            {recipeIngredients?.ingrocerylist.map(
+                              (item, index) => renderProductItem(false, item),
                             )}
                           </RowComponent>
                         </View>
+
                         <View style={{paddingTop: 16}}>
                           <RowComponent styles={{marginBottom: 8}}>
                             <TitleComponent

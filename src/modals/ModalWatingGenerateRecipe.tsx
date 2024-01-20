@@ -40,7 +40,7 @@ const ModalWatingGenerateRecipe = (props: Props) => {
 
   useEffect(() => {
     dietType && getlistofFactsQuotes();
-  }, []);
+  }, [dietType]);
 
   const getDiets = async () => {
     const api = `/dietpreference`;
@@ -64,6 +64,7 @@ const ModalWatingGenerateRecipe = (props: Props) => {
 
     try {
       const res: any = await handleMealApi.handleMealPlanner(api);
+
       res && res.length > 0 && setquotes(res);
     } catch (error) {
       console.log(`error ${error}`);

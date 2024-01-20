@@ -28,7 +28,7 @@ export class HandleGrocery {
       const grocecyList = JSON.parse(res);
 
       const api = `/addListToGrocery`;
-      if (grocecyList) {
+      if (grocecyList && grocecyList.length > 0) {
         let product_id = ``;
         let shop_id = ``;
         let qty = ``;
