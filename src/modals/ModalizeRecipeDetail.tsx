@@ -175,7 +175,11 @@ const ModalizeRecipeDetail = (props: Props) => {
     getIngredientItems();
   };
 
-  const renderProductItem = (instore: boolean, item: ProductStore) => {
+  const renderProductItem = (item: ProductStore) => {
+    const indexOfGrocery = groceryList.findIndex(
+      element => element.id === item.id && element.shop_id === item.shop_id,
+    );
+
     return (
       <View
         key={item.id}
@@ -267,14 +271,14 @@ const ModalizeRecipeDetail = (props: Props) => {
         </View>
 
         <TouchableOpacity
-          disabled={instore}
+          disabled={indexOfGrocery !== -1}
           onPress={() => handleToggleProductSelected(item)}
           style={{
             position: 'absolute',
             right: 10,
             top: 10,
             backgroundColor:
-              instore || productSelected.includes(item)
+              indexOfGrocery !== -1 || productSelected.includes(item)
                 ? '#263238'
                 : appColors.success2,
             borderRadius: 100,
@@ -283,7 +287,7 @@ const ModalizeRecipeDetail = (props: Props) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          {instore || productSelected.includes(item) ? (
+          {indexOfGrocery !== -1 || productSelected.includes(item) ? (
             <Ionicons
               name="checkmark-sharp"
               size={20}
@@ -523,7 +527,7 @@ const ModalizeRecipeDetail = (props: Props) => {
                         {recipeIngredients?.instore && (
                           <RowComponent justify="space-between">
                             {recipeIngredients.instore.map((item, index) =>
-                              renderProductItem(true, item),
+                              renderProductItem(item),
                             )}
                           </RowComponent>
                         )}
@@ -538,7 +542,7 @@ const ModalizeRecipeDetail = (props: Props) => {
 
                           <RowComponent justify="space-between">
                             {recipeIngredients?.ingrocerylist.map(
-                              (item, index) => renderProductItem(false, item),
+                              (item, index) => renderProductItem(item),
                             )}
                           </RowComponent>
                         </View>

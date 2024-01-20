@@ -1,26 +1,16 @@
 import {Gift, Heart, SearchNormal1} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  Image,
-  Linking,
-  StatusBar,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, Linking, StatusBar, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {AlertDetail} from '../../Models/AlertDetail';
-import {HistoryProduc, ProductDetail} from '../../Models/Product';
-import {ProfileScore} from '../../Models/Score';
+import {ProductDetail} from '../../Models/Product';
 import {VideoModel} from '../../Models/VideoModel';
 import dashboardAPI from '../../apis/dashboardAPI';
-import handleGetData from '../../apis/productAPI';
 import {UnionSelected, Users} from '../../assets/svg';
 import {
   ButtonComponent,
   ButtonIcon,
   CardContent,
-  ChartPieItem,
   Container,
   RowComponent,
   SectionComponent,
@@ -39,15 +29,14 @@ import {
 } from '../../modals';
 import ModalAlert from '../../modals/ModalAlert';
 import {authSelector} from '../../redux/reducers/authReducer';
+import {groceriesSelector} from '../../redux/reducers/groceryReducer';
 import {showToast} from '../../utils/showToast';
+import CardScore from '../grocyries/component/CardScore';
 import CategoriesList from './components/CategoriesList';
 import HomeCarousels from './components/HomeCarousels';
 import Promotions from './components/Promotions';
 import RecipesList from './components/RecipesList';
 import VideoComponent from './components/VideoComponent';
-import {useIsFocused} from '@react-navigation/native';
-import {groceriesSelector} from '../../redux/reducers/groceryReducer';
-import CardScore from '../grocyries/component/CardScore';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -61,7 +50,7 @@ const HomeScreen = ({navigation, route}: any) => {
   const auth = useSelector(authSelector);
 
   const groceryList: ProductDetail[] = useSelector(groceriesSelector);
-  // console.log(auth);
+  console.log(auth);
 
   useEffect(() => {
     if (auth.is_premium !== 1) {
