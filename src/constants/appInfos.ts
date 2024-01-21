@@ -6,6 +6,7 @@ export const appInfos = {
     scanlist: 'scanlist',
     shopingList: 'shopingList',
     groceryList: 'groceryList',
+    dietType: 'dietType',
   },
   monthNames: [
     'Jan',

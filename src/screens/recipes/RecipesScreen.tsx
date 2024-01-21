@@ -32,6 +32,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import ModalWatingGenerateRecipe from '../../modals/ModalWatingGenerateRecipe';
+import handleGetData from '../../apis/productAPI';
 
 const RecipesScreen = ({navigation}: any) => {
   const [isVisibleModalFilter, setIsVisibleModalFilter] = useState(false);
@@ -40,13 +41,13 @@ const RecipesScreen = ({navigation}: any) => {
   const [numberOfServings, setNumberOfServings] = useState(1);
   const [generating, setGenerating] = useState(false);
   const auth = useSelector(authSelector);
+  const [dietType, setDietType] = useState(1);
 
   const mealOccasions = [
     {key: 'Breakfast', title: 'Breakfast', isReady: false},
     {key: 'Lunch', title: 'Lunch', isReady: false},
     {key: 'Dinner', title: 'Dinner', isReady: true},
   ];
-
   const recipeTimes = [
     {key: 0, title: '<35 min'},
     {

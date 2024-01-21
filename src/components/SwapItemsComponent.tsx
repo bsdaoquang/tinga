@@ -139,7 +139,6 @@ const SwapItemsComponent = (props: Props) => {
       <></>
     );
   };
-
   const renderCardItem = (item: Swapproduct, onPress: () => void) => {
     const indexProduct = groceryList.findIndex(
       element => element.id === item.id && element.shop_id === item.shop_id,
@@ -222,7 +221,7 @@ const SwapItemsComponent = (props: Props) => {
       {product ? (
         <>{renderSwapItemsByProduct()}</>
       ) : (
-        <>
+        <View>
           <RowComponent
             styles={{
               alignItems: 'flex-start',
@@ -244,22 +243,27 @@ const SwapItemsComponent = (props: Props) => {
             />
           </RowComponent>
           {items.map((parentItem, index) => (
-            <RowComponent
-              styles={{justifyContent: 'space-between'}}
-              key={`product${parentItem.product_id}shopId${parentItem.shop_id}-${index}`}>
-              {parentItem.swapproducts.map(item =>
-                renderCardItem(item, () => {
-                  setProductToSwap({
-                    product_id: parentItem.product_id,
-                    shop_id: parentItem.shop_id,
-                  });
-                  setProductSwap(item);
-                  setIsVisibleModalSwap(true);
-                }),
-              )}
-            </RowComponent>
+            <>
+              <RowComponent styles={{marginTop: 16}}>
+                <TitleComponent text={parentItem.name} />
+              </RowComponent>
+              <RowComponent
+                styles={{justifyContent: 'space-between'}}
+                key={`product${parentItem.product_id}shopId${parentItem.shop_id}-${index}`}>
+                {parentItem.swapproducts.map(item =>
+                  renderCardItem(item, () => {
+                    setProductToSwap({
+                      product_id: parentItem.product_id,
+                      shop_id: parentItem.shop_id,
+                    });
+                    setProductSwap(item);
+                    setIsVisibleModalSwap(true);
+                  }),
+                )}
+              </RowComponent>
+            </>
           ))}
-        </>
+        </View>
       )}
       <ModalSwapProduct
         product={product ? product : productToSwap}

@@ -23,6 +23,7 @@ const ChartPieItem = (props: Props) => {
   const colors = data.colors ?? ['#AAC54E', '#FFD432', '#F15D59'];
   const containerSize = size ?? 80;
   const stroke = radius ?? 0.85;
+
   return (
     <View
       style={{

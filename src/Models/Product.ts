@@ -114,6 +114,7 @@ export interface SwapModel {
   product_id: number;
   shop_id: number;
   swapproducts: ProductDetail[];
+  name: string;
 }
 
 export interface Swapproduct {

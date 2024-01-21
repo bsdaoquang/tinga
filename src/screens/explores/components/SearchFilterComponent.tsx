@@ -178,7 +178,7 @@ const SearchFilterComponent = (props: Props) => {
                 color={appColors.white}
               />
             }
-            text={grocecyList.length}
+            text={grocecyList.reduce((a: any, b: any) => a + (b.qty ?? 1), 0)}
             // text="5"
             textColor={appColors.white}
             styles={{
@@ -288,17 +288,11 @@ const SearchFilterComponent = (props: Props) => {
 
       <ModalProduct
         product={product}
-        products={[]}
         visible={isVisibleModalProduct}
         onClose={() => {
           setIsVisibleModalProduct(false);
           setProduct(undefined);
         }}
-        // onAddToList={async (count: number, shop_id: number) =>
-        //   product
-        //     ? await HandleProduct.addToList(product, count, shop_id)
-        //     : undefined
-        // }
       />
 
       <ModalizeFilter

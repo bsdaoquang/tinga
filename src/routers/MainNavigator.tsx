@@ -1,4 +1,6 @@
-import {useAsyncStorage} from '@react-native-async-storage/async-storage';
+import AsyncStorage, {
+  useAsyncStorage,
+} from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {useEffect} from 'react';
@@ -38,7 +40,28 @@ const MainNavigator = () => {
   useEffect(() => {
     HandleLogin.handleCheckUserLoginAgain(navigation, dispatch);
     getGroceryList();
+    getDiets();
   }, []);
+
+  const getDiets = async () => {
+    const api = `/dietpreference`;
+
+    try {
+      const res: any = await handleGetData.handleProduct(api);
+
+      if (res && res.length > 0) {
+        const item = res.find((element: any) => element.is_selected === 'Yes');
+
+        item &&
+          (await AsyncStorage.setItem(
+            appInfos.localDataName.dietType,
+            `${item.id}`,
+          ));
+      }
+    } catch (error) {
+      console.log(`error ${error}`);
+    }
+  };
 
   const getGroceryList = async () => {
     const api = `/listOfProducts`;

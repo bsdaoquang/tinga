@@ -22,6 +22,8 @@ import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import LoadingModal from './LoadingModal';
 import ModalizeInfo from './ModalizeInfo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appInfos} from '../constants/appInfos';
 
 interface Props {
   visible: boolean;
@@ -173,18 +175,19 @@ const ModalizeFilter = (props: Props) => {
 
     try {
       setIsUpdating(true);
-      await handleGetData
-        .handleUser(api, data, 'post', true)
-        .then((res: any) => {
-          if (res && res.success) {
-            getUserChoices();
-            // setIsShowDiets(false);
-            setIsUpdating(false);
-          } else {
-            console.log('Can not update');
-            setIsUpdating(false);
-          }
-        });
+      const res: any = await handleGetData.handleUser(api, data, 'post', true);
+
+      if (res && res.success) {
+        await AsyncStorage.setItem(appInfos.localDataName.dietType, `${id}`);
+
+        getUserChoices();
+        // setIsShowDiets(false);
+
+        setIsUpdating(false);
+      } else {
+        console.log('Can not update');
+        setIsUpdating(false);
+      }
     } catch (error) {
       console.log(error);
       setIsUpdating(false);

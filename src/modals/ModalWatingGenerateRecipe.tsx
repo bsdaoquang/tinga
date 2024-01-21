@@ -22,6 +22,8 @@ import Swiper from 'react-native-swiper';
 import {fontFamilys} from '../constants/fontFamily';
 import handleGetData from '../apis/productAPI';
 import {useIsFocused} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appInfos} from '../constants/appInfos';
 
 interface Props {
   visible: boolean;
@@ -31,38 +33,20 @@ const ModalWatingGenerateRecipe = (props: Props) => {
   const {visible} = props;
 
   const [quotes, setquotes] = useState<Quote[]>([]);
-  const [dietType, setDietType] = useState(0);
-  const isFocus = useIsFocused();
 
   useEffect(() => {
-    isFocus && getDiets();
-  }, [isFocus]);
-
-  useEffect(() => {
-    dietType && getlistofFactsQuotes();
-  }, [dietType]);
-
-  const getDiets = async () => {
-    const api = `/dietpreference`;
-
-    try {
-      await handleGetData.handleProduct(api).then((res: any) => {
-        if (res) {
-          const item = res.find(
-            (element: any) => element.is_selected === 'Yes',
-          );
-          item && setDietType(item.id);
-        }
-      });
-    } catch (error) {
-      console.log(`error ${error}`);
-    }
-  };
+    visible && getlistofFactsQuotes();
+  }, [visible]);
 
   const getlistofFactsQuotes = async () => {
-    const api = `listofFactsQuotes?diet_type=${dietType ?? 1}`;
+    const apiDiet = `/dietpreference`;
+    const dietType = await AsyncStorage.getItem(
+      appInfos.localDataName.dietType,
+    );
 
     try {
+      const api = `listofFactsQuotes?diet_type=${dietType ? dietType : 1}`;
+      console.log(api);
       const res: any = await handleMealApi.handleMealPlanner(api);
 
       res && res.length > 0 && setquotes(res);

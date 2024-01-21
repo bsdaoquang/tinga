@@ -58,6 +58,7 @@ const AvgScoreComponent = () => {
 
     try {
       const res: any = await handleGetData.handleUser(api);
+
       res && setListScores(res);
     } catch (error) {
       setIsLoading(false);
@@ -283,32 +284,37 @@ const AvgScoreComponent = () => {
                 seemore
               />
               <RowComponent justify="flex-start">
-                {listScores.map(
-                  (item, index) =>
-                    index < 3 && (
-                      <CardContent
-                        key={`dataChart${index}`}
-                        isShadow
-                        color={appColors.white}
-                        styles={{
-                          width: (appSize.width - (32 + 12 * 2)) / 3,
-                          marginRight: index < 2 ? 12 : 0,
-                        }}>
-                        <ChartPieItem
-                          data={{
-                            values: [
-                              item.scoredetails.green_line,
-                              item.scoredetails.orange_line,
-                              item.scoredetails.red_line,
-                            ],
-                          }}
-                          key={item.id}
-                          total={`${item.scoredetails.list_score}`}
-                          size={70}
-                          fontSize={28}
-                        />
-                      </CardContent>
-                    ),
+                {listScores.map((item, index) =>
+                  index < 3 &&
+                  item.scoredetails.list_score &&
+                  (item.scoredetails.green_line ||
+                    item.scoredetails.red_line ||
+                    item.scoredetails.orange_line) ? (
+                    <CardContent
+                      key={`dataChart${index}`}
+                      isShadow
+                      color={appColors.white}
+                      styles={{
+                        width: (appSize.width - (32 + 12 * 2)) / 3,
+                        marginRight: index < 2 ? 12 : 0,
+                      }}>
+                      <ChartPieItem
+                        data={{
+                          values: [
+                            item.scoredetails.green_line,
+                            item.scoredetails.orange_line,
+                            item.scoredetails.red_line,
+                          ],
+                        }}
+                        key={item.id}
+                        total={`${item.scoredetails.list_score}`}
+                        size={70}
+                        fontSize={28}
+                      />
+                    </CardContent>
+                  ) : (
+                    <></>
+                  ),
                 )}
               </RowComponent>
             </SectionComponent>
