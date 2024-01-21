@@ -23,6 +23,7 @@ export interface GroceryItem {
 
 export interface ProductDetail {
   allergies: string[];
+  notallergyfree: string[];
   code: string;
   description: string;
   diets: Diet[];

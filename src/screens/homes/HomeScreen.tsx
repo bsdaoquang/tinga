@@ -60,6 +60,8 @@ const HomeScreen = ({navigation, route}: any) => {
     getVideos();
   }, []);
 
+  // console.log(auth);
+
   useEffect(() => {
     // groceryList.length >= 5 &&
     //   setTimeout(() => {

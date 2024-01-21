@@ -2,7 +2,7 @@ import React from 'react';
 import {FlatList, Modal, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Product} from '../Models/Product';
+import {Product, ProductDetail} from '../Models/Product';
 import {
   ButtonComponent,
   RowComponent,
@@ -13,25 +13,27 @@ import {
 import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
 import {global} from '../styles/global';
+import {useSelector} from 'react-redux';
+import {groceriesSelector} from '../redux/reducers/groceryReducer';
 
 interface Props {
   isVisible: boolean;
   onClose: () => void;
   onKeepScan: () => void;
   count: number;
-  groceriesList: Product[];
 }
 
 const ModalResultScan = (props: Props) => {
-  const {isVisible, onClose, count, onKeepScan, groceriesList} = props;
+  const {isVisible, onClose, count, onKeepScan} = props;
 
-  const renderItemSelected = (item: Product, index: number) => (
+  const groceriesList: ProductDetail[] = useSelector(groceriesSelector);
+
+  const renderItemSelected = (item: ProductDetail, index: number) => (
     <RowComponent
       key={`item${item.id}${index}`}
       styles={{
         paddingVertical: 8,
-      }}
-    >
+      }}>
       <FastImage
         source={{
           uri: item.image,
@@ -47,8 +49,7 @@ const ModalResultScan = (props: Props) => {
         style={{
           flex: 1,
           paddingHorizontal: 12,
-        }}
-      >
+        }}>
         <RowComponent justify="flex-start">
           <TextComponent text={item.name} flex={0} />
         </RowComponent>
@@ -62,8 +63,7 @@ const ModalResultScan = (props: Props) => {
                 paddingHorizontal: 8,
                 paddingVertical: 4,
               },
-            ]}
-          >
+            ]}>
             <TextComponent text="Added To My List" flex={0} size={12} />
             <SpaceComponent width={4} />
             <AntDesign name="check" size={16} color={appColors.text} />
@@ -111,8 +111,7 @@ const ModalResultScan = (props: Props) => {
       visible={isVisible}
       statusBarTranslucent
       transparent
-      animationType="slide"
-    >
+      animationType="slide">
       <View style={[global.modalContainer, {height: appSize.height}]}>
         <View style={[global.modalContent]}>
           {renderResultCount()}
@@ -121,8 +120,7 @@ const ModalResultScan = (props: Props) => {
               borderBottomColor: '#d9d9d9',
               borderBottomWidth: 0.5,
               paddingVertical: 12,
-            }}
-          >
+            }}>
             <ButtonComponent
               text="I’m Done "
               onPress={async () => {
@@ -142,7 +140,7 @@ const ModalResultScan = (props: Props) => {
 
           <FlatList
             style={{height: 250}}
-            data={groceriesList ?? []}
+            data={groceriesList}
             renderItem={({item, index}) => renderItemSelected(item, index)}
           />
         </View>

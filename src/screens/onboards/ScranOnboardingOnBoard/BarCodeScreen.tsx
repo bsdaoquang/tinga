@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
-import {Product} from '../../../Models/Product';
+import {Product, ProductDetail} from '../../../Models/Product';
 import handleGetData from '../../../apis/productAPI';
 import {
   Button,
@@ -19,10 +19,7 @@ import {appSize} from '../../../constants/appSize';
 import {ModalProduct} from '../../../modals';
 import ModalResultScan from '../../../modals/ModalResultScan';
 import ModalizeProducDetail from '../../../modals/ModalizeProducDetail';
-import {
-  addGroceries,
-  groceriesSelector,
-} from '../../../redux/reducers/groceryReducer';
+import {groceriesSelector} from '../../../redux/reducers/groceryReducer';
 import {handleSaveUser} from '../../../utils/handleSaveUser';
 import {showToast} from '../../../utils/showToast';
 import {appInfos} from '../../../constants/appInfos';
@@ -35,8 +32,8 @@ const BarCodeScreen = ({navigation}: any) => {
   const [product, setProduct] = useState<Product>();
   const [showError, setShowError] = useState(false);
   const [isVisibleModalResult, setIsVisibleModalResult] = useState(false);
-  const [groceriesList, setGroceriesList] = useState<Product[]>([]);
 
+  const groceriesList: ProductDetail[] = useSelector(groceriesSelector);
   const renderQrCode = (
     <QRCodeScanner
       cameraStyle={{
@@ -61,13 +58,10 @@ const BarCodeScreen = ({navigation}: any) => {
 
   const [QRCodeCotainer, setQRCodeCotainer] = useState(renderQrCode);
 
-  // const groceriesList = useSelector(groceriesSelector);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     requestPermision();
-    getGroceriesList();
   }, []);
 
   useEffect(() => {
@@ -83,17 +77,6 @@ const BarCodeScreen = ({navigation}: any) => {
       setQRCodeCotainer(renderQrCode);
     }
   }, [showProduct, showError]);
-
-  const getGroceriesList = async () => {
-    const api = `/listOfProductsCategorywise`;
-
-    await handleGetData
-      .handleProduct(api, undefined, 'post')
-      .then((res: any) => {
-        setGroceriesList(res);
-      })
-      .catch(error => console.log(error));
-  };
 
   const getProductDetail = async (id: string) => {
     const api = `/getProductByBarcode`;
@@ -258,13 +241,6 @@ const BarCodeScreen = ({navigation}: any) => {
           setShowProduct(false);
         }}
         product={product}
-        onAddToList={async (count: number, shop_id) =>
-          product &&
-          (await HandleProduct.addToList(product, count, shop_id, true).then(
-            () => getGroceriesList(),
-          ))
-        }
-        products={groceriesList ?? []}
       />
 
       <ModalResultScan
@@ -279,7 +255,6 @@ const BarCodeScreen = ({navigation}: any) => {
             JSON.stringify(groceriesList),
           );
         }}
-        groceriesList={groceriesList}
         onKeepScan={() => setIsVisibleModalResult(false)}
         count={groceriesList.length}
       />

@@ -48,18 +48,19 @@ import {
   groceriesSelector,
   updateGroceryList,
 } from '../redux/reducers/groceryReducer';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface Props {
   visible: boolean;
   onClose: () => void;
   product?: Product;
   // onAddToList?: (count: number) => void;
-  products: Product[];
+  isScan?: boolean;
   onReload?: () => void;
 }
 
 const ModalProduct = (props: Props) => {
-  const {visible, onClose, product, products, onReload} = props;
+  const {visible, onClose, product, isScan, onReload} = props;
   const [count, setCount] = useState(1);
   const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] =
     useState(false);
@@ -94,6 +95,11 @@ const ModalProduct = (props: Props) => {
   useEffect(() => {
     const items: string[] = [];
     if (producDetail) {
+      producDetail.notallergyfree.length > 0 &&
+        isScan &&
+        producDetail.notallergyfree.forEach(item =>
+          items.push(`${item}.isRed`),
+        );
       producDetail.diets.length > 0 &&
         producDetail.diets.forEach(item => items.push(item.name));
       producDetail.allergies.length > 0 &&
@@ -189,11 +195,13 @@ const ModalProduct = (props: Props) => {
   };
 
   const renderCategory = (item: string, index: number) => (
-    <TouchableOpacity
-      style={[
+    <RowComponent
+      styles={[
         global.shadow,
         {
-          backgroundColor: appColors.white,
+          backgroundColor: item.includes(`.isRed`)
+            ? '#F5E6E6'
+            : appColors.white,
           paddingHorizontal: 16,
           paddingVertical: 8,
           margin: 8,
@@ -202,8 +210,21 @@ const ModalProduct = (props: Props) => {
         },
       ]}
       key={`cat${index}`}>
-      <TextComponent text={item} flex={0} size={14} color={appColors.primary} />
-    </TouchableOpacity>
+      {item.includes('.isRed') && (
+        <Ionicons
+          name="warning"
+          size={14}
+          color={'#C63232'}
+          style={{marginRight: 4}}
+        />
+      )}
+      <TextComponent
+        text={item.includes('.isRed') ? item.split('.')[0] : item}
+        flex={0}
+        size={14}
+        color={item.includes('.isRed') ? '#C63232' : appColors.primary}
+      />
+    </RowComponent>
   );
 
   const renderButtonAdd = () => {
