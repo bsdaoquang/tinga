@@ -39,7 +39,9 @@ const grocerySlice = createSlice({
       if (index !== -1) {
         items.splice(index, 1);
       } else {
-        items.push(item);
+        const data = {...item};
+        data.qyt = item.qty ? item.qty : 1;
+        items.push(data);
       }
 
       state.groceries = items;

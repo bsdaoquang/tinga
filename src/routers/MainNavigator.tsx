@@ -73,7 +73,12 @@ const MainNavigator = () => {
         'post',
       );
       if (res && res.length > 0) {
+        // console.log(`item from api ${api}`);
         // console.log(res);
+        // res.forEach(item => {
+        //   console.log(`${item.qty}`);
+        // });
+
         dispatch(addGroceryList(res));
       }
     } catch (error) {

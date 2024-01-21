@@ -175,7 +175,10 @@ const SearchGrocery = ({navigation, route}: any) => {
                 color={appColors.white}
               />
             }
-            text={grocecyList.length}
+            text={grocecyList.reduce(
+              (a: any, b: any) => a + (b.qty ? b.qty : 1),
+              0,
+            )}
             textColor={appColors.white}
             styles={{
               minWidth: 48,

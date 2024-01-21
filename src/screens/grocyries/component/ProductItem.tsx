@@ -11,6 +11,8 @@ import {
   TextComponent,
 } from '../../../components';
 import {appColors} from '../../../constants/appColors';
+import {useDispatch} from 'react-redux';
+import {updateQuatity} from '../../../redux/reducers/groceryReducer';
 
 interface Props {
   item: ProductDetail;
@@ -18,23 +20,17 @@ interface Props {
   isSelected: boolean;
   isEdit?: boolean;
   onRemoveItem: () => void;
-  onChangeQuality: (count: number) => void;
 }
 
 const ProductItem = (props: Props) => {
-  const {
-    item,
-    onSelecteItem,
-    isSelected,
-    isEdit,
-    onRemoveItem,
-    onChangeQuality,
-  } = props;
+  const {item, onSelecteItem, isSelected, isEdit, onRemoveItem} = props;
+  const dispatch = useDispatch();
 
+  // console.log(item.qty);
   const [count, setCount] = useState(item.qty ?? 1);
 
   useEffect(() => {
-    count !== item.qty && onChangeQuality(count);
+    count !== item.qty && dispatch(updateQuatity({item, qty: count}));
   }, [count]);
 
   let color = isSelected ? appColors.gray : appColors.text;

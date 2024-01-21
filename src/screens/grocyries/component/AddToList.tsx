@@ -192,11 +192,6 @@ const AddToList = (props: Props) => {
                 onSelecteItem={(count: number) =>
                   handleToggleProduct(item, count)
                 }
-                onChangeQuality={(qty: number) => {
-                  item.qty
-                    ? qty !== item.qty && dispatch(updateQuatity({item, qty}))
-                    : undefined;
-                }}
                 onRemoveItem={() => dispatch(updateGroceryList(item))}
                 isSelected={
                   productSelected.findIndex(

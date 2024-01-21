@@ -39,7 +39,6 @@ const ModalWatingGenerateRecipe = (props: Props) => {
   }, [visible]);
 
   const getlistofFactsQuotes = async () => {
-    const apiDiet = `/dietpreference`;
     const dietType = await AsyncStorage.getItem(
       appInfos.localDataName.dietType,
     );

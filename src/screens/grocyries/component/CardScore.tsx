@@ -33,6 +33,12 @@ const CardScore = (props: Props) => {
   const auth = useSelector(authSelector);
   const groceryList: ProductDetail[] = useSelector(groceriesSelector);
 
+  useEffect(() => {
+    groceryList.forEach(item => {
+      // console.log(item.qty);
+    });
+  }, [groceryList]);
+
   const renderListScore = () => {
     const total = groceryList.reduce((a, b) => a + (b.qty ? b.qty : 1), 0);
     const itemGood = groceryList.filter(
@@ -46,6 +52,7 @@ const CardScore = (props: Props) => {
     const totalGood = itemGood.reduce((a, b) => a + (b.qty ? b.qty : 1), 0);
     const totalNormal = itemNormal.reduce((a, b) => a + (b.qty ? b.qty : 1), 0);
     const totalBad = itemBad.reduce((a, b) => a + (b.qty ? b.qty : 1), 0);
+
     return groceryList && groceryList.length > 0 ? (
       <View>
         <RowComponent>

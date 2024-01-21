@@ -142,12 +142,27 @@ const ModalizeFilter = (props: Props) => {
   const getAllgeries = async () => {
     const api = `/allergies`;
 
+    const dietType = await AsyncStorage.getItem(
+      appInfos.localDataName.dietType,
+    );
+
     try {
-      await handleGetData.handleProduct(api).then((res: any) => {
-        if (res) {
-          setAllergies(res);
+      const res: any = await handleGetData.handleProduct(api);
+
+      if (res) {
+        setAllergies(res);
+
+        if (!dietType) {
+          const item = res.find(
+            (element: any) => element.is_selected === 'Yes',
+          );
+          item &&
+            (await AsyncStorage.setItem(
+              appInfos.localDataName.dietType,
+              `${item.id}`,
+            ));
         }
-      });
+      }
     } catch (error) {
       console.log(error);
     }
