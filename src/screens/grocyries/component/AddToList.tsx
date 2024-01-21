@@ -88,9 +88,11 @@ const AddToList = (props: Props) => {
     let items = ``;
 
     productSelected.forEach((item, index) => {
-      items += `{"item_id": ${item.id},"qty": ${item.qty},"shop_id": ${
-        item.shop_id
-      }} ${index < productSelected.length - 1 ? ',' : ''}`;
+      items += `{"item_id": ${item.id},"qty": ${
+        item.qty ? item.qty : 1
+      },"shop_id": ${item.shop_id}} ${
+        index < productSelected.length - 1 ? ',' : ''
+      }`;
     });
 
     const api = `/completeListProductwise`;
