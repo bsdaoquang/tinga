@@ -18,23 +18,6 @@ import CardScore from './component/CardScore';
 const YourListScore = ({navigation, route}: any) => {
   // const {products}: {products: Product[]} = route.params;
   const [isVisibleModalScoreInfo, setIsVisibleModalScoreInfo] = useState(false);
-  const [listScore, setListScore] = useState<Scoredetails>();
-
-  useEffect(() => {
-    getListScore();
-  }, []);
-
-  const getListScore = async () => {
-    const api = `/groceryListScore`;
-    try {
-      const res: any = await handleGetData.handleProduct(api);
-      if (res && res.length > 0) {
-        setListScore(res[0]);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <Container back isScroll paddingBottom={0}>
@@ -55,7 +38,6 @@ const YourListScore = ({navigation, route}: any) => {
           />
         </RowComponent>
       </SectionComponent>
-      {/* {listScore && <CardScore listScore={listScore} />} */}
       <CardScore />
       <SectionComponent>
         <TitleComponent

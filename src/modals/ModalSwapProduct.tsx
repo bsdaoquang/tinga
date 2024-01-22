@@ -25,6 +25,7 @@ import {
   groceriesSelector,
 } from '../redux/reducers/groceryReducer';
 import {HandleGrocery} from '../utils/handleGrocery';
+import {addSelected, selectedSelector} from '../redux/reducers/selectedReducer';
 
 interface Props {
   isVisible: boolean;
@@ -40,6 +41,7 @@ const ModalSwapProduct = (props: Props) => {
   const [productDetail, setproductDetail] = useState<ProductDetail>();
 
   const groceryList: ProductDetail[] = useSelector(groceriesSelector);
+  const productSelected: ProductDetail[] = useSelector(selectedSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -66,7 +68,7 @@ const ModalSwapProduct = (props: Props) => {
 
   const handleSwapItem = async () => {
     const items = [...groceryList];
-
+    const itemsSelected = [...productSelected];
     if (productDetail && swapProduct) {
       const index = items.findIndex(
         element =>
@@ -74,10 +76,27 @@ const ModalSwapProduct = (props: Props) => {
           element.shop_id === productDetail.shop_id,
       );
 
+      const indexOfSelected = itemsSelected.findIndex(
+        element =>
+          element.id === productDetail?.id &&
+          element.shop_id === productDetail.shop_id,
+      );
+
+      if (indexOfSelected !== -1) {
+        itemsSelected[indexOfSelected] = {
+          ...swapProduct,
+          qty: itemsSelected[index].qty ?? 1,
+        };
+
+        dispatch(addSelected(itemsSelected));
+      } else {
+        console.log(`not selected item`);
+      }
+
       if (index !== -1) {
         // console.log(swapProduct);
         setIsSwaping(true);
-        items[index] = swapProduct;
+        items[index] = {...swapProduct, qty: items[index].qty ?? 1};
 
         dispatch(addGroceryList(items));
         setIsSwaping(false);
@@ -156,7 +175,11 @@ const ModalSwapProduct = (props: Props) => {
     </CardContent>
   );
   return (
-    <Modal visible={isVisible} transparent animationType="slide">
+    <Modal
+      visible={isVisible}
+      transparent
+      animationType="slide"
+      statusBarTranslucent>
       <View style={[global.modalContainer]}>
         <View style={[global.modalContent]}>
           <RowComponent>

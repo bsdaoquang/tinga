@@ -17,13 +17,16 @@ import {LoadingModal} from '../../../modals';
 import {
   groceriesSelector,
   updateGroceryList,
-  updateQuatity,
 } from '../../../redux/reducers/groceryReducer';
+import {
+  addSelected,
+  selectedSelector,
+  updateSelected,
+} from '../../../redux/reducers/selectedReducer';
 import {showToast} from '../../../utils/showToast';
 import CardScore from './CardScore';
 import ProductItem from './ProductItem';
 import ShopListItems from './ShopListItems';
-import axios from 'axios';
 
 interface Props {
   isEdit: boolean;
@@ -38,12 +41,12 @@ const AddToList = (props: Props) => {
   const {isEdit} = props;
 
   const [storeSelected, setStoreSelected] = useState(0);
-  const [productSelected, setProductSelected] = useState<ProductDetail[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [sectionData, setSectionData] = useState<Section[]>([]);
 
   const navigation: any = useNavigation();
   const groceryList: ProductDetail[] = useSelector(groceriesSelector);
+  const productSelected: ProductDetail[] = useSelector(selectedSelector);
 
   const dispatch = useDispatch();
 
@@ -72,18 +75,6 @@ const AddToList = (props: Props) => {
     setSectionData(items);
   }, [groceryList]);
 
-  const handleSelectAllProducts = () => {
-    const items = [...productSelected];
-    groceryList.forEach(item => {
-      const index = productSelected.findIndex(
-        element => element.id === item.id,
-      );
-
-      index === -1 && items.push(item);
-    });
-    setProductSelected(items);
-  };
-
   const handleCompleteList = async () => {
     let items = ``;
 
@@ -111,7 +102,7 @@ const AddToList = (props: Props) => {
       if (res && res.success) {
         // remove item after add list
         productSelected.forEach(item => dispatch(updateGroceryList(item)));
-        setProductSelected([]);
+        // setProductSelected([]);
       } else {
         showToast(res.message);
       }
@@ -120,22 +111,6 @@ const AddToList = (props: Props) => {
       console.log(`Can not completed list ${error}`);
       setIsLoading(false);
     }
-  };
-
-  const handleToggleProduct = (item: ProductDetail, qty: number) => {
-    item.qty = qty;
-    const items = [...productSelected];
-    const index = items.findIndex(
-      element => element.id === item.id && element.shop_id === item.shop_id,
-    );
-
-    if (index !== -1) {
-      items.splice(index, 1);
-    } else {
-      items.push(item);
-    }
-
-    setProductSelected(items);
   };
 
   return (
@@ -163,8 +138,8 @@ const AddToList = (props: Props) => {
                       }
                       onPress={() =>
                         productSelected.length !== groceryList.length
-                          ? handleSelectAllProducts()
-                          : setProductSelected([])
+                          ? dispatch(addSelected(groceryList))
+                          : dispatch(addSelected([]))
                       }
                     />
                   </RowComponent>
@@ -190,7 +165,7 @@ const AddToList = (props: Props) => {
                 isEdit={isEdit}
                 item={item}
                 onSelecteItem={(count: number) =>
-                  handleToggleProduct(item, count)
+                  dispatch(updateSelected(item))
                 }
                 onRemoveItem={() => dispatch(updateGroceryList(item))}
                 isSelected={

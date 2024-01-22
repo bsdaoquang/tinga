@@ -47,6 +47,7 @@ import ModalFoodScoreInfo from './ModalFoodScoreInfo';
 import {
   groceriesSelector,
   updateGroceryList,
+  updateQuatity,
 } from '../redux/reducers/groceryReducer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -236,32 +237,71 @@ const ModalProduct = (props: Props) => {
 
     return (
       producDetail && (
-        <View
-          style={{
-            flex: 1,
-          }}>
-          <ButtonComponent
-            disable={index !== -1 ? true : false}
-            disableColor="#B7B7B7"
-            icon={
-              producDetail?.is_addedtolist === 1 && (
-                <FontAwesome5Icon
-                  name="check"
-                  size={18}
-                  color={appColors.white}
-                />
-              )
-            }
-            text={index !== -1 ? 'Added' : 'Add to List'}
-            onPress={() => {
-              const data: ProductDetail = {...producDetail};
-              data.qty = count;
+        <>
+          {index !== -1 ? (
+            <View style={{flex: 1, alignItems: 'center'}}>
+              <TextComponent
+                styles={{paddingHorizontal: 8}}
+                text={`${groceryList[index].qty} ct`}
+                flex={0}
+                size={14}
+                color={appColors.text2}
+              />
+            </View>
+          ) : (
+            <RowComponent
+              styles={{
+                flex: 1,
+              }}>
+              <RowComponent>
+                {count && count > 1 && (
+                  <Button
+                    icon={<MinusSquare size={22} color={appColors.text2} />}
+                    onPress={() => setCount(count - 1)}
+                  />
+                )}
 
-              dispatch(updateGroceryList(data));
-            }}
-            textColor={index !== -1 ? appColors.white : appColors.text}
-          />
-        </View>
+                <TextComponent
+                  styles={{paddingHorizontal: 8}}
+                  text={`${count} ct`}
+                  flex={0}
+                  size={14}
+                  color={appColors.text2}
+                />
+                <Button
+                  icon={<AddSquare size={22} color={appColors.text2} />}
+                  onPress={() => setCount(count ? count + 1 : 1)}
+                />
+              </RowComponent>
+            </RowComponent>
+          )}
+          <View
+            style={{
+              flex: 1,
+            }}>
+            <ButtonComponent
+              disable={index !== -1 ? true : false}
+              disableColor="#B7B7B7"
+              icon={
+                producDetail?.is_addedtolist === 1 && (
+                  <FontAwesome5Icon
+                    name="check"
+                    size={18}
+                    color={appColors.white}
+                  />
+                )
+              }
+              text={index !== -1 ? 'Added' : 'Add to List'}
+              onPress={() => {
+                const data: ProductDetail = {...producDetail};
+                data.qty = count;
+
+                dispatch(updateGroceryList(data));
+              }}
+              textColor={index !== -1 ? appColors.white : appColors.text}
+            />
+          </View>
+        </>
       )
     );
   };
@@ -377,34 +417,7 @@ const ModalProduct = (props: Props) => {
               backgroundColor: appColors.white,
               padding: 16,
             }}>
-            <RowComponent>
-              <RowComponent
-                styles={{
-                  flex: 1,
-                }}>
-                <RowComponent>
-                  {count && count > 1 && (
-                    <Button
-                      icon={<MinusSquare size={22} color={appColors.text2} />}
-                      onPress={() => setCount(count - 1)}
-                    />
-                  )}
-
-                  <TextComponent
-                    styles={{paddingHorizontal: 8}}
-                    text={`${count} ct`}
-                    flex={0}
-                    size={14}
-                    color={appColors.text2}
-                  />
-                  <Button
-                    icon={<AddSquare size={22} color={appColors.text2} />}
-                    onPress={() => setCount(count ? count + 1 : 1)}
-                  />
-                </RowComponent>
-              </RowComponent>
-              {renderButtonAdd()}
-            </RowComponent>
+            <RowComponent>{renderButtonAdd()}</RowComponent>
           </View>
         }
         handleStyle={{backgroundColor: 'transparent'}}
@@ -462,21 +475,6 @@ const ModalProduct = (props: Props) => {
                       size={12}
                     />
                   </RowComponent>
-                  {/* <RowComponent
-                    styles={{
-                      backgroundColor: '#41393E70',
-                      flex: 0,
-                      borderRadius: 100,
-                      paddingVertical: 8,
-                      paddingHorizontal: 12,
-                    }}>
-                    <TextComponent
-                      text="1 / 25"
-                      color={appColors.white}
-                      flex={0}
-                      size={12}
-                    />
-                  </RowComponent> */}
                 </RowComponent>
               </LinearGradient>
             </ImageBackground>
@@ -575,7 +573,10 @@ const ModalProduct = (props: Props) => {
             <SectionComponent>
               <SwapItemsComponent
                 product={producDetail}
-                onSwapItem={val => getProducDetail(val.id, val.shop_id)}
+                onSwapItem={val => {
+                  setCount(1);
+                  getProducDetail(val.id, val.shop_id);
+                }}
               />
             </SectionComponent>
 
