@@ -70,7 +70,7 @@ const RecipesList = () => {
             showsHorizontalScrollIndicator={false}
             data={favouritedRecipes}
             onScroll={event => {
-              const index = Math.floor(
+              const index = Math.round(
                 event.nativeEvent.contentOffset.x /
                   ((appSize.width - (32 + 12)) / 2),
               );

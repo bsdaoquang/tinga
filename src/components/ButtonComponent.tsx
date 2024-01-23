@@ -18,7 +18,7 @@ interface Props {
   outline?: boolean;
   color?: string;
   textColor?: string;
-  width?: number;
+  width?: any;
   icon?: ReactNode;
   flex?: number;
   disable?: boolean;

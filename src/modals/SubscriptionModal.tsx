@@ -191,8 +191,8 @@ const SubscriptionModal = (props: Props) => {
     );
 
     const percent = isWellCome
-      ? Math.floor(100 - (item.offer_price / item.price) * 100).toFixed(0)
-      : Math.floor(100 - (item.claim_price / item.price) * 100).toFixed(0);
+      ? Math.round(100 - (item.offer_price / item.price) * 100).toFixed(0)
+      : Math.round(100 - (item.claim_price / item.price) * 100).toFixed(0);
     return (
       <CardContent
         key={item.id}

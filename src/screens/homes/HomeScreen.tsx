@@ -11,6 +11,7 @@ import {
   ButtonComponent,
   ButtonIcon,
   CardContent,
+  ChartPieItem,
   Container,
   RowComponent,
   SectionComponent,
@@ -37,6 +38,8 @@ import HomeCarousels from './components/HomeCarousels';
 import Promotions from './components/Promotions';
 import RecipesList from './components/RecipesList';
 import VideoComponent from './components/VideoComponent';
+import handleGetData from '../../apis/productAPI';
+import {Score} from '../../Models/Score';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -46,6 +49,8 @@ const HomeScreen = ({navigation, route}: any) => {
   const [videos, setVideos] = useState<VideoModel[]>([]);
   const [isVisibleModalAlert, setIsVisibleModalAlert] = useState(false);
   const [alertDetail, setAlertDetail] = useState<AlertDetail>();
+  const [avgScore, setAvgScore] = useState<Score>();
+  const [recipeDisplay, setRecipeDisplay] = useState('0');
 
   const auth = useSelector(authSelector);
 
@@ -58,6 +63,8 @@ const HomeScreen = ({navigation, route}: any) => {
       }, 1500);
     }
     getVideos();
+    getAvgScore();
+    checkShowRecipes();
   }, []);
 
   // console.log(auth);
@@ -68,6 +75,30 @@ const HomeScreen = ({navigation, route}: any) => {
     //     setIsVisibleModalRating(true);
     //   }, 3000);
   }, []);
+
+  const checkShowRecipes = async () => {
+    const api = `/settings`;
+    try {
+      const res: any = await dashboardAPI.HandleAPI(api);
+      res &&
+        res.recipe_display &&
+        setRecipeDisplay(res.recipe_display.toString());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getAvgScore = async () => {
+    const api = `/avgListScore`;
+
+    try {
+      const res: any = await handleGetData.handleUser(api);
+
+      res && setAvgScore(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getVideos = async () => {
     const api = `/videos`;
@@ -81,6 +112,8 @@ const HomeScreen = ({navigation, route}: any) => {
       showToast('Can not get videos');
     }
   };
+
+  console.log(`recipe_display:  ${recipeDisplay}`);
 
   return (
     <>
@@ -137,14 +170,26 @@ const HomeScreen = ({navigation, route}: any) => {
                 flexDirection: 'row',
               }}
               onPress={() => navigation.navigate('ProfileScreen')}>
-              {groceryList.length > 0 && (
+              {avgScore && (
                 <View
                   style={{
                     padding: 3,
                     backgroundColor: appColors.white,
                     borderRadius: 100,
                   }}>
-                  <CardScore type="circle" size={32} />
+                  <ChartPieItem
+                    total={`${avgScore?.list_score}`}
+                    size={28}
+                    fontSize={14}
+                    data={{
+                      values: [
+                        avgScore.green_line,
+                        avgScore.orange_line,
+                        avgScore.red_line,
+                      ],
+                    }}
+                    radius={0.9}
+                  />
                 </View>
               )}
 
@@ -224,7 +269,7 @@ const HomeScreen = ({navigation, route}: any) => {
             paddingHorizontal: 0,
             backgroundColor: appColors.white,
           }}>
-          <RecipesList />
+          {recipeDisplay && recipeDisplay !== '0' && <RecipesList />}
           <CategoriesList title="Tips for you" url="/tipsForYou" />
           <CategoriesList title="Healthier Planning" url={'/healthiereating'} />
         </SectionComponent>

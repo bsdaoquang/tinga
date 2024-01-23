@@ -61,6 +61,7 @@ const CategoryDetail = ({navigation, route}: any) => {
         res.forEach((item: any) => currentData.push(item));
         setProducts(currentData);
       } else {
+        showToast('End of products');
         setLoadmoreable(false);
       }
       setLoadmore(false);

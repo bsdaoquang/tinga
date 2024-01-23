@@ -111,7 +111,7 @@ const CategoriesList = ({title, url}: Props) => {
             showsHorizontalScrollIndicator={false}
             data={tips}
             onScroll={event => {
-              const index = Math.floor(event.nativeEvent.contentOffset.x / 186);
+              const index = Math.round(event.nativeEvent.contentOffset.x / 186);
               setIndexItem(index);
             }}
             renderItem={({item}) => renderCardItem(item)}

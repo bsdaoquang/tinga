@@ -57,10 +57,9 @@ const CardScore = (props: Props) => {
       <View>
         <RowComponent>
           <ChartPieItem
-            total={`${
-              Math.floor((totalGood / total) * 100) +
-              Math.floor(((totalNormal / total) * 100) / 2)
-            }`}
+            total={`${Math.round(
+              (totalGood / total) * 100 + ((totalNormal / total) * 100) / 2,
+            )}`}
             size={74}
             fontSize={28}
             data={{
@@ -90,7 +89,7 @@ const CardScore = (props: Props) => {
                 <TextComponent text="👍" size={12} flex={0} />
               </View>
               <TitleComponent
-                text={` ${((totalGood / total) * 100).toFixed(0)}%`}
+                text={` ${Math.round((totalGood / total) * 100)}%`}
                 size={12}
                 flex={0}
               />
@@ -113,7 +112,7 @@ const CardScore = (props: Props) => {
                 <TextComponent text="👌" size={12} flex={0} />
               </View>
               <TitleComponent
-                text={` ${((totalNormal / total) * 100).toFixed(0)}%`}
+                text={` ${Math.round((totalNormal / total) * 100)}%`}
                 size={12}
                 flex={0}
               />
@@ -138,7 +137,7 @@ const CardScore = (props: Props) => {
                 <TextComponent text="👍" size={12} flex={0} styles={{}} />
               </View>
               <TitleComponent
-                text={` ${((totalBad / total) * 100).toFixed(0)}%`}
+                text={` ${Math.round((totalBad / total) * 100)}%`}
                 size={12}
                 flex={0}
               />
@@ -215,8 +214,8 @@ const CardScore = (props: Props) => {
       <View>
         <ChartPieItem
           total={`${
-            Math.floor((totalGood / total) * 100) +
-            Math.floor(((totalNormal / total) * 100) / 2)
+            Math.round((totalGood / total) * 100) +
+            Math.round(((totalNormal / total) * 100) / 2)
           }`}
           size={size ?? 24}
           fontSize={size ? size - 14 : 14}

@@ -407,15 +407,7 @@ const ModalizeFilter = (props: Props) => {
                   handleClearAll();
                 }}
               />
-              <ButtonComponent
-                text="Show 300+ results"
-                onPress={() => {
-                  setIsShowAllergy(true);
-                  setIsShowDiets(true);
-                  setIsShowDislike(true);
-                  setIsShowShop(true);
-                }}
-              />
+              <ButtonComponent width={'50%'} text="Apply" onPress={onClose} />
             </RowComponent>
           }>
           <View
