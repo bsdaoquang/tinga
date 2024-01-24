@@ -54,11 +54,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 interface Props {
   visible: boolean;
   onClose: () => void;
-  product?: Product;
-  // onAddToList?: (count: number) => void;
+  product?: any;
   isScan?: boolean;
   onReload?: () => void;
 }
+
+const tagsStyles: any = {
+  body: {
+    fontFamily: 'GreycliffCF-Regular',
+    whiteSpace: 'normal',
+    color: appColors.text,
+    lineHeight: 19,
+  },
+};
 
 const ModalProduct = (props: Props) => {
   const {visible, onClose, product, isScan, onReload} = props;
@@ -354,15 +362,6 @@ const ModalProduct = (props: Props) => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const tagsStyles: any = {
-    body: {
-      fontFamily: 'GreycliffCF-Regular',
-      whiteSpace: 'normal',
-      color: appColors.text,
-      lineHeight: 19,
-    },
   };
 
   const renderThumbType = () => {

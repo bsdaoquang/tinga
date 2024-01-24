@@ -43,7 +43,7 @@ import {global} from '../styles/global';
 import {showToast} from '../utils/showToast';
 import LoadingModal from './LoadingModal';
 import ModalFoodScoreInfo from './ModalFoodScoreInfo';
-import {ProductDetail} from '../Models/Product';
+import {Product, ProductDetail} from '../Models/Product';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   groceriesSelector,
@@ -51,6 +51,7 @@ import {
 } from '../redux/reducers/groceryReducer';
 import {useNavigation} from '@react-navigation/native';
 import LoadingDotComponent from '../components/LoadingDotComponent';
+import {ModalProduct} from '.';
 
 interface Props {
   visible: boolean;
@@ -73,6 +74,9 @@ const ModalizeRecipeDetail = (props: Props) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [productSelected, setProductSelected] = useState<ProductStore[]>([]);
   const [isLoadingIngredients, setIsLoadingIngredients] = useState(false);
+  const [isVisibileModalProduct, setIsVisibileModalProduct] = useState(false);
+  const [ProductDetail, setProductDetail] = useState<any>();
+
   const groceryList: ProductDetail[] = useSelector(groceriesSelector);
   const dispatch = useDispatch();
   const modalRef = useRef<Modalize>();
@@ -184,7 +188,11 @@ const ModalizeRecipeDetail = (props: Props) => {
     );
 
     return (
-      <View
+      <TouchableOpacity
+        onPress={() => {
+          setProductDetail(item);
+          setIsVisibileModalProduct(true);
+        }}
         key={item.id}
         style={[
           global.shadow,
@@ -300,407 +308,419 @@ const ModalizeRecipeDetail = (props: Props) => {
             <Add size={26} color={appColors.white} />
           )}
         </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   return (
-    <Portal>
-      <Modalize
-        avoidKeyboardLikeIOS
-        onClose={onClose}
-        ref={modalRef}
-        // adjustToContentHeight
-        handlePosition="inside"
-        modalStyle={{
-          backgroundColor: appColors.bgColor,
-          borderTopLeftRadius: 12,
-          borderTopRightRadius: 12,
-        }}
-        disableScrollIfPossible={false}
-        scrollViewProps={{showsVerticalScrollIndicator: false}}
-        HeaderComponent={
-          <RowComponent
-            justify="space-between"
-            styles={{
-              padding: 20,
-              backgroundColor: appColors.success2,
-              borderTopLeftRadius: 12,
-              borderTopRightRadius: 12,
-            }}>
-            <TouchableOpacity onPress={() => handleCloseModal()}>
-              <AntDesign name="close" color={appColors.white} size={22} />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => handleAddToFavourit()}>
-              <Heart
-                variant={
-                  recipeDetail?.is_favourite === '1' ? 'Bold' : 'Outline'
-                }
-                color={appColors.white}
-                size={24}
-              />
-            </TouchableOpacity>
-          </RowComponent>
-        }
-        FooterComponent={
-          !isLoading ? (
-            productSelected.length > 0 && (
-              <RowComponent
-                styles={{
-                  padding: 12,
-                  paddingHorizontal: 16,
-                  backgroundColor: appColors.white,
-                  paddingBottom: 20,
-                }}>
-                <View style={{flex: 1}}>
-                  <ButtonComponent
-                    color={appColors.success1}
-                    styles={{
-                      paddingVertical: 15,
-                    }}
-                    textColor={appColors.text}
-                    text={`Add ${productSelected.length} Ingredients to List`}
-                    onPress={handleAddMoultiProduct}
-                  />
-                </View>
-                <RowComponent
-                  onPress={() => {
-                    setProductSelected([]);
-                    modalRef.current?.close();
-
-                    navigation.navigate('Grocery List', {
-                      screen: 'GroceryScreen',
-                    });
-                  }}
-                  styles={{
-                    marginLeft: 12,
-                    backgroundColor: appColors.primary,
-                    borderRadius: 12,
-                    padding: 15,
-                  }}>
-                  <FontAwesome5 name="shopping-cart" color={appColors.white} />
-                  <SpaceComponent width={6} />
-                  <TitleComponent
-                    text={`${groceryList.reduce(
-                      (a, b) => a + (b.qty ? b.qty : 1),
-                      0,
-                    )}`}
-                    flex={0}
-                    color={appColors.white}
-                    font={fontFamilys.bold}
-                    size={18}
-                  />
-                </RowComponent>
-              </RowComponent>
-            )
-          ) : (
-            <></>
-          )
-        }
-        handleStyle={{backgroundColor: appColors.gray}}>
-        {item && (
-          <ScrollView>
-            <View
-              style={{
+    <>
+      <Portal>
+        <Modalize
+          avoidKeyboardLikeIOS
+          onClose={onClose}
+          ref={modalRef}
+          // adjustToContentHeight
+          handlePosition="inside"
+          modalStyle={{
+            backgroundColor: appColors.bgColor,
+            borderTopLeftRadius: 12,
+            borderTopRightRadius: 12,
+          }}
+          disableScrollIfPossible={false}
+          scrollViewProps={{showsVerticalScrollIndicator: false}}
+          HeaderComponent={
+            <RowComponent
+              justify="space-between"
+              styles={{
+                padding: 20,
                 backgroundColor: appColors.success2,
-                padding: 20,
+                borderTopLeftRadius: 12,
+                borderTopRightRadius: 12,
               }}>
-              <TitleComponent
-                text={item.meal_title}
-                flex={1}
-                size={24}
-                color={appColors.white}
-                line={2}
-              />
+              <TouchableOpacity onPress={() => handleCloseModal()}>
+                <AntDesign name="close" color={appColors.white} size={22} />
+              </TouchableOpacity>
 
-              <TextComponent
-                styles={{paddingVertical: 8}}
-                color={appColors.white}
-                text={`${item.cook_time} · Serves ${item.noservings} · ${item.type}`}
-                line={22}
-                flex={0}
-              />
-            </View>
-
-            <View
-              style={{
-                padding: 20,
-                backgroundColor: appColors.bgColor,
-                flex: 1,
-                height: 'auto',
-              }}>
-              {isLoading ? (
-                <LoadingDotComponent />
-              ) : recipeDetail ? (
-                <>
-                  {recipeIngredients?.allergyfree && (
-                    <FlatList
-                      horizontal
-                      showsHorizontalScrollIndicator={false}
-                      data={recipeIngredients.allergyfree}
-                      renderItem={({item, index}) => (
-                        <View
-                          key={`allergyfree${index}`}
-                          style={[
-                            global.shadow,
-                            global.button,
-                            {
-                              borderRadius: 100,
-                              height: 40,
-                              paddingVertical: 0,
-                              backgroundColor: appColors.white,
-                              marginBottom: 12,
-                              marginHorizontal: 4,
-                            },
-                          ]}>
-                          <TextComponent
-                            text={item}
-                            flex={0}
-                            color={appColors.success2}
-                          />
-                        </View>
-                      )}
-                    />
-                  )}
-
-                  {recipeIngredients?.notallergyfree && (
-                    <FlatList
-                      horizontal
-                      showsHorizontalScrollIndicator={false}
-                      data={recipeIngredients.notallergyfree}
-                      renderItem={({item, index}) => (
-                        <RowComponent
-                          key={`allergyfree${index}`}
-                          styles={[
-                            global.shadow,
-
-                            {
-                              borderRadius: 100,
-                              marginBottom: 12,
-                              backgroundColor: `#F5E6E6`,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              paddingVertical: 8,
-                              paddingHorizontal: 16,
-                              marginRight: 8,
-                            },
-                          ]}>
-                          <Danger
-                            variant="Bold"
-                            size={20}
-                            color={appColors.error2}
-                          />
-                          <SpaceComponent width={8} />
-                          <TextComponent
-                            text={item}
-                            flex={0}
-                            color={appColors.error}
-                          />
-                        </RowComponent>
-                      )}
-                    />
-                  )}
-                  <View style={{paddingTop: 16}}>
-                    <TextComponent
-                      styles={{textAlign: 'justify'}}
-                      text={recipeDetail?.description}
+              <TouchableOpacity onPress={() => handleAddToFavourit()}>
+                <Heart
+                  variant={
+                    recipeDetail?.is_favourite === '1' ? 'Bold' : 'Outline'
+                  }
+                  color={appColors.white}
+                  size={24}
+                />
+              </TouchableOpacity>
+            </RowComponent>
+          }
+          FooterComponent={
+            !isLoading ? (
+              productSelected.length > 0 && (
+                <RowComponent
+                  styles={{
+                    padding: 12,
+                    paddingHorizontal: 16,
+                    backgroundColor: appColors.white,
+                    paddingBottom: 20,
+                  }}>
+                  <View style={{flex: 1}}>
+                    <ButtonComponent
+                      color={appColors.success1}
+                      styles={{
+                        paddingVertical: 15,
+                      }}
+                      textColor={appColors.text}
+                      text={`Add ${productSelected.length} Ingredients to List`}
+                      onPress={handleAddMoultiProduct}
                     />
                   </View>
-                  <View style={{paddingTop: 16}}>
-                    <RowComponent styles={{marginBottom: 8}}>
-                      <TitleComponent text="Ingredients" size={20} />
-                      <TouchableOpacity
-                        onPress={() =>
-                          setIsVisibleIngredients(!isVisibleIngredients)
-                        }>
-                        {isVisibleIngredients ? (
-                          <ArrowUp2 size={24} color={appColors.text2} />
-                        ) : (
-                          <ArrowDown2 size={24} color={appColors.text2} />
-                        )}
-                      </TouchableOpacity>
-                    </RowComponent>
-                    {isVisibleIngredients && (
-                      <>
-                        <TextComponent
-                          text="Note: Check ingredient quantities before adding to your list."
-                          size={12}
-                        />
+                  <RowComponent
+                    onPress={() => {
+                      setProductSelected([]);
+                      modalRef.current?.close();
 
-                        {isLoadingIngredients ? (
-                          <LoadingDotComponent mess="Searching for products" />
-                        ) : (
-                          recipeIngredients?.instore && (
-                            <RowComponent justify="space-between">
-                              {recipeIngredients.instore.map((item, index) =>
-                                renderProductItem(item),
-                              )}
-                            </RowComponent>
-                          )
-                        )}
+                      navigation.navigate('Grocery List', {
+                        screen: 'GroceryScreen',
+                      });
+                    }}
+                    styles={{
+                      marginLeft: 12,
+                      backgroundColor: appColors.primary,
+                      borderRadius: 12,
+                      padding: 15,
+                    }}>
+                    <FontAwesome5
+                      name="shopping-cart"
+                      color={appColors.white}
+                    />
+                    <SpaceComponent width={6} />
+                    <TitleComponent
+                      text={`${groceryList.reduce(
+                        (a, b) => a + (b.qty ? b.qty : 1),
+                        0,
+                      )}`}
+                      flex={0}
+                      color={appColors.white}
+                      font={fontFamilys.bold}
+                      size={18}
+                    />
+                  </RowComponent>
+                </RowComponent>
+              )
+            ) : (
+              <></>
+            )
+          }
+          handleStyle={{backgroundColor: appColors.gray}}>
+          {item && (
+            <ScrollView>
+              <View
+                style={{
+                  backgroundColor: appColors.success2,
+                  padding: 20,
+                }}>
+                <TitleComponent
+                  text={item.meal_title}
+                  flex={1}
+                  size={24}
+                  color={appColors.white}
+                  line={2}
+                />
 
-                        <View style={{paddingTop: 16}}>
-                          <RowComponent styles={{marginBottom: 8}}>
-                            <TitleComponent
-                              text="Ingredients you may already have"
-                              size={20}
-                            />
-                          </RowComponent>
-                          {isLoadingIngredients ? (
-                            <LoadingDotComponent mess="" />
-                          ) : (
-                            <RowComponent justify="space-between">
-                              {recipeIngredients?.ingrocerylist.map(
-                                (item, index) => renderProductItem(item),
-                              )}
-                            </RowComponent>
-                          )}
-                        </View>
+                <TextComponent
+                  styles={{paddingVertical: 8}}
+                  color={appColors.white}
+                  text={`${item.cook_time} · Serves ${item.noservings} · ${item.type}`}
+                  line={22}
+                  flex={0}
+                />
+              </View>
 
-                        <View style={{paddingTop: 16}}>
-                          <RowComponent styles={{marginBottom: 8}}>
-                            <TitleComponent
-                              text="Ingredients/items not available through Tinga"
-                              size={20}
-                            />
-                          </RowComponent>
-
-                          <RowComponent justify="space-between">
-                            {recipeIngredients?.notinstore.map(
-                              (name, index) => (
-                                <View
-                                  key={`noinstore${index}`}
-                                  style={[
-                                    global.shadow,
-                                    {
-                                      width: (appSize.width - 64) / 2,
-                                      height: 170,
-                                      marginBottom: 16,
-                                    },
-                                  ]}>
-                                  <FastImage
-                                    source={require('../assets/images/no-image.jpg')}
-                                    style={{
-                                      width: '100%',
-                                      flex: 1,
-
-                                      borderTopLeftRadius: 8,
-                                      borderTopRightRadius: 8,
-                                    }}
-                                    resizeMode={FastImage.resizeMode.cover}
-                                  />
-                                  <View
-                                    style={{
-                                      backgroundColor: appColors.white,
-                                      padding: 8,
-                                      paddingVertical: 12,
-                                      borderBottomLeftRadius: 8,
-                                      borderBottomRightRadius: 8,
-                                      flex: 0,
-                                      justifyContent: 'center',
-                                    }}>
-                                    <TextComponent
-                                      text={name}
-                                      styles={{marginVertical: 4}}
-                                      size={12}
-                                      flex={0}
-                                      line={2}
-                                      height={16}
-                                    />
-                                  </View>
-                                </View>
-                              ),
-                            )}
-                          </RowComponent>
-                        </View>
-                      </>
-                    )}
-                  </View>
-
-                  <View style={{paddingTop: 16}}>
-                    <RowComponent styles={{marginBottom: 8}}>
-                      <TitleComponent text="Prepare Ingredients" size={20} />
-                      <TouchableOpacity
-                        onPress={() =>
-                          setIsPrepareIngredients(!isPrepareIngredients)
-                        }>
-                        {isPrepareIngredients ? (
-                          <ArrowUp2 size={24} color={appColors.text2} />
-                        ) : (
-                          <ArrowDown2 size={24} color={appColors.text2} />
-                        )}
-                      </TouchableOpacity>
-                    </RowComponent>
-                    {isPrepareIngredients && (
-                      <View>
-                        {recipeDetail.ingredients.map((item, index) => (
-                          <TextComponent
-                            key={`ingredients${index}`}
-                            text={`· ${item}`}
-                            height={22}
-                            font={fontFamilys.medium}
-                          />
-                        ))}
-                      </View>
-                    )}
-                  </View>
-                  <View style={{paddingTop: 16}}>
-                    <RowComponent styles={{marginBottom: 8}}>
-                      <TitleComponent text="Instructions" size={20} />
-                      <TouchableOpacity
-                        onPress={() =>
-                          setIsShowIntroductions(!isShowIntroductions)
-                        }>
-                        {isShowIntroductions ? (
-                          <ArrowUp2 size={24} color={appColors.text2} />
-                        ) : (
-                          <ArrowDown2 size={24} color={appColors.text2} />
-                        )}
-                      </TouchableOpacity>
-                    </RowComponent>
-                    {isShowIntroductions &&
-                      recipeDetail.cooking_instruction.map((item, index) => (
-                        <RowComponent
-                          key={`instruction${index}`}
-                          styles={{
-                            marginBottom: 8,
-                            alignItems: 'flex-start',
-                          }}>
-                          <TitleComponent
-                            flex={0}
-                            text={`${index + 1}.`}
-                            size={20}
-                            color={appColors.success2}
-                            styles={{marginTop: -4}}
-                          />
-                          <View style={{flex: 1, marginLeft: 4}}>
+              <View
+                style={{
+                  padding: 20,
+                  backgroundColor: appColors.bgColor,
+                  flex: 1,
+                  height: 'auto',
+                }}>
+                {isLoading ? (
+                  <LoadingDotComponent />
+                ) : recipeDetail ? (
+                  <>
+                    {recipeIngredients?.allergyfree && (
+                      <FlatList
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        data={recipeIngredients.allergyfree}
+                        renderItem={({item, index}) => (
+                          <View
+                            key={`allergyfree${index}`}
+                            style={[
+                              global.shadow,
+                              global.button,
+                              {
+                                borderRadius: 100,
+                                height: 40,
+                                paddingVertical: 0,
+                                backgroundColor: appColors.white,
+                                marginBottom: 12,
+                                marginHorizontal: 4,
+                              },
+                            ]}>
                             <TextComponent
-                              text={`${item}`}
+                              text={item}
                               flex={0}
-                              font={fontFamilys.medium}
+                              color={appColors.success2}
                             />
                           </View>
-                        </RowComponent>
-                      ))}
-                  </View>
-                </>
-              ) : (
-                <>
-                  <TextComponent text="Recipe detail not found" />
-                </>
-              )}
-            </View>
-          </ScrollView>
-        )}
+                        )}
+                      />
+                    )}
 
-        <ModalFoodScoreInfo
-          visible={isVisibleModalScore}
-          onClose={() => setIsVisibleModalScore(false)}
-        />
-        <LoadingModal visible={isUpdate} />
-      </Modalize>
-    </Portal>
+                    {recipeIngredients?.notallergyfree && (
+                      <FlatList
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        data={recipeIngredients.notallergyfree}
+                        renderItem={({item, index}) => (
+                          <RowComponent
+                            key={`allergyfree${index}`}
+                            styles={[
+                              global.shadow,
+
+                              {
+                                borderRadius: 100,
+                                marginBottom: 12,
+                                backgroundColor: `#F5E6E6`,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingVertical: 8,
+                                paddingHorizontal: 16,
+                                marginRight: 8,
+                              },
+                            ]}>
+                            <Danger
+                              variant="Bold"
+                              size={20}
+                              color={appColors.error2}
+                            />
+                            <SpaceComponent width={8} />
+                            <TextComponent
+                              text={item}
+                              flex={0}
+                              color={appColors.error}
+                            />
+                          </RowComponent>
+                        )}
+                      />
+                    )}
+                    <View style={{paddingTop: 16}}>
+                      <TextComponent
+                        styles={{textAlign: 'justify'}}
+                        text={recipeDetail?.description}
+                      />
+                    </View>
+                    <View style={{paddingTop: 16}}>
+                      <RowComponent styles={{marginBottom: 8}}>
+                        <TitleComponent text="Ingredients" size={20} />
+                        <TouchableOpacity
+                          onPress={() =>
+                            setIsVisibleIngredients(!isVisibleIngredients)
+                          }>
+                          {isVisibleIngredients ? (
+                            <ArrowUp2 size={24} color={appColors.text2} />
+                          ) : (
+                            <ArrowDown2 size={24} color={appColors.text2} />
+                          )}
+                        </TouchableOpacity>
+                      </RowComponent>
+                      {isVisibleIngredients && (
+                        <>
+                          <TextComponent
+                            text="Note: Check ingredient quantities before adding to your list."
+                            size={12}
+                          />
+
+                          {isLoadingIngredients ? (
+                            <LoadingDotComponent mess="Searching for products" />
+                          ) : (
+                            recipeIngredients?.instore && (
+                              <RowComponent justify="space-between">
+                                {recipeIngredients.instore.map((item, index) =>
+                                  renderProductItem(item),
+                                )}
+                              </RowComponent>
+                            )
+                          )}
+
+                          <View style={{paddingTop: 16}}>
+                            <RowComponent styles={{marginBottom: 8}}>
+                              <TitleComponent
+                                text="Ingredients you may already have"
+                                size={20}
+                              />
+                            </RowComponent>
+                            {isLoadingIngredients ? (
+                              <LoadingDotComponent mess="" />
+                            ) : (
+                              <RowComponent justify="space-between">
+                                {recipeIngredients?.ingrocerylist.map(
+                                  (item, index) => renderProductItem(item),
+                                )}
+                              </RowComponent>
+                            )}
+                          </View>
+
+                          <View style={{paddingTop: 16}}>
+                            <RowComponent styles={{marginBottom: 8}}>
+                              <TitleComponent
+                                text="Ingredients/items not available through Tinga"
+                                size={20}
+                              />
+                            </RowComponent>
+
+                            <RowComponent justify="space-between">
+                              {recipeIngredients?.notinstore.map(
+                                (name, index) => (
+                                  <View
+                                    key={`noinstore${index}`}
+                                    style={[
+                                      global.shadow,
+                                      {
+                                        width: (appSize.width - 64) / 2,
+                                        height: 170,
+                                        marginBottom: 16,
+                                      },
+                                    ]}>
+                                    <FastImage
+                                      source={require('../assets/images/no-image.jpg')}
+                                      style={{
+                                        width: '100%',
+                                        flex: 1,
+
+                                        borderTopLeftRadius: 8,
+                                        borderTopRightRadius: 8,
+                                      }}
+                                      resizeMode={FastImage.resizeMode.cover}
+                                    />
+                                    <View
+                                      style={{
+                                        backgroundColor: appColors.white,
+                                        padding: 8,
+                                        paddingVertical: 12,
+                                        borderBottomLeftRadius: 8,
+                                        borderBottomRightRadius: 8,
+                                        flex: 0,
+                                        justifyContent: 'center',
+                                      }}>
+                                      <TextComponent
+                                        text={name}
+                                        styles={{marginVertical: 4}}
+                                        size={12}
+                                        flex={0}
+                                        line={2}
+                                        height={16}
+                                      />
+                                    </View>
+                                  </View>
+                                ),
+                              )}
+                            </RowComponent>
+                          </View>
+                        </>
+                      )}
+                    </View>
+
+                    <View style={{paddingTop: 16}}>
+                      <RowComponent styles={{marginBottom: 8}}>
+                        <TitleComponent text="Prepare Ingredients" size={20} />
+                        <TouchableOpacity
+                          onPress={() =>
+                            setIsPrepareIngredients(!isPrepareIngredients)
+                          }>
+                          {isPrepareIngredients ? (
+                            <ArrowUp2 size={24} color={appColors.text2} />
+                          ) : (
+                            <ArrowDown2 size={24} color={appColors.text2} />
+                          )}
+                        </TouchableOpacity>
+                      </RowComponent>
+                      {isPrepareIngredients && (
+                        <View>
+                          {recipeDetail.ingredients.map((item, index) => (
+                            <TextComponent
+                              key={`ingredients${index}`}
+                              text={`· ${item}`}
+                              height={22}
+                              font={fontFamilys.medium}
+                            />
+                          ))}
+                        </View>
+                      )}
+                    </View>
+                    <View style={{paddingTop: 16}}>
+                      <RowComponent styles={{marginBottom: 8}}>
+                        <TitleComponent text="Instructions" size={20} />
+                        <TouchableOpacity
+                          onPress={() =>
+                            setIsShowIntroductions(!isShowIntroductions)
+                          }>
+                          {isShowIntroductions ? (
+                            <ArrowUp2 size={24} color={appColors.text2} />
+                          ) : (
+                            <ArrowDown2 size={24} color={appColors.text2} />
+                          )}
+                        </TouchableOpacity>
+                      </RowComponent>
+                      {isShowIntroductions &&
+                        recipeDetail.cooking_instruction.map((item, index) => (
+                          <RowComponent
+                            key={`instruction${index}`}
+                            styles={{
+                              marginBottom: 8,
+                              alignItems: 'flex-start',
+                            }}>
+                            <TitleComponent
+                              flex={0}
+                              text={`${index + 1}.`}
+                              size={20}
+                              color={appColors.success2}
+                              styles={{marginTop: -4}}
+                            />
+                            <View style={{flex: 1, marginLeft: 4}}>
+                              <TextComponent
+                                text={`${item}`}
+                                flex={0}
+                                font={fontFamilys.medium}
+                              />
+                            </View>
+                          </RowComponent>
+                        ))}
+                    </View>
+                  </>
+                ) : (
+                  <>
+                    <TextComponent text="Recipe detail not found" />
+                  </>
+                )}
+              </View>
+            </ScrollView>
+          )}
+
+          <ModalFoodScoreInfo
+            visible={isVisibleModalScore}
+            onClose={() => setIsVisibleModalScore(false)}
+          />
+          <LoadingModal visible={isUpdate} />
+        </Modalize>
+      </Portal>
+      <ModalProduct
+        visible={isVisibileModalProduct}
+        onClose={() => {
+          setIsVisibileModalProduct(false);
+        }}
+        product={ProductDetail}
+      />
+    </>
   );
 };
 

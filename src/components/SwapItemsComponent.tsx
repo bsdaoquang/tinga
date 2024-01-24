@@ -18,6 +18,7 @@ import {appSize} from '../constants/appSize';
 import ModalSwapProduct from '../modals/ModalSwapProduct';
 import {groceriesSelector} from '../redux/reducers/groceryReducer';
 import {global} from '../styles/global';
+import LoadingDotComponent from './LoadingDotComponent';
 
 interface Props {
   product?: ProductDetail;
@@ -215,7 +216,7 @@ const SwapItemsComponent = (props: Props) => {
   };
 
   return isLoading ? (
-    <ActivityIndicator />
+    <LoadingDotComponent mess="Searching for products" />
   ) : items.length > 0 ? (
     <View>
       {product ? (
