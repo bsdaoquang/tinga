@@ -68,11 +68,10 @@ const ModalWatingGenerateRecipe = (props: Props) => {
         style={{flex: 1}}>
         <View style={{paddingVertical: 20, paddingBottom: 40, flex: 1}}>
           <Swiper
-            // style={{flex: 1}}
             autoplay
             showsPagination={false}
             loop
-            autoplayTimeout={3}
+            autoplayTimeout={5}
             autoplayDirection>
             {quotes.map((item, index) => (
               <SectionComponent styles={{flex: 1}} key={`quote${index}`}>

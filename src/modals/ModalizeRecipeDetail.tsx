@@ -50,6 +50,7 @@ import {
   updateGroceryList,
 } from '../redux/reducers/groceryReducer';
 import {useNavigation} from '@react-navigation/native';
+import LoadingDotComponent from '../components/LoadingDotComponent';
 
 interface Props {
   visible: boolean;
@@ -71,7 +72,7 @@ const ModalizeRecipeDetail = (props: Props) => {
     useState<RecipeIngredient>();
   const [isUpdate, setIsUpdate] = useState(false);
   const [productSelected, setProductSelected] = useState<ProductStore[]>([]);
-
+  const [isLoadingIngredients, setIsLoadingIngredients] = useState(false);
   const groceryList: ProductDetail[] = useSelector(groceriesSelector);
   const dispatch = useDispatch();
   const modalRef = useRef<Modalize>();
@@ -108,15 +109,17 @@ const ModalizeRecipeDetail = (props: Props) => {
 
   const getIngredientItems = async () => {
     const api = `recipeIngredients?recipe_id=${item?.id}`;
-
+    setIsLoadingIngredients(true);
     try {
       const res: any = await handleMealApi.handleMealPlanner(api);
 
       if (res) {
         setRecipeIngredients(res);
       }
+      setIsLoadingIngredients(false);
     } catch (error) {
       console.log(error);
+      setIsLoadingIngredients(false);
     }
   };
 
@@ -379,7 +382,10 @@ const ModalizeRecipeDetail = (props: Props) => {
                   <FontAwesome5 name="shopping-cart" color={appColors.white} />
                   <SpaceComponent width={6} />
                   <TitleComponent
-                    text={`${groceryList.length}`}
+                    text={`${groceryList.reduce(
+                      (a, b) => a + (b.qty ? b.qty : 1),
+                      0,
+                    )}`}
                     flex={0}
                     color={appColors.white}
                     font={fontFamilys.bold}
@@ -425,9 +431,7 @@ const ModalizeRecipeDetail = (props: Props) => {
                 height: 'auto',
               }}>
               {isLoading ? (
-                <RowComponent>
-                  <ActivityIndicator />
-                </RowComponent>
+                <LoadingDotComponent />
               ) : recipeDetail ? (
                 <>
                   {recipeIngredients?.allergyfree && (
@@ -524,12 +528,16 @@ const ModalizeRecipeDetail = (props: Props) => {
                           size={12}
                         />
 
-                        {recipeIngredients?.instore && (
-                          <RowComponent justify="space-between">
-                            {recipeIngredients.instore.map((item, index) =>
-                              renderProductItem(item),
-                            )}
-                          </RowComponent>
+                        {isLoadingIngredients ? (
+                          <LoadingDotComponent mess="Searching for products" />
+                        ) : (
+                          recipeIngredients?.instore && (
+                            <RowComponent justify="space-between">
+                              {recipeIngredients.instore.map((item, index) =>
+                                renderProductItem(item),
+                              )}
+                            </RowComponent>
+                          )
                         )}
 
                         <View style={{paddingTop: 16}}>
@@ -539,12 +547,15 @@ const ModalizeRecipeDetail = (props: Props) => {
                               size={20}
                             />
                           </RowComponent>
-
-                          <RowComponent justify="space-between">
-                            {recipeIngredients?.ingrocerylist.map(
-                              (item, index) => renderProductItem(item),
-                            )}
-                          </RowComponent>
+                          {isLoadingIngredients ? (
+                            <LoadingDotComponent mess="" />
+                          ) : (
+                            <RowComponent justify="space-between">
+                              {recipeIngredients?.ingrocerylist.map(
+                                (item, index) => renderProductItem(item),
+                              )}
+                            </RowComponent>
+                          )}
                         </View>
 
                         <View style={{paddingTop: 16}}>
