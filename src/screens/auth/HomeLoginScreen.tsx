@@ -55,6 +55,7 @@ const HomeLoginScreen = ({navigation}: any) => {
       );
     } else {
       try {
+        console.log('fafaa');
         // performs login request
         const appleAuthRequestResponse = await appleAuth.performRequest({
           requestedOperation: appleAuth.Operation.LOGIN,
