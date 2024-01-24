@@ -20,10 +20,21 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CodePushDeploymentKey</key>
 	<string>AENgjgF1gIz83ExafSXMBgnsooqruCGiDMbDB</string>
+	<key>GIDClientID</key>
+	<string>648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl.apps.googleusercontent.com</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -37,17 +48,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>GIDClientID</key>
-	<string>648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl.apps.googleusercontent.com</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl</string>
-			</array>
-		</dict>
-	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Your message to user when the camera is accessed for the first time</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
