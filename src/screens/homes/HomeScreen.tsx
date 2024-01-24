@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {Image, Linking, StatusBar, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {AlertDetail} from '../../Models/AlertDetail';
-import {ProductDetail} from '../../Models/Product';
+import {HistoryProduc, ProductDetail} from '../../Models/Product';
 import {VideoModel} from '../../Models/VideoModel';
 import dashboardAPI from '../../apis/dashboardAPI';
 import {UnionSelected, Users} from '../../assets/svg';
@@ -40,6 +40,8 @@ import RecipesList from './components/RecipesList';
 import VideoComponent from './components/VideoComponent';
 import handleGetData from '../../apis/productAPI';
 import {Score} from '../../Models/Score';
+import InAppReview from 'react-native-in-app-review';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -51,10 +53,9 @@ const HomeScreen = ({navigation, route}: any) => {
   const [alertDetail, setAlertDetail] = useState<AlertDetail>();
   const [avgScore, setAvgScore] = useState<Score>();
   const [recipeDisplay, setRecipeDisplay] = useState('0');
+  const [historiesList, setHistoriesList] = useState<HistoryProduc[]>([]);
 
   const auth = useSelector(authSelector);
-
-  const groceryList: ProductDetail[] = useSelector(groceriesSelector);
 
   useEffect(() => {
     if (auth.is_premium !== 1) {
@@ -65,16 +66,28 @@ const HomeScreen = ({navigation, route}: any) => {
     getVideos();
     getAvgScore();
     checkShowRecipes();
+    getHistoriesListOfProduct();
   }, []);
-
-  // console.log(auth);
 
   useEffect(() => {
-    // groceryList.length >= 5 &&
-    //   setTimeout(() => {
-    //     setIsVisibleModalRating(true);
-    //   }, 3000);
-  }, []);
+    historiesList.length > 0 &&
+      setTimeout(() => {
+        setIsVisibleModalRating(true);
+      }, 3000);
+  }, [historiesList]);
+
+  const getHistoriesListOfProduct = async () => {
+    const api = `/groceryHistory`;
+
+    await handleGetData
+      .handleProduct(api)
+      .then((res: any) => {
+        setHistoriesList(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   const checkShowRecipes = async () => {
     const api = `/settings`;
@@ -112,8 +125,6 @@ const HomeScreen = ({navigation, route}: any) => {
       showToast('Can not get videos');
     }
   };
-
-  console.log(`recipe_display:  ${recipeDisplay}`);
 
   return (
     <>
@@ -223,7 +234,7 @@ const HomeScreen = ({navigation, route}: any) => {
             paddingBottom: 12,
             paddingHorizontal: 0,
           }}>
-          <HomeCarousels />
+          <HomeCarousels isFirst={historiesList.length === 0} />
           <View style={{paddingHorizontal: 16}}>
             <RowComponent>
               <CardContent
@@ -321,17 +332,29 @@ const HomeScreen = ({navigation, route}: any) => {
       />
 
       <ModalRating
-        onRating={() => {
-          setAlertDetail({
-            title: 'Rating',
-            mess: 'Will be show rating library!',
-            onOK: () => {
-              setIsVisibleModalAlert(false);
-            },
-          });
+        onRating={async () => {
+          InAppReview.isAvailable()
+            ? InAppReview.RequestInAppReview()
+                .then(async res => {
+                  console.log(res);
+                  showToast('Thank for your rating!');
+                  setIsVisibleModalRating(false);
+                })
+                .catch(error => {
+                  console.log(error);
+                  showToast('Can not connect to service');
+                  setIsVisibleModalRating(false);
+                })
+            : setAlertDetail({
+                title: 'Rating',
+                mess: 'Will be show rating library!',
+                onOK: () => {
+                  setIsVisibleModalAlert(false);
+                },
+              });
           setIsVisibleModalAlert(true);
         }}
-        onFeedback={() => {
+        onFeedback={async () => {
           setIsVisibleModalRating(false);
           setIsVisibleModalFeedback(true);
         }}

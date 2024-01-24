@@ -25,7 +25,11 @@ const ModalRating = (props: Props) => {
     onClose();
   };
   return (
-    <Modal visible={isVisible} transparent animationType="fade">
+    <Modal
+      visible={isVisible}
+      transparent
+      animationType="fade"
+      statusBarTranslucent>
       <View style={[global.modalContainer]}>
         <View style={[global.modalContent]}>
           <RowComponent justify="flex-end">

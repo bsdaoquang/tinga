@@ -23,12 +23,15 @@ import {global} from '../../../styles/global';
 import {useSelector} from 'react-redux';
 import {authSelector} from '../../../redux/reducers/authReducer';
 import {ListScore} from '../../../Models/Score';
+import {groceriesSelector} from '../../../redux/reducers/groceryReducer';
 
-const HomeCarousels = () => {
+const HomeCarousels = ({isFirst}: {isFirst: boolean}) => {
   const [historiesList, setHistoriesList] = useState<HistoryProduc[]>([]);
   const [isGuideStart, setIsGuideStart] = useState(false);
   const [dietChecked, setDietChecked] = useState('');
   const [listScores, setListScores] = useState<ListScore[]>([]);
+
+  const groceryList = useSelector(groceriesSelector);
 
   const navigation: any = useNavigation();
   const auth = useSelector(authSelector);
@@ -186,7 +189,9 @@ const HomeCarousels = () => {
 
       <CardContent styles={{marginHorizontal: 8}}>
         <TitleComponent
-          text={'Step 2 - Generate and\nfavourite your first recipe'}
+          text={`Step 2 - Generate and\nfavourite your ${
+            isFirst ? 'first ' : ''
+          }recipe`}
           flex={0}
           size={20}
         />
@@ -205,7 +210,7 @@ const HomeCarousels = () => {
       </CardContent>
       <CardContent styles={{marginHorizontal: 8}}>
         <TitleComponent
-          text={'Step 3 - Create your first\ngrocery list'}
+          text={`Step 3 - Create your ${isFirst ? 'first ' : ''}grocery list`}
           flex={0}
           size={20}
         />
