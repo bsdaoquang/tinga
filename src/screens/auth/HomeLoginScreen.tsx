@@ -1,12 +1,9 @@
-import appleAuth, {
-  AppleButton,
-} from '@invertase/react-native-apple-authentication';
+import appleAuth from '@invertase/react-native-apple-authentication';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {Sms} from 'iconsax-react-native';
 import React, {useState} from 'react';
 import {
-  Alert,
   ImageBackground,
   Platform,
   StatusBar,
@@ -16,6 +13,7 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
+import {AlertDetail} from '../../Models/AlertDetail';
 import authenticationAPI from '../../apis/authAPI';
 import {GoogleIcon} from '../../assets/svg';
 import {
@@ -32,11 +30,10 @@ import {appInfos} from '../../constants/appInfos';
 import {appSize} from '../../constants/appSize';
 import {fontFamilys} from '../../constants/fontFamily';
 import {LoadingModal} from '../../modals';
+import ModalAlert from '../../modals/ModalAlert';
 import {HandleLogin} from '../../utils/HandleLogin';
 import {showToast} from '../../utils/showToast';
 import TermsText from './components/TermsText';
-import {AlertDetail} from '../../Models/AlertDetail';
-import ModalAlert from '../../modals/ModalAlert';
 
 GoogleSignin.configure({
   webClientId:
@@ -56,27 +53,28 @@ const HomeLoginScreen = ({navigation}: any) => {
         'Apple login is not supported on your device, please try it with Google login',
       );
     } else {
-      try {
-        // performs login request
-        const appleAuthRequestResponse = await appleAuth.performRequest({
-          requestedOperation: appleAuth.Operation.LOGIN,
-          // Note: it appears putting FULL_NAME first is important, see issue #293
-          requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
-        });
+      console.log('fafa');
+      showToast('Comming soon!!!');
+      // try {
+      //   // performs login request
+      //   const appleAuthRequestResponse = await appleAuth.performRequest({
+      //     requestedOperation: appleAuth.Operation.LOGIN,
+      //     // Note: it appears putting FULL_NAME first is important, see issue #293
+      //     requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+      //   });
 
-        // get current authentication state for user
-        // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
-        const credentialState = await appleAuth.getCredentialStateForUser(
-          appleAuthRequestResponse.user,
-        );
+      //   // get current authentication state for user
+      //   // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+      //   const credentialState = await appleAuth.getCredentialStateForUser(
+      //     appleAuthRequestResponse.user,
+      //   );
 
-        // use credentialState response to ensure the user is authenticated
-        if (credentialState === appleAuth.State.AUTHORIZED) {
-          console.log('fafa');
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      //   // use credentialState response to ensure the user is authenticated
+      //   if (credentialState === appleAuth.State.AUTHORIZED) {
+      //   }
+      // } catch (error) {
+      //   console.log(error);
+      // }
     }
   };
 
