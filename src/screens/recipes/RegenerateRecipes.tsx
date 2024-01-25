@@ -35,7 +35,7 @@ const RegenerateRecipes = ({navigation, route}: any) => {
   }, []);
 
   const handleGenerating = async () => {
-    const api = `generateRecipe`;
+    const api = `regenerateRecipe`;
     setGenerating(true);
     try {
       const res: any = await handleMealApi.handleMealPlanner(api, data, 'post');

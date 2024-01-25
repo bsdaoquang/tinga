@@ -25,7 +25,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl</string>
+				<string>com.googleusercontent.apps.648702036593-netodinrigao75qic86vl0c0ve9hgfeb</string>
 			</array>
 		</dict>
 	</array>
@@ -34,7 +34,7 @@
 	<key>CodePushDeploymentKey</key>
 	<string>AENgjgF1gIz83ExafSXMBgnsooqruCGiDMbDB</string>
 	<key>GIDClientID</key>
-	<string>648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl.apps.googleusercontent.com</string>
+	<string>648702036593-netodinrigao75qic86vl0c0ve9hgfeb.apps.googleusercontent.com</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

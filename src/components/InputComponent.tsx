@@ -131,7 +131,11 @@ export const InputComponent = (props: Props) => {
             borderWidth: 2,
             borderColor: isFocus ? '#ABC43F' : '#EEF3DC',
             paddingVertical: Platform.OS === 'ios' ? 14 : 8,
-            minHeight: height ?? 40,
+            minHeight: height
+              ? height
+              : Platform.OS === 'ios' && rows
+              ? rows * 40
+              : 40,
             backgroundColor: disable
               ? appColors.gray
               : color ?? appColors.white,

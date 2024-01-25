@@ -52,6 +52,9 @@ const TabNavigator = () => {
             />
           );
         },
+        tabBarIconStyle: {
+          marginVertical: 8,
+        },
         tabBarIcon: ({focused, size, color}) => {
           let icon;
           size = 22;

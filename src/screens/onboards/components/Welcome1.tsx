@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, View} from 'react-native';
 import {RowComponent, TitleComponent} from '../../../components';
 import {appColors} from '../../../constants/appColors';
+import {appSize} from '../../../constants/appSize';
 
 const Welcome1 = () => {
   return (
@@ -26,8 +27,8 @@ const Welcome1 = () => {
         <Image
           source={require('../../../assets/images/welcome-1.png')}
           style={{
-            width: '100%',
-            resizeMode: 'contain',
+            width: appSize.width,
+            resizeMode: 'cover',
             flex: 1,
           }}
         />

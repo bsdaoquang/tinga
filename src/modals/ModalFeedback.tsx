@@ -83,7 +83,7 @@ const ModalFeedback = (props: Props) => {
                 value={contentFeedback}
                 onChange={val => setContentFeedback(val)}
                 isMultible
-                rows={6}
+                rows={4}
               />
 
               <ButtonComponent

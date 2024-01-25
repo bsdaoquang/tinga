@@ -89,6 +89,8 @@ const HomeLoginScreen = ({navigation}: any) => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
 
+      // console.log(userInfo);
+
       handleSaveToDatabase(userInfo.user);
     } catch (error) {
       console.log(error);
