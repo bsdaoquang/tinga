@@ -48,12 +48,12 @@ const TabNavigator = () => {
               // styles={{marginTop: 4}}
               size={12}
               color={focused ? appColors.primary : appColors.gray}
-              // flex={0}
+              flex={0}
             />
           );
         },
         tabBarIconStyle: {
-          marginVertical: 8,
+          // marginVertical: 8,
         },
         tabBarIcon: ({focused, size, color}) => {
           let icon;

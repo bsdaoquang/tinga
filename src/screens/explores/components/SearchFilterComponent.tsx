@@ -119,6 +119,7 @@ const SearchFilterComponent = (props: Props) => {
               paddingHorizontal: 8,
               flex: 1,
               paddingVertical: 12,
+              minHeight: 48,
               zIndex: 1,
             }}>
             <TouchableOpacity

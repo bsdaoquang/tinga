@@ -1,4 +1,6 @@
-import appleAuth from '@invertase/react-native-apple-authentication';
+import appleAuth, {
+  AppleButton,
+} from '@invertase/react-native-apple-authentication';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {Sms} from 'iconsax-react-native';
@@ -55,7 +57,6 @@ const HomeLoginScreen = ({navigation}: any) => {
       );
     } else {
       try {
-        console.log('fafaa');
         // performs login request
         const appleAuthRequestResponse = await appleAuth.performRequest({
           requestedOperation: appleAuth.Operation.LOGIN,
@@ -71,8 +72,6 @@ const HomeLoginScreen = ({navigation}: any) => {
 
         // use credentialState response to ensure the user is authenticated
         if (credentialState === appleAuth.State.AUTHORIZED) {
-          // user is authenticated
-          console.log(credentialState);
         }
       } catch (error) {
         console.log(error);
@@ -192,6 +191,7 @@ const HomeLoginScreen = ({navigation}: any) => {
             }}
             textColor={appColors.text}
           />
+
           <ButtonComponent
             icon={<GoogleIcon width={20} />}
             text="Continue with Google"

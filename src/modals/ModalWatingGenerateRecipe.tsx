@@ -1,16 +1,10 @@
-import {
-  View,
-  Text,
-  Modal,
-  ImageBackground,
-  TouchableOpacity,
-} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import LottieView from 'lottie-react-native';
 import React, {useEffect, useState} from 'react';
+import {ImageBackground, Modal, TouchableOpacity, View} from 'react-native';
+import Swiper from 'react-native-swiper';
 import {Quote} from '../Models/Recipe';
 import handleMealApi from '../apis/mealplannerAPI';
-import {global} from '../styles/global';
-import {appColors} from '../constants/appColors';
-import LottieView from 'lottie-react-native';
 import {
   RowComponent,
   SectionComponent,
@@ -18,12 +12,10 @@ import {
   TextComponent,
   TitleComponent,
 } from '../components';
-import Swiper from 'react-native-swiper';
-import {fontFamilys} from '../constants/fontFamily';
-import handleGetData from '../apis/productAPI';
-import {useIsFocused} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {appColors} from '../constants/appColors';
 import {appInfos} from '../constants/appInfos';
+import {fontFamilys} from '../constants/fontFamily';
+import {global} from '../styles/global';
 
 interface Props {
   visible: boolean;
@@ -45,7 +37,6 @@ const ModalWatingGenerateRecipe = (props: Props) => {
 
     try {
       const api = `listofFactsQuotes?diet_type=${dietType ? dietType : 1}`;
-      console.log(api);
       const res: any = await handleMealApi.handleMealPlanner(api);
 
       res && res.length > 0 && setquotes(res);
