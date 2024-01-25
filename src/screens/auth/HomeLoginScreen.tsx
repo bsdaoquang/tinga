@@ -72,6 +72,7 @@ const HomeLoginScreen = ({navigation}: any) => {
 
         // use credentialState response to ensure the user is authenticated
         if (credentialState === appleAuth.State.AUTHORIZED) {
+          console.log('fafa');
         }
       } catch (error) {
         console.log(error);
@@ -191,7 +192,6 @@ const HomeLoginScreen = ({navigation}: any) => {
             }}
             textColor={appColors.text}
           />
-
           <ButtonComponent
             icon={<GoogleIcon width={20} />}
             text="Continue with Google"
