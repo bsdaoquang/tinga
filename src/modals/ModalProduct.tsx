@@ -57,6 +57,7 @@ interface Props {
   product?: any;
   isScan?: boolean;
   onReload?: () => void;
+  hideBottom?: boolean;
 }
 
 const tagsStyles: any = {
@@ -69,7 +70,7 @@ const tagsStyles: any = {
 };
 
 const ModalProduct = (props: Props) => {
-  const {visible, onClose, product, isScan, onReload} = props;
+  const {visible, onClose, product, isScan, onReload, hideBottom} = props;
   const [count, setCount] = useState(1);
   const [isShowModalFoodScoreInfo, setIsShowModalFoodScoreInfo] =
     useState(false);
@@ -243,7 +244,9 @@ const ModalProduct = (props: Props) => {
         element.shop_id === producDetail.shop_id,
     );
 
-    return (
+    return hideBottom ? (
+      <></>
+    ) : (
       producDetail && (
         <>
           {index !== -1 ? (

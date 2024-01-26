@@ -19,6 +19,8 @@ import ModalSwapProduct from '../modals/ModalSwapProduct';
 import {groceriesSelector} from '../redux/reducers/groceryReducer';
 import {global} from '../styles/global';
 import LoadingDotComponent from './LoadingDotComponent';
+import {ModalProduct} from '../modals';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 interface Props {
   product?: ProductDetail;
@@ -36,6 +38,8 @@ const SwapItemsComponent = (props: Props) => {
     product_id: number;
     shop_id: number;
   }>();
+  const [isVisibileModalProduct, setIsVisibileModalProduct] = useState(false);
+  const [ProductDetail, setProductDetail] = useState<any>();
 
   useEffect(() => {
     getSwapItems();
@@ -146,7 +150,11 @@ const SwapItemsComponent = (props: Props) => {
     );
     return (
       <CardContent
-        // key={`children${item.id}shopId${item.shop_id}`}
+        onPress={() => {
+          setProductDetail(item);
+          setIsVisibileModalProduct(true);
+        }}
+        key={`children${item.id}shopId${item.shop_id}`}
         color={appColors.white}
         styles={[
           global.shadow,
@@ -179,11 +187,7 @@ const SwapItemsComponent = (props: Props) => {
             right: 10,
           }}
           icon={
-            indexProduct === -1 ? (
-              <Add size={24} color={appColors.white} />
-            ) : (
-              <AntDesign name="check" size={20} color={appColors.white} />
-            )
+            <FontAwesome name="refresh" size={16} color={appColors.white} />
           }
           disable={indexProduct !== -1}
           onPress={onPress}
@@ -244,7 +248,7 @@ const SwapItemsComponent = (props: Props) => {
             />
           </RowComponent>
           {items.map((parentItem, index) => (
-            <View key={parentItem.product_id}>
+            <View key={`${parentItem.product_id}${index}`}>
               <RowComponent styles={{marginTop: 16}}>
                 <TitleComponent text={parentItem.name} />
               </RowComponent>
@@ -275,6 +279,15 @@ const SwapItemsComponent = (props: Props) => {
           setIsVisibleModalSwap(false);
           getSwapItems();
         }}
+      />
+
+      <ModalProduct
+        visible={isVisibileModalProduct}
+        onClose={() => {
+          setIsVisibileModalProduct(false);
+        }}
+        product={ProductDetail}
+        hideBottom
       />
     </View>
   ) : (
