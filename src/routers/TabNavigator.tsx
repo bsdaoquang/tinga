@@ -25,7 +25,7 @@ const TabNavigator = () => {
                 paddingTop: 6,
                 borderTopLeftRadius: 12,
                 borderTopRightRadius: 12,
-                height: 67,
+                height: 58,
                 zIndex: 1,
                 position: 'absolute',
                 overflow: 'hidden',
@@ -45,7 +45,7 @@ const TabNavigator = () => {
           return (
             <TextComponent
               text={route.name}
-              // styles={{marginTop: 4}}
+              styles={{marginBottom: 4}}
               size={12}
               color={focused ? appColors.primary : appColors.gray}
               flex={0}

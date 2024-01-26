@@ -102,7 +102,7 @@ const AddToList = (props: Props) => {
       if (res && res.success) {
         // remove item after add list
         productSelected.forEach(item => dispatch(updateGroceryList(item)));
-        // setProductSelected([]);
+        dispatch(addSelected([]));
       } else {
         showToast(res.message);
       }

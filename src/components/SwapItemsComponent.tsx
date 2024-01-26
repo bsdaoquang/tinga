@@ -244,7 +244,7 @@ const SwapItemsComponent = (props: Props) => {
             />
           </RowComponent>
           {items.map((parentItem, index) => (
-            <>
+            <View key={parentItem.product_id}>
               <RowComponent styles={{marginTop: 16}}>
                 <TitleComponent text={parentItem.name} />
               </RowComponent>
@@ -262,7 +262,7 @@ const SwapItemsComponent = (props: Props) => {
                   }),
                 )}
               </RowComponent>
-            </>
+            </View>
           ))}
         </View>
       )}
