@@ -42,6 +42,7 @@ import handleGetData from '../../apis/productAPI';
 import {Score} from '../../Models/Score';
 import InAppReview from 'react-native-in-app-review';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useIsFocused} from '@react-navigation/native';
 
 const HomeScreen = ({navigation, route}: any) => {
   const [isvisibleModalOffer, setIsvisibleModalOffer] = useState(false);
@@ -56,6 +57,11 @@ const HomeScreen = ({navigation, route}: any) => {
   const [historiesList, setHistoriesList] = useState<HistoryProduc[]>([]);
 
   const auth = useSelector(authSelector);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    isFocused && getAvgScore();
+  }, [isFocused]);
 
   useEffect(() => {
     if (auth.is_premium !== 1) {
@@ -64,16 +70,16 @@ const HomeScreen = ({navigation, route}: any) => {
       }, 1500);
     }
     getVideos();
-    getAvgScore();
+
     checkShowRecipes();
     getHistoriesListOfProduct();
   }, []);
 
   useEffect(() => {
-    historiesList.length > 0 &&
-      setTimeout(() => {
-        setIsVisibleModalRating(true);
-      }, 3000);
+    // historiesList.length > 0 &&
+    //   setTimeout(() => {
+    //     setIsVisibleModalRating(true);
+    //   }, 3000);
   }, [historiesList]);
 
   const getHistoriesListOfProduct = async () => {
@@ -129,44 +135,50 @@ const HomeScreen = ({navigation, route}: any) => {
   return (
     <>
       <Container isScroll backgroundColor={appColors.text}>
-        <StatusBar barStyle={'light-content'} translucent />
-
-        {auth.is_premium === 0 ? (
-          <RowComponent styles={{paddingBottom: 6, paddingTop: 12}}>
-            <TextComponent
-              color={appColors.white}
-              font={fontFamilys.semiBold}
-              size={12}
-              flex={0}
-              text="You have Tinga Basic. "
-            />
-            <TouchableOpacity onPress={() => setIsVisibleModalSubcriber(true)}>
+        <StatusBar
+          barStyle={'light-content'}
+          translucent
+          // backgroundColor={appColors.text}
+        />
+        <View style={{backgroundColor: appColors.text}}>
+          {auth.is_premium === 0 ? (
+            <RowComponent styles={{paddingBottom: 6, paddingTop: 12}}>
               <TextComponent
                 color={appColors.white}
                 font={fontFamilys.semiBold}
                 size={12}
                 flex={0}
-                styles={{
-                  textDecorationLine: 'underline',
-                  textDecorationColor: appColors.white,
-                }}
-                text="Get Tinga Premium"
+                text="You have Tinga Basic. "
               />
-            </TouchableOpacity>
-          </RowComponent>
-        ) : (
-          <RowComponent>
-            <Image
-              source={require('../../assets/images/premiumLogo.png')}
-              style={{
-                width: 123,
-                height: 30,
-                resizeMode: 'contain',
-                marginVertical: 6,
-              }}
-            />
-          </RowComponent>
-        )}
+              <TouchableOpacity
+                onPress={() => setIsVisibleModalSubcriber(true)}>
+                <TextComponent
+                  color={appColors.white}
+                  font={fontFamilys.semiBold}
+                  size={12}
+                  flex={0}
+                  styles={{
+                    textDecorationLine: 'underline',
+                    textDecorationColor: appColors.white,
+                  }}
+                  text="Get Tinga Premium"
+                />
+              </TouchableOpacity>
+            </RowComponent>
+          ) : (
+            <RowComponent>
+              <Image
+                source={require('../../assets/images/premiumLogo.png')}
+                style={{
+                  width: 123,
+                  height: 30,
+                  resizeMode: 'contain',
+                  marginVertical: 6,
+                }}
+              />
+            </RowComponent>
+          )}
+        </View>
         <SectionComponent
           styles={{
             paddingBottom: 46,
@@ -181,7 +193,7 @@ const HomeScreen = ({navigation, route}: any) => {
                 flexDirection: 'row',
               }}
               onPress={() => navigation.navigate('ProfileScreen')}>
-              {avgScore && (
+              {avgScore && avgScore.list_score && (
                 <View
                   style={{
                     padding: 3,
@@ -286,7 +298,10 @@ const HomeScreen = ({navigation, route}: any) => {
         </SectionComponent>
 
         <SectionComponent
-          styles={{backgroundColor: appColors.white, paddingBottom: 40}}>
+          styles={{
+            backgroundColor: appColors.white,
+            paddingBottom: 40,
+          }}>
           <Promotions />
 
           <ButtonComponent

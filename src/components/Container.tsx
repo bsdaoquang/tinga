@@ -104,7 +104,7 @@ const Container = ({
     <SafeAreaView
       style={[
         {
-          paddingTop: top ?? Platform.OS === 'android' ? 32 : 48,
+          paddingTop: top ?? StatusBar.currentHeight,
           flex: 1,
           paddingBottom: paddingBottom ?? 57,
           backgroundColor: backgroundColor
