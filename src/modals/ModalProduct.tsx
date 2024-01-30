@@ -7,14 +7,7 @@ import {
   MinusSquare,
 } from 'iconsax-react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  FlatList,
-  ImageBackground,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, ImageBackground, ScrollView, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
@@ -22,9 +15,10 @@ import RenderHTML from 'react-native-render-html';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
-import {Product, ProductDetail} from '../Models/Product';
+import {ProductDetail} from '../Models/Product';
 import handleGetData from '../apis/productAPI';
 import {HeartBold} from '../assets/svg';
 import {
@@ -41,15 +35,13 @@ import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
 import {fontFamilys} from '../constants/fontFamily';
 import {authSelector} from '../redux/reducers/authReducer';
-import {global} from '../styles/global';
-import {showToast} from '../utils/showToast';
-import ModalFoodScoreInfo from './ModalFoodScoreInfo';
 import {
   groceriesSelector,
   updateGroceryList,
-  updateQuatity,
 } from '../redux/reducers/groceryReducer';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {global} from '../styles/global';
+import {showToast} from '../utils/showToast';
+import ModalFoodScoreInfo from './ModalFoodScoreInfo';
 
 interface Props {
   visible: boolean;
@@ -98,9 +90,12 @@ const ModalProduct = (props: Props) => {
         shop_id: product?.shop_id,
       });
       getProducDetail(product.id, product.shop_id);
-      handleCheckFavouredList();
     }
   }, [product, visible]);
+
+  useEffect(() => {
+    data && handleCheckFavouredList();
+  }, [data]);
 
   useEffect(() => {
     const items: string[] = [];
@@ -131,6 +126,7 @@ const ModalProduct = (props: Props) => {
 
       try {
         const res: any = await handleGetData.handleProduct(api);
+
         res && res.length > 0 && setProducDetail(res[0]);
       } catch (error) {
         showToast(`Can not get product detail`);

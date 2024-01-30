@@ -1,6 +1,5 @@
 import {AddSquare, MinusSquare} from 'iconsax-react-native';
-import LottieView from 'lottie-react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   ImageBackground,
@@ -23,16 +22,10 @@ import {
 } from '../../components';
 import {appColors} from '../../constants/appColors';
 import {fontFamilys} from '../../constants/fontFamily';
+import ModalWatingGenerateRecipe from '../../modals/ModalWatingGenerateRecipe';
 import ModalizeFilter from '../../modals/ModalizeFilter';
 import {authSelector} from '../../redux/reducers/authReducer';
 import {global} from '../../styles/global';
-import {Quote} from '../../Models/Recipe';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
-import ModalWatingGenerateRecipe from '../../modals/ModalWatingGenerateRecipe';
-import handleGetData from '../../apis/productAPI';
 
 const RecipesScreen = ({navigation}: any) => {
   const [isVisibleModalFilter, setIsVisibleModalFilter] = useState(false);

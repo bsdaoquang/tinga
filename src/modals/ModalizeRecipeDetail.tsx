@@ -519,116 +519,141 @@ const ModalizeRecipeDetail = (props: Props) => {
                         text={recipeDetail?.description}
                       />
                     </View>
-                    <View style={{paddingTop: 16}}>
-                      <RowComponent styles={{marginBottom: 8}}>
-                        <TitleComponent text="Ingredients" size={20} />
-                        <TouchableOpacity
-                          onPress={() =>
-                            setIsVisibleIngredients(!isVisibleIngredients)
-                          }>
-                          {isVisibleIngredients ? (
-                            <ArrowUp2 size={24} color={appColors.text2} />
-                          ) : (
-                            <ArrowDown2 size={24} color={appColors.text2} />
-                          )}
-                        </TouchableOpacity>
-                      </RowComponent>
-                      {isVisibleIngredients && (
-                        <>
-                          <TextComponent
-                            text="Note: Check ingredient quantities before adding to your list."
-                            size={12}
-                          />
-
-                          {isLoadingIngredients ? (
-                            <LoadingDotComponent mess="Searching for products" />
-                          ) : (
-                            recipeIngredients?.instore && (
-                              <RowComponent justify="space-between">
-                                {recipeIngredients.instore.map((item, index) =>
-                                  renderProductItem(item),
-                                )}
-                              </RowComponent>
-                            )
-                          )}
-
-                          <View style={{paddingTop: 16}}>
-                            <RowComponent styles={{marginBottom: 8}}>
-                              <TitleComponent
-                                text="Ingredients you may already have"
-                                size={20}
-                              />
-                            </RowComponent>
+                    {recipeIngredients && (
+                      <View style={{paddingTop: 16}}>
+                        {isVisibleIngredients && (
+                          <>
                             {isLoadingIngredients ? (
-                              <LoadingDotComponent mess="" />
+                              <LoadingDotComponent mess="Searching for products" />
                             ) : (
-                              <RowComponent justify="space-between">
-                                {recipeIngredients?.ingrocerylist.map(
-                                  (item, index) => renderProductItem(item),
-                                )}
-                              </RowComponent>
-                            )}
-                          </View>
-
-                          <View style={{paddingTop: 16}}>
-                            <RowComponent styles={{marginBottom: 8}}>
-                              <TitleComponent
-                                text="Ingredients/items not available through Tinga"
-                                size={20}
-                              />
-                            </RowComponent>
-
-                            <RowComponent justify="space-between">
-                              {recipeIngredients?.notinstore.map(
-                                (name, index) => (
-                                  <View
-                                    key={`noinstore${index}`}
-                                    style={[
-                                      global.shadow,
-                                      {
-                                        width: (appSize.width - 64) / 2,
-                                        height: 170,
-                                        marginBottom: 16,
-                                      },
-                                    ]}>
-                                    <FastImage
-                                      source={require('../assets/images/no-image.jpg')}
-                                      style={{
-                                        width: '100%',
-                                        flex: 1,
-
-                                        borderTopLeftRadius: 8,
-                                        borderTopRightRadius: 8,
-                                      }}
-                                      resizeMode={FastImage.resizeMode.cover}
+                              recipeIngredients.instore &&
+                              recipeIngredients.instore.length > 0 && (
+                                <>
+                                  <RowComponent styles={{marginBottom: 8}}>
+                                    <TitleComponent
+                                      text="Ingredients"
+                                      size={20}
                                     />
-                                    <View
-                                      style={{
-                                        backgroundColor: appColors.white,
-                                        padding: 8,
-                                        paddingVertical: 12,
-                                        borderBottomLeftRadius: 8,
-                                        borderBottomRightRadius: 8,
-                                        flex: 0,
-                                        justifyContent: 'center',
-                                      }}>
-                                      <TextComponent
-                                        text={name}
-                                        styles={{marginVertical: 4}}
-                                        size={12}
-                                        flex={0}
-                                        line={2}
-                                        height={16}
-                                      />
-                                    </View>
-                                  </View>
-                                ),
+
+                                    <TouchableOpacity
+                                      onPress={() =>
+                                        setIsVisibleIngredients(
+                                          !isVisibleIngredients,
+                                        )
+                                      }>
+                                      {isVisibleIngredients ? (
+                                        <ArrowUp2
+                                          size={24}
+                                          color={appColors.text2}
+                                        />
+                                      ) : (
+                                        <ArrowDown2
+                                          size={24}
+                                          color={appColors.text2}
+                                        />
+                                      )}
+                                    </TouchableOpacity>
+                                  </RowComponent>
+                                  <TextComponent
+                                    text="Note: Check ingredient quantities before adding to your list."
+                                    size={12}
+                                  />
+
+                                  <RowComponent justify="space-between">
+                                    {recipeIngredients.instore.map(
+                                      (item, index) => renderProductItem(item),
+                                    )}
+                                  </RowComponent>
+                                </>
+                              )
+                            )}
+
+                            <View style={{paddingTop: 16}}>
+                              {isLoadingIngredients ? (
+                                <LoadingDotComponent mess="" />
+                              ) : (
+                                recipeIngredients.ingrocerylist &&
+                                recipeIngredients.ingrocerylist.length > 0 && (
+                                  <>
+                                    <TitleComponent
+                                      text="Ingredients you may already have"
+                                      size={20}
+                                    />
+                                    <RowComponent justify="space-between">
+                                      {recipeIngredients?.ingrocerylist.map(
+                                        (item, index) =>
+                                          renderProductItem(item),
+                                      )}
+                                    </RowComponent>
+                                  </>
+                                )
                               )}
-                            </RowComponent>
-                          </View>
-                        </>
-                      )}
-                    </View>
+                            </View>
+                            {recipeIngredients.notinstore &&
+                              recipeIngredients.notinstore.length > 0 && (
+                                <View style={{paddingTop: 16}}>
+                                  <RowComponent styles={{marginBottom: 8}}>
+                                    <TitleComponent
+                                      text="Ingredients/items not available through Tinga"
+                                      size={20}
+                                    />
+                                  </RowComponent>
+
+                                  <RowComponent justify="space-between">
+                                    {recipeIngredients?.notinstore.map(
+                                      (name, index) => (
+                                        <View
+                                          key={`noinstore${index}`}
+                                          style={[
+                                            global.shadow,
+                                            {
+                                              width: (appSize.width - 64) / 2,
+                                              height: 170,
+                                              marginBottom: 16,
+                                            },
+                                          ]}>
+                                          <FastImage
+                                            source={require('../assets/images/no-image.jpg')}
+                                            style={{
+                                              width: '100%',
+                                              flex: 1,
+
+                                              borderTopLeftRadius: 8,
+                                              borderTopRightRadius: 8,
+                                            }}
+                                            resizeMode={
+                                              FastImage.resizeMode.cover
+                                            }
+                                          />
+                                          <View
+                                            style={{
+                                              backgroundColor: appColors.white,
+                                              padding: 8,
+                                              paddingVertical: 12,
+                                              borderBottomLeftRadius: 8,
+                                              borderBottomRightRadius: 8,
+                                              flex: 0,
+                                              justifyContent: 'center',
+                                            }}>
+                                            <TextComponent
+                                              text={name}
+                                              styles={{marginVertical: 4}}
+                                              size={12}
+                                              flex={0}
+                                              line={2}
+                                              height={16}
+                                            />
+                                          </View>
+                                        </View>
+                                      ),
+                                    )}
+                                  </RowComponent>
+                                </View>
+                              )}
+                          </>
+                        )}
+                      </View>
+                    )}
 
                     <View style={{paddingTop: 16}}>
                       <RowComponent styles={{marginBottom: 8}}>

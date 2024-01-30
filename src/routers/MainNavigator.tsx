@@ -51,7 +51,6 @@ const MainNavigator = () => {
 
       if (res && res.length > 0) {
         const item = res.find((element: any) => element.is_selected === 'Yes');
-
         item &&
           (await AsyncStorage.setItem(
             appInfos.localDataName.dietType,
