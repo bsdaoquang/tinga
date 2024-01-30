@@ -48,6 +48,9 @@ export interface ProductDetail {
   product_id: number;
   category_id: number;
   category_name: string;
+  nutritent: string;
+  serving_size: string;
+  nutrient_disclaimer: string;
 }
 
 export interface Allergy {

@@ -70,6 +70,7 @@ const ModalProduct = (props: Props) => {
   const [isShowDesc, setIsShowDesc] = useState(true);
   const [isShowIngre, setIsShowIngre] = useState(true);
   const [isFavoured, setIsFavoured] = useState(true);
+  const [isShowNutrients, setIsShowNutrients] = useState(true);
   const [dietsTitles, setDietsTitles] = useState<string[]>([]);
   const [data, setdata] = useState<{
     product_id: number;
@@ -123,7 +124,6 @@ const ModalProduct = (props: Props) => {
   const getProducDetail = async (id: number, shop_id: number) => {
     if (product) {
       const api = `/getDetailProduct?id=${id}&shop_id=${shop_id}`;
-
       try {
         const res: any = await handleGetData.handleProduct(api);
 
@@ -619,6 +619,7 @@ const ModalProduct = (props: Props) => {
                 />
               )}
             </SectionComponent>
+
             <SectionComponent>
               <RowComponent>
                 <RowComponent styles={{flex: 1}} justify="flex-start">
@@ -658,6 +659,58 @@ const ModalProduct = (props: Props) => {
                 </View>
               )}
             </SectionComponent>
+            {producDetail && producDetail?.nutritent && (
+              <SectionComponent>
+                <RowComponent styles={{flex: 1}} justify="space-between">
+                  <TitleComponent text="Nutrients" size={20} flex={0} />
+
+                  <Button
+                    icon={
+                      isShowNutrients ? (
+                        <ArrowUp2 size={22} color={appColors.text2} />
+                      ) : (
+                        <ArrowDown2 size={22} color={appColors.text2} />
+                      )
+                    }
+                    onPress={() => setIsShowNutrients(!isShowNutrients)}
+                  />
+                </RowComponent>
+                <TextComponent
+                  text={producDetail.nutrient_disclaimer}
+                  color={appColors.text2}
+                />
+                <SpaceComponent height={12} />
+
+                <RowComponent justify="flex-end">
+                  <TextComponent
+                    text={`Per ${producDetail.serving_size} (${producDetail.size})`}
+                    font={fontFamilys.bold}
+                    flex={0}
+                  />
+                </RowComponent>
+                <View>
+                  <RenderHTML
+                    source={{html: producDetail?.nutritent}}
+                    contentWidth={appSize.width}
+                    tagsStyles={{
+                      ...tagsStyles,
+                      th: {
+                        borderWidth: 0.5,
+                        borderColor: appColors.gray,
+                        padding: 8,
+                        paddingVertical: 10,
+                      },
+                      td: {
+                        padding: 6,
+                        borderWidth: 0.5,
+                        borderColor: appColors.gray,
+                      },
+                    }}
+                    ignoredStyles={['fontFamily', 'fontSize']}
+                  />
+                </View>
+              </SectionComponent>
+            )}
           </View>
         </ScrollView>
       </Modalize>
