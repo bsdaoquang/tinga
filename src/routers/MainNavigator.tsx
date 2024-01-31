@@ -1,15 +1,16 @@
-import AsyncStorage, {
-  useAsyncStorage,
-} from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import handleMealApi from '../apis/mealplannerAPI';
+import handleGetData from '../apis/productAPI';
 import {appInfos} from '../constants/appInfos';
 import {
-  addGroceryList,
-  groceriesSelector,
-} from '../redux/reducers/groceryReducer';
+  addFavouries,
+  favouritesSelector,
+} from '../redux/reducers/favouritesReducer';
+import {addGroceryList} from '../redux/reducers/groceryReducer';
 import {
   AddNewProduct,
   AddNewScreen,
@@ -25,23 +26,24 @@ import {
   WebviewScreen,
 } from '../screens';
 import {HandleLogin} from '../utils/HandleLogin';
-import {HandleGrocery} from '../utils/handleGrocery';
 import TabNavigator from './TabNavigator';
-import handleGetData from '../apis/productAPI';
 
 const MainNavigator = () => {
   const Stack = createNativeStackNavigator();
   const navigation: any = useNavigation();
   const dispatch = useDispatch();
-  const {setItem, getItem} = useAsyncStorage(
-    appInfos.localDataName.groceryList,
-  );
+
+  const favourites = useSelector(favouritesSelector);
 
   useEffect(() => {
     HandleLogin.handleCheckUserLoginAgain(navigation, dispatch);
     getGroceryList();
     getDiets();
   }, []);
+
+  useEffect(() => {
+    getFavouritesList();
+  }, [favourites.length]);
 
   const getDiets = async () => {
     const api = `/dietpreference`;
@@ -72,18 +74,26 @@ const MainNavigator = () => {
         'post',
       );
       if (res && res.length > 0) {
-        // console.log(`item from api ${api}`);
-        // console.log(res);
-        // res.forEach(item => {
-        //   console.log(`${item.qty}`);
-        // });
-
         dispatch(addGroceryList(res));
       }
     } catch (error) {
       console.log(error);
     }
     // }
+  };
+
+  const getFavouritesList = async () => {
+    const api = `listofFavouriteRecipe`;
+    try {
+      const res: any = await handleMealApi.handleMealPlanner(api);
+      if (res && res.length > 0) {
+        dispatch(addFavouries(res));
+      } else {
+        dispatch(addFavouries([]));
+      }
+    } catch (error) {
+      console.log(`Can not get favourites recipes ${error}`);
+    }
   };
 
   return (

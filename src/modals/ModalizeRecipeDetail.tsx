@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import {
   Add,
   ArrowDown2,
@@ -5,22 +6,18 @@ import {
   Danger,
   Heart,
   Location,
-  Warning2,
 } from 'iconsax-react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, ScrollView, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useDispatch, useSelector} from 'react-redux';
+import {ModalProduct} from '.';
+import {ProductDetail} from '../Models/Product';
 import {
   ProductStore,
   Recipe,
@@ -28,7 +25,6 @@ import {
   RecipeIngredient,
 } from '../Models/Recipe';
 import handleMealApi from '../apis/mealplannerAPI';
-import handleGetData from '../apis/productAPI';
 import {
   ButtonComponent,
   RowComponent,
@@ -36,22 +32,23 @@ import {
   TextComponent,
   TitleComponent,
 } from '../components';
+import LoadingDotComponent from '../components/LoadingDotComponent';
 import {appColors} from '../constants/appColors';
 import {appSize} from '../constants/appSize';
 import {fontFamilys} from '../constants/fontFamily';
-import {global} from '../styles/global';
-import {showToast} from '../utils/showToast';
-import LoadingModal from './LoadingModal';
-import ModalFoodScoreInfo from './ModalFoodScoreInfo';
-import {Product, ProductDetail} from '../Models/Product';
-import {useDispatch, useSelector} from 'react-redux';
 import {
   groceriesSelector,
   updateGroceryList,
 } from '../redux/reducers/groceryReducer';
-import {useNavigation} from '@react-navigation/native';
-import LoadingDotComponent from '../components/LoadingDotComponent';
-import {ModalProduct} from '.';
+import {global} from '../styles/global';
+import {showToast} from '../utils/showToast';
+import LoadingModal from './LoadingModal';
+import ModalFoodScoreInfo from './ModalFoodScoreInfo';
+import {
+  addFavouries,
+  favouritesSelector,
+  updateFavourites,
+} from '../redux/reducers/favouritesReducer';
 
 interface Props {
   visible: boolean;
@@ -81,6 +78,7 @@ const ModalizeRecipeDetail = (props: Props) => {
   const dispatch = useDispatch();
   const modalRef = useRef<Modalize>();
   const navigation: any = useNavigation();
+  const favourites: Recipe[] = useSelector(favouritesSelector);
 
   useEffect(() => {
     if (visible) {
@@ -130,36 +128,6 @@ const ModalizeRecipeDetail = (props: Props) => {
   const handleCloseModal = () => {
     modalRef.current?.close();
     setProductSelected([]);
-  };
-
-  const handleAddToFavourit = async () => {
-    if (item) {
-      const api =
-        recipeDetail && recipeDetail.is_favourite === '1'
-          ? 'removeRecipeFavourite'
-          : `addRecipeFavourite`;
-
-      setIsUpdate(true);
-      try {
-        const res: any = await handleMealApi.handleMealPlanner(
-          api,
-          {recipe_id: item?.id},
-          'post',
-        );
-
-        showToast(res.message);
-        setIsUpdate(false);
-        if (recipeDetail?.is_favourite === '1' && onReload) {
-          onClose();
-          onReload();
-        } else {
-          getRecipeDetailById();
-        }
-      } catch (error) {
-        console.log(error);
-        setIsUpdate(false);
-      }
-    }
   };
 
   const handleToggleProductSelected = (item: ProductStore) => {
@@ -340,16 +308,22 @@ const ModalizeRecipeDetail = (props: Props) => {
               <TouchableOpacity onPress={() => handleCloseModal()}>
                 <AntDesign name="close" color={appColors.white} size={22} />
               </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => handleAddToFavourit()}>
-                <Heart
-                  variant={
-                    recipeDetail?.is_favourite === '1' ? 'Bold' : 'Outline'
-                  }
-                  color={appColors.white}
-                  size={24}
-                />
-              </TouchableOpacity>
+              {item && (
+                <TouchableOpacity
+                  onPress={() => dispatch(updateFavourites(item))}>
+                  <Heart
+                    variant={
+                      favourites.findIndex(
+                        element => element.id === item.id,
+                      ) !== -1
+                        ? 'Bold'
+                        : 'Outline'
+                    }
+                    color={appColors.white}
+                    size={24}
+                  />
+                </TouchableOpacity>
+              )}
             </RowComponent>
           }
           FooterComponent={
@@ -560,9 +534,12 @@ const ModalizeRecipeDetail = (props: Props) => {
                                   />
 
                                   <RowComponent justify="space-between">
-                                    {recipeIngredients.instore.map(
-                                      (item, index) => renderProductItem(item),
-                                    )}
+                                    {recipeIngredients.instore &&
+                                      recipeIngredients.instore.length > 0 &&
+                                      recipeIngredients.instore.map(
+                                        (item, index) =>
+                                          renderProductItem(item),
+                                      )}
                                   </RowComponent>
                                 </>
                               )
@@ -671,14 +648,16 @@ const ModalizeRecipeDetail = (props: Props) => {
                       </RowComponent>
                       {isPrepareIngredients && (
                         <View>
-                          {recipeDetail.ingredients.map((item, index) => (
-                            <TextComponent
-                              key={`ingredients${index}`}
-                              text={`· ${item}`}
-                              height={22}
-                              font={fontFamilys.medium}
-                            />
-                          ))}
+                          {recipeDetail.ingredients &&
+                            recipeDetail.ingredients.length > 0 &&
+                            recipeDetail.ingredients.map((item, index) => (
+                              <TextComponent
+                                key={`ingredients${index}`}
+                                text={`· ${item}`}
+                                height={22}
+                                font={fontFamilys.medium}
+                              />
+                            ))}
                         </View>
                       )}
                     </View>
@@ -697,6 +676,8 @@ const ModalizeRecipeDetail = (props: Props) => {
                         </TouchableOpacity>
                       </RowComponent>
                       {isShowIntroductions &&
+                        recipeDetail.cooking_instruction &&
+                        recipeDetail.cooking_instruction.length > 0 &&
                         recipeDetail.cooking_instruction.map((item, index) => (
                           <RowComponent
                             key={`instruction${index}`}

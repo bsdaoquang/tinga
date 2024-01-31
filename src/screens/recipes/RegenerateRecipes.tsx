@@ -30,6 +30,8 @@ const RegenerateRecipes = ({navigation, route}: any) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log(recipes);
+
   useEffect(() => {
     getGeneratedRecipe();
   }, []);

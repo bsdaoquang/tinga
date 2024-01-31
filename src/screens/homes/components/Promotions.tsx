@@ -30,7 +30,7 @@ const Promotions = () => {
 
   const renderPromotionItem = (item: any) => (
     <CardContent
-      // onPress={() => navigation.navigate('ReferralScreen')}
+      onPress={() => navigation.navigate('ReferralScreen')}
       color={appColors.primary}
       styles={{
         width: appSize.width - 32,
@@ -48,7 +48,7 @@ const Promotions = () => {
       <ButtonComponent
         width={160}
         text={item.buttonText}
-        onPress={() => {}}
+        onPress={() => navigation.navigate('ReferralScreen')}
         color={appColors.white}
         textColor={appColors.text}
         styles={{marginVertical: 8}}

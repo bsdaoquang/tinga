@@ -680,14 +680,15 @@ const ModalProduct = (props: Props) => {
                   color={appColors.text2}
                 />
                 <SpaceComponent height={12} />
-
-                <RowComponent justify="flex-end">
-                  <TextComponent
-                    text={`Per ${producDetail.serving_size} (${producDetail.size})`}
-                    font={fontFamilys.bold}
-                    flex={0}
-                  />
-                </RowComponent>
+                {producDetail.serving_size && (
+                  <RowComponent justify="flex-end" styles={{marginBottom: 8}}>
+                    <TextComponent
+                      text={`Per ${producDetail.serving_size} (${producDetail.size})`}
+                      font={fontFamilys.bold}
+                      flex={0}
+                    />
+                  </RowComponent>
+                )}
                 <View>
                   <RenderHTML
                     source={{html: producDetail?.nutritent}}

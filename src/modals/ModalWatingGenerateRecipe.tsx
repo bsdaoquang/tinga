@@ -29,18 +29,19 @@ const ModalWatingGenerateRecipe = (props: Props) => {
   const [limit, setLimit] = useState(90);
 
   useEffect(() => {
-    if (limit > 0) {
-      const interval = setInterval(() => {
-        setLimit(limit => limit - 1);
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
+    // if (limit > 0) {
+    //   const interval = setInterval(() => {
+    //     setLimit(limit => limit - 1);
+    //   }, 1000);
+    //   return () => clearInterval(interval);
+    // }
   }, []);
 
   useEffect(() => {
     if (visible) {
       getlistofFactsQuotes();
+      // setLimit(90);
+    } else {
       setLimit(90);
     }
   }, [visible]);
