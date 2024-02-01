@@ -9,28 +9,29 @@ export class HandleFavourites {
       const items = JSON.parse(res);
       const api = `syncRecipes`;
 
+      let ids = ``;
       if (items.length > 0) {
-        let ids = ``;
-
         items.forEach(
           (item: any, index: number) =>
             (ids += `${item.id}${index < items.length - 1 ? ', ' : ''}`),
         );
+      } else {
+        ids = ``;
+      }
 
-        const data = new FormData();
-        data.append('id', ids);
+      const data = new FormData();
+      data.append('id', ids);
+      try {
+        const res = await handleMealApi.handleMealPlanner(
+          api,
+          data,
+          'post',
+          true,
+        );
 
-        try {
-          const res = await handleMealApi.handleMealPlanner(
-            api,
-            data,
-            'post',
-            true,
-          );
-          console.log('Sync recipes favourites successfully!!!');
-        } catch (error) {
-          console.log(`Can not sync recipe favourites ${error}`);
-        }
+        console.log('Sync recipes favourites successfully!!!');
+      } catch (error) {
+        console.log(`Can not sync recipe favourites ${error}`);
       }
     }
   };

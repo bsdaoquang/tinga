@@ -39,11 +39,8 @@ const MainNavigator = () => {
     HandleLogin.handleCheckUserLoginAgain(navigation, dispatch);
     getGroceryList();
     getDiets();
-  }, []);
-
-  useEffect(() => {
     getFavouritesList();
-  }, [favourites.length]);
+  }, []);
 
   const getDiets = async () => {
     const api = `/dietpreference`;
