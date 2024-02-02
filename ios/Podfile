@@ -8,7 +8,6 @@ require Pod::Executable.execute_command('node', ['-p',
 permissions_path = '../node_modules/react-native-permissions/ios'
 pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
 pod 'GoogleSignIn'
-
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
@@ -41,13 +40,13 @@ target 'tinga' do
   use_react_native!(
     :path => config[:reactNativePath],
     # Hermes is now enabled by default. Disable by setting this flag to false.
-    # :hermes_enabled => true,
-    # :fabric_enabled => flags[:fabric_enabled],
+    :hermes_enabled => true,
+    :fabric_enabled => flags[:fabric_enabled],
     # Enables Flipper.
     #
     # Note that if you have use_frameworks! enabled, Flipper will not work and
     # you should disable the next line.
-    :flipper_configuration => flipper_config,
+    # :flipper_configuration => flipper_config,
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
@@ -64,7 +63,7 @@ target 'tinga' do
       config[:reactNativePath],
       :mac_catalyst_enabled => false
     )
-    # __apply_Xcode_12_5_M1_post_install_workaround(installer)
+    __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 
  
