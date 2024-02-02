@@ -21,20 +21,12 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.648702036593-netodinrigao75qic86vl0c0ve9hgfeb</string>
-			</array>
-		</dict>
-	</array>
+	
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CodePushDeploymentKey</key>
 	<string>AENgjgF1gIz83ExafSXMBgnsooqruCGiDMbDB</string>
-	<key>GIDClientID</key>
-	<string>648702036593-netodinrigao75qic86vl0c0ve9hgfeb.apps.googleusercontent.com</string>
+	
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
