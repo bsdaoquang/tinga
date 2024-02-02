@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>648702036593-netodinrigao75qic86vl0c0ve9hgfeb.apps.googleusercontent.com</string>
+	<string>635678166629-iruoe91389q106em9kt4ti3fq2o5nl2g.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.648702036593-netodinrigao75qic86vl0c0ve9hgfeb</string>
+	<string>com.googleusercontent.apps.635678166629-iruoe91389q106em9kt4ti3fq2o5nl2g</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>648702036593-kc505i903bp9m2mhm9f9i0cj3lm3bj32.apps.googleusercontent.com</string>
+	<string>635678166629-33mrurj6r6nbj98lrqcdvevtq50cdk73.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDk7pORoBit0DZGQJ1oc7PkX8gLHSeXOwM</string>
+	<string>AIzaSyAJZEG0jWqLm3RdoQLa9koSz1Q3eO5jlFU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>648702036593</string>
+	<string>635678166629</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>in.eduop.tinga</string>
 	<key>PROJECT_ID</key>
-	<string>tinga-f7936</string>
+	<string>tinga-test</string>
 	<key>STORAGE_BUCKET</key>
-	<string>tinga-f7936.appspot.com</string>
+	<string>tinga-test.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:648702036593:ios:976f0308f8d4fe2fbaa9d0</string>
+	<string>1:635678166629:ios:3d96923512b2a38059c08c</string>
 </dict>
 </plist>

@@ -37,7 +37,9 @@ import TermsText from './components/TermsText';
 
 GoogleSignin.configure({
   webClientId:
-    '648702036593-v9dafgoh2f0v861pcjcqudfookhjdsnl.apps.googleusercontent.com',
+    '635678166629-o5ck8v8dg63vmfhtim9nb9vid9ti6ft8.apps.googleusercontent.com',
+  iosClientId:
+    '635678166629-iruoe91389q106em9kt4ti3fq2o5nl2g.apps.googleusercontent.com',
 });
 
 const HomeLoginScreen = ({navigation}: any) => {
