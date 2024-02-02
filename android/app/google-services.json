@@ -1,49 +1,42 @@
 {
   "project_info": {
-    "project_number": "648702036593",
-    "project_id": "tinga-f7936",
-    "storage_bucket": "tinga-f7936.appspot.com"
+    "project_number": "635678166629",
+    "project_id": "tinga-test",
+    "storage_bucket": "tinga-test.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:648702036593:android:9cee4ce343ef14b1baa9d0",
+        "mobilesdk_app_id": "1:635678166629:android:523b8bfff7d29d3359c08c",
         "android_client_info": {
           "package_name": "com.tinga"
         }
       },
       "oauth_client": [
         {
-          "client_id": "648702036593-l8mmmh475ci9r63lp3vu9o7vbjprcaba.apps.googleusercontent.com",
+          "client_id": "635678166629-33mrurj6r6nbj98lrqcdvevtq50cdk73.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.tinga",
-            "certificate_hash": "93089b8e5f865566152653743669ccd4fdf3cdd9"
+            "certificate_hash": "cc6095674d7697dac5f688277b9d7ff55a05c487"
           }
         },
         {
-          "client_id": "648702036593-1q314252tjvm4fj87ufd1hetqapi6cu6.apps.googleusercontent.com",
+          "client_id": "635678166629-o5ck8v8dg63vmfhtim9nb9vid9ti6ft8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAWIIagwu2LMJN_j0SPgRfR-efw-g_zAc0"
+          "current_key": "AIzaSyABjmi20NKSf5Ld1AW00Zn_JPcVGVpgPvE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "648702036593-1q314252tjvm4fj87ufd1hetqapi6cu6.apps.googleusercontent.com",
+              "client_id": "635678166629-o5ck8v8dg63vmfhtim9nb9vid9ti6ft8.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "648702036593-jb7h4e0jt8g24al2vpn2f0vd6m94ah67.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.tinga"
-              }
             }
           ]
         }
