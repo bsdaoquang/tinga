@@ -28,9 +28,6 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-use_frameworks! :linkage => :static
-$RNFirebaseAsStaticFramework = true
-
 target 'tinga' do
   config = use_native_modules!
   
@@ -40,8 +37,8 @@ target 'tinga' do
   use_react_native!(
     :path => config[:reactNativePath],
     # Hermes is now enabled by default. Disable by setting this flag to false.
-    # :hermes_enabled => false,
-    # :fabric_enabled => flags[:fabric_enabled],
+    :hermes_enabled => true,
+    :fabric_enabled => flags[:fabric_enabled],
     # Enables Flipper.
     #
     # Note that if you have use_frameworks! enabled, Flipper will not work and
